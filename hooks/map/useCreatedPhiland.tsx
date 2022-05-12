@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import type { Web3Provider } from "@ethersproject/providers";
 import { ethers, Event } from "ethers";
-import { PHI_MAP_CONTRACT_ADDRESS } from "~/constants";
-import { PhiMapAbi } from "~/abi";
+import { PHI_MAP_CONTRACT_ADDRESS, PHI_REGISTRY_CONTRACT_ADDRESS } from "~/constants";
+import { PhiMapAbi, PhiRegistryAbi } from "~/abi";
 
-const FROM_BLOCK = 6700956;
 export const useCreatedPhiland = (
   ens: string | null | undefined,
   provider?: Web3Provider
@@ -17,12 +16,12 @@ export const useCreatedPhiland = (
     setLoading(true);
 
     const singer = provider.getSigner();
-    const contract = new ethers.Contract(PHI_MAP_CONTRACT_ADDRESS, PhiMapAbi, singer);
+    const contract = new ethers.Contract(PHI_REGISTRY_CONTRACT_ADDRESS, PhiRegistryAbi, singer);
     const filter = contract.filters.LogCreatePhiland();
 
     (async () => {
       // todo: more faster when add address
-      const pastEvents = await contract.queryFilter(filter, FROM_BLOCK);
+      const pastEvents = await contract.queryFilter(filter, 6872403);
       setEvents(pastEvents);
       setLoading(false);
     })();

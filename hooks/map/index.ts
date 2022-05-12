@@ -1,5 +1,5 @@
 import useDeposit from "./useDeposit";
+import useRemoveAndWrite from "./useRemoveAndWrite";
 import useViewPhiland from "./useViewPhiland";
-import useWriteObjects from "./useWriteObjects";
 
-export { useDeposit, useViewPhiland, useWriteObjects };
+export { useDeposit, useRemoveAndWrite, useViewPhiland };
