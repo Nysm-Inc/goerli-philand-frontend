@@ -44,6 +44,22 @@
         "type": "address"
       },
       {
+        "internalType": "uint256",
+        "name": "object_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "NotReadyObject",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
         "internalType": "address",
         "name": "owner",
         "type": "address"
@@ -227,6 +243,11 @@
         "type": "string"
       },
       {
+        "internalType": "uint256[]",
+        "name": "remove_index_array",
+        "type": "uint256[]"
+      },
+      {
         "components": [
           {
             "internalType": "address",
@@ -254,9 +275,72 @@
         "type": "tuple[]"
       },
       {
-        "internalType": "contract IObject",
+        "internalType": "contract IObject[]",
         "name": "_object",
-        "type": "address"
+        "type": "address[]"
+      }
+    ],
+    "name": "batchRemoveAndWrite",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "index_array",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "batchRemoveObjectFromLand",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "contractAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "xStart",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "yStart",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct PhiMap.Object[]",
+        "name": "objectData",
+        "type": "tuple[]"
+      },
+      {
+        "internalType": "contract IObject[]",
+        "name": "_object",
+        "type": "address[]"
       }
     ],
     "name": "batchWriteObjectToLand",
@@ -612,11 +696,29 @@
       },
       {
         "internalType": "uint256",
+        "name": "object_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "removeLinkFromObject",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
         "name": "i",
         "type": "uint256"
       }
     ],
-    "name": "removeObjectToLand",
+    "name": "removeObjectFromLand",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -693,6 +795,125 @@
     "inputs": [
       {
         "internalType": "string",
+        "name": "",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "userObject",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "contractAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "xStart",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "yStart",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "xEnd",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "yEnd",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "userObjectLink",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "url",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "user",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "object_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "viewObjectLink",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "url",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct PhiMap.ObjectLinkInfo[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
         "name": "user",
         "type": "string"
       }
@@ -738,6 +959,34 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "object_index",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "url",
+        "type": "string"
+      }
+    ],
+    "name": "writeLinkToObject",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
