@@ -4,8 +4,15 @@ import { useRouter } from "next/router";
 import { useAccount, useENSName, useProvider } from "~/connectors/metamask";
 import { COUPON_API_GATEWAY, PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { useClaim } from "~/hooks/claim";
-import { useDeposit, useRemoveAndWrite, useViewPhiland } from "~/hooks/map";
-import { useCreatedPhiland } from "~/hooks/map/useCreatedPhiland";
+import {
+  useCreatedPhiland,
+  useDeposit,
+  useRemoveAndWrite,
+  useRemoveLink,
+  useViewLink,
+  useViewPhiland,
+  useWriteLink,
+} from "~/hooks/map";
 import { useApproveAll } from "~/hooks/object";
 import { useCreatePhiland } from "~/hooks/registry";
 import Wallet from "~/ui/components/Wallet";
@@ -22,6 +29,11 @@ const Index: NextPage = () => {
   const claimObject = useClaim(account, provider);
   const removeAndWrite = useRemoveAndWrite(ens, provider);
   const phiObjects = useViewPhiland(ens, provider);
+  const writeLink = useWriteLink(ens, provider);
+  const removeLink = useRemoveLink(ens, provider);
+
+  // todo: batch?
+  const phiLink = useViewLink(ens, provider);
 
   return (
     <VStack p="16">
@@ -82,6 +94,11 @@ const Index: NextPage = () => {
         </Button>
       </HStack>
       <Text textAlign="center">{JSON.stringify(phiObjects)}</Text>
+      <HStack>
+        <Button onClick={() => writeLink(1, "title", "link")}>Write Link to object 2</Button>
+        <Button onClick={() => removeLink(1)}>Remove Link from object 2</Button>
+      </HStack>
+      <Text textAlign="center">{JSON.stringify(phiLink)}</Text>
     </VStack>
   );
 };

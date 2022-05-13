@@ -4,7 +4,7 @@ import { ethers, Event } from "ethers";
 import { PHI_MAP_CONTRACT_ADDRESS, PHI_REGISTRY_CONTRACT_ADDRESS } from "~/constants";
 import { PhiMapAbi, PhiRegistryAbi } from "~/abi";
 
-export const useCreatedPhiland = (
+const useCreatedPhiland = (
   ens: string | null | undefined,
   provider?: Web3Provider
 ): { loading: boolean; isCreated: boolean } => {
@@ -29,3 +29,5 @@ export const useCreatedPhiland = (
 
   return { loading: loading, isCreated: events.some((e) => e.args?.[1] === ens?.slice(0, -4)) };
 };
+
+export default useCreatedPhiland;
