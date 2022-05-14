@@ -1,0 +1,47 @@
+import { ROOM_TILE_N } from "~/constants";
+import Room from "~/game/room/Room";
+import RoomItem from "./RoomItem";
+
+export default class MovingItemManager {
+  private room: Room;
+  private item: RoomItem | null;
+
+  constructor(room: Room) {
+    this.room = room;
+    this.item = null;
+  }
+
+  move(item: RoomItem) {
+    this.item = item;
+    this.item.startMovement();
+  }
+
+  stop() {
+    if (!this.item) return;
+
+    this.item.stopMovement();
+    this.item = null;
+  }
+
+  getItem() {
+    return this.item;
+  }
+
+  placeItem(uuid: string, tileX: number, tileY: number) {
+    if (!this.item) return;
+    const [sizeX, sizeY] = this.item.getSize();
+    if (sizeX + tileX > ROOM_TILE_N) return;
+    if (sizeY + tileY > ROOM_TILE_N) return;
+    for (let x = tileX; x <= tileX + sizeX - 1; x++) {
+      for (let y = tileY; y <= tileY + sizeY - 1; y++) {
+        const prevUUID = this.room.getUUIDFromTilemap(x, y);
+        if (prevUUID && prevUUID !== uuid) return;
+      }
+    }
+
+    this.room.roomItemManager.removeItemFromTilemap(this.item.getUUID());
+    this.room.roomItemManager.addItemToTilemap(tileX, tileY, this.item);
+    this.item.updatePlacement(tileX, tileY);
+    this.stop();
+  }
+}

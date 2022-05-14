@@ -25,7 +25,7 @@ export type ConditionName =
   | "SwapOnUniswap"
   | "DAILiquidityProvidingOnUniswap";
 
-export const conditionList: { [tokenId in number]: { name: ConditionName; value: number } } = {
+export const conditionList: { [tokenId: number]: { name: ConditionName; value: number } } = {
   1: {
     name: "ENSHolding",
     value: 1,
@@ -33,6 +33,7 @@ export const conditionList: { [tokenId in number]: { name: ConditionName; value:
   2: {
     name: "ETHHolding",
     // value: 0.1, // todo: "01"
+    // @ts-ignore
     value: "01",
   },
   3: {

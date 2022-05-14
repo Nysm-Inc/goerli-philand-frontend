@@ -1,6 +1,6 @@
-import { Button, HStack, Link, Text, VStack } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import { Button, HStack, Link, Text, VStack } from "@chakra-ui/react";
 import { useAccount, useENSName, useProvider } from "~/connectors/metamask";
 import { COUPON_API_GATEWAY, PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { useClaim } from "~/hooks/claim";

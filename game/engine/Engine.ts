@@ -1,4 +1,5 @@
 import { Application } from "pixi.js";
+import { GAME_APP_HEIGHT, GAME_APP_WIDTH } from "~/constants";
 
 export default class Engine {
   app: Application;
@@ -11,18 +12,19 @@ export default class Engine {
   ) {
     this.onMouseMoveHandler = onMouseMove;
     this.onMouseClickHandler = onMouseClick;
+
     this.app = new Application({
-      width: window.innerWidth,
-      height: window.innerHeight,
-      antialias: false,
-      transparent: false,
-      resolution: 1,
+      width: GAME_APP_WIDTH, // window.innerWidth,
+      height: GAME_APP_HEIGHT, // window.innerHeight,
+      backgroundColor: 0xffffff,
       preserveDrawingBuffer: true,
+      antialias: true,
+      resolution: window.devicePixelRatio || 1,
+      autoDensity: true,
     });
 
-    this.app.renderer.resize(window.innerWidth, innerHeight);
+    // this.app.stage.scale.set(0.8);
     document.body.appendChild(this.app.view);
-
     this.setMouseInteractions();
   }
 
@@ -30,14 +32,16 @@ export default class Engine {
     this.app.view.addEventListener(
       "mousemove",
       (evt) => {
-        this.onMouseMoveHandler(evt.x, evt.y);
+        // this.onMouseMoveHandler(evt.x, evt.y);
+        this.onMouseMoveHandler(evt.pageX, evt.pageY);
       },
       false
     );
     this.app.view.addEventListener(
       "click",
       (evt) => {
-        this.onMouseClickHandler(evt.x, evt.y);
+        // this.onMouseClickHandler(evt.x, evt.y);
+        this.onMouseClickHandler(evt.pageX, evt.pageY);
       },
       false
     );

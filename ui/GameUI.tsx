@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import GameInstance from "~/game/GameInstance";
 
-const Game = () => {
+const GameUI = () => {
   useEffect(() => {
     const { loadGame } = GameInstance.get();
     loadGame();
@@ -10,4 +10,4 @@ const Game = () => {
   return <></>;
 };
 
-export default Game;
+export default GameUI;
