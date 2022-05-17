@@ -43,6 +43,7 @@ export default class Room {
   handleMouseMovement(globalX: number, globalY: number) {
     const tile = this.globalToTile(globalX, globalY);
     if (!tile) return;
+    if (!this.movingItemManager.moving) return;
 
     const movingItem = this.movingItemManager.getItem();
     if (movingItem) {
@@ -54,7 +55,7 @@ export default class Room {
     }
   }
 
-  handleMouseClick(globalX: number, globalY: number) {
+  handleMouseClick(globalX: number, globalY: number, screenX: number, screenY: number) {
     const tile = this.globalToTile(globalX, globalY);
     if (!tile) return;
 
@@ -65,9 +66,10 @@ export default class Room {
       const uuid = this.tileMap[tile.x][tile.y];
       const item = this.roomItemManager.getItems()[uuid];
       if (!item) return;
-      this.movingItemManager.move(item);
 
-      // todo: ここでUIを起動する必要がある
+      const { uiManager } = GameInstance.get();
+      uiManager.onOpenActionMenu(screenX, screenY);
+      this.movingItemManager.pick(item);
     }
   }
 

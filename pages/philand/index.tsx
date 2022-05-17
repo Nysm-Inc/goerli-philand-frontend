@@ -1,7 +1,17 @@
 import type { NextPage } from "next";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { Box, Modal, ModalContent, useDisclosure, Center, Flex, HStack } from "@chakra-ui/react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Box,
+  Modal,
+  ModalContent,
+  useDisclosure,
+  Center,
+  Flex,
+  HStack,
+  Popover,
+  PopoverContent,
+} from "@chakra-ui/react";
 import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import GameUI from "~/ui/GameUI";
 
@@ -9,6 +19,9 @@ const Index: NextPage = () => {
   // memo: avoid react strict mode (for dev)
   const loadedRef = useRef(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // todo: components&hooks
+  const [actionMenuState, setActionMenuState] = useState({ globalX: 0, globalY: 0, isShown: false });
 
   useEffect(() => {
     if (loadedRef.current) return;
@@ -25,6 +38,21 @@ const Index: NextPage = () => {
     })();
   }, []);
 
+  const onOpenActionMenu = useCallback((globalX: number, globalY: number) => {
+    setActionMenuState({ globalX, globalY, isShown: true });
+  }, []);
+  const onCloseActionMenu = useCallback(async () => {
+    // const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
+    // room.movingItemManager.drop();
+    setActionMenuState((prev) => {
+      return { ...prev, isShown: false };
+    });
+  }, []);
+  const onMoveObject = useCallback(async () => {
+    const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
+    room.movingItemManager.move();
+  }, []);
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} isCentered size="2xl">
@@ -34,6 +62,44 @@ const Index: NextPage = () => {
           </Center>
         </ModalContent>
       </Modal>
+
+      <Box position="fixed" top={actionMenuState.globalY} left={actionMenuState.globalX}>
+        <Popover
+          isOpen={actionMenuState.isShown}
+          onClose={() => setActionMenuState({ ...actionMenuState, isShown: false })}
+        >
+          <PopoverContent
+            w="132px"
+            h="40px"
+            border="1px solid"
+            borderColor="black"
+            borderRadius="none"
+            bgColor="white"
+            _focus={{ outline: "none" }}
+            _focusVisible={{ outline: "none" }}
+          >
+            <HStack spacing="4px">
+              <Center
+                w="40px"
+                h="40px"
+                cursor="pointer"
+                onClick={() => {
+                  onMoveObject();
+                  onCloseActionMenu();
+                }}
+              >
+                <Image src="/icons/arrows-cardinal.svg" width="24px" height="24px" />
+              </Center>
+              <Center w="40px" h="40px" onClick={() => {}}>
+                <Image src="/icons/link.svg" width="24px" height="24px" />
+              </Center>
+              <Center w="40px" h="40px" onClick={() => {}}>
+                <Image src="/icons/trash.svg" width="24px" height="24px" />
+              </Center>
+            </HStack>
+          </PopoverContent>
+        </Popover>
+      </Box>
 
       <Flex
         position="fixed"
@@ -122,7 +188,7 @@ const Index: NextPage = () => {
         </Flex>
       </Flex>
 
-      <GameUI />
+      <GameUI onOpenActionMenu={onOpenActionMenu} />
     </>
   );
 };

@@ -1,18 +1,22 @@
 import GameInstance from "./GameInstance";
 import Engine from "./engine/Engine";
 import Room from "./room/Room";
+import UIManager from "./ui/UIManager";
 
 export default class Game {
   engine: Engine;
   room: Room;
+  uiManager: UIManager;
 
   constructor() {
     this.engine = new Engine(this.onMouseMove, this.onMouseClick);
     this.room = new Room();
+    this.uiManager = new UIManager();
   }
 
-  loadGame() {
-    const { room } = GameInstance.get();
+  loadGame(onOpenActionMenu: (globalX: number, globalY: number) => void) {
+    const { room, uiManager } = GameInstance.get();
+    uiManager.loadUIHandler(onOpenActionMenu);
     room.enterRoom();
   }
 
@@ -20,7 +24,7 @@ export default class Game {
     this.room.handleMouseMovement(x, y);
   };
 
-  onMouseClick = (x: number, y: number) => {
-    this.room.handleMouseClick(x, y);
+  onMouseClick = (x: number, y: number, screenX: number, screenY: number) => {
+    this.room.handleMouseClick(x, y, screenX, screenY);
   };
 }

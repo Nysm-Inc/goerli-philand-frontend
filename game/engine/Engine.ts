@@ -4,11 +4,11 @@ import { GAME_APP_HEIGHT, GAME_APP_WIDTH } from "~/constants";
 export default class Engine {
   app: Application;
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
-  onMouseClickHandler: (mouseX: number, mouseY: number) => void;
+  onMouseClickHandler: (mouseX: number, mouseY: number, mouseScreenX: number, mouseScreenY: number) => void;
 
   constructor(
     onMouseMove: (mouseX: number, mouseY: number) => void,
-    onMouseClick: (mouseX: number, mouseY: number) => void
+    onMouseClick: (mouseX: number, mouseY: number, mouseScreenX: number, mouseScreenY: number) => void
   ) {
     this.onMouseMoveHandler = onMouseMove;
     this.onMouseClickHandler = onMouseClick;
@@ -41,7 +41,7 @@ export default class Engine {
       "click",
       (evt) => {
         // this.onMouseClickHandler(evt.x, evt.y);
-        this.onMouseClickHandler(evt.pageX, evt.pageY);
+        this.onMouseClickHandler(evt.pageX, evt.pageY, evt.x, evt.y);
       },
       false
     );

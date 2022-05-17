@@ -5,21 +5,33 @@ import RoomItem from "./RoomItem";
 export default class MovingItemManager {
   private room: Room;
   private item: RoomItem | null;
+  moving: boolean;
 
   constructor(room: Room) {
     this.room = room;
     this.item = null;
+    this.moving = false;
   }
 
-  move(item: RoomItem) {
+  pick(item: RoomItem) {
     this.item = item;
+  }
+
+  drop() {
+    if (!this.item) return;
+    this.item = null;
+  }
+
+  move() {
+    if (!this.item) return;
     this.item.startMovement();
+    this.moving = true;
   }
 
   stop() {
     if (!this.item) return;
-
     this.item.stopMovement();
+    this.moving = false;
     this.item = null;
   }
 
