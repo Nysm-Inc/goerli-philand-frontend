@@ -112,89 +112,74 @@ const Index: NextPage = () => {
         </Popover>
       </Box>
 
-      <Flex
-        position="fixed"
-        w="full"
-        h="80px"
-        justify="space-between"
-        align="center"
-        pt="8px"
-        pb="8px"
-        pl="16px"
-        pr="16px"
-      >
-        <HStack>
-          <Image src="/logo.png" width="64px" height="64px" />
-          <Box w="280px" h="40px" border="1px solid" borderColor="black" />
-        </HStack>
-        <Box>
-          <Box w="144px" h="40px" border="1px solid" borderColor="black" />
-        </Box>
+      <HStack position="fixed" height="64px">
+        <Image src="/logo.png" width="64px" height="64px" />
+        <Box w="280px" h="40px" border="1px solid" borderColor="black" />
+      </HStack>
+      <Flex position="fixed" right="0" mr="10px" h="64px" align="center">
+        <Box w="144px" h="40px" border="1px solid" borderColor="black" />
       </Flex>
+
+      <Flex position="fixed" bottom="0" ml="10px" h="64px" align="center">
+        <Box w="144px" h="40px" border="1px solid" borderColor="black" />
+      </Flex>
+      <HStack position="fixed" bottom="0" left="calc(50% - 120px / 2)" spacing="16px" h="64px" align="center">
+        <Center
+          w="40px"
+          h="40px"
+          border="1px solid"
+          borderColor="black"
+          bgColor="white"
+          cursor="pointer"
+          onClick={onOpen}
+        >
+          <Image src="/icons/collection.svg" width="32px" height="32px" />
+        </Center>
+        <Center
+          w="40px"
+          h="40px"
+          border="1px solid"
+          borderColor="black"
+          bgColor="white"
+          cursor="pointer"
+          onClick={onOpen}
+        >
+          <Image src="/icons/sword.svg" width="32px" height="32px" />
+        </Center>
+        <Center
+          w="40px"
+          h="40px"
+          border="1px solid"
+          borderColor="black"
+          bgColor="white"
+          cursor="pointer"
+          onClick={onOpen}
+        >
+          <Image src="/icons/store.svg" width="32px" height="32px" />
+        </Center>
+      </HStack>
       <Flex
         position="fixed"
         bottom="0"
-        w="full"
-        h="80px"
-        justify="space-between"
+        right="0"
+        mr="10px"
+        w="calc(40px + 40px + 16px)"
+        h="64px"
         align="center"
-        pt="8px"
-        pb="8px"
-        pl="16px"
-        pr="16px"
+        justify="space-between"
       >
-        <Box>
-          <Box w="144px" h="40px" border="1px solid" borderColor="black" />
-        </Box>
-        <HStack spacing="16px">
-          <Center
-            w="40px"
-            h="40px"
-            border="1px solid"
-            borderColor="black"
-            bgColor="white"
-            cursor="pointer"
-            onClick={onOpen}
-          >
-            <Image src="/icons/collection.svg" width="32px" height="32px" />
-          </Center>
-          <Center
-            w="40px"
-            h="40px"
-            border="1px solid"
-            borderColor="black"
-            bgColor="white"
-            cursor="pointer"
-            onClick={onOpen}
-          >
-            <Image src="/icons/sword.svg" width="32px" height="32px" />
-          </Center>
-          <Center
-            w="40px"
-            h="40px"
-            border="1px solid"
-            borderColor="black"
-            bgColor="white"
-            cursor="pointer"
-            onClick={onOpen}
-          >
-            <Image src="/icons/store.svg" width="32px" height="32px" />
-          </Center>
-        </HStack>
-        <Flex w="calc(40px + 40px + 16px)" justify="space-between">
-          <Center
-            w="40px"
-            h="40px"
-            border="1px solid"
-            borderColor="black"
-            bgColor="white"
-            cursor="pointer"
-            onClick={isEdit ? viewMode : editMode}
-          >
-            <Image src={`/icons/${isEdit ? "disk" : "pencil"}.svg`} width="32px" height="32px" />
-          </Center>
-          <Box w="40px" h="40px" border="1px solid" borderColor="black" />
-        </Flex>
+        <Center
+          w="40px"
+          h="40px"
+          border="1px solid"
+          borderColor="black"
+          bgColor="white"
+          cursor="pointer"
+          onClick={isEdit ? viewMode : editMode}
+        >
+          <Image src={`/icons/${isEdit ? "disk" : "pencil"}.svg`} width="32px" height="32px" />
+        </Center>
+        <Box w="40px" h="40px" border="1px solid" borderColor="black" />
       </Flex>
 
       <GameUI onOpenActionMenu={onOpenActionMenu} />
