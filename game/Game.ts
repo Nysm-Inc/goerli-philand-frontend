@@ -24,7 +24,7 @@ export default class Game {
     this.room.handleMouseMovement(x, y);
   };
 
-  onMouseClick = (x: number, y: number, screenX: number, screenY: number) => {
-    this.room.handleMouseClick(x, y, screenX, screenY);
+  onMouseClick = (x: number, y: number) => {
+    this.room.handleMouseClick(x, y);
   };
 }

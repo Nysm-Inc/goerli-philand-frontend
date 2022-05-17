@@ -2,6 +2,7 @@ import { PhiObject } from "~/types";
 import Room from "~/game/room/Room";
 import { IObject } from "~/game/room/types";
 import RoomItem from "./RoomItem";
+import GameInstance from "~/game/GameInstance";
 
 export default class RoomItemManager {
   private room: Room;
@@ -27,11 +28,22 @@ export default class RoomItemManager {
     });
   }
 
+  // @ts-ignore
+  onClick(e, item) {
+    const { room, uiManager } = GameInstance.get();
+    if (room.movingItemManager.getItem()) return;
+
+    const origin = e.data.originalEvent;
+    uiManager.onOpenActionMenu(origin.x, origin.y);
+    room.movingItemManager.pick(item);
+  }
+
   loadItem(tileX: number, tileY: number, object: IObject) {
     const uuid = crypto.randomUUID();
     const item = new RoomItem(uuid, tileX, tileY, object);
     this.roomItems[uuid] = item;
     this.addItemToTilemap(tileX, tileY, item);
+    item.container.on("pointerdown", (e) => this.onClick(e, item));
     this.room.container.addChild(item.container);
   }
 

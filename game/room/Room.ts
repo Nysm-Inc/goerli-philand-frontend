@@ -55,22 +55,13 @@ export default class Room {
     }
   }
 
-  handleMouseClick(globalX: number, globalY: number, screenX: number, screenY: number) {
+  handleMouseClick(globalX: number, globalY: number) {
     const tile = this.globalToTile(globalX, globalY);
     if (!tile) return;
-
     const movingItem = this.movingItemManager.getItem();
-    if (movingItem) {
-      this.movingItemManager.placeItem(movingItem.getUUID(), tile.x, tile.y);
-    } else {
-      const uuid = this.tileMap[tile.x][tile.y];
-      const item = this.roomItemManager.getItems()[uuid];
-      if (!item) return;
+    if (!movingItem) return;
 
-      const { uiManager } = GameInstance.get();
-      uiManager.onOpenActionMenu(screenX, screenY);
-      this.movingItemManager.pick(item);
-    }
+    this.movingItemManager.placeItem(movingItem.getUUID(), tile.x, tile.y);
   }
 
   globalToTile(globalX: number, globalY: number): Tile | null {
