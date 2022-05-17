@@ -15,37 +15,24 @@ export default class Engine {
     this.onMouseClickHandler = onMouseClick;
 
     this.app = new Application({
-      width: GAME_APP_WIDTH, // window.innerWidth,
-      height: GAME_APP_HEIGHT, // window.innerHeight,
+      width: GAME_APP_WIDTH,
+      height: GAME_APP_HEIGHT,
       backgroundColor: 0xffffff,
       preserveDrawingBuffer: true,
       antialias: true,
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
     });
+    this.app.stage.sortableChildren = true;
+    this.app.stage.interactiveChildren = false;
 
-    // this.app.stage.scale.set(0.8);
     document.body.appendChild(this.app.view);
     this.setMouseInteractions();
   }
 
   setMouseInteractions() {
-    this.app.view.addEventListener(
-      "mousemove",
-      (evt) => {
-        // this.onMouseMoveHandler(evt.x, evt.y);
-        this.onMouseMoveHandler(evt.pageX, evt.pageY);
-      },
-      false
-    );
-    this.app.view.addEventListener(
-      "click",
-      (evt) => {
-        // this.onMouseClickHandler(evt.x, evt.y);
-        this.onMouseClickHandler(evt.pageX, evt.pageY);
-      },
-      false
-    );
+    this.app.view.addEventListener("mousemove", (evt) => this.onMouseMoveHandler(evt.pageX, evt.pageY), false);
+    this.app.view.addEventListener("click", (evt) => this.onMouseClickHandler(evt.pageX, evt.pageY), false);
   }
 
   getViewImageDataURL() {

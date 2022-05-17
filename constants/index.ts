@@ -21,5 +21,6 @@ export const GAME_APP_HEIGHT = 1600;
 export const TILE_W = 97;
 export const TILE_H = 49;
 export const LAND_W = 1576;
+export const LAND_H = 813;
 export const LAND_OFFSET_Y = 10;
 export const ROOM_TILE_N = 16;

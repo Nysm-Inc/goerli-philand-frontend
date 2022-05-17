@@ -19,6 +19,7 @@ const Index: NextPage = () => {
   // memo: avoid react strict mode (for dev)
   const loadedRef = useRef(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isEdit, setIsEdit] = useState(false);
 
   // todo: components&hooks
   const [actionMenuState, setActionMenuState] = useState({ globalX: 0, globalY: 0, isShown: false });
@@ -51,6 +52,16 @@ const Index: NextPage = () => {
   const onMoveObject = useCallback(async () => {
     const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
     room.movingItemManager.move();
+  }, []);
+  const editMode = useCallback(async () => {
+    const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
+    room.showIsoGrid();
+    setIsEdit(true);
+  }, []);
+  const viewMode = useCallback(async () => {
+    const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
+    room.hideIsoGrid();
+    setIsEdit(false);
   }, []);
 
   return (
@@ -178,11 +189,9 @@ const Index: NextPage = () => {
             borderColor="black"
             bgColor="white"
             cursor="pointer"
-            onClick={() => {
-              // todo
-            }}
+            onClick={isEdit ? viewMode : editMode}
           >
-            <Image src="/icons/pencil.svg" width="32px" height="32px" />
+            <Image src={`/icons/${isEdit ? "disk" : "pencil"}.svg`} width="32px" height="32px" />
           </Center>
           <Box w="40px" h="40px" border="1px solid" borderColor="black" />
         </Flex>
