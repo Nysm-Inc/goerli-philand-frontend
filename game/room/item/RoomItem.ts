@@ -29,9 +29,14 @@ export default class RoomItem {
     const sprite = Sprite.from(
       // todo: read from types
       // @ts-ignore
-      { 1: "objects/nouns.png", 2: "objects/computer.png", 3: "objects/hardhat.png", 4: "objects/ledger.png" }[
-        object.tokenId
-      ]
+      {
+        1: "objects/nouns.png",
+        2: "objects/computer.png",
+        3: "objects/hardhat.png",
+        4: "objects/ledger.png",
+        5: "objects/container1.png",
+        6: "objects/container2.png",
+      }[object.tokenId]
     );
     sprite.texture.baseTexture.on("loaded", () => {
       const local = tileToLocal(tileX + object.sizeX, tileY + object.sizeY);

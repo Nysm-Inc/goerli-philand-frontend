@@ -35,6 +35,8 @@ const Index: NextPage = () => {
         { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 2, xStart: 3, yStart: 4, xEnd: 4, yEnd: 5 },
         { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 3, xStart: 10, yStart: 10, xEnd: 12, yEnd: 12 },
         { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 4, xStart: 12, yStart: 6, xEnd: 14, yEnd: 9 },
+        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 5, xStart: 4, yStart: 8, xEnd: 5, yEnd: 9 },
+        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 6, xStart: 4, yStart: 9, xEnd: 5, yEnd: 10 },
       ]);
     })();
   }, []);
