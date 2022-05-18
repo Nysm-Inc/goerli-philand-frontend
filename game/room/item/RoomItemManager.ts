@@ -43,7 +43,7 @@ export default class RoomItemManager {
     const item = new RoomItem(uuid, tileX, tileY, object);
     this.roomItems[uuid] = item;
     this.addItemToTilemap(tileX, tileY, item);
-    item.container.on("pointerdown", (e) => this.onClick(e, item));
+    item.container.on("mousedown", (e) => this.onClick(e, item));
     this.room.container.addChild(item.container);
   }
 
