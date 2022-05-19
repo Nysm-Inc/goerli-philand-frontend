@@ -1,15 +1,12 @@
 import { PhiObject } from "~/types";
-import Room from "~/game/room/Room";
 import { IObject } from "~/game/room/types";
 import RoomItem from "./RoomItem";
 import GameInstance from "~/game/GameInstance";
 
 export default class RoomItemManager {
-  private room: Room;
   private roomItems: { [uuid: string]: RoomItem };
 
-  constructor(room: Room) {
-    this.room = room;
+  constructor() {
     this.roomItems = {};
   }
 
@@ -39,30 +36,36 @@ export default class RoomItemManager {
   }
 
   loadItem(tileX: number, tileY: number, object: IObject) {
+    const { room } = GameInstance.get();
+
     const uuid = crypto.randomUUID();
     const item = new RoomItem(uuid, tileX, tileY, object);
     this.roomItems[uuid] = item;
     this.addItemToTilemap(tileX, tileY, item);
     item.container.on("mousedown", (e) => this.onClick(e, item));
-    this.room.container.addChild(item.container);
+    room.container.addChild(item.container);
   }
 
   addItemToTilemap(tileX: number, tileY: number, item: RoomItem) {
+    const { room } = GameInstance.get();
+
     const [sizeX, sizeY] = item.getSize();
     for (let x = tileX; x < tileX + sizeX; x++) {
       for (let y = tileY; y < tileY + sizeY; y++) {
-        this.room.setTilemap(x, y, item.getUUID());
+        room.tileManager.setTilemap(x, y, item.getUUID());
       }
     }
   }
 
   removeItemFromTilemap(uuid: string) {
+    const { room } = GameInstance.get();
+
     const item = this.roomItems[uuid];
     const [prevTileX, prevTileY] = item.getTile();
     const [sizeX, sizeY] = item.getSize();
     for (let x = prevTileX; x < prevTileX + sizeX; x++) {
       for (let y = prevTileY; y < prevTileY + sizeY; y++) {
-        this.room.setTilemap(x, y, "");
+        room.tileManager.setTilemap(x, y, "");
       }
     }
   }

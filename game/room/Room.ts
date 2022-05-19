@@ -8,20 +8,20 @@ import { isPlaceble, isValidTile, tileToLocal } from "./pos";
 import TileManager from "./tile/TileManager";
 
 export default class Room {
-  private tileMap: string[][];
+  private isEdit: boolean;
   tileManager: TileManager;
   roomItemManager: RoomItemManager;
   movingItemManager: MovingItemManager;
   container: Container;
 
   constructor() {
+    this.isEdit = false;
     this.container = new Container();
     this.container.zIndex = 1;
     this.container.sortableChildren = true;
-    this.roomItemManager = new RoomItemManager(this);
-    this.movingItemManager = new MovingItemManager(this);
+    this.roomItemManager = new RoomItemManager();
+    this.movingItemManager = new MovingItemManager();
     this.tileManager = new TileManager();
-    this.tileMap = [...Array(ROOM_TILE_N)].map(() => Array(ROOM_TILE_N).fill(""));
   }
 
   enterRoom() {
@@ -34,31 +34,46 @@ export default class Room {
       this.container.y = GAME_APP_HEIGHT / 2 - sprite.height / 2;
     });
     engine.app.stage.addChild(this.container);
-    this.tileManager.setIsoGrid();
+    this.tileManager.setGrid();
+    this.tileManager.setSelectedTile();
+    this.tileManager.setCollisionTiles();
   }
 
-  getUUIDFromTilemap(x: number, y: number) {
-    return this.tileMap[x][y];
+  view() {
+    this.isEdit = false;
+    this.tileManager.hideGrid();
   }
 
-  setTilemap(x: number, y: number, uuid: string) {
-    this.tileMap[x][y] = uuid;
+  edit() {
+    this.isEdit = true;
+    this.tileManager.showGrid();
   }
 
   handleMouseMovement(globalX: number, globalY: number) {
     const tile = this.globalToTile(globalX, globalY);
-    if (!tile) return;
-    if (!this.movingItemManager.moving) return;
+    if (tile) {
+      if (this.movingItemManager.moving) {
+        const movingItem = this.movingItemManager.getItem();
+        if (movingItem) {
+          const [sizeX, sizeY] = movingItem.getSize();
+          if (!isPlaceble(tile.x, tile.y, sizeX, sizeY)) return;
 
-    const movingItem = this.movingItemManager.getItem();
-    if (movingItem) {
-      const [sizeX, sizeY] = movingItem.getSize();
-      if (!isPlaceble(tile.x, tile.y, sizeX, sizeY)) return;
+          const local = tileToLocal(tile.x + sizeX, tile.y + sizeY);
+          const updateLocalX = local.x - (TILE_W / 2) * (sizeX - 1);
+          const updateLocalY = local.y - movingItem.container.height;
+          movingItem.updateContainerPlacement(updateLocalX, updateLocalY);
 
-      const local = tileToLocal(tile.x + sizeX, tile.y + sizeY);
-      const updateLocalX = local.x - (TILE_W / 2) * (sizeX - 1);
-      const updateLocalY = local.y - movingItem.container.height;
-      movingItem.updateContainerPlacement(updateLocalX, updateLocalY);
+          const collision = this.movingItemManager.checkCollision(movingItem.getUUID(), tile.x, tile.y, sizeX, sizeY);
+          this.tileManager.updateCollisionTiles(collision);
+        }
+      }
+
+      if (this.isEdit) {
+        const local = tileToLocal(tile.x, tile.y);
+        this.tileManager.showSelectedTile(local.x, local.y);
+      }
+    } else {
+      this.tileManager.hideSelectedTile();
     }
   }
 

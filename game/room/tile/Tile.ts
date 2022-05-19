@@ -22,20 +22,33 @@ const points = [
   },
 ];
 
-const canvasToTexture = (canvas: HTMLCanvasElement): Texture => {
-  return new Texture(new BaseTexture(canvas));
+type TileStyle = "grid" | "select" | "collision";
+
+const tileColors: { [style in TileStyle]: { stroke: string; fill: string } } = {
+  grid: {
+    stroke: "rgba(0,0,0,0.1)",
+    fill: "transparent",
+  },
+  select: {
+    stroke: "white",
+    fill: "transparent",
+  },
+  collision: {
+    stroke: "#EF4444",
+    fill: "rgba(239, 68, 68, 0.72)",
+  },
 };
 
-export const newTile = (): Texture => {
+export const newTile = (s: TileStyle): Texture => {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
-
   canvas.width = TILE_W;
   canvas.height = TILE_H;
 
+  const color = tileColors[s];
   if (ctx != null) {
-    ctx.strokeStyle = "rgba(0,0,0,0.1)";
-    ctx.fillStyle = "transparent";
+    ctx.strokeStyle = color.stroke;
+    ctx.fillStyle = color.fill;
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(points[0].x, points[0].y);
@@ -47,5 +60,5 @@ export const newTile = (): Texture => {
     ctx.stroke();
     ctx.fill();
   }
-  return canvasToTexture(canvas);
+  return new Texture(new BaseTexture(canvas));
 };

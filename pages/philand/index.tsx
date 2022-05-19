@@ -20,8 +20,6 @@ const Index: NextPage = () => {
   const loadedRef = useRef(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isEdit, setIsEdit] = useState(false);
-
-  // todo: components&hooks
   const [actionMenuState, setActionMenuState] = useState({ globalX: 0, globalY: 0, isShown: false });
 
   useEffect(() => {
@@ -57,12 +55,12 @@ const Index: NextPage = () => {
   }, []);
   const editMode = useCallback(async () => {
     const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
-    room.tileManager.showIsoGrid();
+    room.edit();
     setIsEdit(true);
   }, []);
   const viewMode = useCallback(async () => {
     const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
-    room.tileManager.hideIsoGrid();
+    room.view();
     setIsEdit(false);
   }, []);
 
