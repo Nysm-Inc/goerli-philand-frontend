@@ -57,12 +57,12 @@ const Index: NextPage = () => {
   }, []);
   const editMode = useCallback(async () => {
     const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
-    room.showIsoGrid();
+    room.tileManager.showIsoGrid();
     setIsEdit(true);
   }, []);
   const viewMode = useCallback(async () => {
     const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
-    room.hideIsoGrid();
+    room.tileManager.hideIsoGrid();
     setIsEdit(false);
   }, []);
 
