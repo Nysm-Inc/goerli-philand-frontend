@@ -1,19 +1,10 @@
-import { Container, Sprite, Texture, TilingSprite } from "pixi.js";
-import {
-  GAME_APP_HEIGHT,
-  GAME_APP_WIDTH,
-  LAND_H,
-  LAND_OFFSET_Y,
-  LAND_W,
-  ROOM_TILE_N,
-  TILE_H,
-  TILE_W,
-} from "~/constants";
+import { Container, Sprite, TilingSprite } from "pixi.js";
+import { GAME_APP_HEIGHT, GAME_APP_WIDTH, LAND_OFFSET_Y, LAND_W, ROOM_TILE_N, TILE_H, TILE_W } from "~/constants";
 import GameInstance from "~/game/GameInstance";
 import MovingItemManager from "./item/MovingItemManager";
 import RoomItemManager from "./item/RoomItemManager";
 import { Tile } from "./types";
-import { isValidTile, tileToLocal } from "./pos";
+import { isPlaceble, isValidTile, tileToLocal } from "./pos";
 import { newTile } from "./tile/Tile";
 
 export default class Room {
@@ -99,6 +90,8 @@ export default class Room {
     const movingItem = this.movingItemManager.getItem();
     if (movingItem) {
       const [sizeX, sizeY] = movingItem.getSize();
+      if (!isPlaceble(tile.x, tile.y, sizeX, sizeY)) return;
+
       const local = tileToLocal(tile.x + sizeX, tile.y + sizeY);
       const updateLocalX = local.x - (TILE_W / 2) * (sizeX - 1);
       const updateLocalY = local.y - movingItem.container.height;
