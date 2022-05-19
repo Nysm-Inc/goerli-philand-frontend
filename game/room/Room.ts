@@ -8,14 +8,12 @@ import { isPlaceble, isValidTile, tileToLocal } from "./pos";
 import TileManager from "./tile/TileManager";
 
 export default class Room {
-  private isEdit: boolean;
   tileManager: TileManager;
   roomItemManager: RoomItemManager;
   movingItemManager: MovingItemManager;
   container: Container;
 
   constructor() {
-    this.isEdit = false;
     this.container = new Container();
     this.container.zIndex = 1;
     this.container.sortableChildren = true;
@@ -40,40 +38,37 @@ export default class Room {
   }
 
   view() {
-    this.isEdit = false;
     this.tileManager.hideGrid();
   }
 
   edit() {
-    this.isEdit = true;
     this.tileManager.showGrid();
   }
 
   handleMouseMovement(globalX: number, globalY: number) {
     const tile = this.globalToTile(globalX, globalY);
-    if (tile) {
-      if (this.movingItemManager.moving) {
-        const movingItem = this.movingItemManager.getItem();
-        if (movingItem) {
-          const [sizeX, sizeY] = movingItem.getSize();
-          if (!isPlaceble(tile.x, tile.y, sizeX, sizeY)) return;
+    if (!tile) return;
 
+    const movingItem = this.movingItemManager.getItem();
+    if (movingItem) {
+      if (this.movingItemManager.isMoving) {
+        const [sizeX, sizeY] = movingItem.getSize();
+        if (!isPlaceble(tile.x, tile.y, sizeX, sizeY)) return;
+        {
           const local = tileToLocal(tile.x + sizeX, tile.y + sizeY);
           const updateLocalX = local.x - (TILE_W / 2) * (sizeX - 1);
           const updateLocalY = local.y - movingItem.container.height;
           movingItem.updateContainerPlacement(updateLocalX, updateLocalY);
-
+        }
+        {
           const collision = this.movingItemManager.checkCollision(movingItem.getUUID(), tile.x, tile.y, sizeX, sizeY);
           this.tileManager.updateCollisionTiles(collision);
         }
+        {
+          const local = tileToLocal(tile.x, tile.y);
+          this.tileManager.updateSelectedTile(local.x, local.y);
+        }
       }
-
-      if (this.isEdit) {
-        const local = tileToLocal(tile.x, tile.y);
-        this.tileManager.showSelectedTile(local.x, local.y);
-      }
-    } else {
-      this.tileManager.hideSelectedTile();
     }
   }
 
@@ -82,6 +77,7 @@ export default class Room {
     if (!tile) return;
     const movingItem = this.movingItemManager.getItem();
     if (!movingItem) return;
+    if (!this.movingItemManager.isMoving) return;
 
     this.movingItemManager.placeItem(movingItem.getUUID(), tile.x, tile.y);
   }

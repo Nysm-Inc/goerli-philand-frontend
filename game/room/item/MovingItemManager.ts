@@ -1,37 +1,50 @@
 import { ROOM_TILE_N } from "~/constants";
 import GameInstance from "~/game/GameInstance";
 import { Tile } from "~/game/room/types";
+import { tileToLocal } from "~/game/room/pos";
 import RoomItem from "./RoomItem";
 
 export default class MovingItemManager {
   private item: RoomItem | null;
-  moving: boolean;
+  isMoving: boolean;
 
   constructor() {
     this.item = null;
-    this.moving = false;
+    this.isMoving = false;
   }
 
   pick(item: RoomItem) {
+    const { room } = GameInstance.get();
+
     this.item = item;
+    const [tileX, tileY] = this.item.getTile();
+    const local = tileToLocal(tileX, tileY);
+    room.tileManager.updateSelectedTile(local.x, local.y);
+    room.tileManager.showSelectedTile();
   }
 
   drop() {
     if (!this.item) return;
+    const { room } = GameInstance.get();
+
     this.item = null;
+    room.tileManager.hideSelectedTile();
   }
 
   move() {
     if (!this.item) return;
-    this.item.startMovement();
-    this.moving = true;
+    this.item.container.alpha = 0.6;
+    this.isMoving = true;
   }
 
   stop() {
     if (!this.item) return;
-    this.item.stopMovement();
-    this.moving = false;
+    const { room } = GameInstance.get();
+
+    this.item.container.alpha = 1.0;
+    this.isMoving = false;
     this.item = null;
+    room.tileManager.hideSelectedTile();
   }
 
   getItem() {

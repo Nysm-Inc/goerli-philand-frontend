@@ -31,6 +31,7 @@ export default class Engine {
   }
 
   setMouseInteractions() {
+    // document.body.addEventListener("contextmenu", (evt) => evt.preventDefault(), false);
     this.app.view.addEventListener("mousemove", (evt) => this.onMouseMoveHandler(evt.pageX, evt.pageY), false);
     this.app.view.addEventListener("click", (evt) => this.onMouseClickHandler(evt.pageX, evt.pageY), false);
   }

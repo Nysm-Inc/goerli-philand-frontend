@@ -69,9 +69,12 @@ export default class TileManager {
     room.container.addChild(this.selectedTile);
   }
 
-  showSelectedTile(localX: number, localY: number) {
+  updateSelectedTile(localX: number, localY: number) {
     this.selectedTile.x = localX;
     this.selectedTile.y = localY;
+  }
+
+  showSelectedTile() {
     this.selectedTile.visible = true;
   }
 

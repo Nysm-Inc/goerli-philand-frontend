@@ -59,14 +59,6 @@ export default class RoomItem {
     return [this.tileX, this.tileY];
   }
 
-  startMovement() {
-    this.container.alpha = 0.6;
-  }
-
-  stopMovement() {
-    this.container.alpha = 1.0;
-  }
-
   updateContainerPlacement(localX: number, localY: number) {
     this.container.x = localX;
     this.container.y = localY;

@@ -42,9 +42,11 @@ const Index: NextPage = () => {
   const onOpenActionMenu = useCallback((globalX: number, globalY: number) => {
     setActionMenuState({ globalX, globalY, isShown: true });
   }, []);
-  const onCloseActionMenu = useCallback(async () => {
-    // const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
-    // room.movingItemManager.drop();
+  const onCloseActionMenu = useCallback(async (back?: boolean) => {
+    if (back) {
+      const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
+      room.movingItemManager.drop();
+    }
     setActionMenuState((prev) => {
       return { ...prev, isShown: false };
     });
@@ -75,10 +77,7 @@ const Index: NextPage = () => {
       </Modal>
 
       <Box position="fixed" top={actionMenuState.globalY} left={actionMenuState.globalX}>
-        <Popover
-          isOpen={actionMenuState.isShown}
-          onClose={() => setActionMenuState({ ...actionMenuState, isShown: false })}
-        >
+        <Popover isOpen={actionMenuState.isShown} onClose={() => onCloseActionMenu(true)}>
           <PopoverContent
             w="132px"
             h="40px"
