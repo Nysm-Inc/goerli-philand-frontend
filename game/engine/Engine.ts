@@ -1,4 +1,5 @@
 import { Application } from "pixi.js";
+import { Stage } from "@pixi/layers";
 import { GAME_APP_HEIGHT, GAME_APP_WIDTH } from "~/constants";
 import "./pixelPerfectInteraction";
 
@@ -23,6 +24,7 @@ export default class Engine {
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
     });
+    this.app.stage = new Stage();
     this.app.stage.sortableChildren = true;
     this.app.stage.interactiveChildren = false;
 

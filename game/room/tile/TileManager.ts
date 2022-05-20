@@ -87,7 +87,6 @@ export default class TileManager {
 
     this.landGrid.visible = false;
     this.worldGrid.visible = false;
-    this.worldGrid.zIndex = 0;
 
     room.container.addChild(this.landGrid);
     engine.app.stage.addChild(this.worldGrid);

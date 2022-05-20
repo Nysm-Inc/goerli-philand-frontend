@@ -35,6 +35,15 @@ const Index: NextPage = () => {
         { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 4, xStart: 12, yStart: 6, xEnd: 14, yEnd: 9 },
         { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 5, xStart: 4, yStart: 8, xEnd: 5, yEnd: 9 },
         { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 6, xStart: 4, yStart: 9, xEnd: 5, yEnd: 10 },
+        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 7, xStart: 1, yStart: 13, xEnd: 3, yEnd: 16 },
+        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 8, xStart: 2, yStart: 2, xEnd: 4, yEnd: 4 },
+        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 9, xStart: 7, yStart: 12, xEnd: 9, yEnd: 14 },
+        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 10, xStart: 15, yStart: 0, xEnd: 16, yEnd: 2 },
+        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 11, xStart: 15, yStart: 15, xEnd: 16, yEnd: 16 },
+        //
+        // { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 100, xStart: 7, yStart: 7, xEnd: 8, yEnd: 10 },
+        // { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 101, xStart: 3, yStart: 3, xEnd: 5, yEnd: 4 },
+        // { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 102, xStart: 12, yStart: 12, xEnd: 14, yEnd: 14 },
       ]);
     })();
   }, []);
