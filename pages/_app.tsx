@@ -3,6 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from "~/ui/styles";
 import Head from "~/ui/components/Head";
 import GlobalStyle from "~/ui/styles/Global";
+import AppContextProvider from "~/contexts";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -11,7 +12,9 @@ const App = ({ Component, pageProps }: AppProps) => {
       <Head />
 
       <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
+        <AppContextProvider>
+          <Component {...pageProps} />
+        </AppContextProvider>
       </ChakraProvider>
     </>
   );

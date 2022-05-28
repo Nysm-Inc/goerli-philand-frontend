@@ -1,124 +1,72 @@
 import type { NextPage } from "next";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Box,
-  Modal,
-  ModalContent,
-  useDisclosure,
-  Center,
-  Flex,
-  HStack,
-  Popover,
-  PopoverContent,
-} from "@chakra-ui/react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { Box, Center, Flex, HStack, useDisclosure, useBoolean } from "@chakra-ui/react";
 import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
-import GameUI from "~/ui/GameUI";
+import { AppContext } from "~/contexts";
+import Inventry from "~/ui/features/inventry";
+import Collection from "~/ui/features/collection";
+import ActionMenu, { useActionMenu } from "~/ui/components/ActionMenu";
 
 const Index: NextPage = () => {
-  // memo: avoid react strict mode (for dev)
-  const loadedRef = useRef(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isEdit, setIsEdit] = useState(false);
-  const [actionMenuState, setActionMenuState] = useState({ globalX: 0, globalY: 0, isShown: false });
+  const loadedRef = useRef(false); // memo: avoid react strict mode (for dev)
+  const { game } = useContext(AppContext);
+
+  const [isEdit, { on: edit, off: view }] = useBoolean(false);
+  const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
+  const { isOpen: isOpenCollection, onOpen: onOpenCollection, onClose: onCloseCollection } = useDisclosure();
+  const { isOpen: isOpenInventory, onOpen: onOpenInventry, onClose: onCloseInventory } = useDisclosure();
+
+  const editMode = useCallback(() => {
+    game.room.edit();
+    edit();
+  }, [game]);
+  const viewMode = useCallback(() => {
+    game.room.view();
+    view();
+  }, [game]);
+  const onDropObject = useCallback(() => {
+    game.room.movingItemManager.drop();
+  }, [game]);
+  const onMoveObject = useCallback(() => {
+    game.room.movingItemManager.move();
+  }, [game]);
 
   useEffect(() => {
     if (loadedRef.current) return;
     loadedRef.current = true;
 
-    (async () => {
-      const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
-      room.roomItemManager.loadItems([
-        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 1, xStart: 0, yStart: 0, xEnd: 1, yEnd: 1 },
-        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 2, xStart: 3, yStart: 4, xEnd: 4, yEnd: 5 },
-        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 3, xStart: 10, yStart: 10, xEnd: 12, yEnd: 12 },
-        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 4, xStart: 12, yStart: 6, xEnd: 14, yEnd: 9 },
-        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 5, xStart: 4, yStart: 8, xEnd: 5, yEnd: 9 },
-        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 6, xStart: 4, yStart: 9, xEnd: 5, yEnd: 10 },
-        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 7, xStart: 1, yStart: 13, xEnd: 3, yEnd: 16 },
-        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 8, xStart: 2, yStart: 2, xEnd: 4, yEnd: 4 },
-        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 9, xStart: 7, yStart: 12, xEnd: 9, yEnd: 14 },
-        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 10, xStart: 15, yStart: 0, xEnd: 16, yEnd: 2 },
-        { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 11, xStart: 15, yStart: 15, xEnd: 16, yEnd: 16 },
-        //
-        // { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 100, xStart: 7, yStart: 7, xEnd: 8, yEnd: 10 },
-        // { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 101, xStart: 3, yStart: 3, xEnd: 5, yEnd: 4 },
-        // { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 102, xStart: 12, yStart: 12, xEnd: 14, yEnd: 14 },
-      ]);
-    })();
-  }, []);
+    game.loadGame(onOpenActionMenu);
 
-  const onOpenActionMenu = useCallback((globalX: number, globalY: number) => {
-    setActionMenuState({ globalX, globalY, isShown: true });
-  }, []);
-  const onCloseActionMenu = useCallback(async (back?: boolean) => {
-    if (back) {
-      const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
-      room.movingItemManager.drop();
-    }
-    setActionMenuState((prev) => {
-      return { ...prev, isShown: false };
-    });
-  }, []);
-  const onMoveObject = useCallback(async () => {
-    const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
-    room.movingItemManager.move();
-  }, []);
-  const editMode = useCallback(async () => {
-    const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
-    room.edit();
-    setIsEdit(true);
-  }, []);
-  const viewMode = useCallback(async () => {
-    const { room } = await import("~/game/GameInstance").then((instance) => instance.default.get());
-    room.view();
-    setIsEdit(false);
-  }, []);
+    // todo: load items from on-chain
+    game.room.roomItemManager.loadItems([
+      { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 1, xStart: 0, yStart: 0, xEnd: 1, yEnd: 1 },
+      { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 2, xStart: 3, yStart: 4, xEnd: 4, yEnd: 5 },
+      { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 3, xStart: 10, yStart: 10, xEnd: 12, yEnd: 12 },
+      { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 4, xStart: 12, yStart: 6, xEnd: 14, yEnd: 9 },
+      { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 5, xStart: 4, yStart: 8, xEnd: 5, yEnd: 9 },
+      { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 6, xStart: 4, yStart: 9, xEnd: 5, yEnd: 10 },
+      { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 7, xStart: 1, yStart: 13, xEnd: 3, yEnd: 16 },
+      { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 8, xStart: 2, yStart: 2, xEnd: 4, yEnd: 4 },
+      { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 9, xStart: 7, yStart: 12, xEnd: 9, yEnd: 14 },
+      { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 10, xStart: 15, yStart: 0, xEnd: 16, yEnd: 2 },
+      { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 11, xStart: 15, yStart: 15, xEnd: 16, yEnd: 16 },
+    ]);
+  }, [game]);
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered size="2xl">
-        <ModalContent border="2px solid" borderColor="black" borderRadius="none">
-          <Center h="480px">
-            <></>
-          </Center>
-        </ModalContent>
-      </Modal>
+      <Collection isOpen={isOpenCollection} onClose={onCloseCollection} />
+      <Inventry isOpen={isOpenInventory} onClose={onCloseInventory} />
 
-      <Box position="fixed" top={actionMenuState.globalY} left={actionMenuState.globalX}>
-        <Popover isOpen={actionMenuState.isShown} onClose={() => onCloseActionMenu(true)}>
-          <PopoverContent
-            w="132px"
-            h="40px"
-            border="1px solid"
-            borderColor="black"
-            borderRadius="none"
-            bgColor="white"
-            _focus={{ outline: "none" }}
-            _focusVisible={{ outline: "none" }}
-          >
-            <HStack spacing="4px">
-              <Center
-                w="40px"
-                h="40px"
-                cursor="pointer"
-                onClick={() => {
-                  onMoveObject();
-                  onCloseActionMenu();
-                }}
-              >
-                <Image src="/icons/arrows-cardinal.svg" width="24px" height="24px" />
-              </Center>
-              <Center w="40px" h="40px" onClick={() => {}}>
-                <Image src="/icons/link.svg" width="24px" height="24px" />
-              </Center>
-              <Center w="40px" h="40px" onClick={() => {}}>
-                <Image src="/icons/trash.svg" width="24px" height="24px" />
-              </Center>
-            </HStack>
-          </PopoverContent>
-        </Popover>
-      </Box>
+      <ActionMenu
+        state={actionMenuState}
+        onClose={onCloseActionMenu}
+        onBack={onDropObject}
+        onClickMove={onMoveObject}
+        onClickLink={() => {}}
+        onClickTrash={() => {}}
+      />
 
       <HStack position="fixed" height="64px">
         <Image src="/logo.png" width="64px" height="64px" />
@@ -139,7 +87,7 @@ const Index: NextPage = () => {
           borderColor="black"
           bgColor="white"
           cursor="pointer"
-          onClick={onOpen}
+          onClick={onOpenCollection}
         >
           <Image src="/icons/collection.svg" width="32px" height="32px" />
         </Center>
@@ -150,20 +98,9 @@ const Index: NextPage = () => {
           borderColor="black"
           bgColor="white"
           cursor="pointer"
-          onClick={onOpen}
+          onClick={onOpenInventry}
         >
-          <Image src="/icons/sword.svg" width="32px" height="32px" />
-        </Center>
-        <Center
-          w="40px"
-          h="40px"
-          border="1px solid"
-          borderColor="black"
-          bgColor="white"
-          cursor="pointer"
-          onClick={onOpen}
-        >
-          <Image src="/icons/store.svg" width="32px" height="32px" />
+          📦
         </Center>
       </HStack>
       <Flex
@@ -189,8 +126,6 @@ const Index: NextPage = () => {
         </Center>
         <Box w="40px" h="40px" border="1px solid" borderColor="black" />
       </Flex>
-
-      <GameUI onOpenActionMenu={onOpenActionMenu} />
     </>
   );
 };
