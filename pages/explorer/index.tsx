@@ -1,8 +1,6 @@
 import { Link, Text, VStack } from "@chakra-ui/react";
 import { NextPage } from "next";
 import {
-  FREE_OBJECT_CONTRACT_ADDRESS,
-  PAID_OBJECT_CONTRACT_ADDRESS,
   PHI_CLAIM_CONTRACT_ADDRESS,
   PHI_MAP_CONTRACT_ADDRESS,
   PHI_OBJECT_CONTRACT_ADDRESS,
@@ -15,12 +13,12 @@ const Explorer: NextPage = () => {
   return (
     <VStack p="16">
       <Text fontSize="xl">Goerli Etherscan</Text>
-      <Link href={baseURL + PAID_OBJECT_CONTRACT_ADDRESS} isExternal textDecoration="underline">
+      {/* <Link href={baseURL + PAID_OBJECT_CONTRACT_ADDRESS} isExternal textDecoration="underline">
         Paid Object
       </Link>
       <Link href={baseURL + FREE_OBJECT_CONTRACT_ADDRESS} isExternal textDecoration="underline">
         Free Object
-      </Link>
+      </Link> */}
       <Link href={baseURL + PHI_OBJECT_CONTRACT_ADDRESS} isExternal textDecoration="underline">
         Phi Object
       </Link>

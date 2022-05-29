@@ -14,10 +14,16 @@ export default class Game {
     this.uiManager = new UIManager();
   }
 
-  loadGame(onOpenActionMenu: (id: string, globalX: number, globalY: number) => void) {
-    const { room, uiManager } = GameInstance.get();
-    uiManager.loadUIHandler(onOpenActionMenu);
-    room.enterRoom();
+  async loadGame(onOpenActionMenu: (id: string, globalX: number, globalY: number) => void) {
+    const { engine, room, uiManager } = GameInstance.get();
+
+    return Promise.all([
+      //
+      engine.loadGlobalTextures(),
+    ]).then(() => {
+      uiManager.loadUIHandler(onOpenActionMenu);
+      room.enterRoom();
+    });
   }
 
   onMouseMove = (x: number, y: number) => {

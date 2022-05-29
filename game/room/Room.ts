@@ -46,6 +46,11 @@ export default class Room {
     this.tileManager.setCollisionTiles();
   }
 
+  leaveRoom() {
+    const { engine } = GameInstance.get();
+    engine.app.stage.removeChildren();
+  }
+
   view() {
     this.tileManager.hideGrid();
   }

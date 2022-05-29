@@ -1,10 +1,12 @@
-import { Application } from "pixi.js";
-import { Stage } from "@pixi/layers";
-import { GAME_APP_HEIGHT, GAME_APP_WIDTH } from "~/constants";
+import { Application, LoaderResource, Texture } from "pixi.js";
+import { Stage as LayerStage } from "@pixi/layers";
+import { GAME_APP_HEIGHT, GAME_APP_WIDTH, PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
+import { phiObjectMetadataList } from "~/types/object";
 import "./pixelPerfectInteraction";
 
 export default class Engine {
   app: Application;
+  globalTextures: { [contract: string]: { [tokenId: number]: Texture } };
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
   onMouseClickHandler: (mouseX: number, mouseY: number) => void;
 
@@ -24,12 +26,40 @@ export default class Engine {
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
     });
-    this.app.stage = new Stage();
+    this.app.stage = new LayerStage();
     this.app.stage.sortableChildren = true;
     this.app.stage.interactiveChildren = false;
+    this.globalTextures = { [PHI_OBJECT_CONTRACT_ADDRESS]: {} };
 
     document.body.appendChild(this.app.view);
     this.setMouseInteractions();
+  }
+
+  async loadGlobalTextures() {
+    return new Promise((resolve, reject) => {
+      this.app.loader.onError.add(() => reject("failed to load"));
+      this.app.loader.onComplete.add(() => resolve("loaded"));
+
+      for (const [contract, metadataList] of Object.entries(phiObjectMetadataList)) {
+        for (const metadata of Object.values(metadataList)) {
+          this.app.loader.add(contract + "_" + metadata.tokenId, metadata.image_url, {
+            crossOrigin: "*",
+            loadType: LoaderResource.LOAD_TYPE.IMAGE,
+          });
+        }
+      }
+
+      this.app.loader.load((_, resources) => {
+        for (let resourceId in resources) {
+          const res = resources[resourceId];
+          if (res?.texture) {
+            const contract_tokenId = resourceId.split("_");
+            // @ts-ignore
+            this.globalTextures[contract_tokenId[0]][contract_tokenId[1]] = res.texture;
+          }
+        }
+      });
+    });
   }
 
   setMouseInteractions() {

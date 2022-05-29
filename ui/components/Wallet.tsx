@@ -1,6 +1,5 @@
-import { Box, Button, Flex, Text, useTheme } from "@chakra-ui/react";
-import Image from "next/image";
 import { FC, useEffect } from "react";
+import { Box, Flex, Text, useTheme } from "@chakra-ui/react";
 import metaMask, { useAccount, useChainId } from "~/connectors/metamask";
 
 const Wallet: FC = () => {
