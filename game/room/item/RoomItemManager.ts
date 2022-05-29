@@ -25,7 +25,7 @@ export default class RoomItemManager {
     });
   }
 
-  loadItem(tileX: number, tileY: number, object: IObject) {
+  loadItem(tileX: number, tileY: number, object: IObject): string {
     const { room } = GameInstance.get();
 
     const uuid = crypto.randomUUID();
@@ -34,6 +34,16 @@ export default class RoomItemManager {
     this.addItemToTilemap(tileX, tileY, item);
     item.container.on("mousedown", (e) => this.onClick(e, item), this);
     room.container.addChild(item.container);
+    return uuid;
+  }
+
+  removeItem(uuid: string) {
+    const { room } = GameInstance.get();
+
+    const item = this.roomItems[uuid];
+    room.container.removeChild(item.container);
+    this.removeItemFromTilemap(item.getUUID());
+    room.movingItemManager.drop();
   }
 
   // @ts-ignore
@@ -42,7 +52,7 @@ export default class RoomItemManager {
     if (room.movingItemManager.getItem()) return;
 
     const origin = e.data.originalEvent;
-    uiManager.onOpenActionMenu(origin.x, origin.y);
+    uiManager.onOpenActionMenu(item.getUUID(), origin.x, origin.y);
     room.movingItemManager.pick(item);
   }
 

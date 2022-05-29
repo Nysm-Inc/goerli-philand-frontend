@@ -14,7 +14,7 @@ export default class Game {
     this.uiManager = new UIManager();
   }
 
-  loadGame(onOpenActionMenu: (globalX: number, globalY: number) => void) {
+  loadGame(onOpenActionMenu: (id: string, globalX: number, globalY: number) => void) {
     const { room, uiManager } = GameInstance.get();
     uiManager.loadUIHandler(onOpenActionMenu);
     room.enterRoom();

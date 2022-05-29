@@ -31,6 +31,9 @@ const Index: NextPage = () => {
   const onMoveObject = useCallback(() => {
     game.room.movingItemManager.move();
   }, [game]);
+  const onRemoveObject = useCallback(() => {
+    game.room.roomItemManager.removeItem(actionMenuState.id);
+  }, [game, actionMenuState.id]);
 
   useEffect(() => {
     if (loadedRef.current) return;
@@ -65,7 +68,7 @@ const Index: NextPage = () => {
         onBack={onDropObject}
         onClickMove={onMoveObject}
         onClickLink={() => {}}
-        onClickTrash={() => {}}
+        onClickTrash={onRemoveObject}
       />
 
       <HStack position="fixed" height="64px">
