@@ -1,11 +1,9 @@
 import { Container, Sprite, Texture, TilingSprite } from "pixi.js";
 import { GAME_APP_HEIGHT, GAME_APP_WIDTH, ROOM_TILE_N } from "~/constants";
 import GameInstance from "~/game/GameInstance";
-import { tileToLocal } from "~/game/room/pos";
-import { Tile } from "~/game/room/types";
+import { isValidTile, tileToLocal } from "~/game/room/pos";
+import { Tile } from "~/game/types";
 import { newTile } from "./Tile";
-
-const emptyTileMap = [...Array(ROOM_TILE_N)].map(() => Array(ROOM_TILE_N).fill(""));
 
 export default class TileManager {
   private tileTextures: {
@@ -28,7 +26,7 @@ export default class TileManager {
 
     this.selectedTile = new Container();
     this.selectedTile.addChild(new Sprite(this.tileTextures.selected));
-    this.tileMap = emptyTileMap;
+    this.tileMap = [...Array(ROOM_TILE_N)].map(() => Array(ROOM_TILE_N).fill(""));
     this.worldGrid = new TilingSprite(this.tileTextures.grid, GAME_APP_WIDTH, GAME_APP_HEIGHT);
     this.landGrid = new Container();
     this.collisionTiles = new Container();
@@ -45,7 +43,17 @@ export default class TileManager {
 
   setCollisionTiles() {
     const { room } = GameInstance.get();
+
+    this.collisionTiles.visible = false;
     room.container.addChild(this.collisionTiles);
+  }
+
+  showCollisionTiles() {
+    this.collisionTiles.visible = true;
+  }
+
+  hideCollisionTiles() {
+    this.collisionTiles.visible = false;
   }
 
   updateCollisionTiles(tiles: Tile[]) {
@@ -109,10 +117,16 @@ export default class TileManager {
   }
 
   getUUIDFromTilemap(x: number, y: number) {
-    return this.tileMap[x][y];
+    if (isValidTile(x, y)) {
+      return this.tileMap[x][y];
+    } else {
+      return "";
+    }
   }
 
   setTilemap(x: number, y: number, uuid: string) {
-    this.tileMap[x][y] = uuid;
+    if (isValidTile(x, y)) {
+      this.tileMap[x][y] = uuid;
+    }
   }
 }

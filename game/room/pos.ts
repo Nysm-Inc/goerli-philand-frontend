@@ -8,10 +8,17 @@ export const tileToLocal = (tileX: number, tileY: number): Point => {
   );
 };
 
-export const isValidTile = (tileX: number, tileY: number): boolean => {
-  return tileX >= 0 && tileX < ROOM_TILE_N && tileY >= 0 && tileY < ROOM_TILE_N;
+export const itemToLocal = (
+  tileX: number,
+  tileY: number,
+  sizeX: number,
+  sizeY: number,
+  spriteHeight: number
+): Point => {
+  const local = tileToLocal(tileX + sizeX, tileY + sizeY);
+  return new Point(local.x - (TILE_W / 2) * (sizeX - 1), local.y - spriteHeight);
 };
 
-export const isPlaceble = (tileX: number, tileY: number, sizeX: number, sizeY: number) => {
-  return tileX >= 0 && tileX + sizeX <= ROOM_TILE_N && tileY >= 0 && tileY + sizeY <= ROOM_TILE_N;
+export const isValidTile = (tileX: number, tileY: number): boolean => {
+  return tileX >= 0 && tileX < ROOM_TILE_N && tileY >= 0 && tileY < ROOM_TILE_N;
 };

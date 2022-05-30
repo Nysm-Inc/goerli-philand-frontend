@@ -61,7 +61,7 @@ const Index: NextPage = () => {
       await game.loadGame(onOpenActionMenu);
 
       // todo: load items from on-chain
-      game.room.roomItemManager.loadItems([
+      game.room.roomItemManager.addItems([
         { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 1, xStart: 0, yStart: 0, xEnd: 1, yEnd: 1 },
         { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 2, xStart: 3, yStart: 4, xEnd: 4, yEnd: 5 },
         { contractAddress: PHI_OBJECT_CONTRACT_ADDRESS, tokenId: 3, xStart: 10, yStart: 10, xEnd: 11, yEnd: 11 },
@@ -86,7 +86,7 @@ const Index: NextPage = () => {
       <>
         <Quest isOpen={isOpenQuest} onClose={onCloseQuest} onClickItem={claimObject} />
         <Collection balances={balances} isOpen={isOpenCollection} onClose={onCloseCollection} />
-        <Inventry isOpen={isOpenInventory} onClose={onCloseInventory} />
+        <Inventry isOpen={isOpenInventory} onClose={onCloseInventory} onClickItem={() => {}} />
       </>
 
       {created ? (

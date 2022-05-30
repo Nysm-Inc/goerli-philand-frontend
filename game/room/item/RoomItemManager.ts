@@ -1,7 +1,7 @@
 import { PhiObject } from "~/types";
-import { IObject } from "~/game/room/types";
-import RoomItem from "./RoomItem";
+import { IObject } from "~/game/types";
 import GameInstance from "~/game/GameInstance";
+import RoomItem from "./RoomItem";
 
 export default class RoomItemManager {
   private roomItems: { [uuid: string]: RoomItem };
@@ -14,9 +14,9 @@ export default class RoomItemManager {
     return this.roomItems;
   }
 
-  loadItems(objects: PhiObject[]) {
+  addItems(objects: PhiObject[]) {
     objects.forEach((object) => {
-      this.loadItem(object.xStart, object.yStart, {
+      this.addItem(object.xStart, object.yStart, {
         contractAddress: object.contractAddress,
         tokenId: object.tokenId,
         sizeX: object.xEnd - object.xStart,
@@ -25,16 +25,11 @@ export default class RoomItemManager {
     });
   }
 
-  loadItem(tileX: number, tileY: number, object: IObject): string {
-    const { room } = GameInstance.get();
-
+  addItem(tileX: number, tileY: number, object: IObject) {
     const uuid = crypto.randomUUID();
     const item = new RoomItem(uuid, tileX, tileY, object);
     this.roomItems[uuid] = item;
     this.addItemToTilemap(tileX, tileY, item);
-    item.container.on("mousedown", (e) => this.onClick(e, item), this);
-    room.container.addChild(item.container);
-    return uuid;
   }
 
   removeItem(uuid: string) {
@@ -44,16 +39,6 @@ export default class RoomItemManager {
     room.container.removeChild(item.container);
     this.removeItemFromTilemap(item.getUUID());
     room.movingItemManager.drop();
-  }
-
-  // @ts-ignore
-  onClick(e, item) {
-    const { room, uiManager } = GameInstance.get();
-    if (room.movingItemManager.getItem()) return;
-
-    const origin = e.data.originalEvent;
-    uiManager.onOpenActionMenu(item.getUUID(), origin.x, origin.y);
-    room.movingItemManager.pick(item);
   }
 
   addItemToTilemap(tileX: number, tileY: number, item: RoomItem) {

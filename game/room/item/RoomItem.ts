@@ -1,8 +1,8 @@
 import { Container, Rectangle, Sprite } from "pixi.js";
 import { PHI_OBJECT_CONTRACT_ADDRESS, TILE_W } from "~/constants";
 import GameInstance from "~/game/GameInstance";
-import { tileToLocal } from "~/game/room/pos";
-import { IObject } from "~/game/room/types";
+import { itemToLocal } from "~/game/room/pos";
+import { IObject } from "~/game/types";
 
 export default class RoomItem {
   private object: IObject;
@@ -29,13 +29,13 @@ export default class RoomItem {
     this.container.name = uuid;
     this.sprites = [];
 
-    const { engine } = GameInstance.get();
+    const { engine, room } = GameInstance.get();
     const texture = engine.globalTextures[PHI_OBJECT_CONTRACT_ADDRESS][object.tokenId].clone();
     const sprite = Sprite.from(texture);
 
-    const local = tileToLocal(tileX + object.sizeX, tileY + object.sizeY);
-    this.container.x = local.x - (TILE_W / 2) * (object.sizeX - 1);
-    this.container.y = local.y - sprite.height;
+    const local = itemToLocal(tileX, tileY, object.sizeX, object.sizeY, sprite.height);
+    this.container.x = local.x;
+    this.container.y = local.y;
 
     for (let n = 0; n < object.sizeX + object.sizeY; n++) {
       const texture = sprite.texture.clone();
@@ -47,7 +47,10 @@ export default class RoomItem {
       this.sprites.push(unit);
       this.container.addChild(unit);
     }
+
     this.updateZIndex();
+    this.container.on("mousedown", (e) => this.onClick(e, this));
+    room.container.addChild(this.container);
   }
 
   getUUID() {
@@ -84,5 +87,15 @@ export default class RoomItem {
       if (n < wrapN) px++;
       if (n > wrapN) py--;
     }
+  }
+
+  // @ts-ignore
+  onClick(e, item) {
+    const { room, uiManager } = GameInstance.get();
+    if (room.movingItemManager.getItem()) return;
+
+    const origin = e.data.originalEvent;
+    uiManager.onOpenActionMenu(item.getUUID(), origin.x, origin.y);
+    room.movingItemManager.pick(item);
   }
 }

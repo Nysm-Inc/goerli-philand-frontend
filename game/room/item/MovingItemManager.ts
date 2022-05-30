@@ -1,6 +1,6 @@
 import { ROOM_TILE_N } from "~/constants";
 import GameInstance from "~/game/GameInstance";
-import { Tile } from "~/game/room/types";
+import { Tile } from "~/game/types";
 import { tileToLocal } from "~/game/room/pos";
 import RoomItem from "./RoomItem";
 
@@ -39,12 +39,10 @@ export default class MovingItemManager {
 
   stop() {
     if (!this.item) return;
-    const { room } = GameInstance.get();
 
     this.item.container.alpha = 1.0;
     this.isMoving = false;
-    this.item = null;
-    room.tileManager.hideSelectedTile();
+    this.drop();
   }
 
   getItem() {
@@ -66,15 +64,14 @@ export default class MovingItemManager {
     return collisionTiles;
   }
 
-  placeItem(uuid: string, tileX: number, tileY: number) {
-    const { room } = GameInstance.get();
-
+  placeItem(tileX: number, tileY: number) {
     if (!this.item) return;
     const [sizeX, sizeY] = this.item.getSize();
     if (sizeX + tileX > ROOM_TILE_N) return;
     if (sizeY + tileY > ROOM_TILE_N) return;
-    if (this.checkCollision(uuid, tileX, tileY, sizeX, sizeY).length > 0) return;
+    if (this.checkCollision(this.item.getUUID(), tileX, tileY, sizeX, sizeY).length > 0) return;
 
+    const { room } = GameInstance.get();
     room.roomItemManager.removeItemFromTilemap(this.item.getUUID());
     room.roomItemManager.addItemToTilemap(tileX, tileY, this.item);
     this.item.updatePlacement(tileX, tileY);
