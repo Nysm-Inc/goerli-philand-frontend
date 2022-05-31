@@ -1,76 +1,32 @@
-import { Container, Rectangle, Sprite } from "pixi.js";
-import { PHI_OBJECT_CONTRACT_ADDRESS, TILE_W } from "~/constants";
 import GameInstance from "~/game/GameInstance";
-import { itemToLocal } from "~/game/room/pos";
+import Item from "~/game/item/Item";
+import { isValidTile, itemToLocal } from "~/game/room/pos";
 import { IObject } from "~/game/types";
 
-export default class RoomItem {
-  private object: IObject;
-  private uuid: string;
+export default class RoomItem extends Item {
   private tileX: number;
   private tileY: number;
-  container: Container;
-  sprites: Sprite[];
 
   constructor(uuid: string, tileX: number, tileY: number, object: IObject) {
-    this.object = {
-      contractAddress: object.contractAddress,
-      tokenId: object.tokenId,
-      sizeX: object.sizeX,
-      sizeY: object.sizeY,
-    };
-    this.uuid = uuid;
+    super(uuid, object);
+
+    const local = itemToLocal(tileX, tileY, object.sizeX, object.sizeY, this.container.height);
+    this.container.x = local.x;
+    this.container.y = local.y;
     this.tileX = tileX;
     this.tileY = tileY;
 
-    this.container = new Container();
-    this.container.interactive = true;
-    this.container.buttonMode = true;
-    this.container.name = uuid;
-    this.sprites = [];
-
-    const { engine, room } = GameInstance.get();
-    const texture = engine.globalTextures[PHI_OBJECT_CONTRACT_ADDRESS][object.tokenId].clone();
-    const sprite = Sprite.from(texture);
-
-    const local = itemToLocal(tileX, tileY, object.sizeX, object.sizeY, sprite.height);
-    this.container.x = local.x;
-    this.container.y = local.y;
-
-    for (let n = 0; n < object.sizeX + object.sizeY; n++) {
-      const texture = sprite.texture.clone();
-      const mask = new Rectangle(n * (TILE_W / 2), 0, TILE_W / 2, sprite.height);
-      texture.frame = mask;
-      const unit = new Sprite(texture);
-      unit.x = n * (TILE_W / 2);
-
-      this.sprites.push(unit);
-      this.container.addChild(unit);
-    }
-
     this.updateZIndex();
     this.container.on("mousedown", (e) => this.onClick(e, this));
-    room.container.addChild(this.container);
-  }
-
-  getUUID() {
-    return this.uuid;
-  }
-
-  getSize(): [number, number] {
-    return [this.object.sizeX, this.object.sizeY];
   }
 
   getTile(): [number, number] {
     return [this.tileX, this.tileY];
   }
 
-  updateContainerPlacement(localX: number, localY: number) {
-    this.container.x = localX;
-    this.container.y = localY;
-  }
-
   updatePlacement(tileX: number, tileY: number) {
+    if (!isValidTile(tileX, tileY)) return;
+
     this.tileX = tileX;
     this.tileY = tileY;
     this.updateZIndex();
@@ -79,9 +35,10 @@ export default class RoomItem {
   updateZIndex() {
     const { room } = GameInstance.get();
 
-    let [px, py] = [this.tileX, this.tileY + this.object.sizeY - 1];
-    const wrapN = this.object.sizeX < this.object.sizeY ? this.object.sizeX - 1 : this.object.sizeY - 1;
-    for (let n = 0; n < this.object.sizeX + this.object.sizeY; n++) {
+    const [sizeX, sizeY] = this.getSize();
+    let [px, py] = [this.tileX, this.tileY + sizeY - 1];
+    const wrapN = sizeX < sizeY ? sizeX - 1 : sizeY - 1;
+    for (let n = 0; n < sizeX + sizeY; n++) {
       this.sprites[n].parentLayer = room.containerLayer;
       this.sprites[n].zOrder = px + py;
       if (n < wrapN) px++;
