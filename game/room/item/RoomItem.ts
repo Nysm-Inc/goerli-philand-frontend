@@ -17,7 +17,7 @@ export default class RoomItem extends Item {
     this.tileY = tileY;
 
     this.updateZIndex();
-    this.container.on("mousedown", (e) => this.onClick(e, this));
+    this.container.on("mousedown", (e) => this.onMousedown(e, this));
   }
 
   getTile(): [number, number] {
@@ -47,7 +47,7 @@ export default class RoomItem extends Item {
   }
 
   // @ts-ignore
-  onClick(e, item) {
+  onMousedown(e, item) {
     const { room, uiManager } = GameInstance.get();
     if (room.movingItemManager.getItem()) return;
 
