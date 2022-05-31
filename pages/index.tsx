@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { useCallback, useContext, useEffect } from "react";
 import { Box, Center, Flex, HStack, useDisclosure, useBoolean, VStack } from "@chakra-ui/react";
-import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
 import Quest from "~/ui/features/quest";
 import Inventry from "~/ui/features/inventry";
@@ -12,8 +11,8 @@ import { ActionMenu, useActionMenu, Button, Wallet, SelectBox } from "~/ui/compo
 import { useAccount, useENSName, useProvider } from "~/connectors/metamask";
 import { useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
-import { useViewPhiland } from "~/hooks/map";
-import { useBalances } from "~/hooks/object";
+import { useDeposit, useRemoveAndWrite, useRemoveLink, useViewPhiland, useWriteLink } from "~/hooks/map";
+import { useApproveAll, useBalances } from "~/hooks/object";
 import { useClaim } from "~/hooks/claim";
 import { IObject } from "~/game/types";
 
@@ -26,9 +25,9 @@ const Index: NextPage = () => {
 
   const [domains, currentENS, switchCurrentENS] = useENS(account, ens, provider);
   const [{ loading, isCreated }, createPhiland] = useCreatePhiland(currentENS, provider);
-  const phiObjects = useViewPhiland(currentENS, provider);
   const balances = useBalances(account, provider);
   const claimObject = useClaim(account, provider);
+  const phiObjects = useViewPhiland(ens, provider);
 
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
@@ -61,14 +60,15 @@ const Index: NextPage = () => {
   useEffect(() => {
     // todo: leaveRoom
     if (!isCreated) return;
+    if (phiObjects.length <= 0) return;
 
     (async () => {
       await game.loadGame(onOpenActionMenu);
 
       // todo: load items from on-chain
-      // game.room.roomItemManager.addItems([]);
+      game.room.roomItemManager.addItems(phiObjects);
     })();
-  }, [isCreated]);
+  }, [isCreated, phiObjects.length]);
 
   return (
     <>
