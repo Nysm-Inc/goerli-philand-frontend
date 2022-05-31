@@ -49,6 +49,7 @@ export default class Room {
   leaveRoom() {
     const { engine } = GameInstance.get();
     engine.app.stage.removeChildren();
+    // document.body.removeChild(engine.app.view);
   }
 
   view() {

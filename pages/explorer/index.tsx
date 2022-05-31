@@ -34,7 +34,7 @@ const Explorer: NextPage = () => {
         Phi Claim
       </Link>
       <Divider />
-      <Text fontSize="md" textDecoration="underline" cursor="pointer" onClick={() => router.push("dev")}>
+      <Text fontSize="md" textDecoration="underline" cursor="pointer" onClick={() => router.push("developer")}>
         developer mode
       </Text>
     </VStack>

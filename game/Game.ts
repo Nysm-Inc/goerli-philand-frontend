@@ -20,10 +20,13 @@ export default class Game {
     return Promise.all([
       //
       engine.loadGlobalTextures(),
-    ]).then(() => {
-      uiManager.loadUIHandler(onOpenActionMenu);
-      room.enterRoom();
-    });
+    ])
+      .then(() => {
+        uiManager.loadUIHandler(onOpenActionMenu);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   onMouseMove = (x: number, y: number) => {

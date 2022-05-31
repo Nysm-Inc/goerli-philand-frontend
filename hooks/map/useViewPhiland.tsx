@@ -29,7 +29,7 @@ const useViewPhiland = (ens: string | null | undefined, provider?: Web3Provider)
           yEnd: BigNumber.from(object.yEnd).toNumber(),
         };
       });
-      setObjects(parsed.filter((object) => object.tokenId));
+      setObjects(parsed);
     })();
   }, [ens, provider]);
 

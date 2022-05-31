@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Box, Center, Flex, HStack, useDisclosure, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Quest from "~/ui/features/quest";
@@ -11,12 +11,16 @@ import { ActionMenu, useActionMenu, Button, Wallet, SelectBox } from "~/ui/compo
 import { useAccount, useENSName, useProvider } from "~/connectors/metamask";
 import { useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
-import { useDeposit, useRemoveAndWrite, useRemoveLink, useViewPhiland, useWriteLink } from "~/hooks/map";
-import { useApproveAll, useBalances } from "~/hooks/object";
+import { useDeposit, useSave, useViewPhiland } from "~/hooks/map";
+import { useBalances } from "~/hooks/object";
 import { useClaim } from "~/hooks/claim";
 import { IObject } from "~/game/types";
+import { phiObjectMetadataList } from "~/types/object";
 
 const Index: NextPage = () => {
+  // memo: avoid react strict mode (for dev)
+  const loadedRef = useRef(false);
+
   const router = useRouter();
   const { game } = useContext(AppContext);
   const provider = useProvider();
@@ -28,6 +32,8 @@ const Index: NextPage = () => {
   const balances = useBalances(account, provider);
   const claimObject = useClaim(account, provider);
   const phiObjects = useViewPhiland(ens, provider);
+  const [depositObjects] = useDeposit(ens, provider);
+  const save = useSave(ens, provider);
 
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
@@ -57,24 +63,38 @@ const Index: NextPage = () => {
     game.room.movingItemManager.move();
   }, []);
 
+  const diff = useMemo(() => {
+    //
+  }, []);
+
   useEffect(() => {
-    // todo: leaveRoom
-    if (!isCreated) return;
-    if (phiObjects.length <= 0) return;
+    if (loadedRef.current) return;
+    loadedRef.current = true;
 
-    (async () => {
-      await game.loadGame(onOpenActionMenu);
+    game.loadGame(onOpenActionMenu);
+  }, []);
 
-      // todo: load items from on-chain
-      game.room.roomItemManager.addItems(phiObjects);
-    })();
+  useEffect(() => {
+    if (isCreated || phiObjects.length > 0) {
+      game.room.enterRoom();
+
+      // todo
+      game.room.roomItemManager.loadItems(phiObjects.filter((object) => object.tokenId));
+    }
   }, [isCreated, phiObjects.length]);
 
   return (
     <>
       <>
         <HStack position="fixed" h="64px">
-          <Box onClick={() => router.push("/explorer")} cursor="pointer" pt="12px">
+          <Box
+            onClick={() => {
+              game.room.leaveRoom();
+              router.push("/explorer");
+            }}
+            cursor="pointer"
+            pt="12px"
+          >
             <Image src="/logo.png" width="64px" height="64px" />
           </Box>
           <Box w="280px" h="40px" border="1px solid" borderColor="black" />
@@ -89,6 +109,15 @@ const Index: NextPage = () => {
         <Collection balances={balances} isOpen={isOpenCollection} onClose={onCloseCollection} />
         <Inventry
           readonly={!isEdit}
+          items={depositObjects.map((object) => {
+            const metadata = phiObjectMetadataList[object.contractAddress][object.tokenId];
+            return {
+              contractAddress: object.contractAddress,
+              tokenId: metadata.tokenId,
+              sizeX: metadata.size[0],
+              sizeY: metadata.size[1],
+            };
+          })}
           isOpen={isOpenInventory}
           onClose={onCloseInventory}
           onClickItem={onPickFromInventory}

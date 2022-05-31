@@ -14,7 +14,7 @@ export default class RoomItemManager {
     return this.roomItems;
   }
 
-  addItems(objects: PhiObject[]) {
+  loadItems(objects: PhiObject[]) {
     objects.forEach((object) => {
       this.addItem(object.xStart, object.yStart, {
         contractAddress: object.contractAddress,
@@ -39,6 +39,7 @@ export default class RoomItemManager {
     room.container.removeChild(item.container);
     this.removeItemFromTilemap(item.getUUID());
     room.movingItemManager.drop();
+    delete this.roomItems[uuid];
   }
 
   addItemToTilemap(tileX: number, tileY: number, item: RoomItem) {

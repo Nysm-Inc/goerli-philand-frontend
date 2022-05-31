@@ -41,6 +41,24 @@ export default class TileManager {
     }
   }
 
+  getUUIDFromTilemap(x: number, y: number) {
+    if (isValidTile(x, y)) {
+      return this.tileMap[x][y];
+    } else {
+      return "";
+    }
+  }
+
+  getTilemap() {
+    return this.tileMap;
+  }
+
+  setTilemap(x: number, y: number, uuid: string) {
+    if (isValidTile(x, y)) {
+      this.tileMap[x][y] = uuid;
+    }
+  }
+
   setCollisionTiles() {
     const { room } = GameInstance.get();
 
@@ -114,19 +132,5 @@ export default class TileManager {
     engine.app.stage.interactiveChildren = false;
     this.worldGrid.visible = false;
     this.landGrid.visible = false;
-  }
-
-  getUUIDFromTilemap(x: number, y: number) {
-    if (isValidTile(x, y)) {
-      return this.tileMap[x][y];
-    } else {
-      return "";
-    }
-  }
-
-  setTilemap(x: number, y: number, uuid: string) {
-    if (isValidTile(x, y)) {
-      this.tileMap[x][y] = uuid;
-    }
   }
 }
