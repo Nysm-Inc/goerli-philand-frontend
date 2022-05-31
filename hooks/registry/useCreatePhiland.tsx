@@ -3,35 +3,31 @@ import { ethers, Event } from "ethers";
 import type { Web3Provider } from "@ethersproject/providers";
 import { PHI_REGISTRY_CONTRACT_ADDRESS } from "~/constants";
 import { PhiRegistryAbi } from "~/abi";
+import { fetchLogCreatedPhilands } from "~/utils/graph";
 
 const useCreatePhiland = (
   ens: string | null | undefined,
   provider?: Web3Provider
-): [{ loading: boolean; created: boolean }, () => Promise<any>] => {
+): [{ loading: boolean; isCreated: boolean }, () => Promise<any>] => {
   const [loading, setLoading] = useState(true);
-  const [events, setEvents] = useState<Event[]>([]);
+  const [isCreated, setIsCreated] = useState(false);
 
   useEffect(() => {
-    if (!ens || !provider) return;
-    setEvents([]);
+    if (!ens) return;
+    setIsCreated(false);
     setLoading(true);
 
-    const singer = provider.getSigner();
-    const contract = new ethers.Contract(PHI_REGISTRY_CONTRACT_ADDRESS, PhiRegistryAbi, singer);
-    const filter = contract.filters.LogCreatePhiland();
-
     (async () => {
-      // todo: more faster when add address
-      const pastEvents = await contract.queryFilter(filter, 6872403);
-      setEvents(pastEvents);
+      const logCreatedPhilands = await fetchLogCreatedPhilands(ens?.slice(0, -4));
+      setIsCreated(logCreatedPhilands.length > 0);
       setLoading(false);
     })();
-  }, [ens, provider]);
+  }, [ens]);
 
   return [
     {
       loading: loading,
-      created: events.some((e) => e.args?.[1] === ens?.slice(0, -4)),
+      isCreated: isCreated,
     },
     useCallback(async () => {
       if (!ens || !provider) return;

@@ -6,6 +6,7 @@ export const PHI_CLAIM_CONTRACT_ADDRESS = "0x7F1f4162635fb7Def92d58d51F91229Fb7e
 
 // graph
 export const ENS_GRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
+export const PHI_REGISTRY_GRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/zak3939/goerliphiregistry";
 
 // api
 export const UPLOAD_OGP_API_GATEWAY =

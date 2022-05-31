@@ -25,7 +25,7 @@ const Index: NextPage = () => {
   const ens = useENSName(provider);
 
   const [domains, currentENS, switchCurrentENS] = useENS(account, ens, provider);
-  const [{ loading, created }, createPhiland] = useCreatePhiland(currentENS, provider);
+  const [{ loading, isCreated }, createPhiland] = useCreatePhiland(currentENS, provider);
   const phiObjects = useViewPhiland(currentENS, provider);
   const balances = useBalances(account, provider);
   const claimObject = useClaim(account, provider);
@@ -60,7 +60,7 @@ const Index: NextPage = () => {
 
   useEffect(() => {
     // todo: leaveRoom
-    if (!created) return;
+    if (!isCreated) return;
 
     (async () => {
       await game.loadGame(onOpenActionMenu);
@@ -68,7 +68,7 @@ const Index: NextPage = () => {
       // todo: load items from on-chain
       // game.room.roomItemManager.addItems([]);
     })();
-  }, [created]);
+  }, [isCreated]);
 
   return (
     <>
@@ -95,7 +95,7 @@ const Index: NextPage = () => {
         />
       </>
 
-      {created ? (
+      {isCreated ? (
         <>
           <ActionMenu
             state={actionMenuState}
