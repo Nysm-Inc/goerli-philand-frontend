@@ -5,7 +5,7 @@ import { phiObjectMetadataList } from "~/types/object";
 import { Balance } from "~/types";
 import { useContractRead } from "wagmi";
 
-const useBalances = (account?: string): Balance[] => {
+const useBalances = (account?: string, disabled?: boolean): Balance[] => {
   const { data, isLoading, isFetching } = useContractRead(
     {
       addressOrName: PHI_OBJECT_CONTRACT_ADDRESS,
@@ -21,6 +21,7 @@ const useBalances = (account?: string): Balance[] => {
         : [],
       cacheOnBlock: true,
       watch: true,
+      enabled: !disabled,
       onSuccess(data) {
         //
       },

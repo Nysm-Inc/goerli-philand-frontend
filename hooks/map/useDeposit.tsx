@@ -5,7 +5,8 @@ import { PhiMapAbi } from "~/abi";
 import { DepositObject } from "~/types";
 
 const useDeposit = (
-  ens?: string | null
+  ens?: string | null,
+  disabled?: boolean
 ): [
   DepositObject[],
   (
@@ -31,6 +32,7 @@ const useDeposit = (
       args: ens ? [ens.slice(0, -4)] : [],
       cacheOnBlock: true,
       watch: true,
+      enabled: !disabled,
       onSuccess(data) {
         //
       },

@@ -4,7 +4,7 @@ import { PhiMapAbi } from "~/abi";
 import { PHI_MAP_CONTRACT_ADDRESS } from "~/constants";
 import { PhiObject } from "~/types";
 
-const useViewPhiland = (ens?: string | null): PhiObject[] => {
+const useViewPhiland = (ens?: string | null, disabled?: boolean): PhiObject[] => {
   const { data, isLoading, isFetching } = useContractRead(
     {
       addressOrName: PHI_MAP_CONTRACT_ADDRESS,
@@ -15,6 +15,7 @@ const useViewPhiland = (ens?: string | null): PhiObject[] => {
       args: ens ? [ens.slice(0, -4)] : [],
       cacheOnBlock: true,
       watch: true,
+      enabled: !disabled,
       onSuccess(data) {
         //
       },

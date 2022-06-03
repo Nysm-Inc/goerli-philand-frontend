@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useCallback, useContext, useEffect, useRef } from "react";
-import { useAccount, useEnsName } from "wagmi";
+import { useAccount, useEnsAvatar, useEnsName } from "wagmi";
 import { Box, Center, Flex, HStack, useDisclosure, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Quest from "~/ui/features/quest";
@@ -28,20 +28,21 @@ const Index: NextPage = () => {
   const { game } = useContext(AppContext);
   const { data: account } = useAccount();
   const { data: ens } = useEnsName({ address: account?.address });
-
-  const [domains, currentENS, switchCurrentENS] = useENS(account?.address, ens);
-  const balances = useBalances(account?.address);
-  const [{ loading, isCreated }, createPhiland] = useCreatePhiland(currentENS);
-  const phiObjects = useViewPhiland(ens);
-  const claimObject = useClaim(account?.address);
-  const [depositObjects] = useDeposit(ens);
-  const save = useSave(ens);
+  // const { data: avatar } = useEnsAvatar({ addressOrName: account?.address });
 
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
   const { isOpen: isOpenQuest, onOpen: onOpenQuest, onClose: onCloseQuest } = useDisclosure();
   const { isOpen: isOpenCollection, onOpen: onOpenCollection, onClose: onCloseCollection } = useDisclosure();
   const { isOpen: isOpenInventory, onOpen: onOpenInventry, onClose: onCloseInventory } = useDisclosure();
+
+  const [domains, currentENS, switchCurrentENS] = useENS(account?.address, ens);
+  const balances = useBalances(account?.address, isEdit);
+  const [{ loading, isCreated }, createPhiland] = useCreatePhiland(currentENS);
+  const phiObjects = useViewPhiland(ens, isEdit);
+  const claimObject = useClaim(account?.address);
+  const [depositObjects] = useDeposit(ens, isEdit);
+  const save = useSave(ens);
 
   const editMode = useCallback(() => {
     game.room.edit();
