@@ -1,9 +1,10 @@
 import { ROOM_TILE_N } from "~/constants";
+import { IObject } from "~/types";
 import GameInstance from "~/game/GameInstance";
-import { IObject, Tile } from "~/game/types";
+import { Tile } from "~/game/room/tile/types";
+import Item from "~/game/item/Item";
 import { itemToLocal, tileToLocal } from "~/game/room/pos";
 import RoomItem from "./RoomItem";
-import Item from "~/game/item/Item";
 
 export default class MovingItemManager {
   private item: Item | null;
@@ -42,6 +43,7 @@ export default class MovingItemManager {
       room.tileManager.updateSelectedTile(local.x, local.y);
       room.tileManager.showSelectedTile();
     }
+    this.move();
   }
 
   drop() {
@@ -99,7 +101,7 @@ export default class MovingItemManager {
       this.item.updatePlacement(tileX, tileY);
     } else {
       room.roomItemManager.addItem(tileX, tileY, this.item.getObject());
-      room.container.removeChild(this.item.container);
+      room.landItemContainer.removeChild(this.item.container);
     }
     this.stop();
   }

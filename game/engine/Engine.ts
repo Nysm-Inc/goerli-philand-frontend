@@ -37,9 +37,6 @@ export default class Engine {
 
   async loadGlobalTextures() {
     return new Promise((resolve, reject) => {
-      this.app.loader.onError.add(() => reject("failed to load"));
-      this.app.loader.onComplete.add(() => resolve("loaded"));
-
       for (const [contract, metadataList] of Object.entries(phiObjectMetadataList)) {
         for (const metadata of Object.values(metadataList)) {
           this.app.loader.add(contract + "_" + metadata.tokenId, metadata.image_url, {
@@ -59,6 +56,9 @@ export default class Engine {
           }
         }
       });
+
+      this.app.loader.onError.add(() => reject("failed to load"));
+      this.app.loader.onComplete.add(() => resolve("loaded"));
     });
   }
 
@@ -70,5 +70,9 @@ export default class Engine {
 
   getViewImageDataURL() {
     return this.app.view.toDataURL("image/png");
+  }
+
+  reset() {
+    document.body.removeChild(this.app.view);
   }
 }

@@ -30,7 +30,6 @@ const useDeposit = (
     "checkAllDepositStatus",
     {
       args: ens ? [ens.slice(0, -4)] : [],
-      cacheOnBlock: true,
       watch: true,
       enabled: !disabled,
       onSuccess(data) {

@@ -7,19 +7,23 @@ export type PhiObject = {
   yEnd: number;
 };
 
-export type Balance = { contract: string; tokenId: number; amount: number };
-
-export type DepositObject = {
-  amount: number;
+export type IObject = {
   contractAddress: string;
-  timestamp: number;
   tokenId: number;
-  used: number;
+  sizeX: number;
+  sizeY: number;
 };
 
-export type WriteObject = {
+export type DepositObject = {
   contractAddress: string;
   tokenId: number;
-  xStart: number;
-  yStart: number;
+  amount: number;
+  used: number;
+  timestamp: number;
+};
+
+export type BalanceObject = {
+  contract: string;
+  tokenId: number;
+  amount: number;
 };

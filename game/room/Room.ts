@@ -2,44 +2,55 @@ import { Container, Sprite } from "pixi.js";
 import { Layer } from "@pixi/layers";
 import { GAME_APP_HEIGHT, GAME_APP_WIDTH, LAND_H, LAND_OFFSET_Y, LAND_W, TILE_H, TILE_W } from "~/constants";
 import GameInstance from "~/game/GameInstance";
-import { Tile } from "~/game/types";
 import MovingItemManager from "./item/MovingItemManager";
 import RoomItemManager from "./item/RoomItemManager";
-import { isValidTile, itemToLocal, tileToLocal } from "./pos";
 import TileManager from "./tile/TileManager";
+import { Tile } from "./tile/types";
+import { isValidTile, itemToLocal, tileToLocal } from "./pos";
 
 export default class Room {
   tileManager: TileManager;
   roomItemManager: RoomItemManager;
   movingItemManager: MovingItemManager;
-  container: Container;
-  containerLayer: Layer;
+
+  worldContainer: Container;
+  landContainer: Container;
+  landItemContainer: Container;
+  landItemLayer: Layer;
 
   constructor() {
-    this.container = new Container();
-    this.container.zIndex = 1;
-    this.containerLayer = new Layer();
-    this.containerLayer.zIndex = 2;
-    this.containerLayer.group.enableSort = true;
-
     this.roomItemManager = new RoomItemManager();
     this.movingItemManager = new MovingItemManager();
     this.tileManager = new TileManager();
+
+    this.worldContainer = new Container();
+    this.worldContainer.zIndex = 1;
+    this.landContainer = new Container();
+    this.landContainer.zIndex = 2;
+    this.landItemContainer = new Container();
+    this.landItemContainer.zIndex = 3;
+    this.landItemLayer = new Layer();
+    this.landItemLayer.zIndex = 4;
+    this.landItemLayer.group.enableSort = true;
+  }
+
+  initialize() {
+    const { engine } = GameInstance.get();
+    const landOffsetX = GAME_APP_WIDTH / 2 - LAND_W / 2;
+    const landOffsetY = GAME_APP_HEIGHT / 2 - LAND_H / 2;
+    this.landContainer.x = landOffsetX;
+    this.landContainer.y = landOffsetY;
+    this.landItemContainer.x = landOffsetX;
+    this.landItemContainer.y = landOffsetY;
+    engine.app.stage.addChild(this.worldContainer);
+    engine.app.stage.addChild(this.landContainer);
+    engine.app.stage.addChild(this.landItemContainer);
+    engine.app.stage.addChild(this.landItemLayer);
   }
 
   enterRoom() {
-    const { engine } = GameInstance.get();
-
     const sprite = Sprite.from("land.png");
-    const landOffsetX = GAME_APP_WIDTH / 2 - LAND_W / 2;
-    const landOffsetY = GAME_APP_HEIGHT / 2 - LAND_H / 2;
-    this.container.x = landOffsetX;
-    this.container.y = landOffsetY;
-    this.containerLayer.x = landOffsetX;
-    this.containerLayer.y = landOffsetY;
-    this.container.addChild(sprite);
-    engine.app.stage.addChild(this.container);
-    engine.app.stage.addChild(this.containerLayer);
+    this.landContainer.addChild(sprite);
 
     this.tileManager.setGrid();
     this.tileManager.setSelectedTile();
@@ -47,9 +58,11 @@ export default class Room {
   }
 
   leaveRoom() {
-    const { engine } = GameInstance.get();
-    engine.app.stage.removeChildren();
-    // document.body.removeChild(engine.app.view);
+    const { room } = GameInstance.get();
+    room.roomItemManager.reset();
+    room.tileManager.reset();
+    room.landItemContainer.removeChildren();
+    room.landItemLayer.removeChildren();
   }
 
   view() {
@@ -109,8 +122,8 @@ export default class Room {
   }
 
   globalToTile(globalX: number, globalY: number): Tile {
-    const offsetX = this.container.x + (LAND_W / 2 - TILE_W / 2);
-    const offsetY = this.container.y + LAND_OFFSET_Y;
+    const offsetX = this.landContainer.x + (LAND_W / 2 - TILE_W / 2);
+    const offsetY = this.landContainer.y + LAND_OFFSET_Y;
 
     const xminusy = (globalX - TILE_W / 2 - offsetX) / (TILE_W / 2);
     const xplusy = (globalY - offsetY) / (TILE_H / 2);

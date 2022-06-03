@@ -2,10 +2,10 @@ import { BigNumber } from "ethers";
 import { PhiObjectAbi } from "~/abi";
 import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { phiObjectMetadataList } from "~/types/object";
-import { Balance } from "~/types";
+import { BalanceObject } from "~/types";
 import { useContractRead } from "wagmi";
 
-const useBalances = (account?: string, disabled?: boolean): Balance[] => {
+const useBalances = (account?: string, disabled?: boolean): BalanceObject[] => {
   const { data, isLoading, isFetching } = useContractRead(
     {
       addressOrName: PHI_OBJECT_CONTRACT_ADDRESS,
@@ -19,7 +19,6 @@ const useBalances = (account?: string, disabled?: boolean): Balance[] => {
             Object.keys(phiObjectMetadataList[PHI_OBJECT_CONTRACT_ADDRESS]).map((tokenId) => tokenId),
           ]
         : [],
-      cacheOnBlock: true,
       watch: true,
       enabled: !disabled,
       onSuccess(data) {

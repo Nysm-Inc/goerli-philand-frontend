@@ -1,5 +1,4 @@
-import { PhiObject } from "~/types";
-import { IObject } from "~/game/types";
+import { PhiObject, IObject } from "~/types";
 import GameInstance from "~/game/GameInstance";
 import RoomItem from "./RoomItem";
 
@@ -36,7 +35,7 @@ export default class RoomItemManager {
     const { room } = GameInstance.get();
 
     const item = this.roomItems[uuid];
-    room.container.removeChild(item.container);
+    room.landItemContainer.removeChild(item.container);
     this.removeItemFromTilemap(item.getUUID());
     room.movingItemManager.drop();
     delete this.roomItems[uuid];
@@ -64,5 +63,11 @@ export default class RoomItemManager {
         room.tileManager.setTilemap(x, y, "");
       }
     }
+  }
+
+  reset() {
+    const { room } = GameInstance.get();
+    this.roomItems = {};
+    room.landItemContainer.removeChildren();
   }
 }

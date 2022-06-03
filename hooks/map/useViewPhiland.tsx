@@ -4,7 +4,7 @@ import { PhiMapAbi } from "~/abi";
 import { PHI_MAP_CONTRACT_ADDRESS } from "~/constants";
 import { PhiObject } from "~/types";
 
-const useViewPhiland = (ens?: string | null, disabled?: boolean): PhiObject[] => {
+const useViewPhiland = (ens?: string | null, disabled?: boolean): (PhiObject & { removeIdx: number })[] => {
   const { data, isLoading, isFetching } = useContractRead(
     {
       addressOrName: PHI_MAP_CONTRACT_ADDRESS,
@@ -13,7 +13,6 @@ const useViewPhiland = (ens?: string | null, disabled?: boolean): PhiObject[] =>
     "viewPhiland",
     {
       args: ens ? [ens.slice(0, -4)] : [],
-      cacheOnBlock: true,
       watch: true,
       enabled: !disabled,
       onSuccess(data) {
@@ -23,16 +22,25 @@ const useViewPhiland = (ens?: string | null, disabled?: boolean): PhiObject[] =>
   );
 
   return data
-    ? data.map((object) => {
-        return {
-          contractAddress: object[0],
-          tokenId: BigNumber.from(object[1]).toNumber(),
-          xStart: BigNumber.from(object[2]).toNumber(),
-          yStart: BigNumber.from(object[3]).toNumber(),
-          xEnd: BigNumber.from(object[4]).toNumber(),
-          yEnd: BigNumber.from(object[5]).toNumber(),
-        };
-      })
+    ? data.reduce((memo, object, idx) => {
+        const tokenId = BigNumber.from(object[1]).toNumber();
+        if (tokenId > 0) {
+          return [
+            ...memo,
+            {
+              removeIdx: idx,
+              contractAddress: object[0],
+              tokenId: tokenId,
+              xStart: BigNumber.from(object[2]).toNumber(),
+              yStart: BigNumber.from(object[3]).toNumber(),
+              xEnd: BigNumber.from(object[4]).toNumber(),
+              yEnd: BigNumber.from(object[5]).toNumber(),
+            },
+          ];
+        } else {
+          return memo;
+        }
+      }, [])
     : [];
 };
 

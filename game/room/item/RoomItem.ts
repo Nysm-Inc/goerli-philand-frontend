@@ -1,7 +1,7 @@
 import GameInstance from "~/game/GameInstance";
 import Item from "~/game/item/Item";
 import { isValidTile, itemToLocal } from "~/game/room/pos";
-import { IObject } from "~/game/types";
+import { IObject } from "~/types";
 
 export default class RoomItem extends Item {
   private tileX: number;
@@ -39,7 +39,7 @@ export default class RoomItem extends Item {
     let [px, py] = [this.tileX, this.tileY + sizeY - 1];
     const wrapN = sizeX < sizeY ? sizeX - 1 : sizeY - 1;
     for (let n = 0; n < sizeX + sizeY; n++) {
-      this.sprites[n].parentLayer = room.containerLayer;
+      this.sprites[n].parentLayer = room.landItemLayer;
       this.sprites[n].zOrder = px + py;
       if (n < wrapN) px++;
       if (n > wrapN) py--;

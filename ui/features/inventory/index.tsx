@@ -1,17 +1,23 @@
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Box, Center, Modal, ModalBody, ModalContent, ModalHeader, SimpleGrid } from "@chakra-ui/react";
-import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { phiObjectMetadataList } from "~/types/object";
-import { IObject } from "~/game/types";
+import { IObject } from "~/types";
 
-const Inventry: FC<{
-  readonly: boolean;
+const Inventory: FC<{
   items: IObject[];
   isOpen: boolean;
+  readonly?: boolean;
   onClose: () => void;
   onClickItem: (object: IObject) => void;
-}> = ({ readonly, items, isOpen, onClose, onClickItem }) => {
+}> = ({ readonly, items: originItems, isOpen, onClose, onClickItem }) => {
+  const [items, setItems] = useState<IObject[]>([]);
+
+  useEffect(() => {
+    if (!readonly) return;
+
+    setItems(originItems);
+  }, [isOpen, originItems.length]);
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered size="2xl" scrollBehavior="inside">
       <ModalContent border="2px solid" borderColor="black" borderRadius="none">
@@ -26,6 +32,9 @@ const Inventry: FC<{
                 onClick={() => {
                   if (readonly) return;
                   onClickItem(item);
+                  setItems((prev) =>
+                    prev.filter((p) => !(p.contractAddress === item.contractAddress && p.tokenId === item.tokenId))
+                  );
                   onClose();
                 }}
               >
@@ -45,4 +54,4 @@ const Inventry: FC<{
   );
 };
 
-export default Inventry;
+export default Inventory;

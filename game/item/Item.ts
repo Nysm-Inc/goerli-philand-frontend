@@ -1,7 +1,7 @@
 import { Container, Rectangle, Sprite } from "pixi.js";
 import { PHI_OBJECT_CONTRACT_ADDRESS, TILE_W } from "~/constants";
+import { IObject } from "~/types";
 import GameInstance from "~/game/GameInstance";
-import { IObject } from "~/game/types";
 
 export default class Item {
   private uuid: string;
@@ -38,7 +38,7 @@ export default class Item {
       this.container.addChild(unit);
     }
 
-    room.container.addChild(this.container);
+    room.landItemContainer.addChild(this.container);
   }
 
   getUUID() {

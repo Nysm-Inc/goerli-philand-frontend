@@ -1,7 +1,6 @@
 import { useContractWrite } from "wagmi";
 import { PHI_MAP_CONTRACT_ADDRESS } from "~/constants";
 import { PhiMapAbi } from "~/abi";
-import { WriteObject } from "~/types";
 
 const useSave = (ens?: string | null) => {
   const { data, write } = useContractWrite(
@@ -14,7 +13,12 @@ const useSave = (ens?: string | null) => {
 
   return (
     removeArgs: { removeIdxs: (string | number)[]; remove_check: boolean },
-    writeArgs: WriteObject[],
+    writeArgs: {
+      contractAddress: string;
+      tokenId: number;
+      xStart: number;
+      yStart: number;
+    }[],
     linkArgs: { title: string; url: string }[]
   ) => {
     if (!ens) return;

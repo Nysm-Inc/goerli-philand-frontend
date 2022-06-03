@@ -2,8 +2,10 @@ import { Container, Sprite, Texture, TilingSprite } from "pixi.js";
 import { GAME_APP_HEIGHT, GAME_APP_WIDTH, ROOM_TILE_N } from "~/constants";
 import GameInstance from "~/game/GameInstance";
 import { isValidTile, tileToLocal } from "~/game/room/pos";
-import { Tile } from "~/game/types";
+import { Tile } from "./types";
 import { newTile } from "./Tile";
+
+const emptyTilemap: string[][] = [...Array(ROOM_TILE_N)].map(() => Array(ROOM_TILE_N).fill(""));
 
 export default class TileManager {
   private tileTextures: {
@@ -26,7 +28,7 @@ export default class TileManager {
 
     this.selectedTile = new Container();
     this.selectedTile.addChild(new Sprite(this.tileTextures.selected));
-    this.tileMap = [...Array(ROOM_TILE_N)].map(() => Array(ROOM_TILE_N).fill(""));
+    this.tileMap = emptyTilemap;
     this.worldGrid = new TilingSprite(this.tileTextures.grid, GAME_APP_WIDTH, GAME_APP_HEIGHT);
     this.landGrid = new Container();
     this.collisionTiles = new Container();
@@ -63,7 +65,7 @@ export default class TileManager {
     const { room } = GameInstance.get();
 
     this.collisionTiles.visible = false;
-    room.container.addChild(this.collisionTiles);
+    room.landContainer.addChild(this.collisionTiles);
   }
 
   showCollisionTiles() {
@@ -92,7 +94,7 @@ export default class TileManager {
     const { room } = GameInstance.get();
 
     this.selectedTile.visible = false;
-    room.container.addChild(this.selectedTile);
+    room.landContainer.addChild(this.selectedTile);
   }
 
   updateSelectedTile(localX: number, localY: number) {
@@ -109,13 +111,13 @@ export default class TileManager {
   }
 
   setGrid() {
-    const { engine, room } = GameInstance.get();
+    const { room } = GameInstance.get();
 
     this.landGrid.visible = false;
     this.worldGrid.visible = false;
 
-    room.container.addChild(this.landGrid);
-    engine.app.stage.addChild(this.worldGrid);
+    room.landContainer.addChild(this.landGrid);
+    room.worldContainer.addChild(this.worldGrid);
   }
 
   showGrid() {
@@ -132,5 +134,13 @@ export default class TileManager {
     engine.app.stage.interactiveChildren = false;
     this.worldGrid.visible = false;
     this.landGrid.visible = false;
+  }
+
+  reset() {
+    const { room } = GameInstance.get();
+
+    this.tileMap = emptyTilemap;
+    this.updateSelectedTile(0, 0);
+    room.landContainer.removeChildren();
   }
 }
