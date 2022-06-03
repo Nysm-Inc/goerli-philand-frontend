@@ -1,13 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
-import { BigNumber, ethers } from "ethers";
-import { Web3Provider } from "@ethersproject/providers";
+import { useContractRead, useContractWrite } from "wagmi";
+import { BigNumber } from "ethers";
 import { PHI_MAP_CONTRACT_ADDRESS, PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { PhiMapAbi } from "~/abi";
 import { DepositObject } from "~/types";
 
 const useDeposit = (
-  ens: string | null | undefined,
-  provider?: Web3Provider
+  ens?: string | null
 ): [
   DepositObject[],
   (
@@ -15,76 +13,83 @@ const useDeposit = (
       tokenId: number;
       amount: number;
     }[]
-  ) => Promise<any>,
+  ) => void,
   (
     args: {
       tokenId: number;
       amount: number;
     }[]
-  ) => Promise<any>
+  ) => void
 ] => {
-  const [depositObjects, setDepositObjects] = useState<DepositObject[]>([]);
-
-  const deposit = useCallback(
-    async (args: { tokenId: number; amount: number }[]) => {
-      if (!ens || !provider) return;
-
-      const singer = provider.getSigner();
-      const contract = new ethers.Contract(PHI_MAP_CONTRACT_ADDRESS, PhiMapAbi, singer);
-
-      const calldata = [
-        ens.slice(0, -4),
-        args.map(() => PHI_OBJECT_CONTRACT_ADDRESS),
-        args.map((arg) => arg.tokenId),
-        args.map((arg) => arg.amount),
-      ];
-      return await contract.batchDeposit(...calldata);
+  const { data, isLoading, isFetching } = useContractRead(
+    {
+      addressOrName: PHI_MAP_CONTRACT_ADDRESS,
+      contractInterface: PhiMapAbi,
     },
-    [ens, provider]
+    "checkAllDepositStatus",
+    {
+      args: ens ? [ens.slice(0, -4)] : [],
+      cacheOnBlock: true,
+      watch: true,
+      onSuccess(data) {
+        //
+      },
+    }
+  );
+  const { write: deposit } = useContractWrite(
+    {
+      addressOrName: PHI_MAP_CONTRACT_ADDRESS,
+      contractInterface: PhiMapAbi,
+    },
+    "batchDeposit"
+  );
+  const { write: undeposit } = useContractWrite(
+    {
+      addressOrName: PHI_MAP_CONTRACT_ADDRESS,
+      contractInterface: PhiMapAbi,
+    },
+    "batchUnDeposit"
   );
 
-  const undeposit = useCallback(
-    async (args: { tokenId: number; amount: number }[]) => {
-      if (!ens || !provider) return;
+  const onDeposit = async (args: { tokenId: number; amount: number }[]) => {
+    if (!ens) return;
 
-      const singer = provider.getSigner();
-      const contract = new ethers.Contract(PHI_MAP_CONTRACT_ADDRESS, PhiMapAbi, singer);
+    const calldata = [
+      ens.slice(0, -4),
+      args.map(() => PHI_OBJECT_CONTRACT_ADDRESS),
+      args.map((arg) => arg.tokenId),
+      args.map((arg) => arg.amount),
+    ];
+    return deposit({ args: calldata });
+  };
 
-      const calldata = [
-        ens.slice(0, -4),
-        args.map(() => PHI_OBJECT_CONTRACT_ADDRESS),
-        args.map((arg) => arg.tokenId),
-        args.map((arg) => arg.amount),
-      ];
-      return await contract.batchUnDeposit(...calldata);
-    },
-    [ens, provider]
-  );
+  const onUndeposit = async (args: { tokenId: number; amount: number }[]) => {
+    if (!ens) return;
 
-  useEffect(() => {
-    if (!ens || !provider) return;
+    const calldata = [
+      ens.slice(0, -4),
+      args.map(() => PHI_OBJECT_CONTRACT_ADDRESS),
+      args.map((arg) => arg.tokenId),
+      args.map((arg) => arg.amount),
+    ];
+    return undeposit({ args: calldata });
+  };
 
-    (async () => {
-      const singer = provider.getSigner();
-      const contract = new ethers.Contract(PHI_MAP_CONTRACT_ADDRESS, PhiMapAbi, singer);
-
-      const calldata = [ens.slice(0, -4)];
-      const res = await contract.checkAllDepositStatus(...calldata);
-      // @ts-ignore
-      const parsed: DepositObject[] = res.map((object) => {
-        return {
-          contractAddress: object.contractAddress,
-          tokenId: BigNumber.from(object.tokenId).toNumber(),
-          timestamp: BigNumber.from(object.timestamp).toNumber(),
-          amount: BigNumber.from(object.amount).toNumber(),
-          used: BigNumber.from(object.used).toNumber(),
-        };
-      });
-      setDepositObjects(parsed);
-    })();
-  }, [ens, provider]);
-
-  return [depositObjects, deposit, undeposit];
+  return [
+    data
+      ? data.map((object) => {
+          return {
+            contractAddress: object[0],
+            tokenId: BigNumber.from(object[1]).toNumber(),
+            timestamp: BigNumber.from(object[4]).toNumber(),
+            amount: BigNumber.from(object[2]).toNumber(),
+            used: BigNumber.from(object[3]).toNumber(),
+          };
+        })
+      : [],
+    onDeposit,
+    onUndeposit,
+  ];
 };
 
 export default useDeposit;

@@ -1,13 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { Web3Provider } from "@ethersproject/providers";
 import { getOwnedEnsDomains } from "~/utils/ens";
 
 // todo: localStorage
-const useENS = (
-  account: string | null | undefined,
-  ens: string | null | undefined,
-  provider?: Web3Provider
-): [string[], string, (ens: string) => void] => {
+const useENS = (account?: string, ens?: string | null): [string[], string, (ens: string) => void] => {
   const [current, setCurrent] = useState("");
   const [domains, setDomains] = useState<string[]>([]);
 
@@ -16,13 +11,13 @@ const useENS = (
   }, []);
 
   useEffect(() => {
-    if (!account || !provider) return;
+    if (!account) return;
 
     (async () => {
       const ownedDomains = await getOwnedEnsDomains(account);
       setDomains(ownedDomains.map((domain) => domain.name));
     })();
-  }, [account, provider]);
+  }, [account]);
 
   useEffect(() => {
     if (!ens) return;

@@ -1,19 +1,21 @@
 import { FC, useEffect } from "react";
+import { chain, useAccount, useConnect, useDisconnect } from "wagmi";
 import { Box, Flex, Text, useTheme } from "@chakra-ui/react";
-import metaMask, { useAccount, useChainId } from "~/connectors/metamask";
+import metamaskConnector from "~/connectors/metamask";
 
 const Wallet: FC = () => {
   const theme = useTheme();
-  const account = useAccount();
-  const chainID = useChainId();
+  const { data: account } = useAccount();
+  const { connect } = useConnect({ connector: metamaskConnector });
+  // const { disconnect } = useDisconnect();
 
   useEffect(() => {
-    metaMask.activate(5);
-  }, [chainID]);
+    connect({ chainId: chain.goerli.id });
+  }, []);
 
   return (
     <>
-      {!account ? (
+      {!account?.address ? (
         <Flex
           w="144px"
           h="40px"
@@ -24,7 +26,7 @@ const Wallet: FC = () => {
           cursor="pointer"
           onClick={() => {
             try {
-              metaMask.activate(5);
+              connect({ chainId: chain.goerli.id });
             } catch (err) {
               console.log(err);
             }
@@ -40,8 +42,15 @@ const Wallet: FC = () => {
           justify="space-around"
           align="center"
           border={`1px solid ${theme.colors.surface.high}`}
+          onClick={() => {
+            try {
+              // disconnect();
+            } catch (err) {
+              console.log(err);
+            }
+          }}
         >
-          <Text>{`${account.substring(0, 4)}...${account.substring(account.length - 4)}`}</Text>
+          <Text>{`${account.address.substring(0, 4)}...${account.address.substring(account.address.length - 4)}`}</Text>
           <Box w="24px" h="24px" bgColor="#c4c4c4" borderRadius="full" />
         </Flex>
       )}

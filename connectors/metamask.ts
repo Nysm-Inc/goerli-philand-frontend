@@ -1,7 +1,9 @@
-import { initializeConnector } from "@web3-react/core";
-import { MetaMask } from "@web3-react/metamask";
+import { chain } from "wagmi";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 
-const [metaMask, hooks] = initializeConnector<MetaMask>((actions) => new MetaMask(actions));
+const metamask = new MetaMaskConnector({
+  chains: [chain.goerli],
+  // options: {},
+});
 
-export const { useAccount, useChainId, useENSName, useProvider } = hooks;
-export default metaMask;
+export default metamask;

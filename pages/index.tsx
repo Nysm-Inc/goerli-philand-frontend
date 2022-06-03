@@ -1,14 +1,14 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef } from "react";
+import { useAccount, useEnsName } from "wagmi";
 import { Box, Center, Flex, HStack, useDisclosure, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Quest from "~/ui/features/quest";
 import Inventry from "~/ui/features/inventry";
 import Collection from "~/ui/features/collection";
 import { ActionMenu, useActionMenu, Button, Wallet, SelectBox } from "~/ui/components";
-import { useAccount, useENSName, useProvider } from "~/connectors/metamask";
 import { useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
 import { useDeposit, useSave, useViewPhiland } from "~/hooks/map";
@@ -16,24 +16,26 @@ import { useBalances } from "~/hooks/object";
 import { useClaim } from "~/hooks/claim";
 import { IObject } from "~/game/types";
 import { phiObjectMetadataList } from "~/types/object";
+import { PhiObject } from "~/types";
 
 const Index: NextPage = () => {
   // memo: avoid react strict mode (for dev)
-  const loadedRef = useRef(false);
+  const loadGameRef = useRef(false);
+  const enterRoomRef = useRef(false);
+  const loadItemRef = useRef(false);
 
   const router = useRouter();
   const { game } = useContext(AppContext);
-  const provider = useProvider();
-  const account = useAccount();
-  const ens = useENSName(provider);
+  const { data: account } = useAccount();
+  const { data: ens } = useEnsName({ address: account?.address });
 
-  const [domains, currentENS, switchCurrentENS] = useENS(account, ens, provider);
-  const [{ loading, isCreated }, createPhiland] = useCreatePhiland(currentENS, provider);
-  const balances = useBalances(account, provider);
-  const claimObject = useClaim(account, provider);
-  const phiObjects = useViewPhiland(ens, provider);
-  const [depositObjects] = useDeposit(ens, provider);
-  const save = useSave(ens, provider);
+  const [domains, currentENS, switchCurrentENS] = useENS(account?.address, ens);
+  const balances = useBalances(account?.address);
+  const [{ loading, isCreated }, createPhiland] = useCreatePhiland(currentENS);
+  const phiObjects = useViewPhiland(ens);
+  const claimObject = useClaim(account?.address);
+  const [depositObjects] = useDeposit(ens);
+  const save = useSave(ens);
 
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
@@ -63,25 +65,92 @@ const Index: NextPage = () => {
     game.room.movingItemManager.move();
   }, []);
 
-  const diff = useMemo(() => {
-    //
-  }, []);
+  // todo: refactor
+  const onSave = () => {
+    const immutable = (prevObject: PhiObject, newObject: PhiObject) => {
+      return (
+        prevObject.xStart === newObject.xStart &&
+        prevObject.yStart === newObject.yStart &&
+        prevObject.contractAddress === newObject.contractAddress &&
+        prevObject.tokenId === newObject.tokenId
+      );
+    };
+
+    const roomItems = game.room.roomItemManager.getItems();
+    const prevPhiObjects = phiObjects.reduce((memo, object, idx) => {
+      if (object.tokenId) {
+        return { ...memo, [idx]: object };
+      } else {
+        return memo;
+      }
+    }, {} as { [removeIdx: string]: PhiObject });
+    const newPhiObjects: PhiObject[] = Object.values(roomItems).map((item) => {
+      const [tileX, tileY] = item.getTile();
+      const [sizeX, sizeY] = item.getSize();
+      const object = item.getObject();
+      return {
+        contractAddress: object.contractAddress,
+        tokenId: object.tokenId,
+        xStart: tileX,
+        yStart: tileY,
+        xEnd: tileX + sizeX,
+        yEnd: tileY + sizeY,
+      };
+    });
+
+    const removeIdxs = Object.keys(prevPhiObjects).reduce((memo, removeIdx) => {
+      if (newPhiObjects.some((newObject) => immutable(prevPhiObjects[removeIdx], newObject))) {
+        return memo;
+      } else {
+        return [...memo, removeIdx];
+      }
+    }, [] as string[]);
+    const writeArgs = newPhiObjects.reduce((memo, newObject) => {
+      if (Object.values(prevPhiObjects).some((prevObject) => immutable(prevObject, newObject))) {
+        return memo;
+      } else {
+        return [...memo, newObject];
+      }
+    }, [] as PhiObject[]);
+
+    save(
+      { removeIdxs: removeIdxs, remove_check: removeIdxs.length > 0 },
+      writeArgs,
+      writeArgs.map(() => {
+        return { title: "", url: "" };
+      })
+    );
+  };
 
   useEffect(() => {
-    if (loadedRef.current) return;
-    loadedRef.current = true;
+    if (loadGameRef.current) return;
+    loadGameRef.current = true;
 
     game.loadGame(onOpenActionMenu);
   }, []);
 
   useEffect(() => {
     if (isCreated || phiObjects.length > 0) {
-      game.room.enterRoom();
+      if (enterRoomRef.current) return;
+      enterRoomRef.current = true;
 
-      // todo
-      game.room.roomItemManager.loadItems(phiObjects.filter((object) => object.tokenId));
+      game.room.enterRoom();
     }
-  }, [isCreated, phiObjects.length]);
+  }, [isCreated]);
+
+  useEffect(() => {
+    if (!enterRoomRef.current) return;
+    const _phiObjects = phiObjects.filter((object) => object.tokenId > 0);
+    if (_phiObjects.length <= 0) return;
+    if (loadItemRef.current) return;
+    loadItemRef.current = true;
+
+    game.room.roomItemManager.loadItems(_phiObjects);
+  }, [phiObjects.length, enterRoomRef.current]);
+
+  useEffect(() => {
+    // todo: leaveRoom();
+  }, [isCreated]);
 
   return (
     <>
@@ -109,15 +178,22 @@ const Index: NextPage = () => {
         <Collection balances={balances} isOpen={isOpenCollection} onClose={onCloseCollection} />
         <Inventry
           readonly={!isEdit}
-          items={depositObjects.map((object) => {
-            const metadata = phiObjectMetadataList[object.contractAddress][object.tokenId];
-            return {
-              contractAddress: object.contractAddress,
-              tokenId: metadata.tokenId,
-              sizeX: metadata.size[0],
-              sizeY: metadata.size[1],
-            };
-          })}
+          items={depositObjects.reduce((memo, object) => {
+            if (object.amount - object.used > 0) {
+              const metadata = phiObjectMetadataList[object.contractAddress][object.tokenId];
+              return [
+                ...memo,
+                {
+                  contractAddress: object.contractAddress,
+                  tokenId: metadata.tokenId,
+                  sizeX: metadata.size[0],
+                  sizeY: metadata.size[1],
+                },
+              ];
+            } else {
+              return memo;
+            }
+          }, [] as IObject[])}
           isOpen={isOpenInventory}
           onClose={onCloseInventory}
           onClickItem={onPickFromInventory}
@@ -175,9 +251,27 @@ const Index: NextPage = () => {
                 cursor="pointer"
                 onClick={isEdit ? viewMode : editMode}
               >
-                <Image src={`/icons/${isEdit ? "disk" : "pencil"}.svg`} width="32px" height="32px" />
+                <Image src={`/icons/${isEdit ? "arrow-back" : "pencil"}.svg`} width="32px" height="32px" />
               </Center>
-              <Box w="40px" h="40px" border="1px solid" borderColor="black" />
+              <Center
+                w="40px"
+                h="40px"
+                border="1px solid"
+                borderColor="black"
+                bgColor="white"
+                cursor="pointer"
+                onClick={
+                  isEdit
+                    ? () => {
+                        onSave();
+                      }
+                    : () => {
+                        alert("share to twitter");
+                      }
+                }
+              >
+                <Image src={`/icons/${isEdit ? "disk" : "upload"}.svg`} width="32px" height="32px" />
+              </Center>
             </Flex>
           </>
         </>

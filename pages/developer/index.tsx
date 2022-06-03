@@ -1,16 +1,15 @@
 import type { NextPage } from "next";
 import { Button, HStack, Text, VStack } from "@chakra-ui/react";
-import { useENSName, useProvider } from "~/connectors/metamask";
 import { useDeposit } from "~/hooks/map";
-import { useApproveAll } from "~/hooks/object";
+import { useApproveAll, useBalances } from "~/hooks/object";
 import Wallet from "~/ui/components/Wallet";
+import { useAccount, useEnsName, useEnsAvatar } from "wagmi";
 
 const Index: NextPage = () => {
-  const provider = useProvider();
-  const ens = useENSName(provider);
-
-  const approveAllPhiPbject = useApproveAll(provider);
-  const [_, deposit, undeposit] = useDeposit(ens, provider);
+  const { data: account } = useAccount();
+  const { data: ens } = useEnsName({ address: account?.address });
+  const approveAllPhiPbject = useApproveAll();
+  const [_, deposit, undeposit] = useDeposit(ens);
 
   return (
     <VStack p="16">
@@ -18,8 +17,8 @@ const Index: NextPage = () => {
         <Wallet />
         <Text>/{ens}</Text>
       </HStack>
-      <Button onClick={approveAllPhiPbject}>Approve All</Button>
-      <HStack>
+      <Button onClick={() => approveAllPhiPbject()}>Approve All</Button>
+      {/* <HStack>
         <Button
           onClick={() =>
             deposit([
@@ -40,7 +39,7 @@ const Index: NextPage = () => {
         >
           UnDeposit Objects 1 and 2
         </Button>
-      </HStack>
+      </HStack> */}
     </VStack>
   );
 };

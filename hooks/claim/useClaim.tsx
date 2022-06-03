@@ -1,27 +1,28 @@
-import { useCallback } from "react";
-import { ethers } from "ethers";
-import { Web3Provider } from "@ethersproject/providers";
+import { useContractWrite } from "wagmi";
 import { PHI_CLAIM_CONTRACT_ADDRESS } from "~/constants";
 import { PhiClaimAbi } from "~/abi";
 import { getCoupon } from "~/utils/coupon";
 import { conditionList } from "~/types/quest";
 
-const useClaim = (address?: string, provider?: Web3Provider) => {
-  return useCallback(
-    async (contractAddress: string, tokenId: number) => {
-      if (!address || !provider) return;
-      const coupon = await getCoupon(address, tokenId);
-      if (!coupon) return;
-
-      const singer = provider.getSigner();
-      const contract = new ethers.Contract(PHI_CLAIM_CONTRACT_ADDRESS, PhiClaimAbi, singer);
-
-      const condition = conditionList[tokenId];
-      const calldata = [contractAddress, tokenId, condition.name + condition.value.toString(), coupon];
-      return await contract.claimPhiObject(...calldata);
+const useClaim = (address?: string) => {
+  const { data, write } = useContractWrite(
+    {
+      addressOrName: PHI_CLAIM_CONTRACT_ADDRESS,
+      contractInterface: PhiClaimAbi,
     },
-    [address, provider]
+    "claimPhiObject"
   );
+
+  return async (contractAddress: string, tokenId: number) => {
+    if (!address) return;
+
+    const coupon = await getCoupon(address, tokenId);
+    if (!coupon) return;
+
+    const condition = conditionList[tokenId];
+    const calldata = [contractAddress, tokenId, condition.name + condition.value.toString(), coupon];
+    write({ args: calldata });
+  };
 };
 
 export default useClaim;

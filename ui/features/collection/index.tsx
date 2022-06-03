@@ -17,9 +17,9 @@ const Collection: FC<{ balances: Balance[]; isOpen: boolean; onClose: () => void
           <SimpleGrid columns={3} spacing="16px">
             {balances.map((balance, i) => {
               return (
-                <Box key={i}>
+                <>
                   {balance.amount > 0 && (
-                    <Center height="128px" cursor="pointer">
+                    <Center key={i} height="128px" cursor="pointer">
                       <Box width="96px" height="96px" position="relative">
                         <Image
                           src={phiObjectMetadataList[balance.contract][balance.tokenId].image_url}
@@ -29,7 +29,7 @@ const Collection: FC<{ balances: Balance[]; isOpen: boolean; onClose: () => void
                       </Box>
                     </Center>
                   )}
-                </Box>
+                </>
               );
             })}
           </SimpleGrid>
