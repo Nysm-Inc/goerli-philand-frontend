@@ -5,7 +5,7 @@ import { PHI_MAP_CONTRACT_ADDRESS } from "~/constants";
 import { PhiObject } from "~/types";
 
 const useViewPhiland = (ens?: string | null, disabled?: boolean): (PhiObject & { removeIdx: number })[] => {
-  const { data, isLoading, isFetching } = useContractRead(
+  const { data, isFetching } = useContractRead(
     {
       addressOrName: PHI_MAP_CONTRACT_ADDRESS,
       contractInterface: PhiMapAbi,
@@ -21,7 +21,7 @@ const useViewPhiland = (ens?: string | null, disabled?: boolean): (PhiObject & {
     }
   );
 
-  return data
+  return !isFetching && data
     ? data.reduce((memo, object, idx) => {
         const tokenId = BigNumber.from(object[1]).toNumber();
         if (tokenId > 0) {

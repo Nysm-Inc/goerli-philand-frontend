@@ -1,6 +1,5 @@
 import { NextPage } from "next";
-import { useRouter } from "next/router";
-import { Divider, Link, Text, VStack } from "@chakra-ui/react";
+import { Link, Text, VStack } from "@chakra-ui/react";
 import {
   PHI_CLAIM_CONTRACT_ADDRESS,
   PHI_MAP_CONTRACT_ADDRESS,
@@ -11,7 +10,6 @@ import {
 const baseURL = "https://goerli.etherscan.io/address/";
 
 const Explorer: NextPage = () => {
-  const router = useRouter();
   return (
     <VStack p="16">
       <Text fontSize="xl">Goerli Etherscan</Text>
@@ -33,10 +31,6 @@ const Explorer: NextPage = () => {
       <Link href={baseURL + PHI_CLAIM_CONTRACT_ADDRESS} isExternal textDecoration="underline">
         Phi Claim
       </Link>
-      <Divider />
-      <Text fontSize="md" textDecoration="underline" cursor="pointer" onClick={() => router.push("developer")}>
-        developer mode
-      </Text>
     </VStack>
   );
 };

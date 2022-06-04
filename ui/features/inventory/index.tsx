@@ -1,23 +1,99 @@
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
-import { Box, Center, Modal, ModalBody, ModalContent, ModalHeader, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import { phiObjectMetadataList } from "~/types/object";
-import { IObject } from "~/types";
+import { BalanceObject, DepositObject, IObject } from "~/types";
+import { QuantityInput } from "~/ui/components";
 
-const Inventory: FC<{
-  items: IObject[];
-  isOpen: boolean;
-  readonly?: boolean;
-  onClose: () => void;
-  onClickItem: (object: IObject) => void;
-}> = ({ readonly, items: originItems, isOpen, onClose, onClickItem }) => {
-  const [items, setItems] = useState<IObject[]>([]);
+type InventoryObject = DepositObject & { selected: number; deposited: boolean };
+
+export const useInventory = (
+  originItems: DepositObject[]
+): [
+  InventoryObject[],
+  (idx: number) => void,
+  (idx: number) => void,
+  (contract: string, tokenId: number) => void,
+  (contract: string, tokenId: number) => void
+] => {
+  const [items, setItems] = useState<InventoryObject[]>([]);
+
+  const plus = (idx: number) => {
+    const copied = [...items];
+    copied[idx].selected += 1;
+    setItems(copied);
+  };
+  const minus = (idx: number) => {
+    const copied = [...items];
+    copied[idx].selected -= 1;
+    setItems(copied);
+  };
+  const plusUsed = (contract: string, tokenId: number) => {
+    const copied = [...items];
+    const idx = copied.findIndex((c) => c.contractAddress === contract && c.tokenId === tokenId);
+    copied[idx].used += 1;
+    if (copied[idx].amount - copied[idx].used > 0) {
+      setItems(copied);
+    } else {
+      setItems(copied.filter((_, i) => i !== idx));
+    }
+  };
+  const minusUsed = (contract: string, tokenId: number) => {
+    let copied = [...items];
+    const idx = copied.findIndex((c) => c.contractAddress === contract && c.tokenId === tokenId);
+    if (idx > 0) {
+      copied[idx].used -= 1;
+    } else {
+      copied = [
+        ...copied,
+        {
+          contractAddress: contract,
+          tokenId: tokenId,
+          amount: 1,
+          used: 0,
+          selected: 0,
+          deposited: true,
+        },
+      ];
+    }
+    copied.sort((a, b) => a.tokenId - b.tokenId);
+    setItems(copied);
+  };
 
   useEffect(() => {
-    if (!readonly) return;
+    const deposited = items.filter((item) => item.deposited);
+    const origin = originItems.map((item) => {
+      return { ...item, selected: 0, deposited: false };
+    });
 
-    setItems(originItems);
-  }, [isOpen, originItems.length]);
+    const updated = [...deposited, ...origin];
+    updated.sort((a, b) => a.tokenId - b.tokenId);
+    setItems(updated);
+  }, [originItems.length]);
+
+  return [items, plus, minus, plusUsed, minusUsed];
+};
+
+const Inventory: FC<{
+  items: InventoryObject[];
+  isOpen: boolean;
+  readonly: boolean;
+  onClose: () => void;
+  onClickPlus: (idx: number) => void;
+  onClickMinus: (idx: number) => void;
+  onClickItem: (object: IObject) => void;
+  onSubmit: (args: BalanceObject[]) => void;
+}> = ({ readonly, items, isOpen, onClose, onClickPlus, onClickMinus, onClickItem, onSubmit }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered size="2xl" scrollBehavior="inside">
       <ModalContent border="2px solid" borderColor="black" borderRadius="none">
@@ -25,30 +101,71 @@ const Inventory: FC<{
         <ModalBody>
           <SimpleGrid columns={3} spacing="16px">
             {items.map((item, i) => (
-              <Center
-                key={i}
-                height="128px"
-                cursor={readonly ? "" : "pointer"}
-                onClick={() => {
-                  if (readonly) return;
-                  onClickItem(item);
-                  setItems((prev) =>
-                    prev.filter((p) => !(p.contractAddress === item.contractAddress && p.tokenId === item.tokenId))
-                  );
-                  onClose();
-                }}
-              >
-                <Box width="96px" height="96px" position="relative">
+              <Center key={i} position="relative" height="128px">
+                <Box
+                  position="relative"
+                  width="96px"
+                  height="96px"
+                  cursor={readonly ? "" : "pointer"}
+                  onClick={() => {
+                    if (readonly) return;
+
+                    const metadata = phiObjectMetadataList[item.contractAddress][item.tokenId];
+                    onClickItem({
+                      contractAddress: item.contractAddress,
+                      tokenId: item.tokenId,
+                      sizeX: metadata.size[0],
+                      sizeY: metadata.size[1],
+                    });
+                    onClose();
+                  }}
+                >
                   <Image
                     src={phiObjectMetadataList[item.contractAddress][item.tokenId].image_url}
                     layout="fill"
                     objectFit="contain"
                   />
                 </Box>
+                {!item.deposited && (
+                  <Box position="absolute" top={0} right={0}>
+                    <QuantityInput
+                      num={item.selected}
+                      balance={item.amount}
+                      handleClickPlus={() => onClickPlus(i)}
+                      handleClickMinus={() => onClickMinus(i)}
+                    />
+                  </Box>
+                )}
               </Center>
             ))}
           </SimpleGrid>
         </ModalBody>
+        <ModalFooter justifyContent="center">
+          <Button
+            bgColor="gray.800"
+            borderRadius="12px"
+            color="white"
+            onClick={() => {
+              const args = items.reduce((memo, item) => {
+                if (item.selected > 0) {
+                  return [
+                    ...memo,
+                    {
+                      contract: item.contractAddress,
+                      tokenId: item.tokenId,
+                      amount: item.selected,
+                    },
+                  ];
+                } else {
+                  return memo;
+                }
+              }, [] as BalanceObject[]);
+              onSubmit(args);
+            }}
+          >
+            Withdraw Objects / {items.filter((item) => item.selected > 0).length}
+          </Button>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );

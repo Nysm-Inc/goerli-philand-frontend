@@ -6,7 +6,7 @@ import { BalanceObject } from "~/types";
 import { useContractRead } from "wagmi";
 
 const useBalances = (account?: string, disabled?: boolean): BalanceObject[] => {
-  const { data, isLoading, isFetching } = useContractRead(
+  const { data, isFetching } = useContractRead(
     {
       addressOrName: PHI_OBJECT_CONTRACT_ADDRESS,
       contractInterface: PhiObjectAbi,
@@ -27,14 +27,22 @@ const useBalances = (account?: string, disabled?: boolean): BalanceObject[] => {
     }
   );
 
-  return data
-    ? data.map((balance, i) => {
-        return {
-          contract: PHI_OBJECT_CONTRACT_ADDRESS,
-          tokenId: i + 1,
-          amount: BigNumber.from(balance).toNumber(),
-        };
-      })
+  return !isFetching && data
+    ? data.reduce((memo, balance, i) => {
+        const amount = BigNumber.from(balance).toNumber();
+        if (amount > 0) {
+          return [
+            ...memo,
+            {
+              contract: PHI_OBJECT_CONTRACT_ADDRESS,
+              tokenId: i + 1,
+              amount: BigNumber.from(balance).toNumber(),
+            },
+          ];
+        } else {
+          return memo;
+        }
+      }, [])
     : [];
 };
 

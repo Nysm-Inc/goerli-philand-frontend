@@ -19,7 +19,7 @@ export type DepositObject = {
   tokenId: number;
   amount: number;
   used: number;
-  timestamp: number;
+  timestamp?: number;
 };
 
 export type BalanceObject = {

@@ -2,19 +2,18 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useCallback, useContext, useEffect, useRef } from "react";
-import { useAccount, useEnsAvatar, useEnsName } from "wagmi";
+import { useAccount, useEnsName } from "wagmi";
 import { Box, Center, Flex, HStack, useDisclosure, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Quest from "~/ui/features/quest";
-import Inventory from "~/ui/features/inventory";
-import Collection from "~/ui/features/collection";
+import Inventory, { useInventory } from "~/ui/features/inventory";
+import Collection, { useCollection } from "~/ui/features/collection";
 import { ActionMenu, useActionMenu, Button, Wallet, SelectBox } from "~/ui/components";
 import { useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
 import { useDeposit, useSave, useViewPhiland } from "~/hooks/map";
-import { useBalances } from "~/hooks/object";
+import { useApproveAll, useBalances } from "~/hooks/object";
 import { useClaim } from "~/hooks/claim";
-import { phiObjectMetadataList } from "~/types/object";
 import { PhiObject, IObject } from "~/types";
 
 const Index: NextPage = () => {
@@ -35,10 +34,13 @@ const Index: NextPage = () => {
   const [domains, currentENS, switchCurrentENS] = useENS(account?.address, ens);
   const [{ loading, isCreated }, createPhiland] = useCreatePhiland(currentENS);
   const phiObjects = useViewPhiland(currentENS, isEdit); // error
-  const [depositObjects] = useDeposit(currentENS, isEdit); // error
+  const [depositObjects, deposit, withdraw] = useDeposit(currentENS); // error
   const save = useSave(currentENS);
   const claimObject = useClaim(account?.address);
-  const balances = useBalances(account?.address, isEdit);
+  const balanceObjects = useBalances(account?.address);
+  const [isApproved, approveAllPhiPbject] = useApproveAll(account?.address);
+  const [collectionItems, colPlus, colMinus] = useCollection(balanceObjects);
+  const [inventoryItems, invPlus, invMinus, plusUsed, minusUsed] = useInventory(depositObjects);
 
   const editMode = useCallback(() => {
     game.room.edit();
@@ -58,11 +60,19 @@ const Index: NextPage = () => {
     game.room.movingItemManager.move();
   }, []);
   const onRemoveObject = useCallback(() => {
-    game.room.roomItemManager.removeItem(actionMenuState.id);
-  }, [actionMenuState.id]);
-  const onPickFromInventory = useCallback((object: IObject) => {
-    game.room.movingItemManager.pickFromInventory(object);
-  }, []);
+    const roomItems = game.room.roomItemManager.getItems();
+    const item = roomItems[actionMenuState.id];
+    game.room.roomItemManager.removeItem(item.getUUID());
+    const object = item.getObject();
+    minusUsed(object.contractAddress, object.tokenId);
+  }, [minusUsed, actionMenuState.id]);
+  const onPickFromInventory = useCallback(
+    (object: IObject) => {
+      game.room.movingItemManager.pickFromInventory(object);
+      plusUsed(object.contractAddress, object.tokenId);
+    },
+    [plusUsed]
+  );
 
   // todo: const diff = useMemo(() => {}, [])
   const onSave = () => {
@@ -104,6 +114,7 @@ const Index: NextPage = () => {
     );
   };
 
+  // todo: dependency hooks
   useEffect(() => {
     if (loadGameRef.current) return;
 
@@ -112,7 +123,6 @@ const Index: NextPage = () => {
       loadGameRef.current = true;
     })();
   }, []);
-
   useEffect(() => {
     if (!loadGameRef) return;
 
@@ -122,7 +132,6 @@ const Index: NextPage = () => {
       game.room.leaveRoom();
     }
   }, [isCreated]);
-
   useEffect(() => {
     if (!loadGameRef) return;
 
@@ -154,28 +163,25 @@ const Index: NextPage = () => {
 
       <>
         <Quest isOpen={isOpenQuest} onClose={onCloseQuest} onClickItem={claimObject} />
-        <Collection items={balances} isOpen={isOpenCollection} readonly={!isEdit} onClose={onCloseCollection} />
+        <Collection
+          items={collectionItems}
+          isApproved={isApproved}
+          isOpen={isOpenCollection}
+          onClose={onCloseCollection}
+          onClickPlus={colPlus}
+          onClickMinus={colMinus}
+          onApprove={approveAllPhiPbject}
+          onSubmit={deposit}
+        />
         <Inventory
-          items={depositObjects.reduce((memo, object) => {
-            if (object.amount - object.used > 0) {
-              const metadata = phiObjectMetadataList[object.contractAddress][object.tokenId];
-              return [
-                ...memo,
-                {
-                  contractAddress: object.contractAddress,
-                  tokenId: metadata.tokenId,
-                  sizeX: metadata.size[0],
-                  sizeY: metadata.size[1],
-                },
-              ];
-            } else {
-              return memo;
-            }
-          }, [] as IObject[])}
+          items={inventoryItems}
           isOpen={isOpenInventory}
           readonly={!isEdit}
           onClose={onCloseInventory}
+          onClickPlus={invPlus}
+          onClickMinus={invMinus}
           onClickItem={onPickFromInventory}
+          onSubmit={withdraw}
         />
 
         <HStack position="fixed" bottom="0" left="calc(50% - 120px / 2)" spacing="16px" h="64px" align="center">
