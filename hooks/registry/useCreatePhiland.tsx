@@ -1,42 +1,42 @@
-import { useEffect, useState } from "react";
-import { PHI_REGISTRY_CONTRACT_ADDRESS } from "~/constants";
-import { PhiRegistryAbi } from "~/abi";
-import { fetchLogCreatedPhilands } from "~/utils/graph";
-import { useContractWrite } from "wagmi";
+import { PHI_MAP_CONTRACT_ADDRESS, PHI_REGISTRY_CONTRACT_ADDRESS } from "~/constants";
+import { PhiMapAbi, PhiRegistryAbi } from "~/abi";
+import { useContractRead, useContractWrite } from "wagmi";
 
-const useCreatePhiland = (ens?: string): [{ loading: boolean; isCreated: boolean }, () => void] => {
-  const [loading, setLoading] = useState(true);
-  const [isCreated, setIsCreated] = useState(false);
+const nullAddress = "0x0000000000000000000000000000000000000000";
+
+const useCreatePhiland = (ens?: string, disabled?: boolean): [boolean, boolean, () => void] => {
+  const { data, isFetching } = useContractRead(
+    {
+      addressOrName: PHI_MAP_CONTRACT_ADDRESS,
+      contractInterface: PhiMapAbi,
+    },
+    "ownerOfPhiland",
+    {
+      args: ens ? [ens.slice(0, -4)] : [],
+      watch: true,
+      enabled: !disabled,
+      onSuccess(data) {
+        //
+      },
+    }
+  );
 
   const { write } = useContractWrite(
     {
       addressOrName: PHI_REGISTRY_CONTRACT_ADDRESS,
       contractInterface: PhiRegistryAbi,
     },
-    "createPhiland",
-    {
-      args: ens ? [ens.slice(0, -4)] : [],
-    }
+    "createPhiland"
   );
 
-  useEffect(() => {
-    if (!ens) return;
-    setIsCreated(false);
-    setLoading(true);
-
-    (async () => {
-      const logCreatedPhilands = await fetchLogCreatedPhilands(ens?.slice(0, -4));
-      setIsCreated(logCreatedPhilands.length > 0);
-      setLoading(false);
-    })();
-  }, [ens]);
-
   return [
-    {
-      loading: loading,
-      isCreated: isCreated,
-    },
-    write,
+    // @ts-ignore
+    data && data !== nullAddress,
+    isFetching,
+    () =>
+      write({
+        args: ens ? [ens.slice(0, -4)] : [],
+      }),
   ];
 };
 

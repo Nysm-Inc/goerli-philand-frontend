@@ -32,7 +32,7 @@ const Index: NextPage = () => {
   const { isOpen: isOpenInventory, onOpen: onOpenInventry, onClose: onCloseInventory } = useDisclosure();
 
   const [domains, currentENS, switchCurrentENS] = useENS(account?.address, ens);
-  const [{ loading, isCreated }, createPhiland] = useCreatePhiland(currentENS);
+  const [isCreated, isFetching, createPhiland] = useCreatePhiland(currentENS);
   const phiObjects = useViewPhiland(currentENS, isEdit); // error
   const [depositObjects, deposit, withdraw] = useDeposit(currentENS); // error
   const save = useSave(currentENS);
@@ -123,21 +123,21 @@ const Index: NextPage = () => {
     })();
   }, []);
   useEffect(() => {
-    if (!loadedGameRef) return;
+    if (!loadedGameRef.current) return;
 
     if (isCreated) {
       game.room.enterRoom();
     } else {
       game.room.leaveRoom();
     }
-  }, [isCreated]);
+  }, [isCreated, loadedGameRef.current]);
   useEffect(() => {
-    if (!loadedGameRef) return;
+    if (!loadedGameRef.current) return;
 
     game.room.leaveRoom();
     game.room.enterRoom();
     game.room.roomItemManager.loadItems(phiObjects);
-  }, [phiObjects.length]);
+  }, [phiObjects.length, loadedGameRef.current]);
 
   return (
     <>
@@ -190,7 +190,7 @@ const Index: NextPage = () => {
         </HStack>
       </>
 
-      {isCreated ? (
+      {isCreated || phiObjects.length > 0 ? (
         <>
           <ActionMenu
             state={actionMenuState}
@@ -259,7 +259,7 @@ const Index: NextPage = () => {
         </>
       ) : (
         <>
-          {account && !loading ? (
+          {account && !isFetching ? (
             <Box position="fixed" top="calc(50% - 40px)" left="calc(50% - 280px / 2)">
               <VStack>
                 <Box w="280px" h="40px">
