@@ -24,7 +24,8 @@ export const useInventory = (
   (idx: number) => void,
   (idx: number) => void,
   (contract: string, tokenId: number) => void,
-  (contract: string, tokenId: number) => void
+  (contract: string, tokenId: number) => void,
+  () => void
 ] => {
   const [items, setItems] = useState<InventoryObject[]>([]);
 
@@ -69,6 +70,12 @@ export const useInventory = (
     copied.sort((a, b) => a.tokenId - b.tokenId);
     setItems(copied);
   };
+  const reset = () => {
+    const origin = originItems.map((item) => {
+      return { ...item, selected: 0, deposited: false };
+    });
+    setItems(origin);
+  };
 
   useEffect(() => {
     const deposited = items.filter((item) => item.deposited);
@@ -81,7 +88,7 @@ export const useInventory = (
     setItems(updated);
   }, [originItems.length]);
 
-  return [items, plus, minus, plusUsed, minusUsed];
+  return [items, plus, minus, plusUsed, minusUsed, reset];
 };
 
 const Inventory: FC<{

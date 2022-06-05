@@ -24,7 +24,6 @@ const Index: NextPage = () => {
   const { game } = useContext(AppContext);
   const { data: account } = useAccount();
   const { data: ens } = useEnsName({ address: account?.address });
-  // const { data: avatar } = useEnsAvatar({ addressOrName: account?.address });
 
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
@@ -41,41 +40,37 @@ const Index: NextPage = () => {
   const balanceObjects = useBalances(account?.address);
   const [isApproved, approveAllPhiPbject] = useApproveAll(account?.address);
   const [collectionItems, colPlus, colMinus] = useCollection(balanceObjects);
-  const [inventoryItems, invPlus, invMinus, plusUsed, minusUsed] = useInventory(depositObjects);
+  const [inventoryItems, invPlus, invMinus, plusUsed, minusUsed, reset] = useInventory(depositObjects);
 
-  const editMode = useCallback(() => {
+  const editMode = () => {
     game.room.edit();
     edit();
-  }, []);
-  const viewMode = useCallback(() => {
+  };
+  const viewMode = () => {
     game.room.view();
     game.room.leaveRoom();
     game.room.enterRoom();
     game.room.roomItemManager.loadItems(phiObjects);
     view();
-  }, [phiObjects.length]);
-  const onDropObject = useCallback(() => {
+    reset();
+  };
+  const onDropObject = () => {
     game.room.movingItemManager.drop();
-  }, []);
-  const onMoveObject = useCallback(() => {
+  };
+  const onMoveObject = () => {
     game.room.movingItemManager.move();
-  }, []);
-  const onRemoveObject = useCallback(() => {
+  };
+  const onRemoveObject = () => {
     const roomItems = game.room.roomItemManager.getItems();
     const item = roomItems[actionMenuState.id];
     game.room.roomItemManager.removeItem(item.getUUID());
     const object = item.getObject();
     minusUsed(object.contractAddress, object.tokenId);
-  }, [minusUsed, actionMenuState.id]);
-  const onPickFromInventory = useCallback(
-    (object: IObject) => {
-      game.room.movingItemManager.pickFromInventory(object);
-      plusUsed(object.contractAddress, object.tokenId);
-    },
-    [plusUsed]
-  );
-
-  // todo: const diff = useMemo(() => {}, [])
+  };
+  const onPickFromInventory = (object: IObject) => {
+    game.room.movingItemManager.pickFromInventory(object);
+    plusUsed(object.contractAddress, object.tokenId);
+  };
   const onSave = () => {
     const prevPhiObjects = phiObjects;
     const newPhiObjects: PhiObject[] = Object.values(game.room.roomItemManager.getItems()).map((item) => {
@@ -106,6 +101,8 @@ const Index: NextPage = () => {
         return [...memo, newObject];
       }
     }, [] as PhiObject[]);
+
+    // todo: const diff = useMemo(() => {}, [])
     save(
       { removeIdxs: removeIdxs, remove_check: removeIdxs.length > 0 },
       writeArgs,
