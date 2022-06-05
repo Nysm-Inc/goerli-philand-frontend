@@ -17,7 +17,8 @@ import { useClaim } from "~/hooks/claim";
 import { PhiObject, IObject } from "~/types";
 
 const Index: NextPage = () => {
-  const loadGameRef = useRef(false);
+  const loadGameRef = useRef(false); // for avoiding react18 strict mode
+  const loadedGameRef = useRef(false);
 
   const router = useRouter();
   const { game } = useContext(AppContext);
@@ -117,14 +118,15 @@ const Index: NextPage = () => {
   // todo: dependency hooks
   useEffect(() => {
     if (loadGameRef.current) return;
+    loadGameRef.current = true;
 
     (async () => {
       await game.loadGame(onOpenActionMenu);
-      loadGameRef.current = true;
+      loadedGameRef.current = true;
     })();
   }, []);
   useEffect(() => {
-    if (!loadGameRef) return;
+    if (!loadedGameRef) return;
 
     if (isCreated) {
       game.room.enterRoom();
@@ -133,7 +135,7 @@ const Index: NextPage = () => {
     }
   }, [isCreated]);
   useEffect(() => {
-    if (!loadGameRef) return;
+    if (!loadedGameRef) return;
 
     game.room.leaveRoom();
     game.room.enterRoom();

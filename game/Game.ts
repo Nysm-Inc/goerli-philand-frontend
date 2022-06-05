@@ -19,7 +19,8 @@ export default class Game {
 
     return Promise.all([engine.loadGlobalTextures()])
       .then(() => {
-        room.initialize(), uiManager.loadUIHandler(onOpenActionMenu);
+        room.initialize();
+        uiManager.loadUIHandler(onOpenActionMenu);
       })
       .catch((err) => {
         console.log(err);
