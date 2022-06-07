@@ -8,7 +8,7 @@ import { AppContext } from "~/contexts";
 import Quest from "~/ui/features/quest";
 import Inventory, { useInventory } from "~/ui/features/inventory";
 import Collection, { useCollection } from "~/ui/features/collection";
-import { ActionMenu, useActionMenu, Button, Wallet, SelectBox } from "~/ui/components";
+import { ActionMenu, useActionMenu, Button, Wallet, SelectBox, Search } from "~/ui/components";
 import { useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
 import { useDeposit, useSave, useViewPhiland } from "~/hooks/map";
@@ -153,7 +153,7 @@ const Index: NextPage = () => {
           >
             <Image src="/logo.png" width="64px" height="64px" />
           </Box>
-          <Box w="280px" h="40px" border="1px solid" borderColor="black" />
+          <Search />
         </HStack>
         <Flex position="fixed" right="0" mr="10px" h="64px" align="center">
           <Wallet />

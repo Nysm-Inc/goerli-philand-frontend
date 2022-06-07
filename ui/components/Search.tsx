@@ -1,8 +1,36 @@
+import { HStack, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useState } from "react";
+
 const Search = () => {
+  const router = useRouter();
+  const [searchText, setSearchText] = useState("");
   return (
-    <>
-      <></>
-    </>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        const text = searchText.match(/^.+\.eth$/g) ? searchText : searchText + ".eth";
+        router.push("/" + text, undefined, { shallow: true });
+      }}
+    >
+      <InputGroup w="280px" h="40px" border="1px solid" borderColor="black" borderRadius="none">
+        {/* <InputLeftElement pointerEvents="none">
+          <></>
+        </InputLeftElement> */}
+        <Input
+          focusBorderColor="none"
+          borderRadius="none"
+          placeholder="visit other lands"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        <InputRightElement>
+          <HStack pr="12">
+            <Text>.eth</Text>
+          </HStack>
+        </InputRightElement>
+      </InputGroup>
+    </form>
   );
 };
 

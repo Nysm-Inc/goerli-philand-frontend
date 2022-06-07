@@ -14,7 +14,7 @@ export default class Game {
     this.uiManager = new UIManager();
   }
 
-  async loadGame(onOpenActionMenu: (id: string, globalX: number, globalY: number) => void) {
+  async loadGame(onOpenActionMenu?: (id: string, globalX: number, globalY: number) => void) {
     const { engine, room, uiManager } = GameInstance.get();
 
     return Promise.all([engine.loadGlobalTextures()])
