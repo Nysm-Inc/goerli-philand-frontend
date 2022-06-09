@@ -8,7 +8,7 @@ import { AppContext } from "~/contexts";
 import Quest from "~/ui/features/quest";
 import Inventory, { useInventory } from "~/ui/features/inventory";
 import Collection, { useCollection } from "~/ui/features/collection";
-import { ActionMenu, useActionMenu, Button, Wallet, SelectBox, Search } from "~/ui/components";
+import { ActionMenu, useActionMenu, Button, SelectBox, Search } from "~/ui/components";
 import { useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
 import { useDeposit, useSave, useViewPhiland } from "~/hooks/map";
@@ -16,6 +16,7 @@ import { useApproveAll, useBalances } from "~/hooks/object";
 import { useClaim } from "~/hooks/claim";
 import { PhiObject, IObject } from "~/types";
 import { FRONTEND_URL } from "~/constants";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Index: NextPage = () => {
   const loadGameRef = useRef(false); // for avoiding react18 strict mode
@@ -157,7 +158,7 @@ const Index: NextPage = () => {
           <Search />
         </HStack>
         <Flex position="fixed" right="0" mr="10px" h="64px" align="center">
-          <Wallet />
+          <ConnectButton />
         </Flex>
       </>
 

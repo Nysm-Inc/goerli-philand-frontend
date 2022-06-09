@@ -6,16 +6,15 @@ import theme from "~/ui/styles";
 import Head from "~/ui/components/Head";
 import GlobalStyle from "~/ui/styles/Global";
 import AppContextProvider from "~/contexts";
-import walletConnect from "~/connectors/walletconnect";
-import metamask from "~/connectors/metamask";
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
 
 const alchemyId = process.env.ALCHEMY_ID;
-
-const { provider } = configureChains([chain.goerli], [alchemyProvider({ alchemyId })]);
-
+const { chains, provider } = configureChains([chain.goerli], [alchemyProvider({ alchemyId })]);
+const { connectors } = getDefaultWallets({ appName: "Phi", chains });
 const client = createClient({
   autoConnect: true,
-  connectors: [metamask, walletConnect],
+  connectors: connectors,
   provider,
 });
 
@@ -27,9 +26,11 @@ const App = ({ Component, pageProps }: AppProps) => {
 
       <ChakraProvider theme={theme}>
         <WagmiConfig client={client}>
-          <AppContextProvider>
-            <Component {...pageProps} />
-          </AppContextProvider>
+          <RainbowKitProvider chains={chains}>
+            <AppContextProvider>
+              <Component {...pageProps} />
+            </AppContextProvider>
+          </RainbowKitProvider>
         </WagmiConfig>
       </ChakraProvider>
     </>
