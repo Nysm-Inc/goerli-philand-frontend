@@ -22,8 +22,8 @@ const client = createClient({
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
+      <Head ogp={pageProps.ogp} />
       <GlobalStyle />
-      <Head />
 
       <ChakraProvider theme={theme}>
         <WagmiConfig client={client}>

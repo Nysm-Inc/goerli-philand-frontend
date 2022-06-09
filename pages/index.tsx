@@ -15,6 +15,7 @@ import { useDeposit, useSave, useViewPhiland } from "~/hooks/map";
 import { useApproveAll, useBalances } from "~/hooks/object";
 import { useClaim } from "~/hooks/claim";
 import { PhiObject, IObject } from "~/types";
+import { FRONTEND_URL } from "~/constants";
 
 const Index: NextPage = () => {
   const loadGameRef = useRef(false); // for avoiding react18 strict mode
@@ -248,7 +249,10 @@ const Index: NextPage = () => {
                         onSave();
                       }
                     : () => {
-                        alert("share to twitter");
+                        window.open(
+                          `https://twitter.com/intent/tweet?text=Come visit my philand @phi_xyz%0a${FRONTEND_URL}/${currentENS}`,
+                          "_blank"
+                        );
                       }
                 }
               >

@@ -9,13 +9,12 @@ export const ENS_GRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/ensdo
 export const PHI_REGISTRY_GRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/zak3939/goerliphiregistry";
 
 // api
-export const UPLOAD_OGP_API_GATEWAY =
-  "https://lj1cy8sisc.execute-api.ap-northeast-1.amazonaws.com/prod/v1/images/upload";
+export const OGP_API_GATEWAY = "https://lj1cy8sisc.execute-api.ap-northeast-1.amazonaws.com/prod/v1/images";
 export const COUPON_API_GATEWAY =
   "https://0jfihrcgrf.execute-api.ap-northeast-1.amazonaws.com/prod/v1/standard_objects";
 
 // app
-export const FRONTEND_URL = "";
+export const FRONTEND_URL = "https://goerli-philand-frontend.vercel.app";
 
 // game
 export const GAME_APP_WIDTH = 2400;
