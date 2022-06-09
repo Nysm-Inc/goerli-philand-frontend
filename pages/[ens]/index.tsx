@@ -4,6 +4,7 @@ import axios from "axios";
 import { OGP_API_GATEWAY } from "~/constants";
 import { AppContext } from "~/contexts";
 import { useViewPhiland } from "~/hooks/map";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
@@ -17,11 +18,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 };
 
 const Index: NextPage = () => {
+  const router = useRouter();
+  const ens = router.asPath.substring(1);
   const loadGameRef = useRef(false);
   const loadedGameRef = useRef(false);
 
   const { game } = useContext(AppContext);
-  const phiObjects = useViewPhiland("oji4.eth");
+  const phiObjects = useViewPhiland(ens);
 
   useEffect(() => {
     if (loadGameRef.current) return;
