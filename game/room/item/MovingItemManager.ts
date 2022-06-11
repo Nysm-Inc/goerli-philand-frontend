@@ -28,11 +28,12 @@ export default class MovingItemManager {
   pickFromInventory(object: IObject) {
     const { engine, room } = GameInstance.get();
 
-    const uuid = crypto.randomUUID();
+    const uuid = room.roomItemManager.randomUUID();
     this.item = new Item(uuid, object);
-    const globalX = engine.app.renderer.plugins.interaction.mouse.global.x;
-    const globalY = engine.app.renderer.plugins.interaction.mouse.global.y;
-    const tile = room.globalToTile(globalX, globalY);
+    const _globalX = engine.app.renderer.plugins.interaction.mouse.global.x;
+    const _globalY = engine.app.renderer.plugins.interaction.mouse.global.y;
+    const world = engine.viewport.toWorld(_globalX, _globalY);
+    const tile = room.globalToTile(world.x, world.y);
     {
       const [sizeX, sizeY] = this.item.getSize();
       const local = itemToLocal(tile.x, tile.y, sizeX, sizeY, this.item.container.height);

@@ -121,17 +121,11 @@ export default class TileManager {
   }
 
   showGrid() {
-    const { engine } = GameInstance.get();
-
-    engine.app.stage.interactiveChildren = true;
     this.worldGrid.visible = true;
     this.landGrid.visible = true;
   }
 
   hideGrid() {
-    const { engine } = GameInstance.get();
-
-    engine.app.stage.interactiveChildren = false;
     this.worldGrid.visible = false;
     this.landGrid.visible = false;
   }

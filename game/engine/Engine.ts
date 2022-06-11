@@ -1,11 +1,13 @@
 import { Application, LoaderResource, Texture } from "pixi.js";
 import { Stage as LayerStage } from "@pixi/layers";
+import { Viewport } from "pixi-viewport";
 import { GAME_APP_HEIGHT, GAME_APP_WIDTH, PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { phiObjectMetadataList } from "~/types/object";
 import "./pixelPerfectInteraction";
 
 export default class Engine {
   app: Application;
+  viewport: Viewport;
   globalTextures: { [contract: string]: { [tokenId: number]: Texture } };
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
   onMouseClickHandler: (mouseX: number, mouseY: number) => void;
@@ -17,9 +19,11 @@ export default class Engine {
     this.onMouseMoveHandler = onMouseMove;
     this.onMouseClickHandler = onMouseClick;
 
+    this.globalTextures = { [PHI_OBJECT_CONTRACT_ADDRESS]: {} };
+
     this.app = new Application({
-      width: GAME_APP_WIDTH,
-      height: GAME_APP_HEIGHT,
+      width: window.innerWidth,
+      height: window.innerHeight,
       backgroundColor: 0xffffff,
       preserveDrawingBuffer: true,
       antialias: true,
@@ -28,11 +32,36 @@ export default class Engine {
     });
     this.app.stage = new LayerStage();
     this.app.stage.sortableChildren = true;
-    this.app.stage.interactiveChildren = false;
-    this.globalTextures = { [PHI_OBJECT_CONTRACT_ADDRESS]: {} };
-
     document.body.appendChild(this.app.view);
-    this.setMouseInteractions();
+
+    this.viewport = new Viewport({
+      worldWidth: GAME_APP_WIDTH,
+      worldHeight: GAME_APP_HEIGHT,
+      interaction: this.app.renderer.plugins.interaction,
+      passiveWheel: false,
+      stopPropagation: true,
+    });
+    const isMobile = window.matchMedia("(any-pointer:coarse)").matches;
+    this.viewport
+      .moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2)
+      .setZoom(0.6, true)
+      .drag({
+        clampWheel: false,
+        wheel: true,
+        pressDrag: isMobile, // todo: diff mobile
+      })
+      .wheel({ smooth: 3, trackpadPinch: true, wheelZoom: false })
+      .pinch()
+      .decelerate()
+      .on("clicked", (evt) => {
+        this.onMouseClickHandler(evt.world.x, evt.world.y);
+      })
+      .on("mousemove", (evt) => {
+        const world = this.viewport.toWorld(evt.data.global);
+        this.onMouseMoveHandler(world.x, world.y);
+      });
+    this.viewport.interactiveChildren = false;
+    this.app.stage.addChild(this.viewport);
   }
 
   async loadGlobalTextures() {
@@ -62,14 +91,15 @@ export default class Engine {
     });
   }
 
-  setMouseInteractions() {
-    // document.body.addEventListener("contextmenu", (evt) => evt.preventDefault(), false);
-    this.app.view.addEventListener("mousemove", (evt) => this.onMouseMoveHandler(evt.pageX, evt.pageY), false);
-    this.app.view.addEventListener("click", (evt) => this.onMouseClickHandler(evt.pageX, evt.pageY), false);
-  }
-
   getViewImageDataURL() {
     return this.app.view.toDataURL("image/png");
+  }
+
+  onInteractive() {
+    this.viewport.interactiveChildren = true;
+  }
+  offInteractive() {
+    this.viewport.interactiveChildren = false;
   }
 
   reset() {

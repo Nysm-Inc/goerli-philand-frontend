@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { PhiObject, IObject } from "~/types";
 import GameInstance from "~/game/GameInstance";
 import RoomItem from "./RoomItem";
@@ -25,7 +26,7 @@ export default class RoomItemManager {
   }
 
   addItem(tileX: number, tileY: number, object: IObject) {
-    const uuid = crypto.randomUUID();
+    const uuid = this.randomUUID();
     const item = new RoomItem(uuid, tileX, tileY, object);
     this.roomItems[uuid] = item;
     this.addItemToTilemap(tileX, tileY, item);
@@ -69,5 +70,10 @@ export default class RoomItemManager {
     const { room } = GameInstance.get();
     this.roomItems = {};
     room.landItemContainer.removeChildren();
+  }
+
+  randomUUID() {
+    // return crypto.randomUUID(); // not working on mobile
+    return uuidv4();
   }
 }

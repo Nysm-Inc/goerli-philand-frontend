@@ -42,10 +42,10 @@ export default class Room {
     this.landContainer.y = landOffsetY;
     this.landItemContainer.x = landOffsetX;
     this.landItemContainer.y = landOffsetY;
-    engine.app.stage.addChild(this.worldContainer);
-    engine.app.stage.addChild(this.landContainer);
-    engine.app.stage.addChild(this.landItemContainer);
-    engine.app.stage.addChild(this.landItemLayer);
+    engine.viewport.addChild(this.worldContainer);
+    engine.viewport.addChild(this.landContainer);
+    engine.viewport.addChild(this.landItemContainer);
+    engine.viewport.addChild(this.landItemLayer);
   }
 
   enterRoom() {
@@ -66,12 +66,18 @@ export default class Room {
   }
 
   view() {
+    const { engine } = GameInstance.get();
+    engine.offInteractive();
+
     this.tileManager.hideGrid();
     this.tileManager.hideSelectedTile();
     this.tileManager.hideCollisionTiles();
   }
 
   edit() {
+    const { engine } = GameInstance.get();
+    engine.onInteractive();
+
     this.tileManager.showGrid();
     this.tileManager.showSelectedTile();
     this.tileManager.showCollisionTiles();

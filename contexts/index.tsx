@@ -1,6 +1,5 @@
 import { createContext, FC, ReactNode, useEffect, useState } from "react";
-import Game from "~/game/Game";
-import GameInstance from "~/game/GameInstance";
+import type Game from "~/game/Game";
 
 type AppContext = {
   game: Game;
@@ -13,7 +12,13 @@ const AppContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [game, setGame] = useState<Game>();
 
   useEffect(() => {
-    setGame(GameInstance.get());
+    import("~/game/GameInstance")
+      .then((GameInstance) => {
+        setGame(GameInstance.default.get());
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   return <>{game ? <AppContext.Provider value={{ game }}>{children}</AppContext.Provider> : <></>}</>;
