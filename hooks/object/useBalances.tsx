@@ -1,26 +1,25 @@
 import { BigNumber } from "ethers";
-import { PhiObjectAbi } from "~/abi";
-import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
-import { phiObjectMetadataList } from "~/types/object";
-import { BalanceObject } from "~/types";
 import { useContractRead } from "wagmi";
+import { objectMetadataList } from "~/types/object";
+import { BalanceObject } from "~/types";
+import { ContractAbis, ContractAddress } from "./types";
 
-const useBalances = (account?: string, disabled?: boolean): BalanceObject[] => {
+const useBalances = (contract: ContractAddress, account?: string, disabled?: boolean): BalanceObject[] => {
   const { data, isFetching } = useContractRead(
     {
-      addressOrName: PHI_OBJECT_CONTRACT_ADDRESS,
-      contractInterface: PhiObjectAbi,
+      addressOrName: contract,
+      contractInterface: ContractAbis[contract],
     },
     "balanceOfBatch",
     {
       args: account
         ? [
-            Object.keys(phiObjectMetadataList[PHI_OBJECT_CONTRACT_ADDRESS]).map(() => account),
-            Object.keys(phiObjectMetadataList[PHI_OBJECT_CONTRACT_ADDRESS]).map((tokenId) => tokenId),
+            Object.keys(objectMetadataList[contract]).map(() => account),
+            Object.keys(objectMetadataList[contract]).map((tokenId) => tokenId),
           ]
-        : [],
+        : null,
       watch: true,
-      enabled: !disabled,
+      enabled: !!account && !disabled,
       onSuccess(data) {
         //
       },
@@ -34,7 +33,7 @@ const useBalances = (account?: string, disabled?: boolean): BalanceObject[] => {
           return [
             ...memo,
             {
-              contract: PHI_OBJECT_CONTRACT_ADDRESS,
+              contract: contract,
               tokenId: i + 1,
               amount: BigNumber.from(balance).toNumber(),
             },

@@ -11,7 +11,7 @@ import {
   ModalHeader,
   SimpleGrid,
 } from "@chakra-ui/react";
-import { phiObjectMetadataList } from "~/types/object";
+import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject } from "~/types";
 import { QuantityInput } from "~/ui/components";
 
@@ -102,8 +102,18 @@ const Inventory: FC<{
   onSubmit: (args: BalanceObject[]) => void;
 }> = ({ readonly, items, isOpen, onClose, onClickPlus, onClickMinus, onClickItem, onSubmit }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered size="2xl" scrollBehavior="inside">
-      <ModalContent border="2px solid" borderColor="black" borderRadius="none">
+    <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside">
+      <ModalContent
+        border="2px solid"
+        borderColor="black"
+        borderRadius="none"
+        minW="480px"
+        minH="600px"
+        maxW="480px"
+        maxH="600px"
+        position="absolute"
+        left="48px"
+      >
         <ModalHeader>Inventory</ModalHeader>
         <ModalBody>
           <SimpleGrid columns={3} spacing="16px">
@@ -117,7 +127,7 @@ const Inventory: FC<{
                   onClick={() => {
                     if (readonly) return;
 
-                    const metadata = phiObjectMetadataList[item.contractAddress][item.tokenId];
+                    const metadata = objectMetadataList[item.contractAddress][item.tokenId];
                     onClickItem({
                       contractAddress: item.contractAddress,
                       tokenId: item.tokenId,
@@ -128,7 +138,7 @@ const Inventory: FC<{
                   }}
                 >
                   <Image
-                    src={phiObjectMetadataList[item.contractAddress][item.tokenId].image_url}
+                    src={objectMetadataList[item.contractAddress][item.tokenId].image_url}
                     layout="fill"
                     objectFit="contain"
                   />

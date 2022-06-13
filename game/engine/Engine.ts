@@ -1,8 +1,14 @@
 import { Application, LoaderResource, Texture } from "pixi.js";
 import { Stage as LayerStage } from "@pixi/layers";
 import { Viewport } from "pixi-viewport";
-import { GAME_APP_HEIGHT, GAME_APP_WIDTH, PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
-import { phiObjectMetadataList } from "~/types/object";
+import {
+  FREE_OBJECT_CONTRACT_ADDRESS,
+  GAME_APP_HEIGHT,
+  GAME_APP_WIDTH,
+  PHI_OBJECT_CONTRACT_ADDRESS,
+  PREMIUM_OBJECT_CONTRACT_ADDRESS,
+} from "~/constants";
+import { objectMetadataList } from "~/types/object";
 import "./pixelPerfectInteraction";
 
 export default class Engine {
@@ -19,7 +25,11 @@ export default class Engine {
     this.onMouseMoveHandler = onMouseMove;
     this.onMouseClickHandler = onMouseClick;
 
-    this.globalTextures = { [PHI_OBJECT_CONTRACT_ADDRESS]: {} };
+    this.globalTextures = {
+      [PHI_OBJECT_CONTRACT_ADDRESS]: {},
+      [FREE_OBJECT_CONTRACT_ADDRESS]: {},
+      [PREMIUM_OBJECT_CONTRACT_ADDRESS]: {},
+    };
 
     this.app = new Application({
       width: window.innerWidth,
@@ -66,7 +76,7 @@ export default class Engine {
 
   async loadGlobalTextures() {
     return new Promise((resolve, reject) => {
-      for (const [contract, metadataList] of Object.entries(phiObjectMetadataList)) {
+      for (const [contract, metadataList] of Object.entries(objectMetadataList)) {
         for (const metadata of Object.values(metadataList)) {
           this.app.loader.add(contract + "_" + metadata.tokenId, metadata.image_url, {
             crossOrigin: "*",

@@ -1,7 +1,7 @@
 import GameInstance from "./GameInstance";
 import Engine from "./engine/Engine";
 import Room from "./room/Room";
-import UIManager from "./ui/UIManager";
+import UIManager, { UIManagerHandler } from "./ui/UIManager";
 
 export default class Game {
   engine: Engine;
@@ -14,13 +14,13 @@ export default class Game {
     this.uiManager = new UIManager();
   }
 
-  async loadGame(onOpenActionMenu?: (id: string, globalX: number, globalY: number) => void) {
+  async loadGame(handler: UIManagerHandler) {
     const { engine, room, uiManager } = GameInstance.get();
 
     return Promise.all([engine.loadGlobalTextures()])
       .then(() => {
         room.initialize();
-        uiManager.loadUIHandler(onOpenActionMenu);
+        uiManager.loadUIHandler(handler);
       })
       .catch((err) => {
         console.log(err);

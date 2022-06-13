@@ -1,17 +1,21 @@
 // contracts
-export const PHI_OBJECT_CONTRACT_ADDRESS = "0xd7e2f227846e20e0946639B462D67EB0ADd3bb8B";
-export const PHI_MAP_CONTRACT_ADDRESS = "0x8DBD08fa0b7ac9190BFE2716820D9EC224D709e7";
-export const PHI_REGISTRY_CONTRACT_ADDRESS = "0xf15E135Fd05e468076d4b24147573B38307108aa";
-export const PHI_CLAIM_CONTRACT_ADDRESS = "0x7F1f4162635fb7Def92d58d51F91229Fb7eF1b55";
+export const PREMIUM_OBJECT_CONTRACT_ADDRESS = "0x6F02FfF1A5b955f0647641117906dA9d35AEf841";
+export const FREE_OBJECT_CONTRACT_ADDRESS = "0x179B8067B1D44BF0DecA1D488c394cf41F75659A";
+export const PHI_OBJECT_CONTRACT_ADDRESS = "0x85c0f0D820917743a7566bB27D7E8E5eA81dbf63";
+export const MAP_CONTRACT_ADDRESS = "0x6F91E630D3b09E7c49A45715A4D8939261Ed25CB";
+export const REGISTRY_CONTRACT_ADDRESS = "0x52Bcd535218730236e45b2f15aaceb81b40993C9";
+export const CLAIM_CONTRACT_ADDRESS = "0x7F1f4162635fb7Def92d58d51F91229Fb7eF1b55";
 
 // graph
 export const ENS_GRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
-export const PHI_REGISTRY_GRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/zak3939/goerliphiregistry";
+export const REGISTRY_GRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/zak3939/goerliphiregistry";
 
 // api
-export const OGP_API_GATEWAY = "https://lj1cy8sisc.execute-api.ap-northeast-1.amazonaws.com/prod/v1/images";
-export const COUPON_API_GATEWAY =
-  "https://0jfihrcgrf.execute-api.ap-northeast-1.amazonaws.com/prod/v1/standard_objects";
+export const COUPON_API_GATEWAY = "https://object-api.phi.blue/v1";
+export const UTILS_API_GATEWAY = "https://utils-api.phi.blue/v1/philand";
+
+// block explorer
+export const ETHERSCAN_BLOCK_EXPLORER = "https://goerli.etherscan.io";
 
 // app
 export const FRONTEND_URL = "https://goerli-philand-frontend.vercel.app";

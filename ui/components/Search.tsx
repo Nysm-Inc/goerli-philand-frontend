@@ -1,16 +1,13 @@
-import { HStack, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import { useState } from "react";
+import { HStack, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
 
 const Search = () => {
-  const router = useRouter();
   const [searchText, setSearchText] = useState("");
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        const text = searchText.match(/^.+\.eth$/g) ? searchText : searchText + ".eth";
-        router.push("/" + text, undefined, { shallow: true });
+        window.location.href = searchText.match(/^.+\.eth$/g) ? searchText : searchText + ".eth";
       }}
     >
       <InputGroup w="280px" h="40px" border="1px solid" borderColor="black" borderRadius="none">

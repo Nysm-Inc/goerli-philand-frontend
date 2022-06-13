@@ -1,5 +1,5 @@
 import { Container, Rectangle, Sprite } from "pixi.js";
-import { PHI_OBJECT_CONTRACT_ADDRESS, TILE_W } from "~/constants";
+import { TILE_W } from "~/constants";
 import { IObject } from "~/types";
 import GameInstance from "~/game/GameInstance";
 
@@ -24,7 +24,7 @@ export default class Item {
     this.sprites = [];
 
     const { engine, room } = GameInstance.get();
-    const texture = engine.globalTextures[PHI_OBJECT_CONTRACT_ADDRESS][object.tokenId].clone();
+    const texture = engine.globalTextures[object.contractAddress][object.tokenId].clone();
     const sprite = Sprite.from(texture);
 
     for (let n = 0; n < object.sizeX + object.sizeY; n++) {

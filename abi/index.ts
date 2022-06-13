@@ -1,6 +1,8 @@
+import FreeObjectAbi from "./freeobject.json";
+import PremiumObjectAbi from "./premiumobject.json";
 import PhiObjectAbi from "./phiobject.json";
-import PhiMapAbi from "./phimap.json";
-import PhiRegistryAbi from "./phiregistry.json";
-import PhiClaimAbi from "./phiclaim.json";
+import MapAbi from "./map.json";
+import RegistryAbi from "./registry.json";
+import ClaimAbi from "./claim.json";
 
-export { PhiObjectAbi, PhiMapAbi, PhiRegistryAbi, PhiClaimAbi };
+export { FreeObjectAbi, PremiumObjectAbi, PhiObjectAbi, MapAbi, RegistryAbi, ClaimAbi };

@@ -1,20 +1,20 @@
 import { useContractRead } from "wagmi";
 import { BigNumber } from "ethers";
-import { PhiMapAbi } from "~/abi";
-import { PHI_MAP_CONTRACT_ADDRESS } from "~/constants";
+import { MapAbi } from "~/abi";
+import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { PhiObject } from "~/types";
 
 const useViewPhiland = (ens?: string | null, disabled?: boolean): (PhiObject & { removeIdx: number })[] => {
   const { data, isFetching } = useContractRead(
     {
-      addressOrName: PHI_MAP_CONTRACT_ADDRESS,
-      contractInterface: PhiMapAbi,
+      addressOrName: MAP_CONTRACT_ADDRESS,
+      contractInterface: MapAbi,
     },
     "viewPhiland",
     {
-      args: ens ? [ens.slice(0, -4)] : [],
+      args: ens ? [ens.slice(0, -4)] : null,
       watch: true,
-      enabled: !disabled,
+      enabled: !!ens && !disabled,
       onSuccess(data) {
         //
       },

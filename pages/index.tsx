@@ -1,58 +1,89 @@
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
 import Image from "next/image";
-import { useCallback, useContext, useEffect, useRef } from "react";
-import { useAccount, useEnsName } from "wagmi";
-import { Box, Center, Flex, HStack, useDisclosure, useBoolean, VStack } from "@chakra-ui/react";
-import { AppContext } from "~/contexts";
+import { chain, useAccount, useEnsName, useNetwork, useProvider } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Box, Center, useDisclosure, useBoolean, VStack } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
+import Shop from "~/ui/features/shop";
 import Inventory, { useInventory } from "~/ui/features/inventory";
 import Collection, { useCollection } from "~/ui/features/collection";
-import { ActionMenu, useActionMenu, Button, SelectBox, Search } from "~/ui/components";
+import { ActionMenu, useActionMenu, MenuBar, SelectBox, Search, StatusTx, ConfirmTx } from "~/ui/components";
 import { useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
 import { useDeposit, useSave, useViewPhiland } from "~/hooks/map";
 import { useApproveAll, useBalances } from "~/hooks/object";
-import { useClaim } from "~/hooks/claim";
+import { useClaim, useClaimableList } from "~/hooks/claim";
+import { useGame } from "~/hooks/game";
+import { useGetFreeObject } from "~/hooks/free";
+import { useBuyPremiumObject } from "~/hooks/premium";
 import { PhiObject, IObject } from "~/types";
-import { FRONTEND_URL } from "~/constants";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import {
+  FREE_OBJECT_CONTRACT_ADDRESS,
+  PHI_OBJECT_CONTRACT_ADDRESS,
+  PREMIUM_OBJECT_CONTRACT_ADDRESS,
+} from "~/constants";
 
 const Index: NextPage = () => {
-  const loadGameRef = useRef(false); // for avoiding react18 strict mode
-  const loadedGameRef = useRef(false);
-
-  const router = useRouter();
-  const { game } = useContext(AppContext);
+  const { activeChain } = useNetwork();
   const { data: account } = useAccount();
-  const { data: ens } = useEnsName({ address: account?.address });
+  const { data: dataENS } = useEnsName({ address: account?.address });
+  const provider = useProvider();
+  const ens = activeChain?.id === chain.goerli.id ? dataENS : "";
 
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
   const { isOpen: isOpenQuest, onOpen: onOpenQuest, onClose: onCloseQuest } = useDisclosure();
+  const { isOpen: isOpenShop, onOpen: onOpenShop, onClose: onCloseShop } = useDisclosure();
   const { isOpen: isOpenCollection, onOpen: onOpenCollection, onClose: onCloseCollection } = useDisclosure();
   const { isOpen: isOpenInventory, onOpen: onOpenInventry, onClose: onCloseInventory } = useDisclosure();
 
-  const [domains, currentENS, switchCurrentENS] = useENS(account?.address, ens);
-  const [isCreated, isFetching, createPhiland] = useCreatePhiland(currentENS);
-  const phiObjects = useViewPhiland(currentENS, isEdit); // error
-  const [depositObjects, deposit, withdraw] = useDeposit(currentENS); // error
-  const save = useSave(currentENS);
-  const claimObject = useClaim(account?.address);
-  const balanceObjects = useBalances(account?.address);
-  const [isApproved, approveAllPhiPbject] = useApproveAll(account?.address);
-  const [collectionItems, colPlus, colMinus] = useCollection(balanceObjects);
+  const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(account?.address, ens, activeChain?.id);
+  const [isCreated, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(currentENS);
+  const phiObjects = useViewPhiland(currentENS, isEdit);
+  const [depositObjects, { deposit, tx: txDeposit }, { undeposit, tx: txUndeposit }] = useDeposit(currentENS);
+  const { save, tx: txSave } = useSave(currentENS);
+  const { claimPhi, tx: txClaimPhi } = useClaim(account?.address);
+  const { getFreeObject, tx: txGetFreeObject } = useGetFreeObject();
+  const { buyPremiumObject, tx: txBuyPremiumObject } = useBuyPremiumObject(provider);
+  const balancePhiObjects = useBalances(PHI_OBJECT_CONTRACT_ADDRESS, account?.address);
+  const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, account?.address);
+  const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, account?.address);
+  const [isApprovedPhi, { approve: aprvPhi, tx: txAprvPhi }] = useApproveAll(
+    PHI_OBJECT_CONTRACT_ADDRESS,
+    account?.address
+  );
+  const [isApprovedFree, { approve: aprvFree, tx: txAprvFree }] = useApproveAll(
+    FREE_OBJECT_CONTRACT_ADDRESS,
+    account?.address
+  );
+  const [isApprovedPremium, { approve: aprvPremium, tx: txAprvPremium }] = useApproveAll(
+    PREMIUM_OBJECT_CONTRACT_ADDRESS,
+    account?.address
+  );
+  const [collectionItems, colPlus, colMinus] = useCollection([
+    ...balancePhiObjects,
+    ...balanceFreeObjects,
+    ...balancePremiumObjects,
+  ]);
   const [inventoryItems, invPlus, invMinus, plusUsed, minusUsed, reset] = useInventory(depositObjects);
+  const [claimableList, refetchClaimableList] = useClaimableList(account?.address);
+  const isCreatedPhiland = isCreated || phiObjects.length > 0;
+
+  const game = useGame(isCreatedPhiland, phiObjects, { onOpenActionMenu });
 
   const editMode = () => {
+    if (isEdit) return;
+
     game.room.edit();
     edit();
   };
   const viewMode = () => {
-    game.room.view();
+    if (!isEdit) return;
+
     game.room.leaveRoom();
     game.room.enterRoom();
     game.room.roomItemManager.loadItems(phiObjects);
+    game.room.view();
     view();
     reset();
   };
@@ -105,167 +136,127 @@ const Index: NextPage = () => {
     }, [] as PhiObject[]);
 
     // todo: const diff = useMemo(() => {}, [])
-    save(
-      { removeIdxs: removeIdxs, remove_check: removeIdxs.length > 0 },
+    save({
+      removeArgs: { removeIdxs: removeIdxs, remove_check: removeIdxs.length > 0 },
       writeArgs,
-      writeArgs.map(() => {
+      linkArgs: writeArgs.map(() => {
         return { title: "", url: "" };
-      })
-    );
+      }),
+    });
   };
-
-  // todo: dependency hooks
-  useEffect(() => {
-    if (loadGameRef.current) return;
-    loadGameRef.current = true;
-
-    (async () => {
-      await game.loadGame(onOpenActionMenu);
-      loadedGameRef.current = true;
-    })();
-  }, []);
-  useEffect(() => {
-    if (!loadedGameRef.current) return;
-
-    if (isCreated) {
-      game.room.enterRoom();
-    } else {
-      game.room.leaveRoom();
-    }
-  }, [isCreated, loadedGameRef.current]);
-  useEffect(() => {
-    if (!loadedGameRef.current) return;
-
-    game.room.leaveRoom();
-    game.room.enterRoom();
-    game.room.roomItemManager.loadItems(phiObjects);
-  }, [phiObjects.length, loadedGameRef.current]);
 
   return (
     <>
-      <>
-        <HStack position="fixed" h="64px">
-          <Box
-            onClick={() => {
-              game.room.leaveRoom();
-              router.push("/explorer");
-            }}
-            cursor="pointer"
-            pt="12px"
-          >
-            <Image src="/logo.png" width="64px" height="64px" />
-          </Box>
-          <Search />
-        </HStack>
-        <Flex position="fixed" right="0" mr="10px" h="64px" align="center">
-          <ConnectButton />
-        </Flex>
-      </>
+      <ConfirmTx
+        txs={[
+          txCreatePhiland,
+          txAprvPhi,
+          txAprvFree,
+          txAprvPremium,
+          txClaimPhi,
+          txBuyPremiumObject,
+          txGetFreeObject,
+          txDeposit,
+          txUndeposit,
+          txSave,
+        ]}
+      />
+      <StatusTx
+        txs={[
+          txCreatePhiland,
+          txAprvPhi,
+          txAprvFree,
+          txAprvPremium,
+          txClaimPhi,
+          txBuyPremiumObject,
+          txGetFreeObject,
+          txDeposit,
+          txUndeposit,
+          txSave,
+        ]}
+      />
+      <Quest
+        claimableList={claimableList}
+        isOpen={isOpenQuest}
+        onClose={onCloseQuest}
+        onClickItem={claimPhi}
+        onClickRefetch={refetchClaimableList}
+      />
+      <Shop
+        isOpen={isOpenShop}
+        onClose={onCloseShop}
+        onClickFreeItem={getFreeObject}
+        onClickPremiumItem={buyPremiumObject}
+      />
+      <Collection
+        items={collectionItems}
+        isApproved={{ phi: isApprovedPhi, free: isApprovedFree, premium: isApprovedPremium }}
+        isOpen={isOpenCollection}
+        onClose={onCloseCollection}
+        onClickPlus={colPlus}
+        onClickMinus={colMinus}
+        onApprove={{ phi: aprvPhi, free: aprvFree, premium: aprvPremium }}
+        onSubmit={deposit}
+      />
+      <Inventory
+        items={inventoryItems}
+        isOpen={isOpenInventory}
+        readonly={!isEdit}
+        onClose={onCloseInventory}
+        onClickPlus={invPlus}
+        onClickMinus={invMinus}
+        onClickItem={onPickFromInventory}
+        onSubmit={undeposit}
+      />
+      <ActionMenu
+        state={actionMenuState}
+        onClose={onCloseActionMenu}
+        onBack={onDropObject}
+        onClickMove={onMoveObject}
+        onClickLink={() => {}}
+        onClickTrash={onRemoveObject}
+      />
+      <MenuBar
+        isEdit={isEdit}
+        account={account?.address}
+        currentENS={currentENS}
+        isCreatedPhiland={isCreatedPhiland}
+        domains={domains}
+        phiObjects={phiObjects}
+        actionHandler={{
+          onOpenQuest,
+          onOpenShop,
+          onOpenCollection,
+          onOpenInventry,
+          switchCurrentENS,
+          viewMode,
+          editMode,
+          onSave,
+        }}
+      />
 
-      <>
-        <Quest isOpen={isOpenQuest} onClose={onCloseQuest} onClickItem={claimObject} />
-        <Collection
-          items={collectionItems}
-          isApproved={isApproved}
-          isOpen={isOpenCollection}
-          onClose={onCloseCollection}
-          onClickPlus={colPlus}
-          onClickMinus={colMinus}
-          onApprove={approveAllPhiPbject}
-          onSubmit={deposit}
-        />
-        <Inventory
-          items={inventoryItems}
-          isOpen={isOpenInventory}
-          readonly={!isEdit}
-          onClose={onCloseInventory}
-          onClickPlus={invPlus}
-          onClickMinus={invMinus}
-          onClickItem={onPickFromInventory}
-          onSubmit={withdraw}
-        />
+      <Box
+        position="fixed"
+        top="16px"
+        left="24px"
+        cursor="pointer"
+        onClick={() => {
+          window.location.href = "/explorer"; // todo: redirect to LP
+        }}
+      >
+        <Image src="/logo.png" width="64px" height="64px" />
+      </Box>
+      <Box position="fixed" top="24px" left="calc(24px + 64px + 24px)">
+        <Search />
+      </Box>
+      <Box position="fixed" top="24px" right="24px">
+        <ConnectButton />
+      </Box>
 
-        <HStack position="fixed" bottom="0" left="calc(50% - 120px / 2)" spacing="16px" h="64px" align="center">
-          <Button icon={<Image src="/icons/sword.svg" width="32px" height="32px" />} onClick={onOpenQuest} />
-          <Button icon={<Image src="/icons/collection.svg" width="32px" height="32px" />} onClick={onOpenCollection} />
-          <Button icon={<>🧰</>} onClick={onOpenInventry} />
-        </HStack>
-      </>
-
-      {isCreated || phiObjects.length > 0 ? (
+      {!isCreatedPhiland && (
         <>
-          <ActionMenu
-            state={actionMenuState}
-            onClose={onCloseActionMenu}
-            onBack={onDropObject}
-            onClickMove={onMoveObject}
-            onClickLink={() => {}}
-            onClickTrash={onRemoveObject}
-          />
-
-          <>
-            <Flex position="fixed" bottom="0" ml="10px" h="64px" align="center">
-              <Box w="144px" h="40px">
-                <SelectBox
-                  options={domains.map((domain) => {
-                    return { label: domain, value: domain };
-                  })}
-                  value={currentENS}
-                  disabled={!account}
-                  handleChange={switchCurrentENS}
-                />
-              </Box>
-            </Flex>
-            <Flex
-              position="fixed"
-              bottom="0"
-              right="0"
-              mr="10px"
-              w="calc(40px + 40px + 16px)"
-              h="64px"
-              align="center"
-              justify="space-between"
-            >
-              <Center
-                w="40px"
-                h="40px"
-                border="1px solid"
-                borderColor="black"
-                bgColor="white"
-                cursor="pointer"
-                onClick={isEdit ? viewMode : editMode}
-              >
-                <Image src={`/icons/${isEdit ? "arrow-back" : "pencil"}.svg`} width="32px" height="32px" />
-              </Center>
-              <Center
-                w="40px"
-                h="40px"
-                border="1px solid"
-                borderColor="black"
-                bgColor="white"
-                cursor="pointer"
-                onClick={
-                  isEdit
-                    ? () => {
-                        onSave();
-                      }
-                    : () => {
-                        window.open(
-                          `https://twitter.com/intent/tweet?text=Come visit my philand @phi_xyz%0a${FRONTEND_URL}/${currentENS}`,
-                          "_blank"
-                        );
-                      }
-                }
-              >
-                <Image src={`/icons/${isEdit ? "disk" : "upload"}.svg`} width="32px" height="32px" />
-              </Center>
-            </Flex>
-          </>
-        </>
-      ) : (
-        <>
-          {account && !isFetching ? (
-            <Box position="fixed" top="calc(50% - 40px)" left="calc(50% - 280px / 2)">
+          {domains.length > 0 ? (
+            <Box position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
               <VStack>
                 <Box w="280px" h="40px">
                   <SelectBox
@@ -290,7 +281,30 @@ const Index: NextPage = () => {
               </VStack>
             </Box>
           ) : (
-            <></>
+            <>
+              {account ? (
+                <Box position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
+                  {isLoading ? (
+                    <>
+                      {/* todo */}
+                      {/* <>Loaindg Splash...</> */}
+                    </>
+                  ) : (
+                    <>
+                      <>ENS NOT FOUND</>
+                    </>
+                  )}
+                </Box>
+              ) : (
+                <Box position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
+                  <Image
+                    src="https://www.arweave.net/ygPahoFDTsqYyL0Ddvy3xiuS0x1_jYVvB7p_1TSTcyk?ext=png"
+                    width="128px"
+                    height="128px"
+                  />
+                </Box>
+              )}
+            </>
           )}
         </>
       )}

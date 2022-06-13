@@ -1,37 +1,58 @@
-import { PHI_MAP_CONTRACT_ADDRESS, PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
+import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { PhiObjectAbi } from "~/abi";
-import { useContractRead, useContractWrite } from "wagmi";
+import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
+import { ContractAbis, ContractAddress } from "./types";
+import { Tx } from "~/types/wagmi";
 
-const useApproveAll = (account?: string, disabled?: boolean): [boolean, () => void] => {
-  const { data, isFetching } = useContractRead(
+const useApproveAll = (
+  contract: ContractAddress,
+  account?: string,
+  disabled?: boolean
+): [boolean, { approve: () => void; tx: Tx }] => {
+  const { data } = useContractRead(
     {
-      addressOrName: PHI_OBJECT_CONTRACT_ADDRESS,
-      contractInterface: PhiObjectAbi,
+      addressOrName: contract,
+      contractInterface: ContractAbis[contract],
     },
     "isApprovedForAll",
     {
-      args: account ? [account, PHI_MAP_CONTRACT_ADDRESS] : [],
+      args: account ? [account, MAP_CONTRACT_ADDRESS] : null,
       watch: true,
-      enabled: !disabled,
+      enabled: !!account && !disabled,
       onSuccess(data) {
         //
       },
     }
   );
 
-  const { write } = useContractWrite(
+  const {
+    data: writeData,
+    write,
+    status: tmpStatus,
+  } = useContractWrite(
     {
-      addressOrName: PHI_OBJECT_CONTRACT_ADDRESS,
+      addressOrName: contract,
       contractInterface: PhiObjectAbi,
     },
     "setApprovalForAll",
     {
-      args: [PHI_MAP_CONTRACT_ADDRESS, 1],
+      args: [MAP_CONTRACT_ADDRESS, 1],
     }
   );
+  const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });
 
-  // @ts-ignore
-  return [data, write];
+  return [
+    // @ts-ignore
+    data,
+    {
+      approve: write,
+      tx: {
+        hash: writeData?.hash,
+        tmpStatus,
+        status,
+      },
+    },
+  ];
 };
 
 export default useApproveAll;

@@ -58,6 +58,7 @@ export default class Room {
   }
 
   leaveRoom() {
+    this.landContainer.removeChildren();
     const { room } = GameInstance.get();
     room.roomItemManager.reset();
     room.tileManager.reset();

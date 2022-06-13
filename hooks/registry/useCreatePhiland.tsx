@@ -1,42 +1,54 @@
-import { PHI_MAP_CONTRACT_ADDRESS, PHI_REGISTRY_CONTRACT_ADDRESS } from "~/constants";
-import { PhiMapAbi, PhiRegistryAbi } from "~/abi";
-import { useContractRead, useContractWrite } from "wagmi";
+import { MAP_CONTRACT_ADDRESS, REGISTRY_CONTRACT_ADDRESS } from "~/constants";
+import { MapAbi, RegistryAbi } from "~/abi";
+import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
+import { Tx } from "~/types/wagmi";
 
 const nullAddress = "0x0000000000000000000000000000000000000000";
 
-const useCreatePhiland = (ens?: string, disabled?: boolean): [boolean, boolean, () => void] => {
-  const { data, isFetching } = useContractRead(
+const useCreatePhiland = (ens?: string, disabled?: boolean): [boolean, { createPhiland: () => void; tx: Tx }] => {
+  const { data } = useContractRead(
     {
-      addressOrName: PHI_MAP_CONTRACT_ADDRESS,
-      contractInterface: PhiMapAbi,
+      addressOrName: MAP_CONTRACT_ADDRESS,
+      contractInterface: MapAbi,
     },
     "ownerOfPhiland",
     {
-      args: ens ? [ens.slice(0, -4)] : [],
+      args: ens ? [ens.slice(0, -4)] : null,
       watch: true,
-      enabled: !disabled,
+      enabled: !!ens && !disabled,
       onSuccess(data) {
         //
       },
     }
   );
 
-  const { write } = useContractWrite(
+  const {
+    data: writeData,
+    write,
+    status: tmpStatus,
+  } = useContractWrite(
     {
-      addressOrName: PHI_REGISTRY_CONTRACT_ADDRESS,
-      contractInterface: PhiRegistryAbi,
+      addressOrName: REGISTRY_CONTRACT_ADDRESS,
+      contractInterface: RegistryAbi,
     },
     "createPhiland"
   );
+  const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });
 
   return [
     // @ts-ignore
     data && data !== nullAddress,
-    isFetching,
-    () =>
-      write({
-        args: ens ? [ens.slice(0, -4)] : [],
-      }),
+    {
+      createPhiland: () =>
+        write({
+          args: ens ? [ens.slice(0, -4)] : [],
+        }),
+      tx: {
+        hash: data?.hash,
+        tmpStatus,
+        status,
+      },
+    },
   ];
 };
 

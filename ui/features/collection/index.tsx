@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Center,
+  HStack,
   Modal,
   ModalBody,
   ModalContent,
@@ -12,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
 import Image from "next/image";
-import { phiObjectMetadataList } from "~/types/object";
+import { objectMetadataList } from "~/types/object";
 import { QuantityInput } from "~/ui/components";
 
 export const useCollection = (
@@ -44,17 +45,33 @@ export const useCollection = (
 
 const Collection: FC<{
   items: (BalanceObject & { selected: number })[];
-  isApproved: boolean;
+  isApproved: {
+    phi: boolean;
+    free: boolean;
+    premium: boolean;
+  };
   isOpen: boolean;
   onClose: () => void;
   onClickPlus: (idx: number) => void;
   onClickMinus: (idx: number) => void;
-  onApprove: () => void;
+  onApprove: {
+    phi: () => void;
+    free: () => void;
+    premium: () => void;
+  };
   onSubmit: (args: BalanceObject[]) => void;
 }> = ({ items, isApproved, isOpen, onClose, onClickPlus, onClickMinus, onApprove, onSubmit }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered size="2xl" scrollBehavior="inside">
-      <ModalContent border="2px solid" borderColor="black" borderRadius="none">
+    <Modal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside">
+      <ModalContent
+        border="2px solid"
+        borderColor="black"
+        borderRadius="none"
+        minW="600px"
+        minH="600px"
+        maxW="600px"
+        maxH="600px"
+      >
         <ModalHeader>Collection</ModalHeader>
         <ModalBody>
           <SimpleGrid columns={3} spacing="16px">
@@ -62,7 +79,7 @@ const Collection: FC<{
               <Center key={i} position="relative" height="128px" cursor="pointer">
                 <Box position="relative" width="96px" height="96px">
                   <Image
-                    src={phiObjectMetadataList[item.contract][item.tokenId].image_url}
+                    src={objectMetadataList[item.contract][item.tokenId].image_url}
                     layout="fill"
                     objectFit="contain"
                   />
@@ -80,7 +97,7 @@ const Collection: FC<{
           </SimpleGrid>
         </ModalBody>
         <ModalFooter justifyContent="center">
-          {isApproved ? (
+          {isApproved.phi && isApproved.free && isApproved.premium && (
             <Button
               bgColor="gray.800"
               borderRadius="12px"
@@ -105,11 +122,24 @@ const Collection: FC<{
             >
               Deposit Objects / {items.filter((item) => item.selected > 0).length}
             </Button>
-          ) : (
-            <Button bgColor="gray.800" borderRadius="12px" color="white" onClick={() => onApprove()}>
-              Approve
-            </Button>
           )}
+          <HStack>
+            {!isApproved.phi && (
+              <Button bgColor="gray.800" borderRadius="12px" color="white" onClick={() => onApprove.phi()}>
+                Approve Phi
+              </Button>
+            )}
+            {!isApproved.free && (
+              <Button bgColor="gray.800" borderRadius="12px" color="white" onClick={() => onApprove.free()}>
+                Approve Free
+              </Button>
+            )}
+            {!isApproved.premium && (
+              <Button bgColor="gray.800" borderRadius="12px" color="white" onClick={() => onApprove.premium()}>
+                Approve Premium
+              </Button>
+            )}
+          </HStack>
         </ModalFooter>
       </ModalContent>
     </Modal>

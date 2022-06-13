@@ -77,3 +77,10 @@ export const conditionList: { [tokenId: number]: { name: ConditionName; value: s
     value: "10000",
   },
 };
+
+export type ClaimableList = {
+  TokenId: string;
+  Value: string;
+  Condition: ConditionName;
+  TimeStamp: string;
+}[];

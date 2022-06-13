@@ -1,12 +1,15 @@
+export type UIManagerHandler = {
+  onOpenActionMenu?: (id: string, globalX: number, globalY: number) => void;
+};
+
 export default class UIManager {
   onOpenActionMenu?: (id: string, globalX: number, globalY: number) => void;
-  // onMoveObject: () => void;
 
   constructor() {
     this.onOpenActionMenu = (id: string, globalX: number, globalY: number) => {};
   }
 
-  loadUIHandler(onOpenActionMenu?: (id: string, globalX: number, globalY: number) => void) {
-    this.onOpenActionMenu = onOpenActionMenu;
+  loadUIHandler(handler: UIManagerHandler) {
+    this.onOpenActionMenu = handler.onOpenActionMenu;
   }
 }

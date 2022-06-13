@@ -20,6 +20,8 @@ const SelectBox: FC<{
       disabled={disabled}
       onChange={(e) => handleChange(e.target.value)}
       cursor="pointer"
+      _focus={{ outline: "none" }}
+      _focusVisible={{ outline: "none" }}
     >
       {options.map((option, i) => (
         <option key={i} value={option.value}>

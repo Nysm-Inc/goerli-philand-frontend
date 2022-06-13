@@ -1,17 +1,33 @@
 import { useContractWrite, useWaitForTransaction } from "wagmi";
-import { PHI_MAP_CONTRACT_ADDRESS } from "~/constants";
-import { PhiMapAbi } from "~/abi";
+import { MAP_CONTRACT_ADDRESS } from "~/constants";
+import { MapAbi } from "~/abi";
 import { useContext, useEffect } from "react";
 import { AppContext } from "~/contexts";
 import { updateOGP } from "~/utils/ogp";
+import { Tx } from "~/types/wagmi";
 
-const useSave = (ens?: string | null) => {
+type Args = {
+  removeArgs: { removeIdxs: (string | number)[]; remove_check: boolean };
+  writeArgs: {
+    contractAddress: string;
+    tokenId: number;
+    xStart: number;
+    yStart: number;
+  }[];
+  linkArgs: { title: string; url: string }[];
+};
+
+const useSave = (ens?: string | null): { save: ({ removeArgs, writeArgs, linkArgs }: Args) => void; tx: Tx } => {
   const { game } = useContext(AppContext);
 
-  const { data, write } = useContractWrite(
+  const {
+    data,
+    write,
+    status: tmpStatus,
+  } = useContractWrite(
     {
-      addressOrName: PHI_MAP_CONTRACT_ADDRESS,
-      contractInterface: PhiMapAbi,
+      addressOrName: MAP_CONTRACT_ADDRESS,
+      contractInterface: MapAbi,
     },
     "save"
   );
@@ -30,20 +46,18 @@ const useSave = (ens?: string | null) => {
     })();
   }, [status]);
 
-  return (
-    removeArgs: { removeIdxs: (string | number)[]; remove_check: boolean },
-    writeArgs: {
-      contractAddress: string;
-      tokenId: number;
-      xStart: number;
-      yStart: number;
-    }[],
-    linkArgs: { title: string; url: string }[]
-  ) => {
-    if (!ens) return;
+  return {
+    save: ({ removeArgs, writeArgs, linkArgs }: Args) => {
+      if (!ens) return;
 
-    const calldata = [ens.slice(0, -4), removeArgs.removeIdxs, removeArgs.remove_check, writeArgs, linkArgs];
-    return write({ args: calldata });
+      const calldata = [ens.slice(0, -4), removeArgs.removeIdxs, removeArgs.remove_check, writeArgs, linkArgs];
+      return write({ args: calldata });
+    },
+    tx: {
+      hash: data?.hash,
+      tmpStatus,
+      status,
+    },
   };
 };
 

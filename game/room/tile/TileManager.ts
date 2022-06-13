@@ -5,7 +5,7 @@ import { isValidTile, tileToLocal } from "~/game/room/pos";
 import { Tile } from "./types";
 import { newTile } from "./Tile";
 
-const emptyTilemap: string[][] = [...Array(ROOM_TILE_N)].map(() => Array(ROOM_TILE_N).fill(""));
+const emptyTilemap = (): string[][] => [...Array(ROOM_TILE_N)].map(() => Array(ROOM_TILE_N).fill(""));
 
 export default class TileManager {
   private tileTextures: {
@@ -28,7 +28,7 @@ export default class TileManager {
 
     this.selectedTile = new Container();
     this.selectedTile.addChild(new Sprite(this.tileTextures.selected));
-    this.tileMap = emptyTilemap;
+    this.tileMap = emptyTilemap();
     this.worldGrid = new TilingSprite(this.tileTextures.grid, GAME_APP_WIDTH, GAME_APP_HEIGHT);
     this.landGrid = new Container();
     this.collisionTiles = new Container();
@@ -133,7 +133,7 @@ export default class TileManager {
   reset() {
     const { room } = GameInstance.get();
 
-    this.tileMap = emptyTilemap;
+    this.tileMap = emptyTilemap();
     this.updateSelectedTile(0, 0);
     room.landContainer.removeChildren();
   }
