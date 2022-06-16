@@ -1,17 +1,6 @@
 import Image from "next/image";
 import { FC } from "react";
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  SimpleGrid,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Modal, ModalBody, ModalContent, ModalHeader, SimpleGrid, Text } from "@chakra-ui/react";
 import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { objectMetadataList } from "~/types/object";
 import { ClaimableList } from "~/types/quest";
@@ -25,15 +14,7 @@ const Quest: FC<{
 }> = ({ claimableList, isOpen, onClose, onClickItem, onClickRefetch }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside">
-      <ModalContent
-        border="2px solid"
-        borderColor="black"
-        borderRadius="none"
-        minW="600px"
-        minH="600px"
-        maxW="600px"
-        maxH="600px"
-      >
+      <ModalContent border="2px solid" borderColor="black" borderRadius="none" minW="600px" minH="600px" maxW="600px" maxH="600px">
         <ModalHeader>
           <Flex justify="space-between">
             <Text>Quest</Text>

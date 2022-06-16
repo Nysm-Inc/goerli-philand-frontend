@@ -1,7 +1,12 @@
 import { useContractRead } from "wagmi";
 import { BigNumber } from "ethers";
 import { MapAbi } from "~/abi";
-import { MAP_CONTRACT_ADDRESS } from "~/constants";
+import {
+  FREE_OBJECT_CONTRACT_ADDRESS,
+  MAP_CONTRACT_ADDRESS,
+  PHI_OBJECT_CONTRACT_ADDRESS,
+  PREMIUM_OBJECT_CONTRACT_ADDRESS,
+} from "~/constants";
 import { PhiObject } from "~/types";
 
 const useViewPhiland = (ens?: string | null, disabled?: boolean): (PhiObject & { removeIdx: number })[] => {
@@ -23,6 +28,9 @@ const useViewPhiland = (ens?: string | null, disabled?: boolean): (PhiObject & {
 
   return !isFetching && data
     ? data.reduce((memo, object, idx) => {
+        // todo
+        // if (![PHI_OBJECT_CONTRACT_ADDRESS, FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS].includes(object[0])) return memo;
+
         const tokenId = BigNumber.from(object[1]).toNumber();
         if (tokenId > 0) {
           return [

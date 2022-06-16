@@ -1,20 +1,11 @@
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Center,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Box, Button, Center, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SimpleGrid } from "@chakra-ui/react";
 import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject } from "~/types";
 import { QuantityInput } from "~/ui/components";
 
+// selected > deposited > used
 type InventoryObject = DepositObject & { selected: number; deposited: boolean };
 
 export const useInventory = (
@@ -29,12 +20,12 @@ export const useInventory = (
 ] => {
   const [items, setItems] = useState<InventoryObject[]>([]);
 
-  const plus = (idx: number) => {
+  const plusSelect = (idx: number) => {
     const copied = [...items];
     copied[idx].selected += 1;
     setItems(copied);
   };
-  const minus = (idx: number) => {
+  const minusSelect = (idx: number) => {
     const copied = [...items];
     copied[idx].selected -= 1;
     setItems(copied);
@@ -88,7 +79,7 @@ export const useInventory = (
     setItems(updated);
   }, [originItems.length]);
 
-  return [items, plus, minus, plusUsed, minusUsed, reset];
+  return [items, plusSelect, minusSelect, plusUsed, minusUsed, reset];
 };
 
 const Inventory: FC<{
@@ -137,11 +128,7 @@ const Inventory: FC<{
                     onClose();
                   }}
                 >
-                  <Image
-                    src={objectMetadataList[item.contractAddress][item.tokenId].image_url}
-                    layout="fill"
-                    objectFit="contain"
-                  />
+                  <Image src={objectMetadataList[item.contractAddress][item.tokenId].image_url} layout="fill" objectFit="contain" />
                 </Box>
                 {!item.deposited && (
                   <Box position="absolute" top={0} right={0}>

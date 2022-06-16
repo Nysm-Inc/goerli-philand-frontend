@@ -1,25 +1,14 @@
 import { FC, useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Center,
-  HStack,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Box, Button, Center, HStack, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SimpleGrid } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
 import Image from "next/image";
 import { objectMetadataList } from "~/types/object";
 import { QuantityInput } from "~/ui/components";
 
-export const useCollection = (
-  originItems: BalanceObject[]
-): [(BalanceObject & { selected: number })[], (idx: number) => void, (idx: number) => void] => {
-  const [items, setItems] = useState<(BalanceObject & { selected: number })[]>([]);
+type CollectionObject = BalanceObject & { selected: number };
+
+export const useCollection = (originItems: BalanceObject[]): [CollectionObject[], (idx: number) => void, (idx: number) => void] => {
+  const [items, setItems] = useState<CollectionObject[]>([]);
 
   const plus = (idx: number) => {
     const copied = [...items];
@@ -44,7 +33,7 @@ export const useCollection = (
 };
 
 const Collection: FC<{
-  items: (BalanceObject & { selected: number })[];
+  items: CollectionObject[];
   isApproved: {
     phi: boolean;
     free: boolean;
@@ -63,26 +52,14 @@ const Collection: FC<{
 }> = ({ items, isApproved, isOpen, onClose, onClickPlus, onClickMinus, onApprove, onSubmit }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside">
-      <ModalContent
-        border="2px solid"
-        borderColor="black"
-        borderRadius="none"
-        minW="600px"
-        minH="600px"
-        maxW="600px"
-        maxH="600px"
-      >
+      <ModalContent border="2px solid" borderColor="black" borderRadius="none" minW="600px" minH="600px" maxW="600px" maxH="600px">
         <ModalHeader>Collection</ModalHeader>
         <ModalBody>
           <SimpleGrid columns={3} spacing="16px">
             {items.map((item, i) => (
               <Center key={i} position="relative" height="128px" cursor="pointer">
                 <Box position="relative" width="96px" height="96px">
-                  <Image
-                    src={objectMetadataList[item.contract][item.tokenId].image_url}
-                    layout="fill"
-                    objectFit="contain"
-                  />
+                  <Image src={objectMetadataList[item.contract][item.tokenId].image_url} layout="fill" objectFit="contain" />
                 </Box>
                 <Box position="absolute" top={0} right={0}>
                   <QuantityInput

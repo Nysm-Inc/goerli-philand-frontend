@@ -4,7 +4,7 @@ import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi"
 import { ContractAbis, ContractAddress } from "./types";
 import { Tx } from "~/types/wagmi";
 
-const useApproveAll = (
+const useApprove = (
   contract: ContractAddress,
   account?: string,
   disabled?: boolean
@@ -55,4 +55,4 @@ const useApproveAll = (
   ];
 };
 
-export default useApproveAll;
+export default useApprove;

@@ -8,11 +8,7 @@ import { Tx } from "~/types/wagmi";
 const useDeposit = (
   ens?: string | null,
   disabled?: boolean
-): [
-  DepositObject[],
-  { deposit: (args: BalanceObject[]) => void; tx: Tx },
-  { undeposit: (args: BalanceObject[]) => void; tx: Tx }
-] => {
+): [DepositObject[], { deposit: (args: BalanceObject[]) => void; tx: Tx }, { undeposit: (args: BalanceObject[]) => void; tx: Tx }] => {
   const { data, isFetching } = useContractRead(
     {
       addressOrName: MAP_CONTRACT_ADDRESS,
@@ -57,24 +53,14 @@ const useDeposit = (
   const onDeposit = async (args: { contract: string; tokenId: number; amount: number }[]) => {
     if (!ens) return;
 
-    const calldata = [
-      ens.slice(0, -4),
-      args.map((arg) => arg.contract),
-      args.map((arg) => arg.tokenId),
-      args.map((arg) => arg.amount),
-    ];
+    const calldata = [ens.slice(0, -4), args.map((arg) => arg.contract), args.map((arg) => arg.tokenId), args.map((arg) => arg.amount)];
     return deposit({ args: calldata });
   };
 
   const onUndeposit = async (args: { contract: string; tokenId: number; amount: number }[]) => {
     if (!ens) return;
 
-    const calldata = [
-      ens.slice(0, -4),
-      args.map((arg) => arg.contract),
-      args.map((arg) => arg.tokenId),
-      args.map((arg) => arg.amount),
-    ];
+    const calldata = [ens.slice(0, -4), args.map((arg) => arg.contract), args.map((arg) => arg.tokenId), args.map((arg) => arg.amount)];
     return undeposit({ args: calldata });
   };
 

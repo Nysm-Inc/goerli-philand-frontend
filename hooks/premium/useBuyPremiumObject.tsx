@@ -5,9 +5,7 @@ import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/abstract-provider";
 import { Tx } from "~/types/wagmi";
 
-const useBuyPremiumObject = (
-  signerOrProvider?: Signer | Provider
-): { buyPremiumObject: (tokenId: number) => Promise<void>; tx: Tx } => {
+const useBuyPremiumObject = (signerOrProvider?: Signer | Provider): { buyPremiumObject: (tokenId: number) => Promise<void>; tx: Tx } => {
   const {
     data,
     write,

@@ -6,7 +6,7 @@ import { AppContext } from "~/contexts";
 import { updateOGP } from "~/utils/ogp";
 import { Tx } from "~/types/wagmi";
 
-type Args = {
+export type SaveArgs = {
   removeArgs: { removeIdxs: (string | number)[]; remove_check: boolean };
   writeArgs: {
     contractAddress: string;
@@ -17,7 +17,7 @@ type Args = {
   linkArgs: { title: string; url: string }[];
 };
 
-const useSave = (ens?: string | null): { save: ({ removeArgs, writeArgs, linkArgs }: Args) => void; tx: Tx } => {
+const useSave = (ens?: string | null): { save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => void; tx: Tx } => {
   const { game } = useContext(AppContext);
 
   const {
@@ -47,7 +47,7 @@ const useSave = (ens?: string | null): { save: ({ removeArgs, writeArgs, linkArg
   }, [status]);
 
   return {
-    save: ({ removeArgs, writeArgs, linkArgs }: Args) => {
+    save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => {
       if (!ens) return;
 
       const calldata = [ens.slice(0, -4), removeArgs.removeIdxs, removeArgs.remove_check, writeArgs, linkArgs];

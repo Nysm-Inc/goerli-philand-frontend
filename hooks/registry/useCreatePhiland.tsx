@@ -44,7 +44,7 @@ const useCreatePhiland = (ens?: string, disabled?: boolean): [boolean, { createP
           args: ens ? [ens.slice(0, -4)] : [],
         }),
       tx: {
-        hash: data?.hash,
+        hash: writeData?.hash,
         tmpStatus,
         status,
       },

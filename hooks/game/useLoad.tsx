@@ -1,10 +1,9 @@
 import { useContext, useEffect, useRef } from "react";
 import { AppContext } from "~/contexts";
-import Game from "~/game/Game";
 import { UIManagerHandler } from "~/game/ui/UIManager";
 import { PhiObject } from "~/types";
 
-const useGame = (isCreatedPhiland: boolean, phiObjects: PhiObject[], handler: UIManagerHandler): Game => {
+const useLoad = (isCreatedPhiland: boolean, phiObjects: PhiObject[], handler: UIManagerHandler) => {
   const _strictRef = useRef(false); // for avoiding react18 strict mode
   const loadGameRef = useRef(false);
   const { game } = useContext(AppContext);
@@ -37,8 +36,6 @@ const useGame = (isCreatedPhiland: boolean, phiObjects: PhiObject[], handler: UI
     game.room.enterRoom();
     game.room.roomItemManager.loadItems(phiObjects);
   }, [phiObjects.length, loadGameRef.current]);
-
-  return game;
 };
 
-export default useGame;
+export default useLoad;

@@ -1,3 +1,4 @@
-import useGame from "./useGame";
+import useLoad from "./useLoad";
+import useHandler from "./useHandler";
 
-export { useGame };
+export { useLoad, useHandler };

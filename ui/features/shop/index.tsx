@@ -25,15 +25,7 @@ const Shop: FC<{
 }> = ({ isOpen, onClose, onClickFreeItem, onClickPremiumItem }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside">
-      <ModalContent
-        border="2px solid"
-        borderColor="black"
-        borderRadius="none"
-        minW="600px"
-        minH="600px"
-        maxW="600px"
-        maxH="600px"
-      >
+      <ModalContent border="2px solid" borderColor="black" borderRadius="none" minW="600px" minH="600px" maxW="600px" maxH="600px">
         <ModalHeader>Shop</ModalHeader>
         <ModalBody>
           <Tabs variant="soft-rounded" colorScheme="blackAlpha">
@@ -59,12 +51,7 @@ const Shop: FC<{
                 <SimpleGrid columns={3} spacing="16px">
                   {Object.values(objectMetadataList[PREMIUM_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
                     return (
-                      <Center
-                        key={i}
-                        height="128px"
-                        cursor="pointer"
-                        onClick={() => onClickPremiumItem(metadata.tokenId)}
-                      >
+                      <Center key={i} height="128px" cursor="pointer" onClick={() => onClickPremiumItem(metadata.tokenId)}>
                         <Box width="96px" height="96px" position="relative">
                           <Image src={metadata.image_url} layout="fill" objectFit="contain" />
                         </Box>

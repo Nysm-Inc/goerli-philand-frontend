@@ -6,15 +6,7 @@ const ConfirmTx: FC<{ txs: Tx[] }> = ({ txs }) => {
   return (
     <Modal isOpen={txs.some((tx) => tx.tmpStatus === "loading")} onClose={() => {}} isCentered closeOnOverlayClick>
       <ModalOverlay />
-      <ModalContent
-        border="2px solid"
-        borderColor="black"
-        borderRadius="none"
-        minW="480px"
-        minH="480px"
-        maxW="480px"
-        maxH="480px"
-      >
+      <ModalContent border="2px solid" borderColor="black" borderRadius="none" minW="480px" minH="480px" maxW="480px" maxH="480px">
         <ModalHeader>=======================================</ModalHeader>
         <ModalBody w="full" h="full">
           <Center w="full" h="full">

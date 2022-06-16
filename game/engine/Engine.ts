@@ -18,10 +18,7 @@ export default class Engine {
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
   onMouseClickHandler: (mouseX: number, mouseY: number) => void;
 
-  constructor(
-    onMouseMove: (mouseX: number, mouseY: number) => void,
-    onMouseClick: (mouseX: number, mouseY: number) => void
-  ) {
+  constructor(onMouseMove: (mouseX: number, mouseY: number) => void, onMouseClick: (mouseX: number, mouseY: number) => void) {
     this.onMouseMoveHandler = onMouseMove;
     this.onMouseClickHandler = onMouseClick;
 

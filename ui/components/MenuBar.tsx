@@ -2,7 +2,6 @@ import Image from "next/image";
 import { FC } from "react";
 import { Center, HStack } from "@chakra-ui/react";
 import { FRONTEND_URL } from "~/constants";
-import { PhiObject } from "~/types";
 import { Button, SelectBox } from "~/ui/components";
 
 const MenuBar: FC<{
@@ -11,28 +10,19 @@ const MenuBar: FC<{
   currentENS: string;
   isCreatedPhiland: boolean;
   domains: string[];
-  phiObjects: PhiObject[];
   actionHandler: {
     onOpenQuest: () => void;
     onOpenShop: () => void;
     onOpenCollection: () => void;
     onOpenInventry: () => void;
     switchCurrentENS: (ens: string) => void;
-    viewMode: () => void;
-    editMode: () => void;
+    onView: () => void;
+    onEdit: () => void;
     onSave: () => void;
   };
-}> = ({ isEdit, account, currentENS, isCreatedPhiland, domains, phiObjects, actionHandler }) => {
+}> = ({ isEdit, account, currentENS, isCreatedPhiland, domains, actionHandler }) => {
   return (
-    <HStack
-      position="fixed"
-      bottom="24px"
-      left="50%"
-      transform="translateX(-50%)"
-      border="1px solid"
-      borderColor="black"
-      bgColor="white"
-    >
+    <HStack position="fixed" bottom="24px" left="50%" transform="translateX(-50%)" border="1px solid" borderColor="black" bgColor="white">
       {isCreatedPhiland && (
         <Center w="144px">
           <SelectBox
@@ -47,18 +37,9 @@ const MenuBar: FC<{
       )}
       {domains.length > 0 && (
         <>
-          <Button
-            icon={<Image src="/icons/sword.svg" width="32px" height="32px" />}
-            onClick={actionHandler.onOpenQuest}
-          />
-          <Button
-            icon={<Image src="/icons/store.svg" width="32px" height="32px" />}
-            onClick={actionHandler.onOpenShop}
-          />
-          <Button
-            icon={<Image src="/icons/collection.svg" width="32px" height="32px" />}
-            onClick={actionHandler.onOpenCollection}
-          />
+          <Button icon={<Image src="/icons/sword.svg" width="32px" height="32px" />} onClick={actionHandler.onOpenQuest} />
+          <Button icon={<Image src="/icons/store.svg" width="32px" height="32px" />} onClick={actionHandler.onOpenShop} />
+          <Button icon={<Image src="/icons/collection.svg" width="32px" height="32px" />} onClick={actionHandler.onOpenCollection} />
           <Button icon={<>🧰</>} onClick={actionHandler.onOpenInventry} />
         </>
       )}
@@ -83,7 +64,7 @@ const MenuBar: FC<{
             <Image src={`/icons/${isEdit ? "disk" : "upload"}.svg`} width="32px" height="32px" />
           </Center>
 
-          <Center w="40px" cursor="pointer" onClick={isEdit ? actionHandler.viewMode : actionHandler.editMode}>
+          <Center w="40px" cursor="pointer" onClick={isEdit ? actionHandler.onView : actionHandler.onEdit}>
             <Image src={`/icons/${isEdit ? "arrow-back" : "pencil"}.svg`} width="32px" height="32px" />
           </Center>
         </>

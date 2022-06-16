@@ -10,14 +10,11 @@ const Search = () => {
         window.location.href = searchText.match(/^.+\.eth$/g) ? searchText : searchText + ".eth";
       }}
     >
-      <InputGroup w="280px" h="40px" border="1px solid" borderColor="black" borderRadius="none">
-        {/* <InputLeftElement pointerEvents="none">
-          <></>
-        </InputLeftElement> */}
+      <InputGroup w="280px" h="40px" border="1px solid" borderColor="black" borderRadius="none" bgColor="white">
         <Input
-          focusBorderColor="none"
-          borderRadius="none"
+          variant="unstyled"
           placeholder="visit other lands"
+          paddingLeft="8px"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />

@@ -1,4 +1,4 @@
-import useApproveAll from "./useApproveAll";
+import useApprove from "./useApprove";
 import useBalances from "./useBalances";
 
-export { useApproveAll, useBalances };
+export { useApprove, useBalances };
