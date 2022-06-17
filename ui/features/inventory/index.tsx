@@ -5,32 +5,31 @@ import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject } from "~/types";
 import { QuantityInput } from "~/ui/components";
 
-// selected > deposited > used
-type InventoryObject = DepositObject & { selected: number; deposited: boolean };
+type InventoryObject = DepositObject & { select: number; writed: boolean };
 
 export const useInventory = (
-  originItems: DepositObject[]
+  originItems: DepositObject[],
+  isEdit: boolean
 ): [
   InventoryObject[],
   (idx: number) => void,
   (idx: number) => void,
   (contract: string, tokenId: number) => void,
-  (contract: string, tokenId: number) => void,
-  () => void
+  (contract: string, tokenId: number) => void
 ] => {
   const [items, setItems] = useState<InventoryObject[]>([]);
 
-  const plusSelect = (idx: number) => {
+  const plus = (idx: number) => {
     const copied = [...items];
-    copied[idx].selected += 1;
+    copied[idx].select += 1;
     setItems(copied);
   };
-  const minusSelect = (idx: number) => {
+  const minus = (idx: number) => {
     const copied = [...items];
-    copied[idx].selected -= 1;
+    copied[idx].select -= 1;
     setItems(copied);
   };
-  const plusUsed = (contract: string, tokenId: number) => {
+  const tryWrite = (contract: string, tokenId: number) => {
     const copied = [...items];
     const idx = copied.findIndex((c) => c.contractAddress === contract && c.tokenId === tokenId);
     copied[idx].used += 1;
@@ -40,7 +39,7 @@ export const useInventory = (
       setItems(copied.filter((_, i) => i !== idx));
     }
   };
-  const minusUsed = (contract: string, tokenId: number) => {
+  const tryRemove = (contract: string, tokenId: number) => {
     let copied = [...items];
     const idx = copied.findIndex((c) => c.contractAddress === contract && c.tokenId === tokenId);
     if (idx > 0) {
@@ -53,45 +52,32 @@ export const useInventory = (
           tokenId: tokenId,
           amount: 1,
           used: 0,
-          selected: 0,
-          deposited: true,
+          select: 0,
+          writed: true,
         },
       ];
     }
     copied.sort((a, b) => a.tokenId - b.tokenId);
     setItems(copied);
   };
-  const reset = () => {
-    const origin = originItems.map((item) => {
-      return { ...item, selected: 0, deposited: false };
-    });
-    setItems(origin);
-  };
 
   useEffect(() => {
-    const deposited = items.filter((item) => item.deposited);
-    const origin = originItems.map((item) => {
-      return { ...item, selected: 0, deposited: false };
-    });
+    setItems(originItems.map((item) => ({ ...item, select: 0, writed: false })));
+  }, [originItems.length, isEdit]);
 
-    const updated = [...deposited, ...origin];
-    updated.sort((a, b) => a.tokenId - b.tokenId);
-    setItems(updated);
-  }, [originItems.length]);
-
-  return [items, plusSelect, minusSelect, plusUsed, minusUsed, reset];
+  return [items, plus, minus, tryWrite, tryRemove];
 };
 
 const Inventory: FC<{
   items: InventoryObject[];
+  isEdit: boolean;
   isOpen: boolean;
-  readonly: boolean;
   onClose: () => void;
   onClickPlus: (idx: number) => void;
   onClickMinus: (idx: number) => void;
   onClickItem: (object: IObject) => void;
   onSubmit: (args: BalanceObject[]) => void;
-}> = ({ readonly, items, isOpen, onClose, onClickPlus, onClickMinus, onClickItem, onSubmit }) => {
+}> = ({ items, isEdit, isOpen, onClose, onClickPlus, onClickMinus, onClickItem, onSubmit }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside">
       <ModalContent
@@ -114,9 +100,9 @@ const Inventory: FC<{
                   position="relative"
                   width="96px"
                   height="96px"
-                  cursor={readonly ? "" : "pointer"}
+                  cursor={isEdit ? "pointer" : ""}
                   onClick={() => {
-                    if (readonly) return;
+                    if (!isEdit) return;
 
                     const metadata = objectMetadataList[item.contractAddress][item.tokenId];
                     onClickItem({
@@ -130,10 +116,10 @@ const Inventory: FC<{
                 >
                   <Image src={objectMetadataList[item.contractAddress][item.tokenId].image_url} layout="fill" objectFit="contain" />
                 </Box>
-                {!item.deposited && (
+                {!isEdit && !item.writed && (
                   <Box position="absolute" top={0} right={0}>
                     <QuantityInput
-                      num={item.selected}
+                      num={item.select}
                       balance={item.amount}
                       handleClickPlus={() => onClickPlus(i)}
                       handleClickMinus={() => onClickMinus(i)}
@@ -144,32 +130,34 @@ const Inventory: FC<{
             ))}
           </SimpleGrid>
         </ModalBody>
-        <ModalFooter justifyContent="center">
-          <Button
-            bgColor="gray.800"
-            borderRadius="12px"
-            color="white"
-            onClick={() => {
-              const args = items.reduce((memo, item) => {
-                if (item.selected > 0) {
-                  return [
-                    ...memo,
-                    {
-                      contract: item.contractAddress,
-                      tokenId: item.tokenId,
-                      amount: item.selected,
-                    },
-                  ];
-                } else {
-                  return memo;
-                }
-              }, [] as BalanceObject[]);
-              onSubmit(args);
-            }}
-          >
-            Withdraw Objects / {items.filter((item) => item.selected > 0).length}
-          </Button>
-        </ModalFooter>
+        {!isEdit && (
+          <ModalFooter justifyContent="center">
+            <Button
+              bgColor="gray.800"
+              borderRadius="12px"
+              color="white"
+              onClick={() => {
+                const args = items.reduce((memo, item) => {
+                  if (item.select > 0) {
+                    return [
+                      ...memo,
+                      {
+                        contract: item.contractAddress,
+                        tokenId: item.tokenId,
+                        amount: item.select,
+                      },
+                    ];
+                  } else {
+                    return memo;
+                  }
+                }, [] as BalanceObject[]);
+                onSubmit(args);
+              }}
+            >
+              Withdraw Objects / {items.filter((item) => item.select > 0).length}
+            </Button>
+          </ModalFooter>
+        )}
       </ModalContent>
     </Modal>
   );

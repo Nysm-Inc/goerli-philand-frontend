@@ -5,14 +5,14 @@ import { Box, Center, useDisclosure, useBoolean, VStack } from "@chakra-ui/react
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
 import Inventory, { useInventory } from "~/ui/features/inventory";
-import Collection, { useCollection } from "~/ui/features/collection";
+import Collection from "~/ui/features/collection";
 import { ActionMenu, useActionMenu, MenuBar, SelectBox, StatusTx, ConfirmTx, Header } from "~/ui/components";
 import { useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
 import { useDeposit, useSave, useViewPhiland } from "~/hooks/map";
 import { useApprove, useBalances } from "~/hooks/object";
 import { useClaim, useClaimableList } from "~/hooks/claim";
-import { useLoad, useHandler } from "~/hooks/game";
+import { useGame } from "~/hooks/game";
 import { useGetFreeObject } from "~/hooks/free";
 import { useBuyPremiumObject } from "~/hooks/premium";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PHI_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
@@ -47,19 +47,13 @@ const Index: NextPage = () => {
   const [depositObjects, { deposit, tx: txDeposit }, { undeposit, tx: txUndeposit }] = useDeposit(currentENS);
   const { save, tx: txSave } = useSave(currentENS);
   const [claimableList, refetchClaimableList] = useClaimableList(account?.address);
-  const [collectionItems, colPlus, colMinus] = useCollection([...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects]);
-  const [inventoryItems, invPlus, invMinus, invPlusUsed, invMinusUsed, invReset] = useInventory(depositObjects);
+  const [inventoryItems, plus, minus, tryWrite, tryRemove] = useInventory(depositObjects, isEdit);
 
-  const { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onSave } = useHandler({
-    phiObjects,
-    edit,
-    view,
-    invPlusUsed,
-    invMinusUsed,
-    invReset,
-    save,
+  const { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onSave } = useGame({
+    state: { isCreatedPhiland, phiObjects },
+    uiHandler: { edit, view, tryWrite, tryRemove, save },
+    gameUIHandler: { onOpenActionMenu },
   });
-  useLoad(isCreatedPhiland, phiObjects, { onOpenActionMenu });
 
   return (
     <>
@@ -101,22 +95,21 @@ const Index: NextPage = () => {
       />
       <Shop isOpen={isOpenShop} onClose={onCloseShop} onClickFreeItem={getFreeObject} onClickPremiumItem={buyPremiumObject} />
       <Collection
-        items={collectionItems}
+        items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects]}
         isApproved={{ phi: isAprvPhi, free: isAprvFree, premium: isAprvPre }}
+        isEdit={isEdit}
         isOpen={isOpenCollection}
         onClose={onCloseCollection}
-        onClickPlus={colPlus}
-        onClickMinus={colMinus}
         onApprove={{ phi: aprvPhi, free: aprvFree, premium: aprvPre }}
         onSubmit={deposit}
       />
       <Inventory
         items={inventoryItems}
+        isEdit={isEdit}
         isOpen={isOpenInventory}
-        readonly={!isEdit}
         onClose={onCloseInventory}
-        onClickPlus={invPlus}
-        onClickMinus={invMinus}
+        onClickPlus={plus}
+        onClickMinus={minus}
         onClickItem={onPickInventoryObject}
         onSubmit={undeposit}
       />

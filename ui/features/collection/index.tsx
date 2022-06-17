@@ -7,7 +7,23 @@ import { QuantityInput } from "~/ui/components";
 
 type CollectionObject = BalanceObject & { selected: number };
 
-export const useCollection = (originItems: BalanceObject[]): [CollectionObject[], (idx: number) => void, (idx: number) => void] => {
+const Collection: FC<{
+  items: BalanceObject[];
+  isApproved: {
+    phi: boolean;
+    free: boolean;
+    premium: boolean;
+  };
+  isEdit: boolean;
+  isOpen: boolean;
+  onClose: () => void;
+  onApprove: {
+    phi: () => void;
+    free: () => void;
+    premium: () => void;
+  };
+  onSubmit: (args: BalanceObject[]) => void;
+}> = ({ items: originItems, isApproved, isEdit, isOpen, onClose, onApprove, onSubmit }) => {
   const [items, setItems] = useState<CollectionObject[]>([]);
 
   const plus = (idx: number) => {
@@ -22,34 +38,9 @@ export const useCollection = (originItems: BalanceObject[]): [CollectionObject[]
   };
 
   useEffect(() => {
-    setItems(
-      originItems.map((item) => {
-        return { ...item, selected: 0 };
-      })
-    );
+    setItems(originItems.map((item) => ({ ...item, selected: 0 })));
   }, [originItems.length]);
 
-  return [items, plus, minus];
-};
-
-const Collection: FC<{
-  items: CollectionObject[];
-  isApproved: {
-    phi: boolean;
-    free: boolean;
-    premium: boolean;
-  };
-  isOpen: boolean;
-  onClose: () => void;
-  onClickPlus: (idx: number) => void;
-  onClickMinus: (idx: number) => void;
-  onApprove: {
-    phi: () => void;
-    free: () => void;
-    premium: () => void;
-  };
-  onSubmit: (args: BalanceObject[]) => void;
-}> = ({ items, isApproved, isOpen, onClose, onClickPlus, onClickMinus, onApprove, onSubmit }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside">
       <ModalContent border="2px solid" borderColor="black" borderRadius="none" minW="600px" minH="600px" maxW="600px" maxH="600px">
@@ -57,24 +48,26 @@ const Collection: FC<{
         <ModalBody>
           <SimpleGrid columns={3} spacing="16px">
             {items.map((item, i) => (
-              <Center key={i} position="relative" height="128px" cursor="pointer">
+              <Center key={i} position="relative" height="128px">
                 <Box position="relative" width="96px" height="96px">
                   <Image src={objectMetadataList[item.contract][item.tokenId].image_url} layout="fill" objectFit="contain" />
                 </Box>
-                <Box position="absolute" top={0} right={0}>
-                  <QuantityInput
-                    num={item.selected}
-                    balance={item.amount}
-                    handleClickMinus={() => onClickMinus(i)}
-                    handleClickPlus={() => onClickPlus(i)}
-                  />
-                </Box>
+                {!isEdit && (
+                  <Box position="absolute" top={0} right={0}>
+                    <QuantityInput
+                      num={item.selected}
+                      balance={item.amount}
+                      handleClickMinus={() => minus(i)}
+                      handleClickPlus={() => plus(i)}
+                    />
+                  </Box>
+                )}
               </Center>
             ))}
           </SimpleGrid>
         </ModalBody>
         <ModalFooter justifyContent="center">
-          {isApproved.phi && isApproved.free && isApproved.premium && (
+          {!isEdit && isApproved.phi && isApproved.free && isApproved.premium && (
             <Button
               bgColor="gray.800"
               borderRadius="12px"

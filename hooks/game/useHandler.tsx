@@ -3,25 +3,21 @@ import { AppContext } from "~/contexts";
 import { IObject, PhiObject } from "~/types";
 import { SaveArgs } from "~/hooks/map";
 
-type UseHandler = {
-  phiObjects: (PhiObject & { removeIdx: number })[];
+export type UIHandler = {
   edit: () => void;
   view: () => void;
-  invPlusUsed: (contract: string, tokenId: number) => void;
-  invMinusUsed: (contract: string, tokenId: number) => void;
-  invReset: () => void;
+  tryWrite: (contract: string, tokenId: number) => void;
+  tryRemove: (contract: string, tokenId: number) => void;
   save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => void;
 };
 
 const useHandler = ({
   phiObjects,
-  edit,
-  view,
-  invPlusUsed,
-  invMinusUsed,
-  invReset,
-  save,
-}: UseHandler): {
+  uiHandler: { edit, view, tryWrite, tryRemove, save },
+}: {
+  phiObjects: (PhiObject & { removeIdx: number })[];
+  uiHandler: UIHandler;
+}): {
   onEdit: () => void;
   onView: () => void;
   onMoveObject: () => void;
@@ -42,7 +38,6 @@ const useHandler = ({
     game.room.roomItemManager.loadItems(phiObjects);
     game.room.view();
     view();
-    invReset();
   };
   const onDropObject = () => {
     game.room.movingItemManager.drop();
@@ -55,11 +50,11 @@ const useHandler = ({
     const item = roomItems[uuid];
     game.room.roomItemManager.removeItem(item.getUUID());
     const object = item.getObject();
-    invMinusUsed(object.contractAddress, object.tokenId);
+    tryRemove(object.contractAddress, object.tokenId);
   };
   const onPickInventoryObject = (object: IObject) => {
     game.room.movingItemManager.pickFromInventory(object);
-    invPlusUsed(object.contractAddress, object.tokenId);
+    tryWrite(object.contractAddress, object.tokenId);
   };
   const onSave = () => {
     const prevPhiObjects = phiObjects;
