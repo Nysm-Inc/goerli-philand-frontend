@@ -85,7 +85,7 @@ const Inventory: FC<{
   reset: () => void;
 }> = ({ items, isEdit, isOpen, onClose, onClickPlus, onClickMinus, onClickItem, onSubmit, reset }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside">
+    <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside" onCloseComplete={reset}>
       <ModalContent
         border="2px solid"
         borderColor="black"

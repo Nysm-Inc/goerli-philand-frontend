@@ -87,6 +87,7 @@ const Index: NextPage = () => {
       />
       <Quest
         claimableList={claimableList}
+        claimedList={balancePhiObjects}
         isOpen={isOpenQuest}
         onClose={onCloseQuest}
         onClickItem={claimPhi}

@@ -1,10 +1,6 @@
-import {
-  FREE_OBJECT_CONTRACT_ADDRESS,
-  PHI_OBJECT_CONTRACT_ADDRESS,
-  PREMIUM_OBJECT_CONTRACT_ADDRESS,
-} from "~/constants";
+import { FREE_OBJECT_CONTRACT_ADDRESS, PHI_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 
-type ObjectMetadata = {
+export type ObjectMetadata = {
   tokenId: number;
   name: string;
   image_url: string;

@@ -46,7 +46,7 @@ const Collection: FC<{
   }, [originItems.length]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside">
+    <Modal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside" onCloseComplete={reset}>
       <ModalContent border="2px solid" borderColor="black" borderRadius="none" minW="600px" minH="600px" maxW="600px" maxH="600px">
         <ModalHeader>Collection</ModalHeader>
         <ModalBody>
