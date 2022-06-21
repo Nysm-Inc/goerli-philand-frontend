@@ -1,14 +1,16 @@
 import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { Provider, TransactionResponse } from "@ethersproject/providers";
 import { PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { PremiumObjectAbi } from "~/abi";
 import { Contract, Signer } from "ethers";
-import { Provider } from "@ethersproject/abstract-provider";
 import { Tx } from "~/types/wagmi";
 
-const useBuyPremiumObject = (signerOrProvider?: Signer | Provider): { buyPremiumObject: (tokenId: number) => Promise<void>; tx: Tx } => {
+const useBuyPremiumObject = (
+  signerOrProvider?: Signer | Provider
+): { buyPremiumObject: (tokenId: number) => Promise<TransactionResponse | undefined>; tx: Tx } => {
   const {
     data,
-    write,
+    writeAsync,
     status: tmpStatus,
   } = useContractWrite(
     {
@@ -24,7 +26,7 @@ const useBuyPremiumObject = (signerOrProvider?: Signer | Provider): { buyPremium
       const contract = new Contract(PREMIUM_OBJECT_CONTRACT_ADDRESS, PremiumObjectAbi, signerOrProvider);
       const tokenPrice = await contract.getTokenPrice(tokenId);
       const calldata = [tokenId];
-      write({ args: calldata, overrides: { value: tokenPrice } });
+      return writeAsync({ args: calldata, overrides: { value: tokenPrice } });
     },
     tx: {
       hash: data?.hash,

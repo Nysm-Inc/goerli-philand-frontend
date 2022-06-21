@@ -1,11 +1,12 @@
 import { FC, useEffect, useState } from "react";
+import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Button, Center, HStack, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SimpleGrid } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
 import Image from "next/image";
 import { objectMetadataList } from "~/types/object";
 import { QuantityInput } from "~/ui/components";
 
-type CollectionObject = BalanceObject & { selected: number };
+type CollectionObject = BalanceObject & { select: number };
 
 const Collection: FC<{
   items: BalanceObject[];
@@ -22,23 +23,26 @@ const Collection: FC<{
     free: () => void;
     premium: () => void;
   };
-  onSubmit: (args: BalanceObject[]) => void;
+  onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
 }> = ({ items: originItems, isApproved, isEdit, isOpen, onClose, onApprove, onSubmit }) => {
   const [items, setItems] = useState<CollectionObject[]>([]);
 
   const plus = (idx: number) => {
     const copied = [...items];
-    copied[idx].selected += 1;
+    copied[idx].select += 1;
     setItems(copied);
   };
   const minus = (idx: number) => {
     const copied = [...items];
-    copied[idx].selected -= 1;
+    copied[idx].select -= 1;
     setItems(copied);
+  };
+  const reset = () => {
+    setItems(originItems.map((item) => ({ ...item, select: 0 })));
   };
 
   useEffect(() => {
-    setItems(originItems.map((item) => ({ ...item, selected: 0 })));
+    reset();
   }, [originItems.length]);
 
   return (
@@ -55,7 +59,7 @@ const Collection: FC<{
                 {!isEdit && (
                   <Box position="absolute" top={0} right={0}>
                     <QuantityInput
-                      num={item.selected}
+                      num={item.select}
                       balance={item.amount}
                       handleClickMinus={() => minus(i)}
                       handleClickPlus={() => plus(i)}
@@ -74,23 +78,24 @@ const Collection: FC<{
               color="white"
               onClick={() => {
                 const args = items.reduce((memo, item) => {
-                  if (item.selected > 0) {
+                  if (item.select > 0) {
                     return [
                       ...memo,
                       {
                         contract: item.contract,
                         tokenId: item.tokenId,
-                        amount: item.selected,
+                        amount: item.select,
                       },
                     ];
                   } else {
                     return memo;
                   }
                 }, [] as BalanceObject[]);
-                onSubmit(args);
+                onSubmit(args).then(() => reset());
               }}
+              disabled={!items.some((item) => item.select > 0)}
             >
-              Deposit Objects / {items.filter((item) => item.selected > 0).length}
+              Deposit Objects / {items.filter((item) => item.select > 0).length}
             </Button>
           )}
           <HStack>

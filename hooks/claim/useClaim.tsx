@@ -1,14 +1,15 @@
 import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { TransactionResponse } from "@ethersproject/providers";
 import { CLAIM_CONTRACT_ADDRESS, PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ClaimAbi } from "~/abi";
 import { getCoupon } from "~/utils/coupon";
 import { conditionList } from "~/types/quest";
 import { Tx } from "~/types/wagmi";
 
-const useClaim = (address?: string): { claimPhi: (tokenId: number) => Promise<void>; tx: Tx } => {
+const useClaim = (address?: string): { claimPhi: (tokenId: number) => Promise<TransactionResponse | undefined>; tx: Tx } => {
   const {
     data,
-    write,
+    writeAsync,
     status: tmpStatus,
   } = useContractWrite(
     {
@@ -28,7 +29,7 @@ const useClaim = (address?: string): { claimPhi: (tokenId: number) => Promise<vo
 
       const condition = conditionList[tokenId];
       const calldata = [PHI_OBJECT_CONTRACT_ADDRESS, tokenId, condition.name + condition.value.toString(), coupon];
-      write({ args: calldata });
+      return writeAsync({ args: calldata });
     },
     tx: {
       hash: data?.hash,

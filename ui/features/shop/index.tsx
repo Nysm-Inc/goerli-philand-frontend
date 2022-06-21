@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FC } from "react";
+import { TransactionResponse } from "@ethersproject/providers";
 import {
   Box,
   Center,
@@ -20,8 +21,8 @@ import { objectMetadataList } from "~/types/object";
 const Shop: FC<{
   isOpen: boolean;
   onClose: () => void;
-  onClickFreeItem: (tokenId: number) => Promise<void>;
-  onClickPremiumItem: (tokenId: number) => Promise<void>;
+  onClickFreeItem: (tokenId: number) => Promise<TransactionResponse | undefined>;
+  onClickPremiumItem: (tokenId: number) => Promise<TransactionResponse | undefined>;
 }> = ({ isOpen, onClose, onClickFreeItem, onClickPremiumItem }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside">

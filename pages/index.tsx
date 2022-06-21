@@ -47,7 +47,7 @@ const Index: NextPage = () => {
   const [depositObjects, { deposit, tx: txDeposit }, { undeposit, tx: txUndeposit }] = useDeposit(currentENS);
   const { save, tx: txSave } = useSave(currentENS);
   const [claimableList, refetchClaimableList] = useClaimableList(account?.address);
-  const [inventoryItems, plus, minus, tryWrite, tryRemove] = useInventory(depositObjects, isEdit);
+  const [inventoryItems, plus, minus, tryWrite, tryRemove, reset] = useInventory(depositObjects, isEdit);
 
   const { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onSave } = useGame({
     state: { isCreatedPhiland, phiObjects },
@@ -57,7 +57,6 @@ const Index: NextPage = () => {
 
   return (
     <>
-      <Header />
       <ConfirmTx
         txs={[
           txCreatePhiland,
@@ -93,7 +92,13 @@ const Index: NextPage = () => {
         onClickItem={claimPhi}
         onClickRefetch={refetchClaimableList}
       />
-      <Shop isOpen={isOpenShop} onClose={onCloseShop} onClickFreeItem={getFreeObject} onClickPremiumItem={buyPremiumObject} />
+      <Shop
+        //
+        isOpen={isOpenShop}
+        onClose={onCloseShop}
+        onClickFreeItem={getFreeObject}
+        onClickPremiumItem={buyPremiumObject}
+      />
       <Collection
         items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects]}
         isApproved={{ phi: isAprvPhi, free: isAprvFree, premium: isAprvPre }}
@@ -112,6 +117,7 @@ const Index: NextPage = () => {
         onClickMinus={minus}
         onClickItem={onPickInventoryObject}
         onSubmit={undeposit}
+        reset={reset}
       />
       <ActionMenu
         state={actionMenuState}
@@ -121,25 +127,26 @@ const Index: NextPage = () => {
         onClickLink={() => {}}
         onClickTrash={() => onRemoveObject(actionMenuState.id)}
       />
-      <MenuBar
-        isEdit={isEdit}
-        account={account?.address}
-        currentENS={currentENS}
-        isCreatedPhiland={isCreatedPhiland}
-        domains={domains}
-        actionHandler={{
-          onOpenQuest,
-          onOpenShop,
-          onOpenCollection,
-          onOpenInventry,
-          switchCurrentENS,
-          onView,
-          onEdit,
-          onSave,
-        }}
-      />
+      <Header />
 
-      {!isCreatedPhiland && (
+      {isCreatedPhiland ? (
+        <MenuBar
+          isEdit={isEdit}
+          account={account?.address}
+          currentENS={currentENS}
+          domains={domains}
+          actionHandler={{
+            onOpenQuest,
+            onOpenShop,
+            onOpenCollection,
+            onOpenInventry,
+            switchCurrentENS,
+            onView,
+            onEdit,
+            onSave,
+          }}
+        />
+      ) : (
         <>
           {domains.length > 0 ? (
             <Box position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">

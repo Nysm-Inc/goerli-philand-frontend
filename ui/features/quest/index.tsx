@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FC } from "react";
+import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Button, Center, Flex, Modal, ModalBody, ModalContent, ModalHeader, SimpleGrid, Text } from "@chakra-ui/react";
 import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { objectMetadataList } from "~/types/object";
@@ -9,7 +10,7 @@ const Quest: FC<{
   claimableList: ClaimableList;
   isOpen: boolean;
   onClose: () => void;
-  onClickItem: (tokenId: number) => Promise<void>;
+  onClickItem: (tokenId: number) => Promise<TransactionResponse | undefined>;
   onClickRefetch: () => Promise<void>;
 }> = ({ claimableList, isOpen, onClose, onClickItem, onClickRefetch }) => {
   return (

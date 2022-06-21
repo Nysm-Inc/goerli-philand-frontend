@@ -1,7 +1,8 @@
+import { useContext, useEffect } from "react";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { MapAbi } from "~/abi";
-import { useContext, useEffect } from "react";
 import { AppContext } from "~/contexts";
 import { updateOGP } from "~/utils/ogp";
 import { Tx } from "~/types/wagmi";
@@ -17,12 +18,14 @@ export type SaveArgs = {
   linkArgs: { title: string; url: string }[];
 };
 
-const useSave = (ens?: string | null): { save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => void; tx: Tx } => {
+const useSave = (
+  ens?: string | null
+): { save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => Promise<TransactionResponse | undefined>; tx: Tx } => {
   const { game } = useContext(AppContext);
 
   const {
     data,
-    write,
+    writeAsync,
     status: tmpStatus,
   } = useContractWrite(
     {
@@ -47,11 +50,11 @@ const useSave = (ens?: string | null): { save: ({ removeArgs, writeArgs, linkArg
   }, [status]);
 
   return {
-    save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => {
+    save: async ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => {
       if (!ens) return;
 
       const calldata = [ens.slice(0, -4), removeArgs.removeIdxs, removeArgs.remove_check, writeArgs, linkArgs];
-      return write({ args: calldata });
+      return writeAsync({ args: calldata });
     },
     tx: {
       hash: data?.hash,

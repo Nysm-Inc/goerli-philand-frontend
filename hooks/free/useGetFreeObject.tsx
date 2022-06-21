@@ -1,12 +1,13 @@
 import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { TransactionResponse } from "@ethersproject/providers";
 import { FREE_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { FreeObjectAbi } from "~/abi";
 import { Tx } from "~/types/wagmi";
 
-const useGetFreeObject = (): { getFreeObject: (tokenId: number) => Promise<void>; tx: Tx } => {
+const useGetFreeObject = (): { getFreeObject: (tokenId: number) => Promise<TransactionResponse | undefined>; tx: Tx } => {
   const {
     data,
-    write,
+    writeAsync,
     status: tmpStatus,
   } = useContractWrite(
     {
@@ -20,7 +21,7 @@ const useGetFreeObject = (): { getFreeObject: (tokenId: number) => Promise<void>
   return {
     getFreeObject: async (tokenId: number) => {
       const calldata = [tokenId];
-      write({ args: calldata });
+      return writeAsync({ args: calldata });
     },
     tx: {
       hash: data?.hash,

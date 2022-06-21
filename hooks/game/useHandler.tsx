@@ -13,10 +13,10 @@ export type UIHandler = {
 
 const useHandler = ({
   phiObjects,
-  uiHandler: { edit, view, tryWrite, tryRemove, save },
+  uiHandler,
 }: {
   phiObjects: (PhiObject & { removeIdx: number })[];
-  uiHandler: UIHandler;
+  uiHandler?: UIHandler;
 }): {
   onEdit: () => void;
   onView: () => void;
@@ -30,14 +30,14 @@ const useHandler = ({
 
   const onEdit = () => {
     game.room.edit();
-    edit();
+    uiHandler?.edit();
   };
   const onView = () => {
     game.room.leaveRoom();
     game.room.enterRoom();
     game.room.roomItemManager.loadItems(phiObjects);
     game.room.view();
-    view();
+    uiHandler?.view();
   };
   const onDropObject = () => {
     game.room.movingItemManager.drop();
@@ -50,11 +50,11 @@ const useHandler = ({
     const item = roomItems[uuid];
     game.room.roomItemManager.removeItem(item.getUUID());
     const object = item.getObject();
-    tryRemove(object.contractAddress, object.tokenId);
+    uiHandler?.tryRemove(object.contractAddress, object.tokenId);
   };
   const onPickInventoryObject = (object: IObject) => {
     game.room.movingItemManager.pickFromInventory(object);
-    tryWrite(object.contractAddress, object.tokenId);
+    uiHandler?.tryWrite(object.contractAddress, object.tokenId);
   };
   const onSave = () => {
     const prevPhiObjects = phiObjects;
@@ -87,7 +87,7 @@ const useHandler = ({
       }
     }, [] as PhiObject[]);
 
-    save({
+    uiHandler?.save({
       removeArgs: { removeIdxs: removeIdxs, remove_check: removeIdxs.length > 0 },
       writeArgs,
       linkArgs: writeArgs.map(() => {

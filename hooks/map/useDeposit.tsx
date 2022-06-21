@@ -1,5 +1,6 @@
 import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
 import { BigNumber } from "ethers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { MapAbi } from "~/abi";
 import { BalanceObject, DepositObject } from "~/types";
@@ -8,7 +9,11 @@ import { Tx } from "~/types/wagmi";
 const useDeposit = (
   ens?: string | null,
   disabled?: boolean
-): [DepositObject[], { deposit: (args: BalanceObject[]) => void; tx: Tx }, { undeposit: (args: BalanceObject[]) => void; tx: Tx }] => {
+): [
+  DepositObject[],
+  { deposit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>; tx: Tx },
+  { undeposit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>; tx: Tx }
+] => {
   const { data, isFetching } = useContractRead(
     {
       addressOrName: MAP_CONTRACT_ADDRESS,
@@ -26,7 +31,7 @@ const useDeposit = (
   );
   const {
     data: depositData,
-    write: deposit,
+    writeAsync: deposit,
     status: depositTmpStatus,
   } = useContractWrite(
     {
@@ -39,7 +44,7 @@ const useDeposit = (
 
   const {
     data: undepositData,
-    write: undeposit,
+    writeAsync: undeposit,
     status: undepositTmpStatus,
   } = useContractWrite(
     {

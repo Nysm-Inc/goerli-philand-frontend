@@ -1,9 +1,9 @@
 export type UIManagerHandler = {
-  onOpenActionMenu?: (id: string, globalX: number, globalY: number) => void;
+  onOpenActionMenu: (id: string, globalX: number, globalY: number) => void;
 };
 
 export default class UIManager {
-  onOpenActionMenu?: (id: string, globalX: number, globalY: number) => void;
+  onOpenActionMenu: (id: string, globalX: number, globalY: number) => void;
 
   constructor() {
     this.onOpenActionMenu = (id: string, globalX: number, globalY: number) => {};

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
+import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Button, Center, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SimpleGrid } from "@chakra-ui/react";
 import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject } from "~/types";
@@ -15,7 +16,8 @@ export const useInventory = (
   (idx: number) => void,
   (idx: number) => void,
   (contract: string, tokenId: number) => void,
-  (contract: string, tokenId: number) => void
+  (contract: string, tokenId: number) => void,
+  () => void
 ] => {
   const [items, setItems] = useState<InventoryObject[]>([]);
 
@@ -60,12 +62,15 @@ export const useInventory = (
     copied.sort((a, b) => a.tokenId - b.tokenId);
     setItems(copied);
   };
+  const reset = () => {
+    setItems(originItems.map((item) => ({ ...item, select: 0, writed: false })));
+  };
 
   useEffect(() => {
-    setItems(originItems.map((item) => ({ ...item, select: 0, writed: false })));
+    reset();
   }, [originItems.length, isEdit]);
 
-  return [items, plus, minus, tryWrite, tryRemove];
+  return [items, plus, minus, tryWrite, tryRemove, reset];
 };
 
 const Inventory: FC<{
@@ -76,8 +81,9 @@ const Inventory: FC<{
   onClickPlus: (idx: number) => void;
   onClickMinus: (idx: number) => void;
   onClickItem: (object: IObject) => void;
-  onSubmit: (args: BalanceObject[]) => void;
-}> = ({ items, isEdit, isOpen, onClose, onClickPlus, onClickMinus, onClickItem, onSubmit }) => {
+  onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
+  reset: () => void;
+}> = ({ items, isEdit, isOpen, onClose, onClickPlus, onClickMinus, onClickItem, onSubmit, reset }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside">
       <ModalContent
@@ -151,8 +157,9 @@ const Inventory: FC<{
                     return memo;
                   }
                 }, [] as BalanceObject[]);
-                onSubmit(args);
+                onSubmit(args).then(() => reset());
               }}
+              disabled={!items.some((item) => item.select > 0)}
             >
               Withdraw Objects / {items.filter((item) => item.select > 0).length}
             </Button>

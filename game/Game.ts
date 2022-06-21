@@ -14,13 +14,13 @@ export default class Game {
     this.uiManager = new UIManager();
   }
 
-  async loadGame(handler: UIManagerHandler) {
+  async loadGame(handler?: UIManagerHandler) {
     const { engine, room, uiManager } = GameInstance.get();
 
     return Promise.all([engine.loadGlobalTextures()])
       .then(() => {
         room.initialize();
-        uiManager.loadUIHandler(handler);
+        if (handler) uiManager.loadUIHandler(handler);
       })
       .catch((err) => {
         console.log(err);

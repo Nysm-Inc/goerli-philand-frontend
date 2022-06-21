@@ -1,11 +1,15 @@
+import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
+import { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS, REGISTRY_CONTRACT_ADDRESS } from "~/constants";
 import { MapAbi, RegistryAbi } from "~/abi";
-import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
 import { Tx } from "~/types/wagmi";
 
 const nullAddress = "0x0000000000000000000000000000000000000000";
 
-const useCreatePhiland = (ens?: string, disabled?: boolean): [boolean, { createPhiland: () => void; tx: Tx }] => {
+const useCreatePhiland = (
+  ens?: string,
+  disabled?: boolean
+): [boolean, { createPhiland: () => Promise<TransactionResponse | undefined>; tx: Tx }] => {
   const { data } = useContractRead(
     {
       addressOrName: MAP_CONTRACT_ADDRESS,
@@ -24,7 +28,7 @@ const useCreatePhiland = (ens?: string, disabled?: boolean): [boolean, { createP
 
   const {
     data: writeData,
-    write,
+    writeAsync,
     status: tmpStatus,
   } = useContractWrite(
     {
@@ -40,7 +44,7 @@ const useCreatePhiland = (ens?: string, disabled?: boolean): [boolean, { createP
     data && data !== nullAddress,
     {
       createPhiland: () =>
-        write({
+        writeAsync({
           args: ens ? [ens.slice(0, -4)] : [],
         }),
       tx: {

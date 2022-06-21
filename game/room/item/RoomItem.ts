@@ -52,7 +52,7 @@ export default class RoomItem extends Item {
     if (room.movingItemManager.getItem()) return;
 
     const origin = e.data.originalEvent;
-    if (uiManager.onOpenActionMenu) uiManager.onOpenActionMenu(item.getUUID(), origin.x, origin.y);
+    uiManager.onOpenActionMenu(item.getUUID(), origin.x, origin.y);
     room.movingItemManager.pick(item);
   }
 }

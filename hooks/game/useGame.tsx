@@ -6,8 +6,8 @@ import useHandler, { UIHandler } from "./useHandler";
 
 type UseGame = {
   state: { isCreatedPhiland: boolean; phiObjects: (PhiObject & { removeIdx: number })[] };
-  uiHandler: UIHandler;
-  gameUIHandler: UIManagerHandler;
+  uiHandler?: UIHandler;
+  gameUIHandler?: UIManagerHandler;
 };
 
 const useGame = ({ state, uiHandler, gameUIHandler }: UseGame) => {

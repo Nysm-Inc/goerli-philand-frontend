@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { UTILS_API_GATEWAY } from "~/constants";
 import { useViewPhiland } from "~/hooks/map";
-import { useLoad } from "~/hooks/game";
+import { useGame } from "~/hooks/game";
 import { useCreatePhiland } from "~/hooks/registry";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
@@ -23,7 +23,8 @@ const Index: NextPage = () => {
 
   const [isCreated] = useCreatePhiland(ens);
   const phiObjects = useViewPhiland(ens);
-  useLoad(isCreated, phiObjects, {});
+
+  useGame({ state: { isCreatedPhiland: isCreated, phiObjects } });
 
   return <></>;
 };

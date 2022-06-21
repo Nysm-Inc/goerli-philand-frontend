@@ -1,6 +1,7 @@
+import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
+import { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { PhiObjectAbi } from "~/abi";
-import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
 import { ContractAbis, ContractAddress } from "./types";
 import { Tx } from "~/types/wagmi";
 
@@ -8,7 +9,7 @@ const useApprove = (
   contract: ContractAddress,
   account?: string,
   disabled?: boolean
-): [boolean, { approve: () => void; tx: Tx }] => {
+): [boolean, { approve: () => Promise<TransactionResponse | undefined>; tx: Tx }] => {
   const { data } = useContractRead(
     {
       addressOrName: contract,
@@ -27,7 +28,7 @@ const useApprove = (
 
   const {
     data: writeData,
-    write,
+    writeAsync,
     status: tmpStatus,
   } = useContractWrite(
     {
@@ -45,7 +46,7 @@ const useApprove = (
     // @ts-ignore
     data,
     {
-      approve: write,
+      approve: writeAsync,
       tx: {
         hash: writeData?.hash,
         tmpStatus,
