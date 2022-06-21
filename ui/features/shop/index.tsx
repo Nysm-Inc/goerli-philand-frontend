@@ -14,6 +14,8 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { objectMetadataList } from "~/types/object";
@@ -39,11 +41,16 @@ const Shop: FC<{
                 <SimpleGrid columns={3} spacing="16px">
                   {Object.values(objectMetadataList[FREE_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
                     return (
-                      <Center key={i} height="128px" cursor="pointer" onClick={() => onClickFreeItem(metadata.tokenId)}>
-                        <Box width="96px" height="96px" position="relative">
-                          <Image src={metadata.image_url} layout="fill" objectFit="contain" />
-                        </Box>
-                      </Center>
+                      <VStack key={i}>
+                        <Center height="128px" cursor="pointer" onClick={() => onClickFreeItem(metadata.tokenId)}>
+                          <Box width="96px" height="96px" position="relative">
+                            <Image src={metadata.image_url} layout="fill" objectFit="contain" />
+                          </Box>
+                        </Center>
+
+                        <Text align="center">{metadata.name}</Text>
+                        <Text>¥{metadata.price}</Text>
+                      </VStack>
                     );
                   })}
                 </SimpleGrid>
@@ -52,11 +59,16 @@ const Shop: FC<{
                 <SimpleGrid columns={3} spacing="16px">
                   {Object.values(objectMetadataList[PREMIUM_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
                     return (
-                      <Center key={i} height="128px" cursor="pointer" onClick={() => onClickPremiumItem(metadata.tokenId)}>
-                        <Box width="96px" height="96px" position="relative">
-                          <Image src={metadata.image_url} layout="fill" objectFit="contain" />
-                        </Box>
-                      </Center>
+                      <VStack key={i}>
+                        <Center height="128px" cursor="pointer" onClick={() => onClickPremiumItem(metadata.tokenId)}>
+                          <Box width="96px" height="96px" position="relative">
+                            <Image src={metadata.image_url} layout="fill" objectFit="contain" />
+                          </Box>
+                        </Center>
+
+                        <Text align="center">{metadata.name}</Text>
+                        <Text>¥{metadata.price}</Text>
+                      </VStack>
                     );
                   })}
                 </SimpleGrid>

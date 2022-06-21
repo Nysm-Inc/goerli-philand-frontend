@@ -3,6 +3,18 @@ import { AppContext } from "~/contexts";
 import { IObject, PhiObject } from "~/types";
 import { SaveArgs } from "~/hooks/map";
 
+// todo
+const equal = (a: PhiObject, b: PhiObject): boolean => {
+  return (
+    a.contractAddress === b.contractAddress &&
+    a.tokenId === b.tokenId &&
+    a.xStart === b.xStart &&
+    a.xEnd === b.xEnd &&
+    a.yStart === b.yStart &&
+    a.yEnd === b.yEnd
+  );
+};
+
 export type UIHandler = {
   edit: () => void;
   view: () => void;
@@ -73,27 +85,29 @@ const useHandler = ({
     });
 
     const removeIdxs = prevPhiObjects.reduce((memo, prevObject) => {
-      if (newPhiObjects.some((newObject) => prevObject === newObject)) {
+      if (newPhiObjects.some((newObject) => equal(prevObject, newObject))) {
         return memo;
       } else {
         return [...memo, prevObject.removeIdx];
       }
     }, [] as (string | number)[]);
     const writeArgs = newPhiObjects.reduce((memo, newObject) => {
-      if (prevPhiObjects.some((prevObject) => prevObject === newObject)) {
+      if (prevPhiObjects.some((prevObject) => equal(prevObject, newObject))) {
         return memo;
       } else {
         return [...memo, newObject];
       }
     }, [] as PhiObject[]);
 
-    uiHandler?.save({
-      removeArgs: { removeIdxs: removeIdxs, remove_check: removeIdxs.length > 0 },
-      writeArgs,
-      linkArgs: writeArgs.map(() => {
-        return { title: "", url: "" };
-      }),
-    });
+    if (removeIdxs.length > 0 || writeArgs.length > 0) {
+      uiHandler?.save({
+        removeArgs: { removeIdxs: removeIdxs, remove_check: removeIdxs.length > 0 },
+        writeArgs,
+        linkArgs: writeArgs.map(() => {
+          return { title: "", url: "" };
+        }),
+      });
+    }
   };
 
   return {
