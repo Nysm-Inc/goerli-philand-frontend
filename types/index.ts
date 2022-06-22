@@ -1,5 +1,12 @@
+import { FREE_OBJECT_CONTRACT_ADDRESS, PHI_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
+
+export type ObjectContractAddress =
+  | typeof PHI_OBJECT_CONTRACT_ADDRESS
+  | typeof FREE_OBJECT_CONTRACT_ADDRESS
+  | typeof PREMIUM_OBJECT_CONTRACT_ADDRESS;
+
 export type PhiObject = {
-  contractAddress: string;
+  contractAddress: ObjectContractAddress;
   tokenId: number;
   xStart: number;
   yStart: number;
@@ -8,14 +15,14 @@ export type PhiObject = {
 };
 
 export type IObject = {
-  contractAddress: string;
+  contractAddress: ObjectContractAddress;
   tokenId: number;
   sizeX: number;
   sizeY: number;
 };
 
 export type DepositObject = {
-  contractAddress: string;
+  contractAddress: ObjectContractAddress;
   tokenId: number;
   amount: number;
   used: number;
@@ -23,7 +30,7 @@ export type DepositObject = {
 };
 
 export type BalanceObject = {
-  contract: string;
+  contract: ObjectContractAddress;
   tokenId: number;
   amount: number;
 };

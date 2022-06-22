@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AppContext } from "~/contexts";
-import { IObject, PhiObject } from "~/types";
+import { IObject, ObjectContractAddress, PhiObject } from "~/types";
 import { SaveArgs } from "~/hooks/map";
 
 // todo
@@ -18,8 +18,8 @@ const equal = (a: PhiObject, b: PhiObject): boolean => {
 export type UIHandler = {
   edit: () => void;
   view: () => void;
-  tryWrite: (contract: string, tokenId: number) => void;
-  tryRemove: (contract: string, tokenId: number) => void;
+  tryWrite: (contract: ObjectContractAddress, tokenId: number) => void;
+  tryRemove: (contract: ObjectContractAddress, tokenId: number) => void;
   save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => void;
 };
 

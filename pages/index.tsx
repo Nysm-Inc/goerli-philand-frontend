@@ -102,11 +102,19 @@ const Index: NextPage = () => {
       />
       <Collection
         items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects]}
-        isApproved={{ phi: isAprvPhi, free: isAprvFree, premium: isAprvPre }}
+        isApproved={{
+          [PHI_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
+          [FREE_OBJECT_CONTRACT_ADDRESS]: isAprvFree,
+          [PREMIUM_OBJECT_CONTRACT_ADDRESS]: isAprvPre,
+        }}
         isEdit={isEdit}
         isOpen={isOpenCollection}
         onClose={onCloseCollection}
-        onApprove={{ phi: aprvPhi, free: aprvFree, premium: aprvPre }}
+        onApprove={{
+          [PHI_OBJECT_CONTRACT_ADDRESS]: aprvPhi,
+          [FREE_OBJECT_CONTRACT_ADDRESS]: aprvFree,
+          [PREMIUM_OBJECT_CONTRACT_ADDRESS]: aprvPre,
+        }}
         onSubmit={deposit}
       />
       <Inventory

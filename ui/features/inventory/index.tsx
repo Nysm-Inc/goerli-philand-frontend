@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Button, Center, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SimpleGrid } from "@chakra-ui/react";
 import { objectMetadataList } from "~/types/object";
-import { BalanceObject, DepositObject, IObject } from "~/types";
+import { BalanceObject, DepositObject, IObject, ObjectContractAddress } from "~/types";
 import { QuantityInput } from "~/ui/components";
 
 type InventoryObject = DepositObject & { select: number; writed: boolean };
@@ -15,8 +15,8 @@ export const useInventory = (
   InventoryObject[],
   (idx: number) => void,
   (idx: number) => void,
-  (contract: string, tokenId: number) => void,
-  (contract: string, tokenId: number) => void,
+  (contract: ObjectContractAddress, tokenId: number) => void,
+  (contract: ObjectContractAddress, tokenId: number) => void,
   () => void
 ] => {
   const [items, setItems] = useState<InventoryObject[]>([]);
@@ -31,7 +31,7 @@ export const useInventory = (
     copied[idx].select -= 1;
     setItems(copied);
   };
-  const tryWrite = (contract: string, tokenId: number) => {
+  const tryWrite = (contract: ObjectContractAddress, tokenId: number) => {
     const copied = [...items];
     const idx = copied.findIndex((c) => c.contractAddress === contract && c.tokenId === tokenId);
     copied[idx].used += 1;
@@ -41,7 +41,7 @@ export const useInventory = (
       setItems(copied.filter((_, i) => i !== idx));
     }
   };
-  const tryRemove = (contract: string, tokenId: number) => {
+  const tryRemove = (contract: ObjectContractAddress, tokenId: number) => {
     let copied = [...items];
     const idx = copied.findIndex((c) => c.contractAddress === contract && c.tokenId === tokenId);
     if (idx > 0) {
