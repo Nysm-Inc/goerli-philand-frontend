@@ -5,7 +5,7 @@ import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { PhiObject } from "~/types";
 
 const useViewPhiland = (ens?: string | null, disabled?: boolean): (PhiObject & { removeIdx: number })[] => {
-  const { data, isFetching } = useContractRead(
+  const { data: objects } = useContractRead(
     {
       addressOrName: MAP_CONTRACT_ADDRESS,
       contractInterface: MapAbi,
@@ -20,9 +20,24 @@ const useViewPhiland = (ens?: string | null, disabled?: boolean): (PhiObject & {
       },
     }
   );
+  const { data: links } = useContractRead(
+    {
+      addressOrName: MAP_CONTRACT_ADDRESS,
+      contractInterface: MapAbi,
+    },
+    "viewLinks",
+    {
+      args: ens ? [ens.slice(0, -4)] : null,
+      watch: true,
+      enabled: !!ens && !disabled,
+      onSuccess(data) {
+        //
+      },
+    }
+  );
 
-  return !isFetching && data
-    ? data.reduce((memo, object, idx) => {
+  return objects && links
+    ? objects.reduce((memo, object, idx) => {
         const tokenId = BigNumber.from(object[1]).toNumber();
         if (tokenId > 0) {
           return [
@@ -35,7 +50,8 @@ const useViewPhiland = (ens?: string | null, disabled?: boolean): (PhiObject & {
               yStart: BigNumber.from(object[3]).toNumber(),
               xEnd: BigNumber.from(object[4]).toNumber(),
               yEnd: BigNumber.from(object[5]).toNumber(),
-            },
+              link: { title: links[idx][0], url: links[idx][1] },
+            } as PhiObject,
           ];
         } else {
           return memo;

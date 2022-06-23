@@ -116,6 +116,7 @@ const Inventory: FC<{
                       tokenId: item.tokenId,
                       sizeX: metadata.size[0],
                       sizeY: metadata.size[1],
+                      link: { title: "", url: "" },
                     });
                     onClose();
                   }}

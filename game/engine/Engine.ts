@@ -67,10 +67,10 @@ export default class Engine {
         const world = this.viewport.toWorld(evt.data.global);
         this.onMouseMoveHandler(world.x, world.y);
       });
-    this.viewport.interactiveChildren = false;
     this.app.stage.addChild(this.viewport);
   }
 
+  // todo: cache loaded files
   async loadGlobalTextures() {
     return new Promise((resolve, reject) => {
       for (const [contract, metadataList] of Object.entries(objectMetadataList)) {
@@ -93,20 +93,16 @@ export default class Engine {
         }
       });
 
+      this.app.loader.onComplete.add(() => {
+        console.log("loaded all assets");
+        resolve("loaded");
+      });
       this.app.loader.onError.add(() => reject("failed to load"));
-      this.app.loader.onComplete.add(() => resolve("loaded"));
     });
   }
 
   getViewImageDataURL() {
     return this.app.view.toDataURL("image/png");
-  }
-
-  onInteractive() {
-    this.viewport.interactiveChildren = true;
-  }
-  offInteractive() {
-    this.viewport.interactiveChildren = false;
   }
 
   reset() {

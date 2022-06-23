@@ -1,7 +1,7 @@
 import GameInstance from "~/game/GameInstance";
 import Item from "~/game/item/Item";
 import { isValidTile, itemToLocal } from "~/game/room/pos";
-import { IObject } from "~/types";
+import { IObject, PhiObject } from "~/types";
 
 export default class RoomItem extends Item {
   private tileX: number;
@@ -22,6 +22,21 @@ export default class RoomItem extends Item {
 
   getTile(): [number, number] {
     return [this.tileX, this.tileY];
+  }
+
+  getPhiObject(): PhiObject {
+    const [tileX, tileY] = this.getTile();
+    const [sizeX, sizeY] = this.getSize();
+    const object = this.getObject();
+    return {
+      contractAddress: object.contractAddress,
+      tokenId: object.tokenId,
+      xStart: tileX,
+      yStart: tileY,
+      xEnd: tileX + sizeX,
+      yEnd: tileY + sizeY,
+      link: object.link,
+    };
   }
 
   updatePlacement(tileX: number, tileY: number) {
@@ -49,6 +64,7 @@ export default class RoomItem extends Item {
   // @ts-ignore
   onMousedown(e, item) {
     const { room, uiManager } = GameInstance.get();
+    if (!room.isEdit) return;
     if (room.movingItemManager.getItem()) return;
 
     const origin = e.data.originalEvent;

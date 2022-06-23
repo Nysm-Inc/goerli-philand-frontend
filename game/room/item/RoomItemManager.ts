@@ -15,21 +15,26 @@ export default class RoomItemManager {
   }
 
   loadItems(objects: PhiObject[]) {
+    const { uiManager } = GameInstance.get();
+    this.reset();
     objects.forEach((object) => {
-      this.addItem(object.xStart, object.yStart, {
+      const item = this.addItem(object.xStart, object.yStart, {
         contractAddress: object.contractAddress,
         tokenId: object.tokenId,
         sizeX: object.xEnd - object.xStart,
         sizeY: object.yEnd - object.yStart,
+        link: object.link,
       });
+      uiManager.onChangeLinkMenu(item.getUUID(), object.link);
     });
   }
 
-  addItem(tileX: number, tileY: number, object: IObject) {
+  addItem(tileX: number, tileY: number, object: IObject): RoomItem {
     const uuid = this.randomUUID();
     const item = new RoomItem(uuid, tileX, tileY, object);
     this.roomItems[uuid] = item;
     this.addItemToTilemap(tileX, tileY, item);
+    return item;
   }
 
   removeItem(uuid: string) {
@@ -70,6 +75,7 @@ export default class RoomItemManager {
     const { room } = GameInstance.get();
     this.roomItems = {};
     room.landItemContainer.removeChildren();
+    room.landItemLayer.removeChildren();
   }
 
   randomUUID() {

@@ -5,7 +5,11 @@ import { PhiObject } from "~/types";
 import useHandler, { UIHandler } from "./useHandler";
 
 type UseGame = {
-  state: { isCreatedPhiland: boolean; phiObjects: (PhiObject & { removeIdx: number })[] };
+  state: {
+    isEdit: boolean;
+    isCreatedPhiland: boolean;
+    phiObjects: (PhiObject & { removeIdx: number })[];
+  };
   uiHandler?: UIHandler;
   gameUIHandler?: UIManagerHandler;
 };
@@ -37,12 +41,11 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame) => {
 
   useEffect(() => {
     if (!loadGameRef.current) return;
+    if (state.isEdit) return;
     if (state.phiObjects.length <= 0) return;
 
-    game.room.leaveRoom();
-    game.room.enterRoom();
     game.room.roomItemManager.loadItems(state.phiObjects);
-  }, [state.phiObjects.length, loadGameRef.current]);
+  }, [state.phiObjects.length, loadGameRef.current, state.isEdit]);
 
   return useHandler({ phiObjects: state.phiObjects, uiHandler });
 };

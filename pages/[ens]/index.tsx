@@ -24,7 +24,7 @@ const Index: NextPage = () => {
   const [isCreated] = useCreatePhiland(ens);
   const phiObjects = useViewPhiland(ens);
 
-  useGame({ state: { isCreatedPhiland: isCreated, phiObjects } });
+  useGame({ state: { isEdit: false, isCreatedPhiland: isCreated, phiObjects } });
 
   return <></>;
 };

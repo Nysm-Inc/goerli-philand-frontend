@@ -12,6 +12,12 @@ export type PhiObject = {
   yStart: number;
   xEnd: number;
   yEnd: number;
+  link: PhiLink;
+};
+
+export type PhiLink = {
+  title: string;
+  url: string;
 };
 
 export type IObject = {
@@ -19,6 +25,7 @@ export type IObject = {
   tokenId: number;
   sizeX: number;
   sizeY: number;
+  link: PhiLink;
 };
 
 export type DepositObject = {

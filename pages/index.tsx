@@ -6,7 +6,7 @@ import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
 import Inventory, { useInventory } from "~/ui/features/inventory";
 import Collection from "~/ui/features/collection";
-import { ActionMenu, useActionMenu, MenuBar, SelectBox, StatusTx, ConfirmTx, Header } from "~/ui/components";
+import { ActionMenu, useActionMenu, LinkMenu, useLinkMenu, MenuBar, SelectBox, StatusTx, ConfirmTx, Header } from "~/ui/components";
 import { useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
 import { useDeposit, useSave, useViewPhiland } from "~/hooks/map";
@@ -16,6 +16,7 @@ import { useGame } from "~/hooks/game";
 import { useGetFreeObject } from "~/hooks/free";
 import { useBuyPremiumObject } from "~/hooks/premium";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PHI_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
+import { PhiLink } from "~/types";
 
 const Index: NextPage = () => {
   const { activeChain } = useNetwork();
@@ -26,6 +27,7 @@ const Index: NextPage = () => {
 
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
+  const [linkState, onOpenLinkMenu, onCloseLinkMenu, changeLink] = useLinkMenu();
   const { isOpen: isOpenQuest, onOpen: onOpenQuest, onClose: onCloseQuest } = useDisclosure();
   const { isOpen: isOpenShop, onOpen: onOpenShop, onClose: onCloseShop } = useDisclosure();
   const { isOpen: isOpenCollection, onOpen: onOpenCollection, onClose: onCloseCollection } = useDisclosure();
@@ -33,7 +35,7 @@ const Index: NextPage = () => {
 
   const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(account?.address, ens, activeChain?.id);
   const [isCreated, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(currentENS);
-  const phiObjects = useViewPhiland(currentENS, isEdit);
+  const phiObjects = useViewPhiland(currentENS);
   const isCreatedPhiland = isCreated || phiObjects.length > 0;
   const [isAprvPhi, { approve: aprvPhi, tx: txAprvPhi }] = useApprove(PHI_OBJECT_CONTRACT_ADDRESS, account?.address);
   const [isAprvFree, { approve: aprvFree, tx: txAprvFree }] = useApprove(FREE_OBJECT_CONTRACT_ADDRESS, account?.address);
@@ -49,10 +51,10 @@ const Index: NextPage = () => {
   const [claimableList, refetchClaimableList] = useClaimableList(account?.address);
   const [inventoryItems, plus, minus, tryWrite, tryRemove, reset] = useInventory(depositObjects, isEdit);
 
-  const { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onSave } = useGame({
-    state: { isCreatedPhiland, phiObjects },
-    uiHandler: { edit, view, tryWrite, tryRemove, save },
-    gameUIHandler: { onOpenActionMenu },
+  const { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onChangeLink, onSave } = useGame({
+    state: { isEdit, isCreatedPhiland, phiObjects },
+    uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
+    gameUIHandler: { onOpenActionMenu, onChangeLinkMenu: changeLink },
   });
 
   return (
@@ -133,8 +135,16 @@ const Index: NextPage = () => {
         onClose={onCloseActionMenu}
         onBack={onDropObject}
         onClickMove={onMoveObject}
-        onClickLink={() => {}}
+        onClickLink={() => {
+          onOpenLinkMenu({ ...linkState[actionMenuState.id], id: actionMenuState.id, x: actionMenuState.x, y: actionMenuState.y });
+        }}
         onClickTrash={() => onRemoveObject(actionMenuState.id)}
+      />
+      <LinkMenu
+        state={linkState[actionMenuState.id]}
+        onClose={onCloseLinkMenu}
+        onBack={onDropObject}
+        onChange={(id: string, link: PhiLink) => onChangeLink(id, { title: link.title, url: link.url })}
       />
       <Header />
 

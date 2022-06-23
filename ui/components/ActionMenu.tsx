@@ -2,12 +2,11 @@ import Image from "next/image";
 import { FC, useState } from "react";
 import { Box, Center, HStack, Popover, PopoverContent } from "@chakra-ui/react";
 
-type ActionMenuState = { id: string; x: number; y: number; isShown: boolean };
-
-const defaultState = { id: "", x: 0, y: 0, isShown: false };
+export type ActionMenuState = { id: string; x: number; y: number; isShown: boolean };
+export const defaultActionMenuState = { id: "", x: 0, y: 0, isShown: false };
 
 export const useActionMenu = (): [ActionMenuState, (id: string, x: number, y: number) => void, () => void] => {
-  const [state, setState] = useState<ActionMenuState>(defaultState);
+  const [state, setState] = useState<ActionMenuState>(defaultActionMenuState);
   const onOpen = (id: string, x: number, y: number) => setState({ id, x, y, isShown: true });
   const onClose = () => setState({ ...state, isShown: false });
   return [state, onOpen, onClose];

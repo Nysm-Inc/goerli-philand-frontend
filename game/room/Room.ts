@@ -18,6 +18,8 @@ export default class Room {
   landItemContainer: Container;
   landItemLayer: Layer;
 
+  isEdit: boolean;
+
   constructor() {
     this.roomItemManager = new RoomItemManager();
     this.movingItemManager = new MovingItemManager();
@@ -32,6 +34,8 @@ export default class Room {
     this.landItemLayer = new Layer();
     this.landItemLayer.zIndex = 4;
     this.landItemLayer.group.enableSort = true;
+
+    this.isEdit = false;
   }
 
   initialize() {
@@ -49,7 +53,7 @@ export default class Room {
   }
 
   enterRoom() {
-    const sprite = Sprite.from("land.png");
+    const sprite = Sprite.from("land.png"); // todo: use loader
     this.landContainer.addChild(sprite);
 
     this.tileManager.setGrid();
@@ -58,27 +62,32 @@ export default class Room {
   }
 
   leaveRoom() {
-    this.landContainer.removeChildren();
     const { room } = GameInstance.get();
+
+    this.landContainer.removeChildren();
     room.roomItemManager.reset();
     room.tileManager.reset();
-    room.landItemContainer.removeChildren();
-    room.landItemLayer.removeChildren();
   }
 
   view() {
-    const { engine } = GameInstance.get();
-    engine.offInteractive();
+    const { room } = GameInstance.get();
 
+    this.isEdit = false;
+    room.landItemContainer.children.forEach((child) => {
+      child.buttonMode = false;
+    });
     this.tileManager.hideGrid();
     this.tileManager.hideSelectedTile();
     this.tileManager.hideCollisionTiles();
   }
 
   edit() {
-    const { engine } = GameInstance.get();
-    engine.onInteractive();
+    const { room } = GameInstance.get();
 
+    this.isEdit = true;
+    room.landItemContainer.children.forEach((child) => {
+      child.buttonMode = true;
+    });
     this.tileManager.showGrid();
     this.tileManager.showSelectedTile();
     this.tileManager.showCollisionTiles();
@@ -111,11 +120,11 @@ export default class Room {
   }
 
   handleMouseClick(globalX: number, globalY: number) {
-    const tile = this.globalToLandTile(globalX, globalY);
-    if (!tile) return;
     const movingItem = this.movingItemManager.getItem();
     if (!movingItem) return;
     if (!this.movingItemManager.isMoving) return;
+    const tile = this.globalToLandTile(globalX, globalY);
+    if (!tile) return;
 
     this.movingItemManager.placeItem(tile.x, tile.y);
   }

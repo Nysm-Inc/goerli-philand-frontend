@@ -6,6 +6,7 @@ import { MapAbi } from "~/abi";
 import { AppContext } from "~/contexts";
 import { updateOGP } from "~/utils/ogp";
 import { Tx } from "~/types/wagmi";
+import { PhiLink } from "~/types";
 
 export type SaveArgs = {
   removeArgs: { removeIdxs: (string | number)[]; remove_check: boolean };
@@ -15,7 +16,7 @@ export type SaveArgs = {
     xStart: number;
     yStart: number;
   }[];
-  linkArgs: { title: string; url: string }[];
+  linkArgs: PhiLink[];
 };
 
 const useSave = (
