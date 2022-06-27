@@ -15,11 +15,11 @@ export const REGISTRY_GRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/
 export const COUPON_API_GATEWAY = "https://object-api.phi.blue/v1";
 export const UTILS_API_GATEWAY = "https://utils-api.phi.blue/v1/philand";
 
-// block explorer
-export const ETHERSCAN_BLOCK_EXPLORER = "https://goerli.etherscan.io";
-
 // app
 export const FRONTEND_URL = "https://goerli-philand-frontend.vercel.app";
+export const ETHERSCAN_BLOCK_EXPLORER = "https://goerli.etherscan.io";
+export const COLOR_MODE_KEY = "color_mode_key";
+export const CURRENT_ENS_KEY = "current_ens_key";
 
 // game
 export const GAME_APP_WIDTH = 2400;

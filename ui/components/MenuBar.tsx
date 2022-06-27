@@ -1,11 +1,19 @@
 import Image from "next/image";
-import { FC } from "react";
-import { Center, HStack } from "@chakra-ui/react";
+import { FC, useContext } from "react";
+import { Box, Divider, HStack } from "@chakra-ui/react";
 import { FRONTEND_URL } from "~/constants";
+import { AppContext } from "~/contexts";
 import { Button, SelectBox } from "~/ui/components";
+import IconButton from "./IconButton";
 
 const MenuBar: FC<{
   isEdit: boolean;
+  isOpen: {
+    quest: boolean;
+    shop: boolean;
+    collection: boolean;
+    inventory: boolean;
+  };
   account?: string;
   currentENS: string;
   domains: string[];
@@ -19,62 +27,129 @@ const MenuBar: FC<{
     onEdit: () => void;
     onSave: () => void;
   };
-}> = ({ isEdit, account, currentENS, domains, actionHandler }) => {
-  return (
-    <HStack position="fixed" bottom="24px" left="50%" transform="translateX(-50%)" border="1px solid" borderColor="black" bgColor="white">
-      {!isEdit && (
-        <Center w="144px">
-          <SelectBox
-            options={domains.map((domain) => {
-              return { label: domain, value: domain };
-            })}
-            value={currentENS}
-            disabled={!account}
-            handleChange={actionHandler.switchCurrentENS}
-          />
-        </Center>
-      )}
+}> = ({ isEdit, isOpen, account, currentENS, domains, actionHandler }) => {
+  const { colorMode } = useContext(AppContext);
 
+  return (
+    <HStack
+      position="fixed"
+      bottom="32px"
+      left="50%"
+      transform="translateX(-50%)"
+      h="64px"
+      pl="8px"
+      pr="8px"
+      boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
+      borderRadius="16px"
+      //
+      border={colorMode.mode === "light" ? "1px solid" : "none"}
+      borderColor={colorMode.mode === "light" ? "#CECCC9" : "none"}
+      bgColor={colorMode.mode === "light" ? "white" : "#1A1A1A"}
+    >
       <>
-        {!isEdit ? (
+        {!isEdit && (
           <>
-            <Button icon={<Image src="/icons/sword.svg" width="32px" height="32px" />} onClick={actionHandler.onOpenQuest} />
-            <Button icon={<Image src="/icons/store.svg" width="32px" height="32px" />} onClick={actionHandler.onOpenShop} />
-            <Button icon={<Image src="/icons/collection.svg" width="32px" height="32px" />} onClick={actionHandler.onOpenCollection} />
-            <Button icon={<>🧰</>} onClick={actionHandler.onOpenInventry} />
-          </>
-        ) : (
-          <>
-            <Button icon={<>👈</>} onClick={() => {}} />
-            <Button icon={<>👉</>} onClick={() => {}} />
-            <Button icon={<>🧰</>} onClick={actionHandler.onOpenInventry} />
+            <SelectBox
+              w="136px"
+              options={domains.map((domain) => {
+                return { label: domain, value: domain };
+              })}
+              value={currentENS}
+              handleChange={actionHandler.switchCurrentENS}
+            />
+            <Divider orientation="vertical" color={colorMode.mode === "light" ? "CECCC9" : "#333333"} h="48px" />
           </>
         )}
       </>
 
       <>
-        <Center
-          w="40px"
-          cursor="pointer"
-          onClick={
-            isEdit
-              ? () => {
-                  actionHandler.onSave();
-                }
-              : () => {
-                  window.open(
-                    `https://twitter.com/intent/tweet?text=Come visit my philand @phi_xyz%0a${FRONTEND_URL}/${currentENS}`,
-                    "_blank"
-                  );
-                }
-          }
-        >
-          <Image src={`/icons/${isEdit ? "disk" : "upload"}.svg`} width="32px" height="32px" />
-        </Center>
+        {!isEdit ? (
+          <>
+            <IconButton
+              ariaLabel="quest"
+              icon={<Image src="/icons/sword.svg" width="48px" height="48px" />}
+              outline={isOpen.quest}
+              boxShadow={false}
+              onClick={actionHandler.onOpenQuest}
+            />
+            <IconButton
+              ariaLabel="shop"
+              icon={<Image src="/icons/diamond.svg" width="48px" height="48px" />}
+              outline={isOpen.shop}
+              boxShadow={false}
+              onClick={actionHandler.onOpenShop}
+            />
+            <IconButton
+              ariaLabel="collection"
+              icon={<Image src="/icons/collection.svg" width="48px" height="48px" />}
+              outline={isOpen.collection}
+              boxShadow={false}
+              onClick={actionHandler.onOpenCollection}
+            />
+            <IconButton
+              ariaLabel="inventory"
+              icon={<Image src="/icons/bag.svg" width="48px" height="48px" />}
+              outline={isOpen.inventory}
+              boxShadow={false}
+              onClick={actionHandler.onOpenInventry}
+            />
+          </>
+        ) : (
+          <>
+            <IconButton ariaLabel="undo" icon={<Image src="/icons/undo.svg" width="16px" height="16px" />} onClick={() => {}} />
+            <IconButton ariaLabel="redo" icon={<Image src="/icons/redo.svg" width="16px" height="16px" />} onClick={() => {}} />
+            <IconButton
+              ariaLabel="inventory"
+              icon={<Image src="/icons/bag.svg" width="48px" height="48px" />}
+              outline={isOpen.inventory}
+              boxShadow={false}
+              onClick={actionHandler.onOpenInventry}
+            />
+          </>
+        )}
+        <Divider orientation="vertical" color={colorMode.mode === "light" ? "CECCC9" : "#333333"} h="48px" />
+      </>
 
-        <Center w="40px" cursor="pointer" onClick={isEdit ? actionHandler.onView : actionHandler.onEdit}>
-          <Image src={`/icons/${isEdit ? "arrow-back" : "pencil"}.svg`} width="32px" height="32px" />
-        </Center>
+      <>
+        {!isEdit && (
+          <IconButton
+            ariaLabel="share"
+            icon={<Image src="/icons/share.svg" width="16px" height="16px" />}
+            onClick={() => {
+              window.open(`https://twitter.com/intent/tweet?text=Come visit my philand @phi_xyz%0a${FRONTEND_URL}/${currentENS}`, "_blank");
+            }}
+          />
+        )}
+        {isEdit && (
+          <>
+            <Button
+              w="104px"
+              color="yellow"
+              leftIcon={<Image src="/icons/undo.svg" width="16px" height="16px" />}
+              onClick={actionHandler.onView}
+            >
+              CANCEL
+            </Button>
+            <Button
+              w="88px"
+              color="green"
+              leftIcon={<Image src="/icons/save.svg" width="16px" height="16px" />}
+              onClick={actionHandler.onSave}
+            >
+              Save
+            </Button>
+          </>
+        )}
+        {!isEdit && (
+          <Button
+            w="88px"
+            color="purple"
+            leftIcon={<Image src="/icons/edit.svg" width="16px" height="16px" />}
+            onClick={actionHandler.onEdit}
+          >
+            EDIT
+          </Button>
+        )}
       </>
     </HStack>
   );

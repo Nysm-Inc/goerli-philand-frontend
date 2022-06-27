@@ -1,19 +1,70 @@
 import { extendTheme } from "@chakra-ui/react";
 
-const theme = extendTheme({
-  colors: {
-    primary: {
-      high: "rgba(128, 128, 255, 1)", // #8080FF
-      medium: "rgba(128, 128, 255, 0.72)",
-      low: "rgba(128, 128, 255, 0.24)",
-    },
-    surface: {
-      high: "rgba(23, 23, 23, 1)", // #171717
-      medium: "rgba(23, 23, 23, 0.64)",
-      low: "rgba(23, 23, 23, 0.32)",
-      disabled: "rgba(23, 23, 23, 0.08)",
-    },
+export type ColorMode = "light" | "dark";
+
+export const themeColors = {
+  purple: {
+    350: "#6767E4",
+    250: "#8080FF",
+    150: "#B2B2FF",
   },
+  violet: {
+    350: "#BA67E4",
+    250: "#0480FF",
+    150: "#E582FF",
+  },
+  orange: {
+    350: "#E49967",
+    250: "#FF8380",
+    150: "#FFF7B2",
+  },
+  yellow: {
+    350: "#E40867",
+    250: "#FFF280",
+    150: "#FFE299",
+  },
+  green: {
+    350: "#14B881",
+    250: "#17CE92",
+    150: "#70DBB8",
+  },
+  red: {
+    350: "#E54D4D",
+    250: "#FF6666",
+    150: "#FF8080",
+  },
+  grey: {
+    350: "#1A1A1A",
+    250: "#808080",
+    150: "#CCCCCC",
+  },
+
+  // todo
+  // [colorMode][800]
+  light: {
+    350: "#CECCC9",
+    250: "#F5F2EB",
+    150: "#FBF9F5",
+  },
+  dark: {
+    350: "#292929",
+    250: "#333333",
+    150: "#B3B3B3",
+  },
+  black: {
+    350: "#000000",
+    250: "#1A1A1A",
+    150: "#1A1A1A",
+  },
+  white: {
+    350: "#FFFFFF",
+    250: "#FFFFFF",
+    150: "#FFFFFF",
+  },
+};
+
+const theme = extendTheme({
+  colors: themeColors,
   breakpoints: {
     sm: "640px",
     md: "768px",
@@ -21,76 +72,15 @@ const theme = extendTheme({
     xl: "1280px",
   },
   fonts: {
-    body: "ChiKareGo2",
+    body: "JetBrainsMono",
+    color: "#1A1A1A",
   },
   textStyles: {
-    "display-lg": {
-      fontSize: "57px",
-      lineHeight: "64px",
-    },
-    "display-md": {
-      fontSize: "45px",
-      lineHeight: "52px",
-    },
-    "display-sm": {
-      fontSize: "36px",
-      lineHeight: "44px",
-    },
-    "headline-lg": {
-      fontSize: "32px",
-      lineHeight: "40px",
-    },
-    "headline-md": {
-      fontSize: "28px",
-      lineHeight: "36px",
-    },
-    "headline-sm": {
-      fontSize: "24px",
-      lineHeight: "32px",
-    },
-    "title-lg": {
-      fontSize: "22px",
-      lineHeight: "28px",
-    },
-    "title-md": {
-      fontSize: "16px",
-      lineHeight: "24px",
-      letterSpacing: "0.15px",
-    },
-    "title-sm": {
+    "button-2": {
       fontSize: "14px",
-      lineHeight: "20px",
-      letterSpacing: "0.1px",
-    },
-    "label-lg": {
-      fontSize: "14px",
-      lineHeight: "20px",
-      letterSpacing: "0.1px",
-    },
-    "label-md": {
-      fontSize: "12px",
+      fontWeight: 500,
       lineHeight: "16px",
-      letterSpacing: "0.5px",
-    },
-    "label-sm": {
-      fontSize: "11px",
-      lineHeight: "16px",
-      letterSpacing: "0.5px",
-    },
-    "body-lg": {
-      fontSize: "16px",
-      lineHeight: "24px",
-      letterSpacing: "0.15px",
-    },
-    "body-md": {
-      fontSize: "14px",
-      lineHeight: "20px",
-      letterSpacing: "0.25px",
-    },
-    "body-sm": {
-      fontSize: "12px",
-      lineHeight: "16px",
-      letterSpacing: "0.4px",
+      letterSpacing: "-0.02em",
     },
   },
 });

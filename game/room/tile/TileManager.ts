@@ -1,5 +1,5 @@
-import { Container, Sprite, Texture, TilingSprite } from "pixi.js";
-import { GAME_APP_HEIGHT, GAME_APP_WIDTH, ROOM_TILE_N } from "~/constants";
+import { Container, Sprite, Texture } from "pixi.js";
+import { ROOM_TILE_N } from "~/constants";
 import GameInstance from "~/game/GameInstance";
 import { isValidTile, tileToLocal } from "~/game/room/pos";
 import { Tile } from "./types";
@@ -16,7 +16,6 @@ export default class TileManager {
   private selectedTile: Container;
   private collisionTiles: Container;
   private tileMap: string[][];
-  private worldGrid: TilingSprite;
   private landGrid: Container;
 
   constructor() {
@@ -29,7 +28,6 @@ export default class TileManager {
     this.selectedTile = new Container();
     this.selectedTile.addChild(new Sprite(this.tileTextures.selected));
     this.tileMap = emptyTilemap();
-    this.worldGrid = new TilingSprite(this.tileTextures.grid, GAME_APP_WIDTH, GAME_APP_HEIGHT);
     this.landGrid = new Container();
     this.collisionTiles = new Container();
     for (let i = 0; i < ROOM_TILE_N; i++) {
@@ -114,19 +112,15 @@ export default class TileManager {
     const { room } = GameInstance.get();
 
     this.landGrid.visible = false;
-    this.worldGrid.visible = false;
 
     room.landContainer.addChild(this.landGrid);
-    room.worldContainer.addChild(this.worldGrid);
   }
 
   showGrid() {
-    this.worldGrid.visible = true;
     this.landGrid.visible = true;
   }
 
   hideGrid() {
-    this.worldGrid.visible = false;
     this.landGrid.visible = false;
   }
 

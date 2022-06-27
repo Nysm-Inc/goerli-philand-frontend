@@ -1,5 +1,22 @@
-<svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M9.5 5H23.5L30.5 13L16.5 28L2.5 13L9.5 5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M22.6383 13L16.5008 28L10.3633 13L16.5008 5L22.6383 13Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M2.5 13H30.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="11" y="21" width="26" height="14" fill="#FFD466"/>
+<rect x="9" y="19" width="2" height="16" fill="#1A1A1A"/>
+<rect x="11" y="19" width="26" height="2" fill="#1A1A1A"/>
+<rect x="13" y="11" width="22" height="2" fill="#1A1A1A"/>
+<rect x="11" y="13" width="2" height="6" fill="#1A1A1A"/>
+<rect x="35" y="13" width="2" height="6" fill="#1A1A1A"/>
+<rect x="37" y="19" width="2" height="16" fill="#1A1A1A"/>
+<rect x="11" y="35" width="26" height="2" fill="#1A1A1A"/>
+<rect x="13" y="17" width="22" height="2" fill="#FFE299"/>
+<rect x="13" y="13" width="22" height="2" fill="white"/>
+<rect x="13" y="15" width="22" height="2" fill="#1A1A1A"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M35 21H11V23V25V27V29H15V27H21V25H27V23H35V21Z" fill="#FFE299"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M35 21H37V35H35H33H31V33H33V27H35V21Z" fill="#F5C13D"/>
+<rect x="11" y="21" width="4" height="2" fill="white"/>
+<rect x="11" y="23" width="2" height="2" fill="white"/>
+<rect x="20" y="23" width="8" height="2" fill="#1A1A1A"/>
+<rect x="26" y="25" width="2" height="2" fill="#F5C13D"/>
+<rect x="22" y="27" width="4" height="2" fill="#F5C13D"/>
+<rect x="22" y="25" width="4" height="2" fill="#1A1A1A"/>
+<rect x="20" y="25" width="2" height="2" fill="#F5C13D"/>
 </svg>

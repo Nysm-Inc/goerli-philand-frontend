@@ -15,6 +15,7 @@ export default class RoomItemManager {
   }
 
   loadItems(objects: PhiObject[]) {
+    console.log("load items");
     const { uiManager } = GameInstance.get();
     this.reset();
     objects.forEach((object) => {

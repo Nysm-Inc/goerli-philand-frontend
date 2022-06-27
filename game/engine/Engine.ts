@@ -1,4 +1,4 @@
-import { Application, LoaderResource, Texture } from "pixi.js";
+import { Application, LoaderResource, Sprite, Texture } from "pixi.js";
 import { Stage as LayerStage } from "@pixi/layers";
 import { Viewport } from "pixi-viewport";
 import {
@@ -8,13 +8,19 @@ import {
   PHI_OBJECT_CONTRACT_ADDRESS,
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
 } from "~/constants";
+import { ObjectContractAddress } from "~/types";
 import { objectMetadataList } from "~/types/object";
+import { ColorMode } from "~/ui/styles";
 import "./pixelPerfectInteraction";
 
 export default class Engine {
   app: Application;
   viewport: Viewport;
-  globalTextures: { [contract: string]: { [tokenId: number]: Texture } };
+  globalTextures: { [contract in ObjectContractAddress]: { [tokenId: number]: Texture } };
+  staticAssets: {
+    clouds: Sprite;
+    cloudsBlack: Sprite;
+  };
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
   onMouseClickHandler: (mouseX: number, mouseY: number) => void;
 
@@ -31,7 +37,7 @@ export default class Engine {
     this.app = new Application({
       width: window.innerWidth,
       height: window.innerHeight,
-      backgroundColor: 0xffffff,
+      backgroundColor: 0xf5f2eb,
       preserveDrawingBuffer: true,
       antialias: true,
       resolution: window.devicePixelRatio || 1,
@@ -52,6 +58,12 @@ export default class Engine {
     this.viewport
       .moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2)
       .setZoom(0.6, true)
+      .clampZoom({
+        minWidth: GAME_APP_WIDTH / 2,
+        maxWidth: GAME_APP_WIDTH * 2,
+        minHeight: GAME_APP_HEIGHT / 2,
+        maxHeight: GAME_APP_HEIGHT * 2,
+      })
       .drag({
         clampWheel: false,
         wheel: true,
@@ -68,6 +80,19 @@ export default class Engine {
         this.onMouseMoveHandler(world.x, world.y);
       });
     this.app.stage.addChild(this.viewport);
+
+    this.staticAssets = {
+      clouds: Sprite.from("clouds.png"),
+      cloudsBlack: Sprite.from("clouds_black.png"),
+    };
+    this.staticAssets.clouds.width = window.innerWidth;
+    this.staticAssets.clouds.height = window.innerHeight;
+    this.staticAssets.clouds.visible = false;
+    this.app.stage.addChild(this.staticAssets.clouds);
+    this.staticAssets.cloudsBlack.width = window.innerWidth;
+    this.staticAssets.cloudsBlack.height = window.innerHeight;
+    this.staticAssets.cloudsBlack.visible = false;
+    this.app.stage.addChild(this.staticAssets.cloudsBlack);
   }
 
   // todo: cache loaded files
@@ -99,6 +124,18 @@ export default class Engine {
       });
       this.app.loader.onError.add(() => reject("failed to load"));
     });
+  }
+
+  changeColorMode(colorMode: ColorMode) {
+    if (colorMode === "light") {
+      this.app.renderer.backgroundColor = 0xf5f2eb;
+      this.staticAssets.clouds.visible = true;
+      this.staticAssets.cloudsBlack.visible = false;
+    } else {
+      this.app.renderer.backgroundColor = 0x0d0d0d;
+      this.staticAssets.clouds.visible = false;
+      this.staticAssets.cloudsBlack.visible = true;
+    }
   }
 
   getViewImageDataURL() {

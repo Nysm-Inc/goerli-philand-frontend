@@ -50,7 +50,7 @@ const useViewPhiland = (ens?: string | null, disabled?: boolean): (PhiObject & {
               yStart: BigNumber.from(object[3]).toNumber(),
               xEnd: BigNumber.from(object[4]).toNumber(),
               yEnd: BigNumber.from(object[5]).toNumber(),
-              link: { title: links[idx][0], url: links[idx][1] },
+              link: { title: links[idx]?.[0], url: links[idx]?.[1] },
             } as PhiObject,
           ];
         } else {

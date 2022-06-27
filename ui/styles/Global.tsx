@@ -4,10 +4,10 @@ const GlobalStyle = () => (
   <Global
     styles={`
       @font-face {
-        font-family: 'ChiKareGo2';
+        font-family: 'JetBrainsMono';
         font-style: normal;
         font-display: swap;
-        src: url('/fonts/ChiKareGo2.ttf');
+        src: url('/fonts/JetBrainsMono.ttf');
       }
     `}
   />

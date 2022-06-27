@@ -89,6 +89,7 @@ const Index: NextPage = () => {
       />
       <Quest
         claimableList={claimableList}
+        // todo: new method
         claimedList={balancePhiObjects}
         isOpen={isOpenQuest}
         onClose={onCloseQuest}
@@ -164,22 +165,22 @@ const Index: NextPage = () => {
             onEdit,
             onSave,
           }}
+          isOpen={{ quest: isOpenQuest, shop: isOpenShop, collection: isOpenCollection, inventory: isOpenInventory }}
         />
       ) : (
         <>
           {domains.length > 0 ? (
             <Box position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
               <VStack>
-                <Box w="280px" h="40px">
-                  <SelectBox
-                    options={domains.map((domain) => {
-                      return { label: domain, value: domain };
-                    })}
-                    value={currentENS}
-                    disabled={!account}
-                    handleChange={switchCurrentENS}
-                  />
-                </Box>
+                <SelectBox
+                  w="280px"
+                  options={domains.map((domain) => {
+                    return { label: domain, value: domain };
+                  })}
+                  value={currentENS}
+                  handleChange={switchCurrentENS}
+                />
+
                 <Center w="280px" h="40px" border="1px solid" borderColor="black" cursor="pointer" onClick={createPhiland}>
                   Create Philand
                 </Center>

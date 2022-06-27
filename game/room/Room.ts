@@ -53,8 +53,9 @@ export default class Room {
   }
 
   enterRoom() {
-    const sprite = Sprite.from("land.png"); // todo: use loader
-    this.landContainer.addChild(sprite);
+    console.log("enter room");
+    const land = Sprite.from("land.png");
+    this.landContainer.addChild(land);
 
     this.tileManager.setGrid();
     this.tileManager.setSelectedTile();
@@ -62,6 +63,7 @@ export default class Room {
   }
 
   leaveRoom() {
+    console.log("leave room");
     const { room } = GameInstance.get();
 
     this.landContainer.removeChildren();

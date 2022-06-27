@@ -17,7 +17,7 @@ type UseGame = {
 const useGame = ({ state, uiHandler, gameUIHandler }: UseGame) => {
   const _strictRef = useRef(false); // for avoiding react18 strict mode
   const loadGameRef = useRef(false);
-  const { game } = useContext(AppContext);
+  const { game, colorMode } = useContext(AppContext);
 
   useEffect(() => {
     if (_strictRef.current) return;
@@ -46,6 +46,10 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame) => {
 
     game.room.roomItemManager.loadItems(state.phiObjects);
   }, [state.phiObjects.length, loadGameRef.current, state.isEdit]);
+
+  useEffect(() => {
+    game.engine.changeColorMode(colorMode.mode);
+  }, [colorMode.mode]);
 
   return useHandler({ phiObjects: state.phiObjects, uiHandler });
 };

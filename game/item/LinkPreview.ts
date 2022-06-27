@@ -43,9 +43,12 @@ export default class LinkPreview {
     this.draw(link);
 
     (async () => {
-      const res = await axios.get<{ ogp: string }>(`/api/fetchOGP?url=${link.url}`);
-      this.ogp = res.data.ogp;
-      this.sprite.texture = Texture.from(this.ogp);
+      try {
+        const url = new URL(link.url);
+        const res = await axios.get<{ ogp: string }>(`/api/fetchOGP?url=${url}`);
+        this.ogp = res.data.ogp;
+        this.sprite.texture = Texture.from(this.ogp);
+      } catch {}
     })();
   }
 

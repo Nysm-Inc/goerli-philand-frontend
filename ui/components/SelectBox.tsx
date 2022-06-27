@@ -1,34 +1,37 @@
-import { Select } from "@chakra-ui/react";
 import { FC } from "react";
-
-type Option = {
-  label: string;
-  value: string;
-};
+import { Menu, MenuButton, LayoutProps, Box } from "@chakra-ui/react";
+import MenuList, { Option } from "./MenuList";
+import Button from "./Button";
+import Image from "next/image";
 
 const SelectBox: FC<{
+  w: LayoutProps["w"];
   options: Option[];
   value: string;
-  disabled?: boolean;
-  placeholder?: string;
   handleChange: (value: string) => void;
-}> = ({ options, value, placeholder, disabled, handleChange }) => {
+}> = ({ w, options, value, handleChange }) => {
   return (
-    <Select
-      placeholder={placeholder}
-      value={value}
-      disabled={disabled}
-      onChange={(e) => handleChange(e.target.value)}
-      cursor="pointer"
-      _focus={{ outline: "none" }}
-      _focusVisible={{ outline: "none" }}
-    >
-      {options.map((option, i) => (
-        <option key={i} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </Select>
+    <Menu matchWidth variant="unstyled" autoSelect={false}>
+      {({ isOpen }) => (
+        <>
+          <MenuButton
+            as={Button}
+            w={w}
+            rightIcon={<Image src={`/icons/${isOpen ? "dropdown-active" : "dropdown"}.svg`} width="16px" height="16px" />}
+          >
+            {value}
+          </MenuButton>
+          <MenuList
+            //
+            w={w}
+            value={value}
+            isOpen={isOpen}
+            options={options}
+            onClick={(v: string) => handleChange(v)}
+          />
+        </>
+      )}
+    </Menu>
   );
 };
 
