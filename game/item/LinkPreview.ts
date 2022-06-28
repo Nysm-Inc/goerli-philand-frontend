@@ -1,14 +1,14 @@
 import axios from "axios";
 import { Container, Graphics, Sprite, Texture } from "pixi.js";
 import { PhiLink } from "~/types";
+import GameInstance from "~/game/GameInstance";
 
-const PREVIEW_OFFSET = { x: 40, y: -40 };
+const PREVIEW_OFFSET = -80;
 
 export default class LinkPreview {
   private link: PhiLink;
   private ogp: string;
   container: Container;
-  // layer: Layer;
   g: Graphics;
   sprite: Sprite;
 
@@ -16,19 +16,22 @@ export default class LinkPreview {
     this.link = { title: "", url: "" };
     this.ogp = "";
 
+    const { room } = GameInstance.get();
     this.container = new Container();
-    this.container.zIndex = 100; //
     this.container.visible = false;
+    this.container.parentLayer = room.landItemLayer;
+    this.container.zOrder = 9999;
+    this.container.y = PREVIEW_OFFSET;
 
     this.g = new Graphics();
     this.g.beginFill(0x000000);
-    this.g.drawRoundedRect(PREVIEW_OFFSET.x, PREVIEW_OFFSET.y, 296, 80, 16);
+    this.g.drawRoundedRect(0, 0, 296, 80, 16);
     this.g.endFill();
     this.container.addChild(this.g);
 
     this.sprite = new Sprite();
-    this.sprite.x = PREVIEW_OFFSET.x + 16;
-    this.sprite.y = PREVIEW_OFFSET.y + 16;
+    this.sprite.x = 16;
+    this.sprite.y = 16;
     this.sprite.width = 48;
     this.sprite.height = 48;
     this.container.addChild(this.sprite);

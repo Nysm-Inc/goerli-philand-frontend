@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { AlertStatus, Flex, Link, Spinner, useToast, UseToastOptions } from "@chakra-ui/react";
 import { ETHERSCAN_BLOCK_EXPLORER } from "~/constants";
 import { Status, Tx } from "~/types/wagmi";
@@ -35,14 +35,16 @@ const options = (tx: Tx): UseToastOptions => {
 
 const StatusTx: FC<{ txs: Tx[] }> = ({ txs }) => {
   const toast = useToast();
+  const [unique, setUnique] = useState<string[]>([]);
 
   useEffect(() => {
     txs.forEach((tx) => {
       if (!tx.hash) return;
 
       if (!toast.isActive(tx.hash)) {
-        if (tx.status === "loading") {
+        if (!unique.includes(tx.hash) && tx.status === "loading") {
           toast(options(tx));
+          setUnique((prev) => [...prev, tx.hash || ""]);
         }
       } else {
         toast.update(tx.hash, options(tx));

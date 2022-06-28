@@ -1,5 +1,5 @@
 import { Container, Sprite, Texture } from "pixi.js";
-import { ROOM_TILE_N } from "~/constants";
+import { GAME_APP_HEIGHT, GAME_APP_WIDTH, ROOM_TILE_N } from "~/constants";
 import GameInstance from "~/game/GameInstance";
 import { isValidTile, tileToLocal } from "~/game/room/pos";
 import { Tile } from "./types";
@@ -26,6 +26,7 @@ export default class TileManager {
     };
 
     this.selectedTile = new Container();
+    this.updateSelectedTile(-GAME_APP_WIDTH, -GAME_APP_HEIGHT);
     this.selectedTile.addChild(new Sprite(this.tileTextures.selected));
     this.tileMap = emptyTilemap();
     this.landGrid = new Container();
@@ -128,7 +129,7 @@ export default class TileManager {
     const { room } = GameInstance.get();
 
     this.tileMap = emptyTilemap();
-    this.updateSelectedTile(0, 0);
+    this.updateSelectedTile(-GAME_APP_WIDTH, -GAME_APP_HEIGHT);
     room.landContainer.removeChildren();
   }
 }
