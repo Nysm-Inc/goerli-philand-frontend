@@ -7,6 +7,7 @@ import {
   PHI_OBJECT_CONTRACT_ADDRESS,
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   REGISTRY_CONTRACT_ADDRESS,
+  WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
 
 const baseURL = "https://goerli.etherscan.io/address/";
@@ -23,6 +24,9 @@ const Explorer: NextPage = () => {
       </Link>
       <Link href={baseURL + PHI_OBJECT_CONTRACT_ADDRESS} isExternal textDecoration="underline">
         Phi Object
+      </Link>
+      <Link href={baseURL + WALLPAPER_CONTRACT_ADDRESS} isExternal textDecoration="underline">
+        Wallpaper
       </Link>
       <Link href={baseURL + MAP_CONTRACT_ADDRESS} isExternal textDecoration="underline">
         Map

@@ -54,7 +54,7 @@ export default class Room {
 
   enterRoom() {
     console.log("enter room");
-    const land = Sprite.from("land.png");
+    const land = Sprite.from("assets/land.png");
     this.landContainer.addChild(land);
 
     this.tileManager.setGrid();

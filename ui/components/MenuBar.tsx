@@ -42,9 +42,9 @@ const MenuBar: FC<{
       boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
       borderRadius="16px"
       //
-      border={colorMode.mode === "light" ? "1px solid" : "none"}
-      borderColor={colorMode.mode === "light" ? "#CECCC9" : "none"}
-      bgColor={colorMode.mode === "light" ? "white" : "#1A1A1A"}
+      border={colorMode === "light" ? "1px solid" : "none"}
+      borderColor={colorMode === "light" ? "#CECCC9" : "none"}
+      bgColor={colorMode === "light" ? "white" : "#1A1A1A"}
     >
       <>
         {!isEdit && (
@@ -57,7 +57,7 @@ const MenuBar: FC<{
               value={currentENS}
               handleChange={actionHandler.switchCurrentENS}
             />
-            <Divider orientation="vertical" color={colorMode.mode === "light" ? "CECCC9" : "#333333"} h="48px" />
+            <Divider orientation="vertical" color={colorMode === "light" ? "CECCC9" : "#333333"} h="48px" />
           </>
         )}
       </>
@@ -107,7 +107,7 @@ const MenuBar: FC<{
             />
           </>
         )}
-        <Divider orientation="vertical" color={colorMode.mode === "light" ? "CECCC9" : "#333333"} h="48px" />
+        <Divider orientation="vertical" color={colorMode === "light" ? "CECCC9" : "#333333"} h="48px" />
       </>
 
       <>

@@ -19,17 +19,17 @@ const Input: FC<{
       borderRadius="12px"
       w={w}
       //
-      textColor={colorMode.mode === "light" ? "#1A1A1A" : "white"}
-      border={colorMode.mode === "light" ? "1px solid" : "none"}
-      bgColor={colorMode.mode === "light" ? "white" : "#1A1A1A"}
-      borderColor={colorMode.mode === "light" ? "#CECCC9" : "none"}
+      textColor={colorMode === "light" ? "#1A1A1A" : "white"}
+      border={colorMode === "light" ? "1px solid" : "none"}
+      bgColor={colorMode === "light" ? "white" : "#1A1A1A"}
+      borderColor={colorMode === "light" ? "#CECCC9" : "none"}
       _hover={{
-        bgColor: colorMode.mode === "light" ? "#F5F2EB" : "#333333",
-        borderColor: colorMode.mode === "light" ? "#1A1A1A" : "#808080",
+        bgColor: colorMode === "light" ? "#F5F2EB" : "#333333",
+        borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
       }}
       _active={{
-        bgColor: colorMode.mode === "light" ? "white" : "#333333",
-        borderColor: colorMode.mode === "light" ? "#1A1A1A" : "#808080",
+        bgColor: colorMode === "light" ? "white" : "#333333",
+        borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
       }}
     >
       <InputLeftElement inlineSize="48px" h="100%">

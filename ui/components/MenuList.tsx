@@ -30,9 +30,9 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
           minW="0"
           w={w}
           //
-          border={colorMode.mode === "light" ? "1px solid" : "none"}
+          border={colorMode === "light" ? "1px solid" : "none"}
           borderColor="#CECCC9"
-          bgColor={colorMode.mode === "light" ? "white" : "#1A1A1A"}
+          bgColor={colorMode === "light" ? "white" : "#1A1A1A"}
         >
           {options.map((item, i) => (
             <MenuItem
@@ -48,16 +48,16 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
                 else if (onClick) onClick(item.value);
               }}
               //
-              textColor={colorMode.mode === "light" ? "#1A1A1A" : "white"}
-              bgColor={colorMode.mode === "light" ? "white" : "#1A1A1A"}
+              textColor={colorMode === "light" ? "#1A1A1A" : "white"}
+              bgColor={colorMode === "light" ? "white" : "#1A1A1A"}
               _hover={{
-                bgColor: colorMode.mode === "light" ? "#F5F2EB" : "#333333",
+                bgColor: colorMode === "light" ? "#F5F2EB" : "#333333",
               }}
               _active={{
-                bgColor: colorMode.mode === "light" ? "white" : "#333333",
+                bgColor: colorMode === "light" ? "white" : "#333333",
               }}
               _focus={{
-                bgColor: colorMode.mode === "light" ? "white" : "#333333",
+                bgColor: colorMode === "light" ? "white" : "#333333",
               }}
             >
               <Text w="calc(100% - 16px)" whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis">

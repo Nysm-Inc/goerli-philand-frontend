@@ -26,17 +26,17 @@ const IconButton: FC<{ ariaLabel: string; icon: JSX.Element; outline?: boolean; 
       onClick={onClick}
       //
       border={outline ? "1px solid" : "none"}
-      bgColor={colorMode.mode === "light" ? "white" : "#1A1A1A"}
-      borderColor={colorMode.mode === "light" ? "#CECCC9" : "none"}
+      bgColor={colorMode === "light" ? "white" : "#1A1A1A"}
+      borderColor={colorMode === "light" ? "#CECCC9" : "none"}
       _hover={{
-        bgColor: colorMode.mode === "light" ? "#F5F2EB" : "#333333",
+        bgColor: colorMode === "light" ? "#F5F2EB" : "#333333",
         border: "1px solid",
-        borderColor: colorMode.mode === "light" ? "#1A1A1A" : "#808080",
+        borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
       }}
       _active={{
-        bgColor: colorMode.mode === "light" ? "white" : "#333333",
+        bgColor: colorMode === "light" ? "white" : "#333333",
         border: "1px solid",
-        borderColor: colorMode.mode === "light" ? "#1A1A1A" : "#808080",
+        borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
       }}
     >
       <Center>{icon}</Center>

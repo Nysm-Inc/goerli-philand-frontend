@@ -13,8 +13,8 @@ const Quest: FC<{
   isOpen: boolean;
   onClose: () => void;
   onClickItem: (tokenId: number) => Promise<TransactionResponse | undefined>;
-  onClickRefetch: () => Promise<void>;
-}> = ({ claimableList, claimedList, isOpen, onClose, onClickItem, onClickRefetch }) => {
+  onClickUpdate: () => Promise<void>;
+}> = ({ claimableList, claimedList, isOpen, onClose, onClickItem, onClickUpdate }) => {
   const [selected, setSelected] = useState<ObjectMetadata | undefined>(undefined);
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside">
@@ -22,7 +22,7 @@ const Quest: FC<{
         <ModalHeader>
           <Flex justify="space-between">
             <Text>Quest</Text>
-            <Button onClick={onClickRefetch}>😆</Button>
+            <Button onClick={onClickUpdate}>😆</Button>
           </Flex>
         </ModalHeader>
         <ModalBody>

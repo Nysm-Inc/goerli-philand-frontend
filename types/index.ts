@@ -1,9 +1,23 @@
-import { FREE_OBJECT_CONTRACT_ADDRESS, PHI_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
+import { FreeObjectAbi, PhiObjectAbi, PremiumObjectAbi, WallpaperAbi } from "~/abi";
+import {
+  FREE_OBJECT_CONTRACT_ADDRESS,
+  PHI_OBJECT_CONTRACT_ADDRESS,
+  PREMIUM_OBJECT_CONTRACT_ADDRESS,
+  WALLPAPER_CONTRACT_ADDRESS,
+} from "~/constants";
 
 export type ObjectContractAddress =
   | typeof PHI_OBJECT_CONTRACT_ADDRESS
   | typeof FREE_OBJECT_CONTRACT_ADDRESS
-  | typeof PREMIUM_OBJECT_CONTRACT_ADDRESS;
+  | typeof PREMIUM_OBJECT_CONTRACT_ADDRESS
+  | typeof WALLPAPER_CONTRACT_ADDRESS;
+
+export const ContractAbis = {
+  [PHI_OBJECT_CONTRACT_ADDRESS]: PhiObjectAbi,
+  [FREE_OBJECT_CONTRACT_ADDRESS]: FreeObjectAbi,
+  [PREMIUM_OBJECT_CONTRACT_ADDRESS]: PremiumObjectAbi,
+  [WALLPAPER_CONTRACT_ADDRESS]: WallpaperAbi,
+};
 
 export type PhiObject = {
   contractAddress: ObjectContractAddress;

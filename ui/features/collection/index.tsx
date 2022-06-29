@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
 import {
@@ -16,10 +17,14 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
-import Image from "next/image";
 import { objectMetadataList } from "~/types/object";
 import { QuantityInput } from "~/ui/components";
-import { FREE_OBJECT_CONTRACT_ADDRESS, PHI_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
+import {
+  FREE_OBJECT_CONTRACT_ADDRESS,
+  PHI_OBJECT_CONTRACT_ADDRESS,
+  PREMIUM_OBJECT_CONTRACT_ADDRESS,
+  WALLPAPER_CONTRACT_ADDRESS,
+} from "~/constants";
 
 type CollectionObject = BalanceObject & { select: number };
 
@@ -29,6 +34,7 @@ const Collection: FC<{
     [PHI_OBJECT_CONTRACT_ADDRESS]: boolean;
     [FREE_OBJECT_CONTRACT_ADDRESS]: boolean;
     [PREMIUM_OBJECT_CONTRACT_ADDRESS]: boolean;
+    [WALLPAPER_CONTRACT_ADDRESS]: boolean;
   };
   isEdit: boolean;
   isOpen: boolean;
@@ -37,6 +43,7 @@ const Collection: FC<{
     [PHI_OBJECT_CONTRACT_ADDRESS]: () => void;
     [FREE_OBJECT_CONTRACT_ADDRESS]: () => void;
     [PREMIUM_OBJECT_CONTRACT_ADDRESS]: () => void;
+    [WALLPAPER_CONTRACT_ADDRESS]: () => void;
   };
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
 }> = ({ items: originItems, isApproved, isEdit, isOpen, onClose, onApprove, onSubmit }) => {
@@ -87,6 +94,11 @@ const Collection: FC<{
                 {!isApproved[PREMIUM_OBJECT_CONTRACT_ADDRESS] && (
                   <Button bgColor="gray.800" borderRadius="12px" color="white" onClick={() => onApprove[PREMIUM_OBJECT_CONTRACT_ADDRESS]()}>
                     Approve Premium
+                  </Button>
+                )}
+                {!isApproved[WALLPAPER_CONTRACT_ADDRESS] && (
+                  <Button bgColor="gray.800" borderRadius="12px" color="white" onClick={() => onApprove[WALLPAPER_CONTRACT_ADDRESS]()}>
+                    Approve Wallpaper
                   </Button>
                 )}
               </VStack>

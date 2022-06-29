@@ -47,17 +47,17 @@ const Button: FC<{
             },
           }
         : {
-            textColor: colorMode.mode === "light" ? "#1A1A1A" : "white",
-            bgColor: colorMode.mode === "light" ? "white" : "#333333",
-            border: colorMode.mode === "light" ? "1px solid" : "none",
-            borderColor: colorMode.mode === "light" ? "#CECCC9" : "none",
+            textColor: colorMode === "light" ? "#1A1A1A" : "white",
+            bgColor: colorMode === "light" ? "white" : "#333333",
+            border: colorMode === "light" ? "1px solid" : "none",
+            borderColor: colorMode === "light" ? "#CECCC9" : "none",
             _hover: {
-              bgColor: colorMode.mode === "light" ? "#F5F2EB" : "#333333",
-              borderColor: colorMode.mode === "light" ? "#1A1A1A" : "#808080",
+              bgColor: colorMode === "light" ? "#F5F2EB" : "#333333",
+              borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
             },
             _active: {
-              bgColor: colorMode.mode === "light" ? "white" : "#333333",
-              borderColor: colorMode.mode === "light" ? "#1A1A1A" : "#808080",
+              bgColor: colorMode === "light" ? "white" : "#333333",
+              borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
             },
             _focus: { outline: "none" },
           })}

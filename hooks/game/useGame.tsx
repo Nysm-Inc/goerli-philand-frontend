@@ -48,8 +48,8 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame) => {
   }, [state.phiObjects.length, loadGameRef.current, state.isEdit]);
 
   useEffect(() => {
-    game.engine.changeColorMode(colorMode.mode);
-  }, [colorMode.mode]);
+    game.engine.changeColorMode(colorMode);
+  }, [colorMode]);
 
   return useHandler({ phiObjects: state.phiObjects, uiHandler });
 };

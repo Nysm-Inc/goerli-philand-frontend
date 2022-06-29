@@ -7,7 +7,7 @@ import Wallet from "./Wallet";
 import IconButton from "./IconButton";
 
 const Header: FC = () => {
-  const { colorMode } = useContext(AppContext);
+  const { colorMode, toggleColorMode } = useContext(AppContext);
   const ref = useRef(null);
 
   return (
@@ -21,7 +21,7 @@ const Header: FC = () => {
           window.location.href = "/explorer"; // todo: redirect to LP
         }}
       >
-        <Image src="/logo.svg" width="72px" height="80px" />
+        <Image src="/icons/logo.svg" width="72px" height="80px" />
       </Box>
 
       <Box position="fixed" top="24px" left="106px">
@@ -34,7 +34,7 @@ const Header: FC = () => {
           ariaLabel="color_mode"
           icon={
             <Center h="100%" w="100%">
-              {colorMode.mode === "light" ? (
+              {colorMode === "light" ? (
                 <Center h="32px" w="32px" bgColor="#1A1A1A" borderRadius="8px">
                   <Image src="/icons/moon.svg" width="16px" height="16px" />
                 </Center>
@@ -45,7 +45,7 @@ const Header: FC = () => {
               )}
             </Center>
           }
-          onClick={colorMode.toggleColorMode}
+          onClick={toggleColorMode}
         />
       </Box>
 

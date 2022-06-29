@@ -15,7 +15,12 @@ import { useClaim, useClaimableList } from "~/hooks/claim";
 import { useGame } from "~/hooks/game";
 import { useGetFreeObject } from "~/hooks/free";
 import { useBuyPremiumObject } from "~/hooks/premium";
-import { FREE_OBJECT_CONTRACT_ADDRESS, PHI_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
+import {
+  FREE_OBJECT_CONTRACT_ADDRESS,
+  PHI_OBJECT_CONTRACT_ADDRESS,
+  PREMIUM_OBJECT_CONTRACT_ADDRESS,
+  WALLPAPER_CONTRACT_ADDRESS,
+} from "~/constants";
 import { PhiLink } from "~/types";
 
 const Index: NextPage = () => {
@@ -40,6 +45,7 @@ const Index: NextPage = () => {
   const [isAprvPhi, { approve: aprvPhi, tx: txAprvPhi }] = useApprove(PHI_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvFree, { approve: aprvFree, tx: txAprvFree }] = useApprove(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvPre, { approve: aprvPre, tx: txAprvPre }] = useApprove(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
+  const [isAprvWall, { approve: aprvWall, tx: txAprvWall }] = useApprove(WALLPAPER_CONTRACT_ADDRESS, address);
   const { claimPhi, tx: txClaimPhi } = useClaim(address);
   const { getFreeObject, tx: txGetFreeObject } = useGetFreeObject();
   const { buyPremiumObject, tx: txBuyPremiumObject } = useBuyPremiumObject(provider);
@@ -48,7 +54,7 @@ const Index: NextPage = () => {
   const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
   const [depositObjects, { deposit, tx: txDeposit }, { undeposit, tx: txUndeposit }] = useDeposit(currentENS);
   const { save, tx: txSave } = useSave(currentENS);
-  const [claimableList, refetchClaimableList] = useClaimableList(address);
+  const [claimableList, updateClaimableList, refetchClaimableList] = useClaimableList(address);
   const [inventoryItems, plus, minus, tryWrite, tryRemove, reset] = useInventory(depositObjects, isEdit);
 
   const { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onChangeLink, onSave } = useGame({
@@ -65,6 +71,7 @@ const Index: NextPage = () => {
           txAprvPhi,
           txAprvFree,
           txAprvPre,
+          txAprvWall,
           txClaimPhi,
           txBuyPremiumObject,
           txGetFreeObject,
@@ -79,6 +86,7 @@ const Index: NextPage = () => {
           txAprvPhi,
           txAprvFree,
           txAprvPre,
+          txAprvWall,
           txClaimPhi,
           txBuyPremiumObject,
           txGetFreeObject,
@@ -94,7 +102,7 @@ const Index: NextPage = () => {
         isOpen={isOpenQuest}
         onClose={onCloseQuest}
         onClickItem={claimPhi}
-        onClickRefetch={refetchClaimableList}
+        onClickUpdate={updateClaimableList}
       />
       <Shop
         //
@@ -109,6 +117,7 @@ const Index: NextPage = () => {
           [PHI_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
           [FREE_OBJECT_CONTRACT_ADDRESS]: isAprvFree,
           [PREMIUM_OBJECT_CONTRACT_ADDRESS]: isAprvPre,
+          [WALLPAPER_CONTRACT_ADDRESS]: isAprvWall,
         }}
         isEdit={isEdit}
         isOpen={isOpenCollection}
@@ -117,6 +126,7 @@ const Index: NextPage = () => {
           [PHI_OBJECT_CONTRACT_ADDRESS]: aprvPhi,
           [FREE_OBJECT_CONTRACT_ADDRESS]: aprvFree,
           [PREMIUM_OBJECT_CONTRACT_ADDRESS]: aprvPre,
+          [WALLPAPER_CONTRACT_ADDRESS]: aprvWall,
         }}
         onSubmit={deposit}
       />
@@ -156,7 +166,10 @@ const Index: NextPage = () => {
           currentENS={currentENS}
           domains={domains}
           actionHandler={{
-            onOpenQuest,
+            onOpenQuest: () => {
+              refetchClaimableList();
+              onOpenQuest();
+            },
             onOpenShop,
             onOpenCollection,
             onOpenInventry,

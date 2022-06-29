@@ -5,10 +5,8 @@ import { ColorMode } from "~/ui/styles";
 
 type AppContext = {
   game: Game;
-  colorMode: {
-    mode: ColorMode;
-    toggleColorMode: () => void;
-  };
+  colorMode: ColorMode;
+  toggleColorMode: () => void;
 };
 
 // @ts-ignore
@@ -34,10 +32,8 @@ const AppContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         <AppContext.Provider
           value={{
             game,
-            colorMode: {
-              mode: colorMode,
-              toggleColorMode,
-            },
+            colorMode,
+            toggleColorMode,
           }}
         >
           {children}

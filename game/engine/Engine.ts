@@ -7,6 +7,7 @@ import {
   GAME_APP_WIDTH,
   PHI_OBJECT_CONTRACT_ADDRESS,
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
+  WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
 import { ObjectContractAddress } from "~/types";
 import { objectMetadataList } from "~/types/object";
@@ -32,6 +33,7 @@ export default class Engine {
       [PHI_OBJECT_CONTRACT_ADDRESS]: {},
       [FREE_OBJECT_CONTRACT_ADDRESS]: {},
       [PREMIUM_OBJECT_CONTRACT_ADDRESS]: {},
+      [WALLPAPER_CONTRACT_ADDRESS]: {},
     };
 
     this.app = new Application({
@@ -82,8 +84,8 @@ export default class Engine {
     this.app.stage.addChild(this.viewport);
 
     this.staticAssets = {
-      clouds: Sprite.from("clouds.png"),
-      cloudsBlack: Sprite.from("clouds_black.png"),
+      clouds: Sprite.from("assets/clouds.png"),
+      cloudsBlack: Sprite.from("assets/clouds_black.png"),
     };
     this.staticAssets.clouds.width = window.innerWidth;
     this.staticAssets.clouds.height = window.innerHeight;

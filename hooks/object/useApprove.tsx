@@ -2,11 +2,11 @@ import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi"
 import { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { PhiObjectAbi } from "~/abi";
-import { ContractAbis, ContractAddress } from "./types";
 import { Tx } from "~/types/wagmi";
+import { ContractAbis, ObjectContractAddress } from "~/types";
 
 const useApprove = (
-  contract: ContractAddress,
+  contract: ObjectContractAddress,
   account?: string,
   disabled?: boolean
 ): [boolean, { approve: () => Promise<TransactionResponse | undefined>; tx: Tx }] => {
