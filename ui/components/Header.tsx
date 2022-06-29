@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, useContext } from "react";
+import { FC, useContext, useRef } from "react";
 import { Box, Center } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Search from "./Search";
@@ -8,6 +8,8 @@ import IconButton from "./IconButton";
 
 const Header: FC = () => {
   const { colorMode } = useContext(AppContext);
+  const ref = useRef(null);
+
   return (
     <>
       <Box
@@ -26,7 +28,8 @@ const Header: FC = () => {
         <Search />
       </Box>
 
-      <Box position="fixed" top="24px" right="calc(218px + 24px + 8px)">
+      {/* @ts-ignore */}
+      <Box position="fixed" top="24px" right={`calc(${ref?.current?.offsetWidth || 0}px + 24px + 8px)`}>
         <IconButton
           ariaLabel="color_mode"
           icon={
@@ -46,7 +49,7 @@ const Header: FC = () => {
         />
       </Box>
 
-      <Box position="fixed" top="24px" right="24px">
+      <Box ref={ref} position="fixed" top="24px" right="24px">
         <Wallet />
       </Box>
     </>

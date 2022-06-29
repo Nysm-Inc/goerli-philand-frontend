@@ -63,6 +63,23 @@ export const themeColors = {
   },
 };
 
+export const themeFonts = {
+  "button-1": {
+    fontFamily: "PhilsonBlock",
+    fontWeight: 400,
+    fontSize: "16px",
+    textTransform: "uppercase",
+    fontFeatureSettings: "'ss01' on, 'liga' off",
+    textShadow: "3px 3px 0px rgba(13, 13, 13, 0.1)",
+    "-webkit-text-stroke": "1px #1A1A1A",
+  },
+  "button-2": {
+    fontSize: "14px",
+    fontWeight: 500,
+    letterSpacing: "-0.02em",
+  },
+};
+
 const theme = extendTheme({
   colors: themeColors,
   breakpoints: {
@@ -75,14 +92,7 @@ const theme = extendTheme({
     body: "JetBrainsMono",
     color: "#1A1A1A",
   },
-  textStyles: {
-    "button-2": {
-      fontSize: "14px",
-      fontWeight: 500,
-      lineHeight: "16px",
-      letterSpacing: "-0.02em",
-    },
-  },
+  textStyles: themeFonts,
 });
 
 export default theme;

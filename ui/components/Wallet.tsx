@@ -28,12 +28,14 @@ const Wallet: FC = () => {
               if (!mounted || !account || !chain) {
                 return (
                   <Button
-                    w="218px"
+                    w="153px"
                     color="purple"
                     onClick={openConnectModal}
                     rightIcon={<Image src="/icons/wallet_color.svg" width="24px" height="24px" />}
                   >
-                    <Text color="white">Connect</Text>
+                    <Text color="white" textStyle="button-1">
+                      Connect
+                    </Text>
                   </Button>
                 );
               }

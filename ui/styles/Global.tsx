@@ -9,6 +9,12 @@ const GlobalStyle = () => (
         font-display: swap;
         src: url('/fonts/JetBrainsMono.ttf');
       }
+      @font-face {
+        font-family: 'PhilsonBlock';
+        font-style: normal;
+        font-display: swap;
+        src: url('/fonts/philson_block.otf');
+      }
     `}
   />
 );
