@@ -11,13 +11,11 @@ const useClaim = (address?: string): { claimPhi: (tokenId: number) => Promise<Tr
     data,
     writeAsync,
     status: tmpStatus,
-  } = useContractWrite(
-    {
-      addressOrName: CLAIM_CONTRACT_ADDRESS,
-      contractInterface: ClaimAbi,
-    },
-    "claimPhiObject"
-  );
+  } = useContractWrite({
+    addressOrName: CLAIM_CONTRACT_ADDRESS,
+    contractInterface: ClaimAbi,
+    functionName: "claimPhiObject",
+  });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
   return {

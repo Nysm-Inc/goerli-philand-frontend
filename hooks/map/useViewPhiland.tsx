@@ -5,36 +5,22 @@ import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { PhiObject } from "~/types";
 
 const useViewPhiland = (ens?: string | null, disabled?: boolean): (PhiObject & { removeIdx: number })[] => {
-  const { data: objects } = useContractRead(
-    {
-      addressOrName: MAP_CONTRACT_ADDRESS,
-      contractInterface: MapAbi,
-    },
-    "viewPhiland",
-    {
-      args: ens ? [ens.slice(0, -4)] : null,
-      watch: true,
-      enabled: !!ens && !disabled,
-      onSuccess(data) {
-        //
-      },
-    }
-  );
-  const { data: links } = useContractRead(
-    {
-      addressOrName: MAP_CONTRACT_ADDRESS,
-      contractInterface: MapAbi,
-    },
-    "viewLinks",
-    {
-      args: ens ? [ens.slice(0, -4)] : null,
-      watch: true,
-      enabled: !!ens && !disabled,
-      onSuccess(data) {
-        //
-      },
-    }
-  );
+  const { data: objects } = useContractRead({
+    addressOrName: MAP_CONTRACT_ADDRESS,
+    contractInterface: MapAbi,
+    functionName: "viewPhiland",
+    args: ens ? [ens.slice(0, -4)] : null,
+    watch: true,
+    enabled: !!ens && !disabled,
+  });
+  const { data: links } = useContractRead({
+    addressOrName: MAP_CONTRACT_ADDRESS,
+    contractInterface: MapAbi,
+    functionName: "viewLinks",
+    args: ens ? [ens.slice(0, -4)] : null,
+    watch: true,
+    enabled: !!ens && !disabled,
+  });
 
   return objects && links
     ? objects.reduce((memo, object, idx) => {

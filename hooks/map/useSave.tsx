@@ -28,13 +28,11 @@ const useSave = (
     data,
     writeAsync,
     status: tmpStatus,
-  } = useContractWrite(
-    {
-      addressOrName: MAP_CONTRACT_ADDRESS,
-      contractInterface: MapAbi,
-    },
-    "save"
-  );
+  } = useContractWrite({
+    addressOrName: MAP_CONTRACT_ADDRESS,
+    contractInterface: MapAbi,
+    functionName: "save",
+  });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
   useEffect(() => {

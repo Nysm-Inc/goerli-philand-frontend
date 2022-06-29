@@ -12,13 +12,11 @@ const useBuyPremiumObject = (
     data,
     writeAsync,
     status: tmpStatus,
-  } = useContractWrite(
-    {
-      addressOrName: PREMIUM_OBJECT_CONTRACT_ADDRESS,
-      contractInterface: PremiumObjectAbi,
-    },
-    "buyObject"
-  );
+  } = useContractWrite({
+    addressOrName: PREMIUM_OBJECT_CONTRACT_ADDRESS,
+    contractInterface: PremiumObjectAbi,
+    functionName: "buyObject",
+  });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
   return {

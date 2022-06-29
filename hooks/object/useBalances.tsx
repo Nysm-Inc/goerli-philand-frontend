@@ -5,26 +5,16 @@ import { BalanceObject } from "~/types";
 import { ContractAbis, ContractAddress } from "./types";
 
 const useBalances = (contract: ContractAddress, account?: string, disabled?: boolean): BalanceObject[] => {
-  const { data, isFetching } = useContractRead(
-    {
-      addressOrName: contract,
-      contractInterface: ContractAbis[contract],
-    },
-    "balanceOfBatch",
-    {
-      args: account
-        ? [
-            Object.keys(objectMetadataList[contract]).map(() => account),
-            Object.keys(objectMetadataList[contract]).map((tokenId) => tokenId),
-          ]
-        : null,
-      watch: true,
-      enabled: !!account && !disabled,
-      onSuccess(data) {
-        //
-      },
-    }
-  );
+  const { data, isFetching } = useContractRead({
+    addressOrName: contract,
+    contractInterface: ContractAbis[contract],
+    functionName: "balanceOfBatch",
+    args: account
+      ? [Object.keys(objectMetadataList[contract]).map(() => account), Object.keys(objectMetadataList[contract]).map((tokenId) => tokenId)]
+      : null,
+    watch: true,
+    enabled: !!account && !disabled,
+  });
 
   return !isFetching && data
     ? data.reduce((memo, balance, i) => {

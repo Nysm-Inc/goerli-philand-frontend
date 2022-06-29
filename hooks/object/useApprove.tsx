@@ -10,36 +10,25 @@ const useApprove = (
   account?: string,
   disabled?: boolean
 ): [boolean, { approve: () => Promise<TransactionResponse | undefined>; tx: Tx }] => {
-  const { data } = useContractRead(
-    {
-      addressOrName: contract,
-      contractInterface: ContractAbis[contract],
-    },
-    "isApprovedForAll",
-    {
-      args: account ? [account, MAP_CONTRACT_ADDRESS] : null,
-      watch: true,
-      enabled: !!account && !disabled,
-      onSuccess(data) {
-        //
-      },
-    }
-  );
+  const { data } = useContractRead({
+    addressOrName: contract,
+    contractInterface: ContractAbis[contract],
+    functionName: "isApprovedForAll",
+    args: account ? [account, MAP_CONTRACT_ADDRESS] : null,
+    watch: true,
+    enabled: !!account && !disabled,
+  });
 
   const {
     data: writeData,
     writeAsync,
     status: tmpStatus,
-  } = useContractWrite(
-    {
-      addressOrName: contract,
-      contractInterface: PhiObjectAbi,
-    },
-    "setApprovalForAll",
-    {
-      args: [MAP_CONTRACT_ADDRESS, 1],
-    }
-  );
+  } = useContractWrite({
+    addressOrName: contract,
+    contractInterface: PhiObjectAbi,
+    functionName: "setApprovalForAll",
+    args: [MAP_CONTRACT_ADDRESS, 1],
+  });
   const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });
 
   return [

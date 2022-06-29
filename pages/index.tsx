@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Image from "next/image";
-import { chain, useAccount, useEnsName, useNetwork, useProvider } from "wagmi";
+import { chain as chains, useAccount, useEnsName, useNetwork, useProvider } from "wagmi";
 import { Box, Center, useDisclosure, useBoolean, VStack } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
@@ -19,11 +19,11 @@ import { FREE_OBJECT_CONTRACT_ADDRESS, PHI_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJE
 import { PhiLink } from "~/types";
 
 const Index: NextPage = () => {
-  const { activeChain } = useNetwork();
-  const { data: account } = useAccount();
-  const { data: dataENS } = useEnsName({ address: account?.address });
+  const { chain } = useNetwork();
+  const { address } = useAccount();
+  const { data: dataENS } = useEnsName({ address });
   const provider = useProvider();
-  const ens = activeChain?.id === chain.goerli.id ? dataENS : "";
+  const ens = chain?.id === chains.goerli.id ? dataENS : "";
 
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
@@ -33,22 +33,22 @@ const Index: NextPage = () => {
   const { isOpen: isOpenCollection, onOpen: onOpenCollection, onClose: onCloseCollection } = useDisclosure();
   const { isOpen: isOpenInventory, onOpen: onOpenInventry, onClose: onCloseInventory } = useDisclosure();
 
-  const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(account?.address, ens, activeChain?.id);
+  const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens, chain?.id);
   const [isCreated, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(currentENS);
   const phiObjects = useViewPhiland(currentENS);
   const isCreatedPhiland = isCreated || phiObjects.length > 0;
-  const [isAprvPhi, { approve: aprvPhi, tx: txAprvPhi }] = useApprove(PHI_OBJECT_CONTRACT_ADDRESS, account?.address);
-  const [isAprvFree, { approve: aprvFree, tx: txAprvFree }] = useApprove(FREE_OBJECT_CONTRACT_ADDRESS, account?.address);
-  const [isAprvPre, { approve: aprvPre, tx: txAprvPre }] = useApprove(PREMIUM_OBJECT_CONTRACT_ADDRESS, account?.address);
-  const { claimPhi, tx: txClaimPhi } = useClaim(account?.address);
+  const [isAprvPhi, { approve: aprvPhi, tx: txAprvPhi }] = useApprove(PHI_OBJECT_CONTRACT_ADDRESS, address);
+  const [isAprvFree, { approve: aprvFree, tx: txAprvFree }] = useApprove(FREE_OBJECT_CONTRACT_ADDRESS, address);
+  const [isAprvPre, { approve: aprvPre, tx: txAprvPre }] = useApprove(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
+  const { claimPhi, tx: txClaimPhi } = useClaim(address);
   const { getFreeObject, tx: txGetFreeObject } = useGetFreeObject();
   const { buyPremiumObject, tx: txBuyPremiumObject } = useBuyPremiumObject(provider);
-  const balancePhiObjects = useBalances(PHI_OBJECT_CONTRACT_ADDRESS, account?.address);
-  const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, account?.address);
-  const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, account?.address);
+  const balancePhiObjects = useBalances(PHI_OBJECT_CONTRACT_ADDRESS, address);
+  const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
+  const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
   const [depositObjects, { deposit, tx: txDeposit }, { undeposit, tx: txUndeposit }] = useDeposit(currentENS);
   const { save, tx: txSave } = useSave(currentENS);
-  const [claimableList, refetchClaimableList] = useClaimableList(account?.address);
+  const [claimableList, refetchClaimableList] = useClaimableList(address);
   const [inventoryItems, plus, minus, tryWrite, tryRemove, reset] = useInventory(depositObjects, isEdit);
 
   const { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onChangeLink, onSave } = useGame({
@@ -152,7 +152,7 @@ const Index: NextPage = () => {
       {isCreatedPhiland ? (
         <MenuBar
           isEdit={isEdit}
-          account={account?.address}
+          account={address}
           currentENS={currentENS}
           domains={domains}
           actionHandler={{
@@ -188,7 +188,7 @@ const Index: NextPage = () => {
             </Box>
           ) : (
             <>
-              {account ? (
+              {address ? (
                 <Box position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
                   {isLoading ? (
                     <>

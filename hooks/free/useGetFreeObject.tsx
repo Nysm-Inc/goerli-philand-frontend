@@ -9,13 +9,11 @@ const useGetFreeObject = (): { getFreeObject: (tokenId: number) => Promise<Trans
     data,
     writeAsync,
     status: tmpStatus,
-  } = useContractWrite(
-    {
-      addressOrName: FREE_OBJECT_CONTRACT_ADDRESS,
-      contractInterface: FreeObjectAbi,
-    },
-    "getFreeObject"
-  );
+  } = useContractWrite({
+    addressOrName: FREE_OBJECT_CONTRACT_ADDRESS,
+    contractInterface: FreeObjectAbi,
+    functionName: "getFreeObject",
+  });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
   return {

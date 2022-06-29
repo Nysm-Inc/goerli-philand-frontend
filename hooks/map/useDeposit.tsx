@@ -14,45 +14,34 @@ const useDeposit = (
   { deposit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>; tx: Tx },
   { undeposit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>; tx: Tx }
 ] => {
-  const { data, isFetching } = useContractRead(
-    {
-      addressOrName: MAP_CONTRACT_ADDRESS,
-      contractInterface: MapAbi,
-    },
-    "checkAllDepositStatus",
-    {
-      args: ens ? [ens.slice(0, -4)] : null,
-      watch: true,
-      enabled: !!ens && !disabled,
-      onSuccess(data) {
-        //
-      },
-    }
-  );
+  const { data, isFetching } = useContractRead({
+    addressOrName: MAP_CONTRACT_ADDRESS,
+    contractInterface: MapAbi,
+    functionName: "checkAllDepositStatus",
+    args: ens ? [ens.slice(0, -4)] : null,
+    watch: true,
+    enabled: !!ens && !disabled,
+  });
   const {
     data: depositData,
     writeAsync: deposit,
     status: depositTmpStatus,
-  } = useContractWrite(
-    {
-      addressOrName: MAP_CONTRACT_ADDRESS,
-      contractInterface: MapAbi,
-    },
-    "batchDeposit"
-  );
+  } = useContractWrite({
+    addressOrName: MAP_CONTRACT_ADDRESS,
+    contractInterface: MapAbi,
+    functionName: "batchDeposit",
+  });
   const { status: depositStatus } = useWaitForTransaction({ hash: depositData?.hash || "" });
 
   const {
     data: undepositData,
     writeAsync: undeposit,
     status: undepositTmpStatus,
-  } = useContractWrite(
-    {
-      addressOrName: MAP_CONTRACT_ADDRESS,
-      contractInterface: MapAbi,
-    },
-    "batchUnDeposit"
-  );
+  } = useContractWrite({
+    addressOrName: MAP_CONTRACT_ADDRESS,
+    contractInterface: MapAbi,
+    functionName: "batchUnDeposit",
+  });
   const { status: undepositStatus } = useWaitForTransaction({ hash: undepositData?.hash || "" });
 
   const onDeposit = async (args: { contract: string; tokenId: number; amount: number }[]) => {
