@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { AppContext } from "~/contexts";
 import { IObject, ObjectContractAddress, PhiLink, PhiObject } from "~/types";
 import { SaveArgs } from "~/hooks/map";
+import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 
 export type UIHandler = {
   edit: () => void;
@@ -78,6 +79,7 @@ const useHandler = ({
         removeArgs: { removeIdxs: removeIdxs, remove_check: removeIdxs.length > 0 },
         writeArgs,
         linkArgs,
+        wallpaperArgs: { change_wall_check: false, contractAddress: WALLPAPER_CONTRACT_ADDRESS, tokenId: 1 },
       });
     }
   };

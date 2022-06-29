@@ -17,6 +17,7 @@ export type SaveArgs = {
     yStart: number;
   }[];
   linkArgs: PhiLink[];
+  wallpaperArgs: { contractAddress: string; tokenId: number; change_wall_check: boolean };
 };
 
 const useSave = (
@@ -49,10 +50,17 @@ const useSave = (
   }, [status]);
 
   return {
-    save: async ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => {
+    save: async ({ removeArgs, writeArgs, linkArgs, wallpaperArgs }: SaveArgs) => {
       if (!ens) return;
 
-      const calldata = [ens.slice(0, -4), removeArgs.removeIdxs, removeArgs.remove_check, writeArgs, linkArgs];
+      const calldata = [
+        ens.slice(0, -4),
+        removeArgs.removeIdxs,
+        removeArgs.remove_check,
+        writeArgs,
+        linkArgs,
+        ...Object.values(wallpaperArgs),
+      ];
       return writeAsync({ args: calldata });
     },
     tx: {
