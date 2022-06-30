@@ -126,10 +126,7 @@ export default class TileManager {
   }
 
   reset() {
-    const { room } = GameInstance.get();
-
     this.tileMap = emptyTilemap();
     this.updateSelectedTile(-GAME_APP_WIDTH, -GAME_APP_HEIGHT);
-    room.landContainer.removeChildren();
   }
 }

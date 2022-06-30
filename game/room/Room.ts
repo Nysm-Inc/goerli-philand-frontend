@@ -46,6 +46,8 @@ export default class Room {
     this.landContainer.y = landOffsetY;
     this.landItemContainer.x = landOffsetX;
     this.landItemContainer.y = landOffsetY;
+    const land = Sprite.from("assets/land.png");
+    this.landContainer.addChild(land);
     engine.viewport.addChild(this.worldContainer);
     engine.viewport.addChild(this.landContainer);
     engine.viewport.addChild(this.landItemContainer);
@@ -53,22 +55,18 @@ export default class Room {
   }
 
   enterRoom() {
-    console.log("enter room");
-    const land = Sprite.from("assets/land.png");
-    this.landContainer.addChild(land);
-
     this.tileManager.setGrid();
     this.tileManager.setSelectedTile();
     this.tileManager.setCollisionTiles();
+    this.landContainer.visible = true;
   }
 
   leaveRoom() {
-    console.log("leave room");
     const { room } = GameInstance.get();
 
-    this.landContainer.removeChildren();
     room.roomItemManager.reset();
     room.tileManager.reset();
+    this.landContainer.visible = false;
   }
 
   view() {

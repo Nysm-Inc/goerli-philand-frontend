@@ -15,7 +15,6 @@ export default class RoomItemManager {
   }
 
   loadItems(objects: PhiObject[]) {
-    console.log("load items");
     const { uiManager } = GameInstance.get();
     this.reset();
     objects.forEach((object) => {
@@ -33,6 +32,7 @@ export default class RoomItemManager {
   addItem(tileX: number, tileY: number, object: IObject): RoomItem {
     const uuid = this.randomUUID();
     const item = new RoomItem(uuid, tileX, tileY, object);
+    item.container.buttonMode = true;
     this.roomItems[uuid] = item;
     this.addItemToTilemap(tileX, tileY, item);
     return item;

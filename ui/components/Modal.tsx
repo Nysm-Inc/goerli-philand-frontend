@@ -65,20 +65,21 @@ const ModalBody: FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 const ModalFooter: FC<{ children: ReactNode }> = ({ children }) => {
-  return <ChakraModalFooter>{children}</ChakraModalFooter>;
+  return <ChakraModalFooter justifyContent="center">{children}</ChakraModalFooter>;
 };
 
-const Modal: FC<{ w: LayoutProps["w"]; h: LayoutProps["h"]; isOpen: boolean; onClose: () => void; children: ReactNode }> = ({
-  w,
-  h,
-  isOpen,
-  onClose,
-  children,
-}) => {
+const Modal: FC<{
+  w: LayoutProps["w"];
+  h: LayoutProps["h"];
+  isOpen: boolean;
+  onClose: () => void;
+  onCloseComplete?: () => void;
+  children: ReactNode;
+}> = ({ w, h, isOpen, onClose, onCloseComplete, children }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
-    <ChakraModal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside">
+    <ChakraModal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside" onCloseComplete={onCloseComplete}>
       <ChakraModalContent
         p="24px"
         border="1px solid"

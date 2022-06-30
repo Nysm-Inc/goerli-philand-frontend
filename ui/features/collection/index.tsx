@@ -1,30 +1,17 @@
 import Image from "next/image";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  SimpleGrid,
-  Text,
-  useDisclosure,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid, Text, useDisclosure, VStack } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
 import { objectMetadataList } from "~/types/object";
-import { QuantityInput } from "~/ui/components";
+import { Icon, IconButton, Button, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput } from "~/ui/components";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   PHI_OBJECT_CONTRACT_ADDRESS,
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
+import { AppContext } from "~/contexts";
 
 type CollectionObject = BalanceObject & { select: number };
 
@@ -47,6 +34,7 @@ const Collection: FC<{
   };
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
 }> = ({ items: originItems, isApproved, isEdit, isOpen, onClose, onApprove, onSubmit }) => {
+  const { colorMode } = useContext(AppContext);
   const [items, setItems] = useState<CollectionObject[]>([]);
   const { isOpen: isOpenApprove, onOpen: onOpenApprove, onClose: onCloseApprove } = useDisclosure();
 
@@ -69,103 +57,162 @@ const Collection: FC<{
   }, [originItems.length]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside" onCloseComplete={reset}>
-      <ModalContent border="2px solid" borderColor="black" borderRadius="none" minW="600px" minH="600px" maxW="600px" maxH="600px">
-        {isOpenApprove ? (
-          <>
-            <ModalHeader>
-              <Flex justify="space-between">
-                <Text>Collection</Text>
-                <Button onClick={onCloseApprove}>👈</Button>
-              </Flex>
-            </ModalHeader>
-            <ModalBody>
-              <VStack spacing="24px">
-                {!isApproved[PHI_OBJECT_CONTRACT_ADDRESS] && (
-                  <Button bgColor="gray.800" borderRadius="12px" color="white" onClick={() => onApprove[PHI_OBJECT_CONTRACT_ADDRESS]()}>
-                    Approve Phi
-                  </Button>
-                )}
-                {!isApproved[FREE_OBJECT_CONTRACT_ADDRESS] && (
-                  <Button bgColor="gray.800" borderRadius="12px" color="white" onClick={() => onApprove[FREE_OBJECT_CONTRACT_ADDRESS]()}>
-                    Approve Free
-                  </Button>
-                )}
-                {!isApproved[PREMIUM_OBJECT_CONTRACT_ADDRESS] && (
-                  <Button bgColor="gray.800" borderRadius="12px" color="white" onClick={() => onApprove[PREMIUM_OBJECT_CONTRACT_ADDRESS]()}>
-                    Approve Premium
-                  </Button>
-                )}
-                {!isApproved[WALLPAPER_CONTRACT_ADDRESS] && (
-                  <Button bgColor="gray.800" borderRadius="12px" color="white" onClick={() => onApprove[WALLPAPER_CONTRACT_ADDRESS]()}>
-                    Approve Wallpaper
-                  </Button>
-                )}
-              </VStack>
-            </ModalBody>
-          </>
-        ) : (
-          <>
-            <ModalHeader>Collection</ModalHeader>
-            <ModalBody>
-              <SimpleGrid columns={3} spacing="16px">
-                {items.map((item, i) => (
-                  <Center key={i} position="relative" height="128px">
-                    <Box position="relative" width="96px" height="96px">
-                      <Image src={objectMetadataList[item.contract][item.tokenId].image_url} layout="fill" objectFit="contain" />
-                    </Box>
-                    {!isEdit && (
-                      <Box position="absolute" top={0} right={0}>
-                        {isApproved[item.contract] ? (
-                          <QuantityInput
-                            num={item.select}
-                            balance={item.amount}
-                            handleClickMinus={() => minus(i)}
-                            handleClickPlus={() => plus(i)}
-                          />
-                        ) : (
-                          <Text cursor="pointer" onClick={onOpenApprove}>
-                            + Deposit
-                          </Text>
-                        )}
-                      </Box>
-                    )}
-                  </Center>
-                ))}
-              </SimpleGrid>
-            </ModalBody>
-            <ModalFooter justifyContent="center">
-              {!isEdit && (
+    <Modal
+      w={isOpenApprove ? "528px" : "858px"}
+      h={isOpenApprove ? "428px" : "700px"}
+      isOpen={isOpen}
+      onClose={() => {}}
+      onCloseComplete={reset}
+    >
+      {isOpenApprove ? (
+        <>
+          <ModalHeader
+            title="Collection"
+            buttons={[
+              <IconButton
+                key="close"
+                ariaLabel="close"
+                icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+                size={32}
+                onClick={onCloseApprove}
+              />,
+            ]}
+          />
+          <ModalBody>
+            <VStack>
+              <Flex w="full" h="72px" p="16px" align="center" justify="space-between">
+                <Text>Phi Object</Text>
                 <Button
-                  bgColor="gray.800"
-                  borderRadius="12px"
-                  color="white"
-                  onClick={() => {
-                    const args = items.reduce((memo, item) => {
-                      if (item.select > 0) {
-                        return [
-                          ...memo,
-                          {
-                            contract: item.contract,
-                            tokenId: item.tokenId,
-                            amount: item.select,
-                          },
-                        ];
-                      } else {
-                        return memo;
-                      }
-                    }, [] as BalanceObject[]);
-                    onSubmit(args).then(() => reset());
-                  }}
-                  disabled={!items.some((item) => item.select > 0)}
+                  w={isApproved[PHI_OBJECT_CONTRACT_ADDRESS] ? "183px" : "140px"}
+                  color={isApproved[PHI_OBJECT_CONTRACT_ADDRESS] ? undefined : "purple"}
+                  onClick={() => onApprove[PHI_OBJECT_CONTRACT_ADDRESS]()}
+                  disabled={isApproved[PHI_OBJECT_CONTRACT_ADDRESS]}
+                  leftIcon={isApproved[PHI_OBJECT_CONTRACT_ADDRESS] ? <Icon name="check" /> : undefined}
                 >
-                  Deposit Objects / {items.filter((item) => item.select > 0).length}
+                  <Text color="white" textStyle="button-1">
+                    {isApproved[PHI_OBJECT_CONTRACT_ADDRESS] ? "Approved" : "Approve"}
+                  </Text>
                 </Button>
-              )}
+              </Flex>
+              <Flex w="full" h="72px" p="16px" align="center" justify="space-between">
+                <Text>Free Object</Text>
+                <Button
+                  w={isApproved[FREE_OBJECT_CONTRACT_ADDRESS] ? "183px" : "140px"}
+                  color={isApproved[FREE_OBJECT_CONTRACT_ADDRESS] ? undefined : "purple"}
+                  onClick={() => onApprove[FREE_OBJECT_CONTRACT_ADDRESS]()}
+                  disabled={isApproved[FREE_OBJECT_CONTRACT_ADDRESS]}
+                  leftIcon={isApproved[FREE_OBJECT_CONTRACT_ADDRESS] ? <Icon name="check" /> : undefined}
+                >
+                  <Text color="white" textStyle="button-1">
+                    {isApproved[FREE_OBJECT_CONTRACT_ADDRESS] ? "Approved" : "Approve"}
+                  </Text>
+                </Button>
+              </Flex>
+
+              <Flex w="full" h="72px" p="16px" align="center" justify="space-between">
+                <Text>Premium Object</Text>
+                <Button
+                  w={isApproved[PREMIUM_OBJECT_CONTRACT_ADDRESS] ? "183px" : "140px"}
+                  color={isApproved[PREMIUM_OBJECT_CONTRACT_ADDRESS] ? undefined : "purple"}
+                  onClick={() => onApprove[PREMIUM_OBJECT_CONTRACT_ADDRESS]()}
+                  disabled={isApproved[PREMIUM_OBJECT_CONTRACT_ADDRESS]}
+                  leftIcon={isApproved[PREMIUM_OBJECT_CONTRACT_ADDRESS] ? <Icon name="check" /> : undefined}
+                >
+                  <Text color="white" textStyle="button-1">
+                    {isApproved[PREMIUM_OBJECT_CONTRACT_ADDRESS] ? "Approved" : "Approve"}
+                  </Text>
+                </Button>
+              </Flex>
+              <Flex w="full" h="72px" p="16px" align="center" justify="space-between">
+                <Text>Wallpaper</Text>
+                <Button
+                  w={isApproved[WALLPAPER_CONTRACT_ADDRESS] ? "183px" : "140px"}
+                  color={isApproved[WALLPAPER_CONTRACT_ADDRESS] ? undefined : "purple"}
+                  onClick={() => onApprove[WALLPAPER_CONTRACT_ADDRESS]()}
+                  disabled={isApproved[WALLPAPER_CONTRACT_ADDRESS]}
+                  leftIcon={isApproved[WALLPAPER_CONTRACT_ADDRESS] ? <Icon name="check" /> : undefined}
+                >
+                  <Text color="white" textStyle="button-1">
+                    {isApproved[WALLPAPER_CONTRACT_ADDRESS] ? "Approved" : "Approve"}
+                  </Text>
+                </Button>
+              </Flex>
+            </VStack>
+          </ModalBody>
+        </>
+      ) : (
+        <>
+          <ModalHeader
+            title="Collection"
+            buttons={[
+              <IconButton
+                key="close"
+                ariaLabel="close"
+                icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+                size={32}
+                onClick={onClose}
+              />,
+            ]}
+          />
+          <ModalBody>
+            <SimpleGrid columns={3} spacing="16px">
+              {items.map((item, i) => (
+                <VStack key={i} height="320px" p="16px">
+                  <Box w="100%" minH="144px" maxH="144px" position="relative">
+                    <Image src={objectMetadataList[item.contract][item.tokenId].image_url} layout="fill" objectFit="contain" />
+                  </Box>
+                  <Text>owned: {item.amount}</Text>
+                  <Text>{"name"}</Text>
+                  {!isEdit && (
+                    <>
+                      {isApproved[item.contract] ? (
+                        <QuantityInput
+                          num={item.select}
+                          balance={item.amount}
+                          handleClickMinus={() => minus(i)}
+                          handleClickPlus={() => plus(i)}
+                        />
+                      ) : (
+                        <Text cursor="pointer" onClick={onOpenApprove}>
+                          + Deposit
+                        </Text>
+                      )}
+                    </>
+                  )}
+                </VStack>
+              ))}
+            </SimpleGrid>
+          </ModalBody>
+          {items.some((item) => item.select > 0) && (
+            <ModalFooter>
+              <Button
+                w="200px"
+                color="grey"
+                onClick={() => {
+                  const args = items.reduce((memo, item) => {
+                    if (item.select > 0) {
+                      return [
+                        ...memo,
+                        {
+                          contract: item.contract,
+                          tokenId: item.tokenId,
+                          amount: item.select,
+                        },
+                      ];
+                    } else {
+                      return memo;
+                    }
+                  }, [] as BalanceObject[]);
+                  onSubmit(args).then(() => reset());
+                }}
+                disabled={!items.some((item) => item.select > 0)}
+              >
+                Deposit Objects / {items.filter((item) => item.select > 0).length}
+              </Button>
             </ModalFooter>
-          </>
-        )}
-      </ModalContent>
+          )}
+        </>
+      )}
     </Modal>
   );
 };
