@@ -1,9 +1,11 @@
 import { FC, SVGProps } from "react";
 import Check from "./Check";
+import Close from "./Close";
 import Dropdown from "./Dropdown";
 import Edit from "./Edit";
 import Moon from "./Moon";
 import Redo from "./Redo";
+import Refresh from "./Refresh";
 import Save from "./Save";
 import Search from "./Search";
 import Share from "./Share";
@@ -12,10 +14,12 @@ import Undo from "./Undo";
 
 const icons = {
   check: Check,
+  close: Close,
   dropdown: Dropdown,
   edit: Edit,
   moon: Moon,
   redo: Redo,
+  refresh: Refresh,
   save: Save,
   search: Search,
   share: Share,

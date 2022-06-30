@@ -1,7 +1,6 @@
 import { FC, useContext } from "react";
 import { Box, Center, LayoutProps, MenuItem, MenuList as ChakraMenuList, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import Image from "next/image";
 import Icon from "./Icon";
 
 export type Option = {

@@ -11,6 +11,8 @@ import SelectBox from "./SelectBox";
 import { ConfirmTx, StatusTx } from "./transaction";
 import Wallet from "./Wallet";
 import Icon from "./Icon";
+import { Modal, ModalBody, ModalHeader, ModalFooter } from "./Modal";
+import IconButton from "./IconButton";
 
 export {
   ActionMenu,
@@ -24,9 +26,14 @@ export {
   useLinkMenu,
   MenuList,
   MenuBar,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
   QuantityInput,
   Search,
   SelectBox,
   Wallet,
   Icon,
+  IconButton,
 };

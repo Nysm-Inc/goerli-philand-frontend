@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "~/contexts";
 import { UIManagerHandler } from "~/game/ui/UIManager";
 import { PhiObject } from "~/types";
@@ -16,7 +16,7 @@ type UseGame = {
 
 const useGame = ({ state, uiHandler, gameUIHandler }: UseGame) => {
   const _strictRef = useRef(false); // for avoiding react18 strict mode
-  const loadGameRef = useRef(false);
+  const [loadGame, setLoadGame] = useState(false);
   const { game, colorMode } = useContext(AppContext);
 
   useEffect(() => {
@@ -25,27 +25,27 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame) => {
 
     (async () => {
       await game.loadGame(gameUIHandler);
-      loadGameRef.current = true;
+      setLoadGame(true);
     })();
   }, []);
 
   useEffect(() => {
-    if (!loadGameRef.current) return;
+    if (!loadGame) return;
 
     if (state.isCreatedPhiland) {
       game.room.enterRoom();
     } else {
       game.room.leaveRoom();
     }
-  }, [state.isCreatedPhiland, loadGameRef.current]);
+  }, [state.isCreatedPhiland, loadGame]);
 
   useEffect(() => {
-    if (!loadGameRef.current) return;
+    if (!loadGame) return;
     if (state.isEdit) return;
     if (state.phiObjects.length <= 0) return;
 
     game.room.roomItemManager.loadItems(state.phiObjects);
-  }, [state.phiObjects.length, loadGameRef.current, state.isEdit]);
+  }, [state.phiObjects.length, loadGame, state.isEdit]);
 
   useEffect(() => {
     game.engine.changeColorMode(colorMode);

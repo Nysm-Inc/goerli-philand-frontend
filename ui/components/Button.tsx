@@ -8,11 +8,12 @@ const Button: FC<{
   color?: keyof typeof themeColors;
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
+  disabled?: boolean;
   // justify?: SystemProps["justifyContent"];
   onClick?: () => void;
-  children: ReactNode;
+  children?: ReactNode;
 }> = forwardRef((props, ref) => {
-  const { children, w, onClick, color, leftIcon, rightIcon } = props;
+  const { w, color, leftIcon, rightIcon, disabled, onClick, children } = props;
   const { colorMode } = useContext(AppContext);
   return (
     <ChakraButton
@@ -30,6 +31,7 @@ const Button: FC<{
       //
       ref={ref}
       w={w}
+      disabled={disabled}
       onClick={onClick}
       {...(color
         ? {
@@ -52,13 +54,16 @@ const Button: FC<{
             border: colorMode === "light" ? "1px solid" : "none",
             borderColor: colorMode === "light" ? "#CECCC9" : "none",
             _hover: {
-              bgColor: colorMode === "light" ? "#F5F2EB" : "#333333",
-              borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
+              "&:not([disabled])": {
+                bgColor: colorMode === "light" ? "#F5F2EB" : "#333333",
+                borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
+              },
             },
             _active: {
               bgColor: colorMode === "light" ? "white" : "#333333",
               borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
             },
+            // _disabled: {},
             _focus: { outline: "none" },
           })}
     >

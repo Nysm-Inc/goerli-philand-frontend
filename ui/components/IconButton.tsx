@@ -2,13 +2,14 @@ import { FC, useContext } from "react";
 import { Center, IconButton as ChakraIconButton } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 
-const IconButton: FC<{ ariaLabel: string; icon: JSX.Element; outline?: boolean; boxShadow?: boolean; onClick: () => void }> = ({
-  ariaLabel,
-  icon,
-  boxShadow = true,
-  outline = true,
-  onClick,
-}) => {
+const IconButton: FC<{
+  ariaLabel: string;
+  icon: JSX.Element;
+  size?: 32 | 48;
+  outline?: boolean;
+  boxShadow?: boolean;
+  onClick: () => void;
+}> = ({ ariaLabel, icon, size, boxShadow = true, outline = true, onClick }) => {
   const { colorMode } = useContext(AppContext);
   return (
     <ChakraIconButton
@@ -17,8 +18,8 @@ const IconButton: FC<{ ariaLabel: string; icon: JSX.Element; outline?: boolean; 
       _focus={{ outline: "none" }}
       _focusVisible={{ outline: "none" }}
       //
-      w="48px"
-      h="48px"
+      w={`${size || 48}px`}
+      h={`${size || 48}px`}
       borderRadius="12px"
       boxShadow={boxShadow ? "-2px 4px 8px rgba(13, 13, 13, 0.1)" : ""}
       //

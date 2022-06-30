@@ -64,6 +64,15 @@ export const themeColors = {
 };
 
 export const themeFonts = {
+  headline: {
+    fontFamily: "PhilsonBlock",
+    fontWeight: 400,
+    fontSize: "32px",
+    lineHeight: "48px",
+    textTransform: "uppercase",
+    textShadow: "-2px 4px 8px rgba(13, 13, 13, 0.1)",
+    "-webkit-text-stroke": "1px #1A1A1A",
+  },
   "button-1": {
     fontFamily: "PhilsonBlock",
     fontWeight: 400,
