@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
-import { Box, Divider, HStack } from "@chakra-ui/react";
+import { Divider, HStack } from "@chakra-ui/react";
 import { FRONTEND_URL } from "~/constants";
 import { AppContext } from "~/contexts";
-import { Button, SelectBox } from "~/ui/components";
+import { Button, SelectBox, Icon } from "~/ui/components";
 import IconButton from "./IconButton";
 
 const MenuBar: FC<{
@@ -96,8 +96,16 @@ const MenuBar: FC<{
           </>
         ) : (
           <>
-            <IconButton ariaLabel="undo" icon={<Image src="/icons/undo.svg" width="16px" height="16px" />} onClick={() => {}} />
-            <IconButton ariaLabel="redo" icon={<Image src="/icons/redo.svg" width="16px" height="16px" />} onClick={() => {}} />
+            <IconButton
+              ariaLabel="undo"
+              icon={<Icon name="undo" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+              onClick={() => {}}
+            />
+            <IconButton
+              ariaLabel="redo"
+              icon={<Icon name="redo" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+              onClick={() => {}}
+            />
             <IconButton
               ariaLabel="inventory"
               icon={<Image src="/icons/bag.svg" width="48px" height="48px" />}
@@ -114,7 +122,7 @@ const MenuBar: FC<{
         {!isEdit && (
           <IconButton
             ariaLabel="share"
-            icon={<Image src="/icons/share.svg" width="16px" height="16px" />}
+            icon={<Icon name="share" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
             onClick={() => {
               window.open(`https://twitter.com/intent/tweet?text=Come visit my philand @phi_xyz%0a${FRONTEND_URL}/${currentENS}`, "_blank");
             }}
@@ -122,31 +130,16 @@ const MenuBar: FC<{
         )}
         {isEdit && (
           <>
-            <Button
-              w="104px"
-              color="yellow"
-              leftIcon={<Image src="/icons/undo.svg" width="16px" height="16px" />}
-              onClick={actionHandler.onView}
-            >
+            <Button w="104px" color="yellow" leftIcon={<Icon name="undo" />} onClick={actionHandler.onView}>
               CANCEL
             </Button>
-            <Button
-              w="88px"
-              color="green"
-              leftIcon={<Image src="/icons/save.svg" width="16px" height="16px" />}
-              onClick={actionHandler.onSave}
-            >
+            <Button w="88px" color="green" leftIcon={<Icon name="save" />} onClick={actionHandler.onSave}>
               Save
             </Button>
           </>
         )}
         {!isEdit && (
-          <Button
-            w="88px"
-            color="purple"
-            leftIcon={<Image src="/icons/edit.svg" width="16px" height="16px" />}
-            onClick={actionHandler.onEdit}
-          >
+          <Button w="88px" color="purple" leftIcon={<Icon name="edit" />} onClick={actionHandler.onEdit}>
             EDIT
           </Button>
         )}

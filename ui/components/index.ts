@@ -10,6 +10,7 @@ import Search from "./Search";
 import SelectBox from "./SelectBox";
 import { ConfirmTx, StatusTx } from "./transaction";
 import Wallet from "./Wallet";
+import Icon from "./Icon";
 
 export {
   ActionMenu,
@@ -27,4 +28,5 @@ export {
   Search,
   SelectBox,
   Wallet,
+  Icon,
 };

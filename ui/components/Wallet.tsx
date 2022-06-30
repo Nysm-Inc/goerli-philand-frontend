@@ -31,7 +31,7 @@ const Wallet: FC = () => {
                     w="153px"
                     color="purple"
                     onClick={openConnectModal}
-                    rightIcon={<Image src="/icons/wallet_color.svg" width="24px" height="24px" />}
+                    rightIcon={<Image src="/icons/wallet.svg" width="24px" height="24px" />}
                   >
                     <Text color="white" textStyle="button-1">
                       Connect

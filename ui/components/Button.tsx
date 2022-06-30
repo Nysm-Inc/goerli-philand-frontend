@@ -1,5 +1,5 @@
 import { FC, ReactNode, useContext } from "react";
-import { Button as ChakraButton, LayoutProps, Flex, forwardRef } from "@chakra-ui/react";
+import { Button as ChakraButton, LayoutProps, Flex, forwardRef, Center } from "@chakra-ui/react";
 import { themeColors } from "~/ui/styles";
 import { AppContext } from "~/contexts";
 
@@ -63,9 +63,9 @@ const Button: FC<{
           })}
     >
       <Flex justify="space-evenly">
-        {leftIcon}
+        <Center>{leftIcon}</Center>
         {children}
-        {rightIcon}
+        <Center>{rightIcon}</Center>
       </Flex>
     </ChakraButton>
   );

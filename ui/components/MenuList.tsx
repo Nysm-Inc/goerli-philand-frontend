@@ -2,6 +2,7 @@ import { FC, useContext } from "react";
 import { Box, Center, LayoutProps, MenuItem, MenuList as ChakraMenuList, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Image from "next/image";
+import Icon from "./Icon";
 
 export type Option = {
   label: string;
@@ -64,7 +65,9 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
                 {item.label}
               </Text>
               <Box w="8px" />
-              <Center w="24px">{value === item.value && <Image src="/icons/check.svg" width="16px" height="16px" />}</Center>
+              <Center w="24px">
+                {value === item.value && <Icon name="check" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+              </Center>
             </MenuItem>
           ))}
         </ChakraMenuList>

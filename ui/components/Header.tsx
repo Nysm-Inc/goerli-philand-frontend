@@ -5,6 +5,7 @@ import { AppContext } from "~/contexts";
 import Search from "./Search";
 import Wallet from "./Wallet";
 import IconButton from "./IconButton";
+import Icon from "./Icon";
 
 const Header: FC = () => {
   const { colorMode, toggleColorMode } = useContext(AppContext);
@@ -36,11 +37,11 @@ const Header: FC = () => {
             <Center h="100%" w="100%">
               {colorMode === "light" ? (
                 <Center h="32px" w="32px" bgColor="#1A1A1A" borderRadius="8px">
-                  <Image src="/icons/moon.svg" width="16px" height="16px" />
+                  <Icon name="moon" color="#FFFFFF" />
                 </Center>
               ) : (
                 <Center w="32px" h="32px" bgColor="white" borderRadius="8px">
-                  <Image src="/icons/sun.svg" width="16px" height="16px" />
+                  <Icon name="sun" />
                 </Center>
               )}
             </Center>

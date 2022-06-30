@@ -1,8 +1,9 @@
-import { FC } from "react";
-import { Menu, MenuButton, LayoutProps, Box } from "@chakra-ui/react";
+import { FC, useContext } from "react";
+import { Menu, MenuButton, LayoutProps } from "@chakra-ui/react";
 import MenuList, { Option } from "./MenuList";
 import Button from "./Button";
-import Image from "next/image";
+import Icon from "./Icon";
+import { AppContext } from "~/contexts";
 
 const SelectBox: FC<{
   w: LayoutProps["w"];
@@ -10,6 +11,7 @@ const SelectBox: FC<{
   value: string;
   handleChange: (value: string) => void;
 }> = ({ w, options, value, handleChange }) => {
+  const { colorMode } = useContext(AppContext);
   return (
     <Menu matchWidth variant="unstyled" autoSelect={false}>
       {({ isOpen }) => (
@@ -17,7 +19,13 @@ const SelectBox: FC<{
           <MenuButton
             as={Button}
             w={w}
-            rightIcon={<Image src={`/icons/${isOpen ? "dropdown-active" : "dropdown"}.svg`} width="16px" height="16px" />}
+            rightIcon={
+              <Icon
+                name="dropdown"
+                transform={isOpen ? "rotate(0)" : "rotate(180)"}
+                color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}
+              />
+            }
           >
             {value}
           </MenuButton>
