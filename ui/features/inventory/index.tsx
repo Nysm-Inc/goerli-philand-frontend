@@ -1,10 +1,11 @@
 import Image from "next/image";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, Button, Center, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SimpleGrid } from "@chakra-ui/react";
+import { Box, Button, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject, ObjectContractAddress } from "~/types";
-import { QuantityInput } from "~/ui/components";
+import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput } from "~/ui/components";
+import { AppContext } from "~/contexts";
 
 type InventoryObject = DepositObject & { select: number; writed: boolean };
 
@@ -84,96 +85,99 @@ const Inventory: FC<{
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
   reset: () => void;
 }> = ({ items, isEdit, isOpen, onClose, onClickPlus, onClickMinus, onClickItem, onSubmit, reset }) => {
+  const { colorMode } = useContext(AppContext);
   return (
     <Modal
+      w="408px"
+      h="728px"
+      left="24px"
       isOpen={isOpen}
-      onClose={onClose}
-      scrollBehavior="inside"
+      onClose={() => {}}
       onCloseComplete={() => {
         if (!isEdit) reset();
       }}
     >
-      <ModalContent
-        border="2px solid"
-        borderColor="black"
-        borderRadius="none"
-        minW="480px"
-        minH="600px"
-        maxW="480px"
-        maxH="600px"
-        position="absolute"
-        left="48px"
-      >
-        <ModalHeader>Inventory</ModalHeader>
-        <ModalBody>
-          <SimpleGrid columns={3} spacing="16px">
-            {items.map((item, i) => (
-              <Center key={i} position="relative" height="128px">
-                <Box
-                  position="relative"
-                  width="96px"
-                  height="96px"
-                  cursor={isEdit ? "pointer" : ""}
-                  onClick={() => {
-                    if (!isEdit) return;
+      <ModalHeader
+        title="Inventor"
+        buttons={[
+          <IconButton
+            key="close"
+            ariaLabel="close"
+            icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+            size={32}
+            onClick={onClose}
+          />,
+        ]}
+      />
+      <ModalBody>
+        <SimpleGrid columns={2}>
+          {items.map((item, i) => (
+            <VStack key={i} height="320px" p="16px">
+              <Box
+                position="relative"
+                w="100%"
+                minH="144px"
+                maxH="144px"
+                cursor={isEdit ? "pointer" : ""}
+                onClick={() => {
+                  if (!isEdit) return;
 
-                    const metadata = objectMetadataList[item.contractAddress][item.tokenId];
-                    onClickItem({
-                      contractAddress: item.contractAddress,
+                  const metadata = objectMetadataList[item.contractAddress][item.tokenId];
+                  onClickItem({
+                    contractAddress: item.contractAddress,
+                    tokenId: item.tokenId,
+                    sizeX: metadata.size[0],
+                    sizeY: metadata.size[1],
+                    link: { title: "", url: "" },
+                  });
+                  onClose();
+                }}
+              >
+                <Image src={objectMetadataList[item.contractAddress][item.tokenId].image_url} layout="fill" objectFit="contain" />
+              </Box>
+              <Text>use: {item.used}</Text>
+              <Text>name</Text>
+              {!isEdit && !item.writed && (
+                <QuantityInput
+                  num={item.select}
+                  balance={item.amount}
+                  handleClickPlus={() => onClickPlus(i)}
+                  handleClickMinus={() => onClickMinus(i)}
+                />
+              )}
+            </VStack>
+          ))}
+        </SimpleGrid>
+      </ModalBody>
+      {items.some((item) => item.select > 0) && (
+        <ModalFooter>
+          <Button
+            bgColor="gray.800"
+            borderRadius="12px"
+            color="white"
+            onClick={() => {
+              const args = items.reduce((memo, item) => {
+                if (item.select > 0) {
+                  return [
+                    ...memo,
+                    {
+                      contract: item.contractAddress,
                       tokenId: item.tokenId,
-                      sizeX: metadata.size[0],
-                      sizeY: metadata.size[1],
-                      link: { title: "", url: "" },
-                    });
-                    onClose();
-                  }}
-                >
-                  <Image src={objectMetadataList[item.contractAddress][item.tokenId].image_url} layout="fill" objectFit="contain" />
-                </Box>
-                {!isEdit && !item.writed && (
-                  <Box position="absolute" top={0} right={0}>
-                    <QuantityInput
-                      num={item.select}
-                      balance={item.amount}
-                      handleClickPlus={() => onClickPlus(i)}
-                      handleClickMinus={() => onClickMinus(i)}
-                    />
-                  </Box>
-                )}
-              </Center>
-            ))}
-          </SimpleGrid>
-        </ModalBody>
-        {!isEdit && (
-          <ModalFooter justifyContent="center">
-            <Button
-              bgColor="gray.800"
-              borderRadius="12px"
-              color="white"
-              onClick={() => {
-                const args = items.reduce((memo, item) => {
-                  if (item.select > 0) {
-                    return [
-                      ...memo,
-                      {
-                        contract: item.contractAddress,
-                        tokenId: item.tokenId,
-                        amount: item.select,
-                      },
-                    ];
-                  } else {
-                    return memo;
-                  }
-                }, [] as BalanceObject[]);
-                onSubmit(args).then(() => reset());
-              }}
-              disabled={!items.some((item) => item.select > 0)}
-            >
-              Withdraw Objects / {items.filter((item) => item.select > 0).length}
-            </Button>
-          </ModalFooter>
-        )}
-      </ModalContent>
+                      amount: item.select,
+                    },
+                  ];
+                } else {
+                  return memo;
+                }
+              }, [] as BalanceObject[]);
+              onSubmit(args).then(() => reset());
+            }}
+            disabled={!items.some((item) => item.select > 0)}
+          >
+            Withdraw Objects / {items.filter((item) => item.select > 0).length}
+          </Button>
+        </ModalFooter>
+      )}
     </Modal>
   );
 };

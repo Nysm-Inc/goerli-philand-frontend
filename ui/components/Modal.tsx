@@ -11,6 +11,7 @@ import {
   LayoutProps,
   HStack,
   useDimensions,
+  PositionProps,
 } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 
@@ -71,15 +72,16 @@ const ModalFooter: FC<{ children: ReactNode }> = ({ children }) => {
 const Modal: FC<{
   w: LayoutProps["w"];
   h: LayoutProps["h"];
+  left?: PositionProps["left"];
   isOpen: boolean;
   onClose: () => void;
   onCloseComplete?: () => void;
   children: ReactNode;
-}> = ({ w, h, isOpen, onClose, onCloseComplete, children }) => {
+}> = ({ w, h, isOpen, left, onClose, onCloseComplete, children }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
-    <ChakraModal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside" onCloseComplete={onCloseComplete}>
+    <ChakraModal isOpen={isOpen} onClose={onClose} isCentered={!!left || true} scrollBehavior="inside" onCloseComplete={onCloseComplete}>
       <ChakraModalContent
         p="24px"
         border="1px solid"
@@ -91,6 +93,8 @@ const Modal: FC<{
         minH={h}
         maxW={w}
         maxH={h}
+        position={left ? "absolute" : "static"}
+        left={left}
       >
         {children}
       </ChakraModalContent>

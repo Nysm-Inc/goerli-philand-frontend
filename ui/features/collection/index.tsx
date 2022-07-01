@@ -155,14 +155,14 @@ const Collection: FC<{
             ]}
           />
           <ModalBody>
-            <SimpleGrid columns={3} spacing="16px">
+            <SimpleGrid columns={3}>
               {items.map((item, i) => (
                 <VStack key={i} height="320px" p="16px">
                   <Box w="100%" minH="144px" maxH="144px" position="relative">
                     <Image src={objectMetadataList[item.contract][item.tokenId].image_url} layout="fill" objectFit="contain" />
                   </Box>
                   <Text>owned: {item.amount}</Text>
-                  <Text>{"name"}</Text>
+                  <Text>name</Text>
                   {!isEdit && (
                     <>
                       {isApproved[item.contract] ? (
