@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
+import { Box, SimpleGrid, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { objectMetadataList } from "~/types/object";
-import { Icon, IconButton, Modal, ModalBody, ModalHeader } from "~/ui/components";
+import { Icon, IconButton, Modal, ModalBody, ModalHeader, Tab } from "~/ui/components";
 import { AppContext } from "~/contexts";
 
 const Shop: FC<{
@@ -15,25 +15,25 @@ const Shop: FC<{
 }> = ({ isOpen, onClose, onClickFreeItem, onClickPremiumItem }) => {
   const { colorMode } = useContext(AppContext);
   return (
-    <Modal w="858px" h="700px" isOpen={isOpen} onClose={() => {}}>
-      <ModalHeader
-        title="SHOP"
-        buttons={[
-          <IconButton
-            key="close"
-            ariaLabel="close"
-            icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
-            size={32}
-            onClick={onClose}
-          />,
-        ]}
-      />
-      <ModalBody>
-        <Tabs variant="soft-rounded" colorScheme="blackAlpha">
-          <TabList>
-            <Tab>Free</Tab>
-            <Tab>Premium</Tab>
-          </TabList>
+    <Tabs variant="unstyled">
+      <Modal w="858px" h="700px" isOpen={isOpen} onClose={() => {}}>
+        <ModalHeader
+          title="SHOP"
+          buttons={[
+            <IconButton
+              key="close"
+              ariaLabel="close"
+              icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+              size={32}
+              onClick={onClose}
+            />,
+          ]}
+        />
+        <TabList justifyContent="center" gap="16px" mb="24px">
+          <Tab text="Free" />
+          <Tab text="Premium" />
+        </TabList>
+        <ModalBody>
           <TabPanels>
             <TabPanel>
               <SimpleGrid columns={3}>
@@ -82,9 +82,9 @@ const Shop: FC<{
               </SimpleGrid>
             </TabPanel>
           </TabPanels>
-        </Tabs>
-      </ModalBody>
-    </Modal>
+        </ModalBody>
+      </Modal>
+    </Tabs>
   );
 };
 

@@ -13,6 +13,7 @@ import Wallet from "./Wallet";
 import Icon from "./Icon";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "./Modal";
 import IconButton from "./IconButton";
+import Tab from "./Tab";
 
 export {
   ActionMenu,
@@ -36,4 +37,5 @@ export {
   Wallet,
   Icon,
   IconButton,
+  Tab,
 };
