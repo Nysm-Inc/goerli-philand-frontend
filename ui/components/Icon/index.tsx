@@ -3,7 +3,9 @@ import Check from "./Check";
 import Close from "./Close";
 import Dropdown from "./Dropdown";
 import Edit from "./Edit";
+import Minus from "./Minus";
 import Moon from "./Moon";
+import Plus from "./Plus";
 import Redo from "./Redo";
 import Refresh from "./Refresh";
 import Save from "./Save";
@@ -17,7 +19,9 @@ const icons = {
   close: Close,
   dropdown: Dropdown,
   edit: Edit,
+  minus: Minus,
   moon: Moon,
+  plus: Plus,
   redo: Redo,
   refresh: Refresh,
   save: Save,
