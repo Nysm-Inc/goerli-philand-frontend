@@ -1,12 +1,26 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { chain as chains, useAccount, useEnsName, useNetwork, useProvider } from "wagmi";
-import { Box, Center, useDisclosure, useBoolean, VStack } from "@chakra-ui/react";
+import { Box, Center, useDisclosure, useBoolean, VStack, Text } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
 import Inventory, { useInventory } from "~/ui/features/inventory";
 import Collection from "~/ui/features/collection";
-import { ActionMenu, useActionMenu, LinkMenu, useLinkMenu, MenuBar, SelectBox, StatusTx, ConfirmTx, Header } from "~/ui/components";
+import {
+  ActionMenu,
+  useActionMenu,
+  LinkMenu,
+  useLinkMenu,
+  MenuBar,
+  SelectBox,
+  StatusTx,
+  ConfirmTx,
+  Header,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Button,
+} from "~/ui/components";
 import { useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
 import { useDeposit, useSave, useViewPhiland } from "~/hooks/map";
@@ -183,22 +197,26 @@ const Index: NextPage = () => {
       ) : (
         <>
           {domains.length > 0 ? (
-            <Box position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
-              <VStack>
+            <Modal w="456px" h="438px" isOpen={true} onClose={() => {}}>
+              <ModalHeader buttons={[]} />
+              <VStack spacing="8px">
+                <Image src="/icons/ens.svg" width="134px" height="150px" />
+                <Box h="16px" />
                 <SelectBox
-                  w="280px"
+                  w="360px"
                   options={domains.map((domain) => {
                     return { label: domain, value: domain };
                   })}
                   value={currentENS}
                   handleChange={switchCurrentENS}
                 />
-
-                <Center w="280px" h="40px" border="1px solid" borderColor="black" cursor="pointer" onClick={createPhiland}>
-                  Create Philand
-                </Center>
+                <Button w="360px" color="purple" onClick={createPhiland}>
+                  <Text color="white" textStyle="button-1">
+                    CREATE LAND
+                  </Text>
+                </Button>
               </VStack>
-            </Box>
+            </Modal>
           ) : (
             <>
               {address ? (
