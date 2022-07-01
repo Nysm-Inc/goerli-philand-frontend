@@ -7,11 +7,13 @@ import RoomItemManager from "./item/RoomItemManager";
 import TileManager from "./tile/TileManager";
 import { Tile } from "./tile/types";
 import { isValidTile, itemToLocal, tileToLocal } from "./pos";
+import Wallpaper from "./wallpaper/Wallpaper";
 
 export default class Room {
   tileManager: TileManager;
   roomItemManager: RoomItemManager;
   movingItemManager: MovingItemManager;
+  wallpaper: Wallpaper;
 
   worldContainer: Container;
   landContainer: Container;
@@ -24,15 +26,16 @@ export default class Room {
     this.roomItemManager = new RoomItemManager();
     this.movingItemManager = new MovingItemManager();
     this.tileManager = new TileManager();
+    this.wallpaper = new Wallpaper();
 
     this.worldContainer = new Container();
     this.worldContainer.zIndex = 1;
     this.landContainer = new Container();
     this.landContainer.zIndex = 2;
     this.landItemContainer = new Container();
-    this.landItemContainer.zIndex = 3;
+    this.landItemContainer.zIndex = 4;
     this.landItemLayer = new Layer();
-    this.landItemLayer.zIndex = 4;
+    this.landItemLayer.zIndex = 5;
     this.landItemLayer.group.enableSort = true;
 
     this.isEdit = false;
@@ -48,6 +51,8 @@ export default class Room {
     this.landItemContainer.y = landOffsetY;
     const land = Sprite.from("assets/land.png");
     this.landContainer.addChild(land);
+    this.landContainer.addChild(this.wallpaper.container);
+
     engine.viewport.addChild(this.worldContainer);
     engine.viewport.addChild(this.landContainer);
     engine.viewport.addChild(this.landItemContainer);

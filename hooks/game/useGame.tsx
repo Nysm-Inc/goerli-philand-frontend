@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "~/contexts";
 import { UIManagerHandler } from "~/game/ui/UIManager";
-import { PhiObject } from "~/types";
+import { PhiObject, Wallpaper } from "~/types";
 import useHandler, { UIHandler } from "./useHandler";
 
 type UseGame = {
@@ -9,6 +9,7 @@ type UseGame = {
     isEdit: boolean;
     isCreatedPhiland: boolean;
     phiObjects: (PhiObject & { removeIdx: number })[];
+    wallpaper?: Wallpaper;
   };
   uiHandler?: UIHandler;
   gameUIHandler?: UIManagerHandler;
@@ -48,10 +49,17 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame) => {
   }, [state.phiObjects.length, loadGame, state.isEdit]);
 
   useEffect(() => {
+    if (!loadGame) return;
+    if (!state.wallpaper) return;
+
+    game.room.wallpaper.update(state.wallpaper.tokenId);
+  }, [state.wallpaper?.tokenId, loadGame]);
+
+  useEffect(() => {
     game.engine.changeColorMode(colorMode);
   }, [colorMode]);
 
-  return useHandler({ phiObjects: state.phiObjects, uiHandler });
+  return useHandler({ phiObjects: state.phiObjects, wallpaper: state.wallpaper, uiHandler });
 };
 
 export default useGame;

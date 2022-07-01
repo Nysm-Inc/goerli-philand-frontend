@@ -1,9 +1,9 @@
 import { BigNumber } from "ethers";
 import { useContractRead } from "wagmi";
 import { objectMetadataList } from "~/types/object";
-import { BalanceObject, ContractAbis, ObjectContractAddress } from "~/types";
+import { BalanceObject, ContractAbis, ObjectContractAddress, WallpaperContractAddress } from "~/types";
 
-const useBalances = (contract: ObjectContractAddress, account?: string, disabled?: boolean): BalanceObject[] => {
+const useBalances = (contract: ObjectContractAddress | WallpaperContractAddress, account?: string, disabled?: boolean): BalanceObject[] => {
   const { data, isFetching } = useContractRead({
     addressOrName: contract,
     contractInterface: ContractAbis[contract],

@@ -3,10 +3,10 @@ import { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { PhiObjectAbi } from "~/abi";
 import { Tx } from "~/types/wagmi";
-import { ContractAbis, ObjectContractAddress } from "~/types";
+import { ContractAbis, ObjectContractAddress, WallpaperContractAddress } from "~/types";
 
 const useApprove = (
-  contract: ObjectContractAddress,
+  contract: ObjectContractAddress | WallpaperContractAddress,
   account?: string,
   disabled?: boolean
 ): [boolean, { approve: () => Promise<TransactionResponse | undefined>; tx: Tx }] => {

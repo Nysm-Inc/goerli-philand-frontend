@@ -1,14 +1,31 @@
-import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { useContractReads, useContractWrite, useWaitForTransaction } from "wagmi";
 import { TransactionResponse } from "@ethersproject/providers";
 import { CLAIM_CONTRACT_ADDRESS, PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ClaimAbi } from "~/abi";
 import { getCoupon } from "~/utils/coupon";
 import { conditionList } from "~/types/quest";
 import { Tx } from "~/types/wagmi";
+import { objectMetadataList } from "~/types/object";
 
-const useClaim = (address?: string): { claimPhi: (tokenId: number) => Promise<TransactionResponse | undefined>; tx: Tx } => {
+const checkClaimedStatus = (tokenId: number) => ({
+  addressOrName: CLAIM_CONTRACT_ADDRESS,
+  contractInterface: ClaimAbi,
+  functionName: "checkClaimedStatus",
+  args: [PHI_OBJECT_CONTRACT_ADDRESS, tokenId],
+});
+
+const useClaim = (
+  address?: string,
+  disabled?: boolean
+): [boolean[], { claimPhi: (tokenId: number) => Promise<TransactionResponse | undefined>; tx: Tx }] => {
+  const { data } = useContractReads({
+    contracts: Object.values(objectMetadataList[PHI_OBJECT_CONTRACT_ADDRESS]).map((metadata) => checkClaimedStatus(metadata.tokenId)),
+    watch: true,
+    enabled: !!address && !disabled,
+  });
+
   const {
-    data,
+    data: writeData,
     writeAsync,
     status: tmpStatus,
   } = useContractWrite({
@@ -16,25 +33,29 @@ const useClaim = (address?: string): { claimPhi: (tokenId: number) => Promise<Tr
     contractInterface: ClaimAbi,
     functionName: "claimPhiObject",
   });
-  const { status } = useWaitForTransaction({ hash: data?.hash || "" });
+  const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });
 
-  return {
-    claimPhi: async (tokenId: number) => {
-      if (!address) return;
+  return [
+    // @ts-ignore
+    data || [],
+    {
+      claimPhi: async (tokenId: number) => {
+        if (!address) return;
 
-      const coupon = await getCoupon(address, tokenId);
-      if (!coupon) return;
+        const coupon = await getCoupon(address, tokenId);
+        if (!coupon) return;
 
-      const condition = conditionList[tokenId];
-      const calldata = [PHI_OBJECT_CONTRACT_ADDRESS, tokenId, condition.name + condition.value.toString(), coupon];
-      return writeAsync({ args: calldata });
+        const condition = conditionList[tokenId];
+        const calldata = [PHI_OBJECT_CONTRACT_ADDRESS, tokenId, condition.name + condition.value.toString(), coupon];
+        return writeAsync({ args: calldata });
+      },
+      tx: {
+        hash: writeData?.hash,
+        tmpStatus,
+        status,
+      },
     },
-    tx: {
-      hash: data?.hash,
-      tmpStatus,
-      status,
-    },
-  };
+  ];
 };
 
 export default useClaim;

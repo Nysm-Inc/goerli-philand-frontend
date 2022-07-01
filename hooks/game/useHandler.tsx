@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AppContext } from "~/contexts";
-import { IObject, ObjectContractAddress, PhiLink, PhiObject } from "~/types";
+import { IObject, ObjectContractAddress, PhiLink, PhiObject, Wallpaper } from "~/types";
 import { SaveArgs } from "~/hooks/map";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 
@@ -15,9 +15,11 @@ export type UIHandler = {
 
 const useHandler = ({
   phiObjects,
+  wallpaper,
   uiHandler,
 }: {
   phiObjects: (PhiObject & { removeIdx: number })[];
+  wallpaper?: Wallpaper;
   uiHandler?: UIHandler;
 }): {
   onEdit: () => void;
@@ -27,6 +29,7 @@ const useHandler = ({
   onPickInventoryObject: (object: IObject) => void;
   onRemoveObject: (uuid: string) => void;
   onChangeLink: (id: string, link: PhiLink) => void;
+  onChangeWallpaper: (tokenId: number) => void;
   onSave: () => void;
 } => {
   const { game } = useContext(AppContext);
@@ -39,6 +42,7 @@ const useHandler = ({
     game.room.leaveRoom();
     game.room.enterRoom();
     game.room.roomItemManager.loadItems(phiObjects);
+    game.room.wallpaper.update(wallpaper?.tokenId || 0);
     game.room.view();
     uiHandler?.view();
   };
@@ -65,6 +69,9 @@ const useHandler = ({
     item.updateLink(link);
     uiHandler?.changeLink(uuid, link);
   };
+  const onChangeWallpaper = (tokenId: number) => {
+    game.room.wallpaper.update(tokenId);
+  };
   const onSave = () => {
     const roomItems = game.room.roomItemManager.getItems();
     const prevPhiObjects = phiObjects;
@@ -74,12 +81,19 @@ const useHandler = ({
     const writeArgs = newPhiObjects;
     const linkArgs = newPhiObjects.map((newPhiObject) => newPhiObject.link);
 
+    const prevWallpaper = wallpaper;
+    const newWallpaper = game.room.wallpaper.get();
+
     if (removeIdxs.length > 0 || writeArgs.length > 0) {
       uiHandler?.save({
         removeArgs: { removeIdxs: removeIdxs, remove_check: removeIdxs.length > 0 },
         writeArgs,
         linkArgs,
-        wallpaperArgs: { change_wall_check: false, contractAddress: WALLPAPER_CONTRACT_ADDRESS, tokenId: 1 },
+        wallpaperArgs: {
+          change_wall_check: prevWallpaper?.tokenId !== newWallpaper.tokenId,
+          contractAddress: WALLPAPER_CONTRACT_ADDRESS,
+          tokenId: newWallpaper.tokenId,
+        },
       });
     }
   };
@@ -92,6 +106,7 @@ const useHandler = ({
     onPickInventoryObject,
     onRemoveObject,
     onChangeLink,
+    onChangeWallpaper,
     onSave,
   };
 };

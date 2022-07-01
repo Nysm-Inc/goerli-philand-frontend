@@ -8,9 +8,9 @@ import { AppContext } from "~/contexts";
 const SelectBox: FC<{
   w: LayoutProps["w"];
   options: Option[];
-  value: string;
+  selected: Option;
   handleChange: (value: string) => void;
-}> = ({ w, options, value, handleChange }) => {
+}> = ({ w, options, selected, handleChange }) => {
   const { colorMode } = useContext(AppContext);
   return (
     <Menu matchWidth variant="unstyled" autoSelect={false}>
@@ -27,12 +27,12 @@ const SelectBox: FC<{
               />
             }
           >
-            {value}
+            {selected.label}
           </MenuButton>
           <MenuList
             //
             w={w}
-            value={value}
+            value={selected.value}
             isOpen={isOpen}
             options={options}
             onClick={(v: string) => handleChange(v)}

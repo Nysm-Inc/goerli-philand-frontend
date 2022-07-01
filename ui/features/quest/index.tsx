@@ -5,13 +5,12 @@ import { Box, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList } from "~/types/object";
 import { ClaimableList } from "~/types/quest";
-import { BalanceObject } from "~/types";
 import { Button, IconButton, Modal, ModalBody, ModalHeader, Icon } from "~/ui/components";
 import { AppContext } from "~/contexts";
 
 const Quest: FC<{
   claimableList: ClaimableList;
-  claimedList: BalanceObject[];
+  claimedList: boolean[];
   isOpen: boolean;
   onClose: () => void;
   onClickItem: (tokenId: number) => Promise<TransactionResponse | undefined>;
@@ -47,7 +46,7 @@ const Quest: FC<{
           <SimpleGrid columns={3}>
             {Object.values(objectMetadataList[PHI_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
               const claimable = Boolean(claimableList.find((v) => v.TokenId === metadata.tokenId.toString()));
-              const claimed = Boolean(claimedList.find((v) => v.tokenId === metadata.tokenId));
+              const claimed = claimedList.length > 0 && claimedList[metadata.tokenId - 1];
               return (
                 <VStack key={i} height="320px" p="16px">
                   <Box w="100%" minH="144px" maxH="144px" position="relative" {...(!claimable && { opacity: 0.5 })}>

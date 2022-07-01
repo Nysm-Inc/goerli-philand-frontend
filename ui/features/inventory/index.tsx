@@ -10,7 +10,7 @@ import { AppContext } from "~/contexts";
 type InventoryObject = DepositObject & { select: number; writed: boolean };
 
 export const useInventory = (
-  originItems: DepositObject[],
+  originObjects: DepositObject[],
   isEdit: boolean
 ): [
   InventoryObject[],
@@ -20,30 +20,30 @@ export const useInventory = (
   (contract: ObjectContractAddress, tokenId: number) => void,
   () => void
 ] => {
-  const [items, setItems] = useState<InventoryObject[]>([]);
+  const [objects, setObjects] = useState<InventoryObject[]>([]);
 
   const plus = (idx: number) => {
-    const copied = [...items];
+    const copied = [...objects];
     copied[idx].select += 1;
-    setItems(copied);
+    setObjects(copied);
   };
   const minus = (idx: number) => {
-    const copied = [...items];
+    const copied = [...objects];
     copied[idx].select -= 1;
-    setItems(copied);
+    setObjects(copied);
   };
   const tryWrite = (contract: ObjectContractAddress, tokenId: number) => {
-    const copied = [...items];
+    const copied = [...objects];
     const idx = copied.findIndex((c) => c.contractAddress === contract && c.tokenId === tokenId);
     copied[idx].used += 1;
     if (copied[idx].amount - copied[idx].used > 0) {
-      setItems(copied);
+      setObjects(copied);
     } else {
-      setItems(copied.filter((_, i) => i !== idx));
+      setObjects(copied.filter((_, i) => i !== idx));
     }
   };
   const tryRemove = (contract: ObjectContractAddress, tokenId: number) => {
-    let copied = [...items];
+    let copied = [...objects];
     const idx = copied.findIndex((c) => c.contractAddress === contract && c.tokenId === tokenId);
     if (idx > 0) {
       copied[idx].used -= 1;
@@ -61,30 +61,30 @@ export const useInventory = (
       ];
     }
     copied.sort((a, b) => a.tokenId - b.tokenId);
-    setItems(copied);
+    setObjects(copied);
   };
   const reset = () => {
-    setItems(originItems.map((item) => ({ ...item, select: 0, writed: false })));
+    setObjects(originObjects.map((object) => ({ ...object, select: 0, writed: false })));
   };
 
   useEffect(() => {
     reset();
-  }, [originItems.length, isEdit]);
+  }, [originObjects.length, isEdit]);
 
-  return [items, plus, minus, tryWrite, tryRemove, reset];
+  return [objects, plus, minus, tryWrite, tryRemove, reset];
 };
 
 const Inventory: FC<{
-  items: InventoryObject[];
+  objects: InventoryObject[];
   isEdit: boolean;
   isOpen: boolean;
   onClose: () => void;
   onClickPlus: (idx: number) => void;
   onClickMinus: (idx: number) => void;
-  onClickItem: (object: IObject) => void;
+  onClickObject: (object: IObject) => void;
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
   reset: () => void;
-}> = ({ items, isEdit, isOpen, onClose, onClickPlus, onClickMinus, onClickItem, onSubmit, reset }) => {
+}> = ({ objects, isEdit, isOpen, onClose, onClickPlus, onClickMinus, onClickObject, onSubmit, reset }) => {
   const { colorMode } = useContext(AppContext);
   return (
     <Modal
@@ -111,7 +111,7 @@ const Inventory: FC<{
       />
       <ModalBody>
         <SimpleGrid columns={2}>
-          {items.map((item, i) => (
+          {objects.map((object, i) => (
             <VStack key={i} height="320px" p="16px">
               <Box
                 position="relative"
@@ -122,10 +122,10 @@ const Inventory: FC<{
                 onClick={() => {
                   if (!isEdit) return;
 
-                  const metadata = objectMetadataList[item.contractAddress][item.tokenId];
-                  onClickItem({
-                    contractAddress: item.contractAddress,
-                    tokenId: item.tokenId,
+                  const metadata = objectMetadataList[object.contractAddress][object.tokenId];
+                  onClickObject({
+                    contractAddress: object.contractAddress,
+                    tokenId: object.tokenId,
                     sizeX: metadata.size[0],
                     sizeY: metadata.size[1],
                     link: { title: "", url: "" },
@@ -133,14 +133,14 @@ const Inventory: FC<{
                   onClose();
                 }}
               >
-                <Image src={objectMetadataList[item.contractAddress][item.tokenId].image_url} layout="fill" objectFit="contain" />
+                <Image src={objectMetadataList[object.contractAddress][object.tokenId].image_url} layout="fill" objectFit="contain" />
               </Box>
-              <Text>use: {item.used}</Text>
+              <Text>use: {object.used}</Text>
               <Text>name</Text>
-              {!isEdit && !item.writed && (
+              {!isEdit && !object.writed && (
                 <QuantityInput
-                  num={item.select}
-                  balance={item.amount}
+                  num={object.select}
+                  balance={object.amount}
                   handleClickPlus={() => onClickPlus(i)}
                   handleClickMinus={() => onClickMinus(i)}
                 />
@@ -149,21 +149,21 @@ const Inventory: FC<{
           ))}
         </SimpleGrid>
       </ModalBody>
-      {items.some((item) => item.select > 0) && (
+      {objects.some((object) => object.select > 0) && (
         <ModalFooter>
           <Button
             bgColor="gray.800"
             borderRadius="12px"
             color="white"
             onClick={() => {
-              const args = items.reduce((memo, item) => {
-                if (item.select > 0) {
+              const args = objects.reduce((memo, object) => {
+                if (object.select > 0) {
                   return [
                     ...memo,
                     {
-                      contract: item.contractAddress,
-                      tokenId: item.tokenId,
-                      amount: item.select,
+                      contract: object.contractAddress,
+                      tokenId: object.tokenId,
+                      amount: object.select,
                     },
                   ];
                 } else {
@@ -172,9 +172,9 @@ const Inventory: FC<{
               }, [] as BalanceObject[]);
               onSubmit(args).then(() => reset());
             }}
-            disabled={!items.some((item) => item.select > 0)}
+            disabled={!objects.some((object) => object.select > 0)}
           >
-            Withdraw Objects / {items.filter((item) => item.select > 0).length}
+            Withdraw Objects / {objects.filter((object) => object.select > 0).length}
           </Button>
         </ModalFooter>
       )}

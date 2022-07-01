@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { chain as chains, useAccount, useEnsName, useNetwork, useProvider } from "wagmi";
-import { Box, Center, useDisclosure, useBoolean, VStack, Text } from "@chakra-ui/react";
+import { Box, useDisclosure, useBoolean, VStack, Text } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
 import Inventory, { useInventory } from "~/ui/features/inventory";
@@ -18,17 +18,17 @@ import {
   Header,
   Modal,
   ModalHeader,
-  ModalBody,
   Button,
 } from "~/ui/components";
 import { useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
-import { useDeposit, useSave, useViewPhiland } from "~/hooks/map";
+import { useCheckWallpaper, useDeposit, useSave, useViewPhiland } from "~/hooks/map";
 import { useApprove, useBalances } from "~/hooks/object";
 import { useClaim, useClaimableList } from "~/hooks/claim";
 import { useGame } from "~/hooks/game";
 import { useGetFreeObject } from "~/hooks/free";
 import { useBuyPremiumObject } from "~/hooks/premium";
+import useWallpaper from "~/hooks/wallpaper";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   PHI_OBJECT_CONTRACT_ADDRESS,
@@ -56,26 +56,30 @@ const Index: NextPage = () => {
   const [isCreated, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(currentENS);
   const phiObjects = useViewPhiland(currentENS);
   const isCreatedPhiland = isCreated || phiObjects.length > 0;
+  const [wallpaper, { withdrawWallpaper, tx: txWithdrawWallpaper }] = useCheckWallpaper(currentENS);
   const [isAprvPhi, { approve: aprvPhi, tx: txAprvPhi }] = useApprove(PHI_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvFree, { approve: aprvFree, tx: txAprvFree }] = useApprove(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvPre, { approve: aprvPre, tx: txAprvPre }] = useApprove(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvWall, { approve: aprvWall, tx: txAprvWall }] = useApprove(WALLPAPER_CONTRACT_ADDRESS, address);
-  const { claimPhi, tx: txClaimPhi } = useClaim(address);
+  const [claimedList, { claimPhi, tx: txClaimPhi }] = useClaim(address);
   const { getFreeObject, tx: txGetFreeObject } = useGetFreeObject();
   const { buyPremiumObject, tx: txBuyPremiumObject } = useBuyPremiumObject(provider);
+  const { getFreeWallpaper, tx: txGetFreeWallpaper } = useWallpaper();
   const balancePhiObjects = useBalances(PHI_OBJECT_CONTRACT_ADDRESS, address);
   const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
-  const [depositObjects, { deposit, tx: txDeposit }, { undeposit, tx: txUndeposit }] = useDeposit(currentENS);
+  const balanceWallpapers = useBalances(WALLPAPER_CONTRACT_ADDRESS, address);
+  const [depositObjects, { deposit, tx: txDeposit }, { withdraw, tx: txUndeposit }] = useDeposit(currentENS);
   const { save, tx: txSave } = useSave(currentENS);
   const [claimableList, updateClaimableList, refetchClaimableList] = useClaimableList(address);
-  const [inventoryItems, plus, minus, tryWrite, tryRemove, reset] = useInventory(depositObjects, isEdit);
+  const [inventoryObjects, plus, minus, tryWrite, tryRemove, reset] = useInventory(depositObjects, isEdit);
 
-  const { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onChangeLink, onSave } = useGame({
-    state: { isEdit, isCreatedPhiland, phiObjects },
-    uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
-    gameUIHandler: { onOpenActionMenu, onChangeLinkMenu: changeLink },
-  });
+  const { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onChangeLink, onChangeWallpaper, onSave } =
+    useGame({
+      state: { isEdit, isCreatedPhiland, phiObjects, wallpaper },
+      uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
+      gameUIHandler: { onOpenActionMenu, onChangeLinkMenu: changeLink },
+    });
 
   return (
     <>
@@ -89,9 +93,11 @@ const Index: NextPage = () => {
           txClaimPhi,
           txBuyPremiumObject,
           txGetFreeObject,
+          txGetFreeWallpaper,
           txDeposit,
           txUndeposit,
           txSave,
+          txWithdrawWallpaper,
         ]}
       />
       <StatusTx
@@ -104,15 +110,17 @@ const Index: NextPage = () => {
           txClaimPhi,
           txBuyPremiumObject,
           txGetFreeObject,
+          txGetFreeWallpaper,
           txDeposit,
           txUndeposit,
           txSave,
+          txWithdrawWallpaper,
         ]}
       />
       <Quest
         claimableList={claimableList}
         // todo: new method
-        claimedList={balancePhiObjects}
+        claimedList={claimedList}
         isOpen={isOpenQuest}
         onClose={onCloseQuest}
         onClickItem={claimPhi}
@@ -122,8 +130,9 @@ const Index: NextPage = () => {
         //
         isOpen={isOpenShop}
         onClose={onCloseShop}
-        onClickFreeItem={getFreeObject}
-        onClickPremiumItem={buyPremiumObject}
+        onClickFreeObject={getFreeObject}
+        onClickPremiumObject={buyPremiumObject}
+        onClickFreeWallpaper={getFreeWallpaper}
       />
       <Collection
         items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects]}
@@ -145,14 +154,14 @@ const Index: NextPage = () => {
         onSubmit={deposit}
       />
       <Inventory
-        items={inventoryItems}
+        objects={inventoryObjects}
         isEdit={isEdit}
         isOpen={isOpenInventory}
         onClose={onCloseInventory}
         onClickPlus={plus}
         onClickMinus={minus}
-        onClickItem={onPickInventoryObject}
-        onSubmit={undeposit}
+        onClickObject={onPickInventoryObject}
+        onSubmit={withdraw}
         reset={reset}
       />
       <ActionMenu
@@ -176,9 +185,10 @@ const Index: NextPage = () => {
       {isCreatedPhiland ? (
         <MenuBar
           isEdit={isEdit}
-          account={address}
           currentENS={currentENS}
           domains={domains}
+          currentWallpaper={wallpaper}
+          wallpapers={balanceWallpapers}
           actionHandler={{
             onOpenQuest: () => {
               refetchClaimableList();
@@ -187,10 +197,12 @@ const Index: NextPage = () => {
             onOpenShop,
             onOpenCollection,
             onOpenInventry,
-            switchCurrentENS,
+            onSwitchCurrentENS: switchCurrentENS,
+            onChangeWallpaper,
             onView,
             onEdit,
             onSave,
+            onWithdrawWallpaper: withdrawWallpaper,
           }}
           isOpen={{ quest: isOpenQuest, shop: isOpenShop, collection: isOpenCollection, inventory: isOpenInventory }}
         />
@@ -207,7 +219,7 @@ const Index: NextPage = () => {
                   options={domains.map((domain) => {
                     return { label: domain, value: domain };
                   })}
-                  value={currentENS}
+                  selected={{ label: currentENS, value: currentENS }}
                   handleChange={switchCurrentENS}
                 />
                 <Button w="360px" color="purple" onClick={createPhiland}>

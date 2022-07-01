@@ -5,6 +5,8 @@ import { FRONTEND_URL } from "~/constants";
 import { AppContext } from "~/contexts";
 import { Button, SelectBox, Icon } from "~/ui/components";
 import IconButton from "./IconButton";
+import { BalanceObject, Wallpaper } from "~/types";
+import SelectWallpaper from "./SelectWallpaper";
 
 const MenuBar: FC<{
   isEdit: boolean;
@@ -14,20 +16,23 @@ const MenuBar: FC<{
     collection: boolean;
     inventory: boolean;
   };
-  account?: string;
   currentENS: string;
   domains: string[];
+  currentWallpaper?: Wallpaper;
+  wallpapers: BalanceObject[];
   actionHandler: {
     onOpenQuest: () => void;
     onOpenShop: () => void;
     onOpenCollection: () => void;
     onOpenInventry: () => void;
-    switchCurrentENS: (ens: string) => void;
+    onSwitchCurrentENS: (ens: string) => void;
+    onChangeWallpaper: (tokenId: number) => void;
     onView: () => void;
     onEdit: () => void;
     onSave: () => void;
+    onWithdrawWallpaper: () => Promise<any>;
   };
-}> = ({ isEdit, isOpen, account, currentENS, domains, actionHandler }) => {
+}> = ({ isEdit, isOpen, currentENS, domains, currentWallpaper, wallpapers, actionHandler }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -47,19 +52,22 @@ const MenuBar: FC<{
       bgColor={colorMode === "light" ? "white" : "#1A1A1A"}
     >
       <>
-        {!isEdit && (
-          <>
-            <SelectBox
-              w="136px"
-              options={domains.map((domain) => {
-                return { label: domain, value: domain };
-              })}
-              value={currentENS}
-              handleChange={actionHandler.switchCurrentENS}
-            />
-            <Divider orientation="vertical" color={colorMode === "light" ? "CECCC9" : "#333333"} h="48px" />
-          </>
+        {isEdit ? (
+          <SelectWallpaper
+            currentWallpaper={currentWallpaper}
+            wallpapers={wallpapers}
+            onChange={actionHandler.onChangeWallpaper}
+            onWithdraw={actionHandler.onWithdrawWallpaper}
+          />
+        ) : (
+          <SelectBox
+            w="136px"
+            options={domains.map((domain) => ({ label: domain, value: domain }))}
+            selected={{ label: currentENS, value: currentENS }}
+            handleChange={actionHandler.onSwitchCurrentENS}
+          />
         )}
+        <Divider orientation="vertical" color={colorMode === "light" ? "CECCC9" : "#333333"} h="48px" />
       </>
 
       <>

@@ -9,7 +9,7 @@ import {
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
-import { ObjectContractAddress } from "~/types";
+import { ObjectContractAddress, WallpaperContractAddress } from "~/types";
 import { objectMetadataList } from "~/types/object";
 import { ColorMode } from "~/ui/styles";
 import "./pixelPerfectInteraction";
@@ -17,7 +17,7 @@ import "./pixelPerfectInteraction";
 export default class Engine {
   app: Application;
   viewport: Viewport;
-  globalTextures: { [contract in ObjectContractAddress]: { [tokenId: number]: Texture } };
+  globalTextures: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: Texture } };
   staticAssets: {
     clouds: Sprite;
     cloudsBlack: Sprite;

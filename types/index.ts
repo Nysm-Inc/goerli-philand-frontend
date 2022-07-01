@@ -9,8 +9,9 @@ import {
 export type ObjectContractAddress =
   | typeof PHI_OBJECT_CONTRACT_ADDRESS
   | typeof FREE_OBJECT_CONTRACT_ADDRESS
-  | typeof PREMIUM_OBJECT_CONTRACT_ADDRESS
-  | typeof WALLPAPER_CONTRACT_ADDRESS;
+  | typeof PREMIUM_OBJECT_CONTRACT_ADDRESS;
+
+export type WallpaperContractAddress = typeof WALLPAPER_CONTRACT_ADDRESS;
 
 export const ContractAbis = {
   [PHI_OBJECT_CONTRACT_ADDRESS]: PhiObjectAbi,
@@ -32,6 +33,12 @@ export type PhiObject = {
 export type PhiLink = {
   title: string;
   url: string;
+};
+
+export type Wallpaper = {
+  contractAddress: typeof WALLPAPER_CONTRACT_ADDRESS;
+  tokenId: number;
+  timestamp?: number;
 };
 
 export type IObject = {

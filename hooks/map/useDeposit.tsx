@@ -12,7 +12,7 @@ const useDeposit = (
 ): [
   DepositObject[],
   { deposit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>; tx: Tx },
-  { undeposit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>; tx: Tx }
+  { withdraw: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>; tx: Tx }
 ] => {
   const { data, isFetching } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
@@ -34,15 +34,15 @@ const useDeposit = (
   const { status: depositStatus } = useWaitForTransaction({ hash: depositData?.hash || "" });
 
   const {
-    data: undepositData,
-    writeAsync: undeposit,
-    status: undepositTmpStatus,
+    data: withdrawData,
+    writeAsync: withdraw,
+    status: withdrawTmpStatus,
   } = useContractWrite({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
-    functionName: "batchUnDeposit",
+    functionName: "batchWithdraw",
   });
-  const { status: undepositStatus } = useWaitForTransaction({ hash: undepositData?.hash || "" });
+  const { status: withdrawStatus } = useWaitForTransaction({ hash: withdrawData?.hash || "" });
 
   const onDeposit = async (args: { contract: string; tokenId: number; amount: number }[]) => {
     if (!ens) return;
@@ -51,11 +51,11 @@ const useDeposit = (
     return deposit({ args: calldata });
   };
 
-  const onUndeposit = async (args: { contract: string; tokenId: number; amount: number }[]) => {
+  const onWithdraw = async (args: { contract: string; tokenId: number; amount: number }[]) => {
     if (!ens) return;
 
     const calldata = [ens.slice(0, -4), args.map((arg) => arg.contract), args.map((arg) => arg.tokenId), args.map((arg) => arg.amount)];
-    return undeposit({ args: calldata });
+    return withdraw({ args: calldata });
   };
 
   return [
@@ -88,11 +88,11 @@ const useDeposit = (
       },
     },
     {
-      undeposit: onUndeposit,
+      withdraw: onWithdraw,
       tx: {
-        hash: undepositData?.hash,
-        tmpStatus: undepositTmpStatus,
-        status: undepositStatus,
+        hash: withdrawData?.hash,
+        tmpStatus: withdrawTmpStatus,
+        status: withdrawStatus,
       },
     },
   ];

@@ -13,9 +13,9 @@ export default class TileManager {
     selected: Texture;
     collision: Texture;
   };
+  private tileMap: string[][];
   private selectedTile: Container;
   private collisionTiles: Container;
-  private tileMap: string[][];
   private landGrid: Container;
 
   constructor() {
@@ -26,11 +26,14 @@ export default class TileManager {
     };
 
     this.selectedTile = new Container();
+    this.selectedTile.zIndex = 3;
     this.updateSelectedTile(-GAME_APP_WIDTH, -GAME_APP_HEIGHT);
     this.selectedTile.addChild(new Sprite(this.tileTextures.selected));
     this.tileMap = emptyTilemap();
     this.landGrid = new Container();
+    this.landGrid.zIndex = 2;
     this.collisionTiles = new Container();
+    this.collisionTiles.zIndex = 3;
     for (let i = 0; i < ROOM_TILE_N; i++) {
       for (let j = 0; j < ROOM_TILE_N; j++) {
         const sprite = new Sprite(this.tileTextures.grid);
@@ -113,7 +116,6 @@ export default class TileManager {
     const { room } = GameInstance.get();
 
     this.landGrid.visible = false;
-
     room.landContainer.addChild(this.landGrid);
   }
 
