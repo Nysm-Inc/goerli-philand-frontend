@@ -17,7 +17,7 @@ const Shop: FC<{
   return (
     <Modal w="858px" h="700px" isOpen={isOpen} onClose={() => {}}>
       <ModalHeader
-        title="Shop"
+        title="SHOP"
         buttons={[
           <IconButton
             key="close"

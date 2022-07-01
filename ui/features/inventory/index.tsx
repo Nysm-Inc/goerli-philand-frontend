@@ -98,7 +98,7 @@ const Inventory: FC<{
       }}
     >
       <ModalHeader
-        title="Inventor"
+        title="INVENTORY"
         buttons={[
           <IconButton
             key="close"

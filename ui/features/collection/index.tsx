@@ -143,7 +143,7 @@ const Collection: FC<{
       ) : (
         <>
           <ModalHeader
-            title="Collection"
+            title="COLLECTION"
             buttons={[
               <IconButton
                 key="close"

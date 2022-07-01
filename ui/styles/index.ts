@@ -38,9 +38,6 @@ export const themeColors = {
     250: "#808080",
     150: "#CCCCCC",
   },
-
-  // todo
-  // [colorMode][800]
   light: {
     350: "#CECCC9",
     250: "#F5F2EB",
@@ -69,15 +66,57 @@ export const themeFonts = {
     fontWeight: 400,
     fontSize: "32px",
     lineHeight: "48px",
-    textTransform: "uppercase",
     textShadow: "-2px 4px 8px rgba(13, 13, 13, 0.1)",
     "-webkit-text-stroke": "1px #1A1A1A",
+  },
+  "headline-1": {
+    fontFamily: "JetBrains Mono",
+    fontWeight: 600,
+    fontSize: "24px",
+    lineHeight: "32px",
+    letterSpacing: "-0.02em",
+  },
+  "headline-2": {
+    fontFamily: "JetBrains Mono",
+    fontWeight: 600,
+    fontSize: "16px",
+    lineHeight: "24px",
+    letterSpacing: "-0.02em",
+  },
+  "headline-3": {
+    fontFamily: "JetBrains Mono",
+    fontWeight: 600,
+    fontSize: "14px",
+    lineHeight: "20px",
+    letterSpacing: "-0.02em",
+  },
+  "paragraph-1": {
+    fontFamily: "JetBrains Mono",
+    fontWeight: 500,
+    fontSize: "16px",
+    lineHeight: "24px",
+    letterSpacing: "-0.02em",
+  },
+  "paragraph-2": {
+    fontFamily: "JetBrains Mono",
+    fontWeight: 500,
+    fontSize: "14px",
+    lineHeight: "20px",
+    letterSpacing: "-0.02em",
+    fontFeatureSettings: "'liga' off",
+  },
+  "paragraph-3": {
+    fontFamily: "JetBrains Mono",
+    fontWeight: 500,
+    fontSize: "12px",
+    lineHeight: "16px",
+    letterSpacing: "-0.02em",
+    fontFeatureSettings: "'liga' off",
   },
   "button-1": {
     fontFamily: "PhilsonBlock",
     fontWeight: 400,
     fontSize: "16px",
-    textTransform: "uppercase",
     fontFeatureSettings: "'ss01' on, 'liga' off",
     textShadow: "3px 3px 0px rgba(13, 13, 13, 0.1)",
     "-webkit-text-stroke": "1px #1A1A1A",
@@ -85,6 +124,20 @@ export const themeFonts = {
   "button-2": {
     fontSize: "14px",
     fontWeight: 500,
+    letterSpacing: "-0.02em",
+  },
+  "label-1": {
+    fontFamily: "JetBrains Mono",
+    fontWeight: 500,
+    fontSize: "14px",
+    lineHeight: "16px",
+    letterSpacing: "-0.02em",
+  },
+  "label-2": {
+    fontFamily: "JetBrains Mono",
+    fontWeight: 500,
+    fontSize: "12px",
+    lineHeight: "16px",
     letterSpacing: "-0.02em",
   },
 };

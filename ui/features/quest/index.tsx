@@ -22,7 +22,7 @@ const Quest: FC<{
   return (
     <Modal w="858px" h="700px" isOpen={isOpen} onClose={() => {}}>
       <ModalHeader
-        title="Quest"
+        title="QUEST"
         buttons={[
           <IconButton
             key="refresh"
