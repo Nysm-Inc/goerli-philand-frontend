@@ -24,15 +24,15 @@ const App = ({ Component, pageProps }: AppProps) => {
       <Head ogp={pageProps.ogp} />
       <GlobalStyle />
 
-      <ChakraProvider theme={theme}>
-        <WagmiConfig client={client}>
-          <RainbowKitProvider chains={chains}>
-            <AppContextProvider>
+      <WagmiConfig client={client}>
+        <RainbowKitProvider chains={chains}>
+          <AppContextProvider>
+            <ChakraProvider theme={theme}>
               <Component {...pageProps} />
-            </AppContextProvider>
-          </RainbowKitProvider>
-        </WagmiConfig>
-      </ChakraProvider>
+            </ChakraProvider>
+          </AppContextProvider>
+        </RainbowKitProvider>
+      </WagmiConfig>
     </>
   );
 };

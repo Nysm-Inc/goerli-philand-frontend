@@ -1,4 +1,5 @@
 import { FC, SVGProps } from "react";
+import Alert from "./Alert";
 import Check from "./Check";
 import Close from "./Close";
 import Dropdown from "./Dropdown";
@@ -15,6 +16,7 @@ import Sun from "./Sun";
 import Undo from "./Undo";
 
 const icons = {
+  alert: Alert,
   check: Check,
   close: Close,
   dropdown: Dropdown,

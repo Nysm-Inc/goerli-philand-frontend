@@ -1,39 +1,77 @@
-import { FC, useEffect, useState } from "react";
-import { AlertStatus, Flex, Link, Spinner, useToast, UseToastOptions } from "@chakra-ui/react";
+import { FC, useContext, useEffect, useState } from "react";
+import { Box, Center, Flex, HStack, Link, Text, useToast, UseToastOptions } from "@chakra-ui/react";
 import { ETHERSCAN_BLOCK_EXPLORER } from "~/constants";
 import { Status, Tx } from "~/types/wagmi";
+import { AppContext } from "~/contexts";
+import { Icon, IconButton } from "~/ui/components";
+import { ColorMode } from "~/ui/styles";
 
-const alertStatus: { [status in Status]: AlertStatus } = {
-  idle: "info",
-  loading: "info",
-  success: "success",
-  error: "error",
-};
+const StatusComponent: FC<{ colorMode: ColorMode; status: Status; hash: string; onClose: () => void }> = ({
+  colorMode,
+  status,
+  hash,
+  onClose,
+}) => (
+  <Box
+    w="348px"
+    h="112px"
+    p="8px 8px 8px 0px"
+    border="1px solid #1A1A1A"
+    boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
+    borderRadius="16px"
+    position="relative"
+    bgColor={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}
+  >
+    <HStack spacing="0" p="16px" align="flex-start">
+      <Center w="40px" h="40px" borderRadius="40px" bgColor="#70DBB8">
+        <Icon name={status === "error" ? "alert" : "check"} />
+      </Center>
+      <Box w="16px" />
 
-const options = (tx: Tx): UseToastOptions => {
+      <Flex direction="column" h="100%">
+        <Text color="#808080" textStyle="label-1">
+          ACTION LABEL
+        </Text>
+        <Text color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"} textStyle="paragraph-1">
+          {
+            {
+              idle: "TRANSACTION SUBMITTED",
+              loading: "TRANSACTION SUBMITTED",
+              success: "TRANSACTION SUCCESS",
+              error: "TRANSACTION FAILED",
+            }[status]
+          }
+        </Text>
+        <Link textStyle="button-2" color="#8080FF" href={`${ETHERSCAN_BLOCK_EXPLORER}/tx/${hash}`} isExternal>
+          View on explorer
+        </Link>
+      </Flex>
+    </HStack>
+    <Box position="absolute" top="8px" right="8px">
+      <IconButton
+        ariaLabel="close"
+        icon={<Icon name="close" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"} />}
+        size={32}
+        flipColor
+        onClick={onClose}
+      />
+    </Box>
+  </Box>
+);
+
+const options = (colorMode: ColorMode, tx: Tx): UseToastOptions => {
   return {
     id: tx.hash,
-    title: tx.status,
-    description: (
-      <Flex alignItems="center" justifyContent="space-between">
-        <Link href={`${ETHERSCAN_BLOCK_EXPLORER}/tx/${tx.hash}`} isExternal textDecoration="underline">
-          view on explorer
-        </Link>
-        <Spinner color="white" speed="0.7s" size="sm" />
-      </Flex>
-    ),
-    status: alertStatus[tx.status],
     position: "top-right",
     duration: null,
     isClosable: true,
-    containerStyle: {
-      fontFamily: "monospace",
-      fontWeight: "bold",
-    },
+    // @ts-ignore
+    render: (props) => <StatusComponent colorMode={colorMode} hash={tx.hash} onClose={() => props.onClose()} />,
   };
 };
 
 const StatusTx: FC<{ txs: Tx[] }> = ({ txs }) => {
+  const { colorMode } = useContext(AppContext);
   const toast = useToast();
   const [unique, setUnique] = useState<string[]>([]);
 
@@ -43,11 +81,11 @@ const StatusTx: FC<{ txs: Tx[] }> = ({ txs }) => {
 
       if (!toast.isActive(tx.hash)) {
         if (!unique.includes(tx.hash) && tx.status === "loading") {
-          toast(options(tx));
+          toast(options(colorMode, tx));
           setUnique((prev) => [...prev, tx.hash || ""]);
         }
       } else {
-        toast.update(tx.hash, options(tx));
+        toast.update(tx.hash, options(colorMode, tx));
 
         if (tx.status === "success") {
           setTimeout(() => {

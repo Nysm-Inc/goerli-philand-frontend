@@ -8,9 +8,12 @@ const IconButton: FC<{
   size?: 32 | 48;
   outline?: boolean;
   boxShadow?: boolean;
+  flipColor?: boolean;
   onClick: () => void;
-}> = ({ ariaLabel, icon, size, boxShadow = true, outline = true, onClick }) => {
+}> = ({ ariaLabel, icon, size = 48, boxShadow = true, outline = true, flipColor, onClick }) => {
   const { colorMode } = useContext(AppContext);
+  const _colorMode = colorMode === (flipColor ? "dark" : "light");
+
   return (
     <ChakraIconButton
       //
@@ -18,8 +21,10 @@ const IconButton: FC<{
       _focus={{ outline: "none" }}
       _focusVisible={{ outline: "none" }}
       //
-      w={`${size || 48}px`}
-      h={`${size || 48}px`}
+      minW={`${size}px`}
+      minH={`${size}px`}
+      maxW={`${size}px`}
+      maxH={`${size}px`}
       borderRadius="12px"
       boxShadow={boxShadow ? "-2px 4px 8px rgba(13, 13, 13, 0.1)" : ""}
       //
@@ -27,17 +32,17 @@ const IconButton: FC<{
       onClick={onClick}
       //
       border={outline ? "1px solid" : "none"}
-      bgColor={colorMode === "light" ? "white" : "#1A1A1A"}
-      borderColor={colorMode === "light" ? "#CECCC9" : "none"}
+      bgColor={_colorMode ? "white" : "#1A1A1A"}
+      borderColor={_colorMode ? "#CECCC9" : "none"}
       _hover={{
-        bgColor: colorMode === "light" ? "#F5F2EB" : "#333333",
+        bgColor: _colorMode ? "#F5F2EB" : "#333333",
         border: "1px solid",
-        borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
+        borderColor: _colorMode ? "#1A1A1A" : "#808080",
       }}
       _active={{
-        bgColor: colorMode === "light" ? "white" : "#333333",
+        bgColor: _colorMode ? "white" : "#333333",
         border: "1px solid",
-        borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
+        borderColor: _colorMode ? "#1A1A1A" : "#808080",
       }}
     >
       <Center>{icon}</Center>
