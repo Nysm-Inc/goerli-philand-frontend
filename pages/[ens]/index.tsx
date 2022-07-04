@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { UTILS_API_GATEWAY } from "~/constants";
-import { useViewPhiland } from "~/hooks/map";
+import { useCheckWallpaper, useViewPhiland } from "~/hooks/map";
 import { useGame } from "~/hooks/game";
 import { useCreatePhiland } from "~/hooks/registry";
 
@@ -23,8 +23,9 @@ const Index: NextPage = () => {
 
   const [isCreated] = useCreatePhiland(ens);
   const phiObjects = useViewPhiland(ens);
+  const [wallpaper] = useCheckWallpaper(ens);
 
-  useGame({ state: { isEdit: false, isCreatedPhiland: isCreated, phiObjects } });
+  useGame({ state: { isEdit: false, isCreatedPhiland: isCreated, phiObjects, wallpaper } });
 
   return <></>;
 };

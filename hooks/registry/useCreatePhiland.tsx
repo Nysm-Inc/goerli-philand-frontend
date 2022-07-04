@@ -3,8 +3,7 @@ import { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS, REGISTRY_CONTRACT_ADDRESS } from "~/constants";
 import { MapAbi, RegistryAbi } from "~/abi";
 import { Tx } from "~/types/wagmi";
-
-const nullAddress = "0x0000000000000000000000000000000000000000";
+import { nullAddress } from "~/types";
 
 const useCreatePhiland = (
   ens?: string,

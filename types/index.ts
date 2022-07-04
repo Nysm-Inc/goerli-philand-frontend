@@ -62,3 +62,5 @@ export type BalanceObject = {
   tokenId: number;
   amount: number;
 };
+
+export const nullAddress = "0x0000000000000000000000000000000000000000";

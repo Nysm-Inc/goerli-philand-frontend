@@ -66,7 +66,7 @@ const options = (colorMode: ColorMode, tx: Tx): UseToastOptions => {
     duration: null,
     isClosable: true,
     // @ts-ignore
-    render: (props) => <StatusComponent colorMode={colorMode} hash={tx.hash} onClose={() => props.onClose()} />,
+    render: (props) => <StatusComponent colorMode={colorMode} status={tx.status} hash={tx.hash} onClose={() => props.onClose()} />,
   };
 };
 

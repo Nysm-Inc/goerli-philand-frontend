@@ -3,7 +3,7 @@ import { BigNumber } from "ethers";
 import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
 import { MapAbi } from "~/abi";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
-import { Wallpaper } from "~/types";
+import { nullAddress, Wallpaper } from "~/types";
 import { Tx } from "~/types/wagmi";
 
 const useCheckWallpaper = (
@@ -31,7 +31,7 @@ const useCheckWallpaper = (
   const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });
 
   return [
-    data
+    data && data[0] !== nullAddress
       ? {
           contractAddress: data[0],
           tokenId: BigNumber.from(data[1]).toNumber(),
