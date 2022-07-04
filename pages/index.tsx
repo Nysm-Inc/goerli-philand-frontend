@@ -19,6 +19,7 @@ import {
   Modal,
   ModalHeader,
   Button,
+  ENSNotFound,
 } from "~/ui/components";
 import { useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
@@ -239,9 +240,7 @@ const Index: NextPage = () => {
                       {/* <>Loaindg Splash...</> */}
                     </>
                   ) : (
-                    <>
-                      <>ENS NOT FOUND</>
-                    </>
+                    <ENSNotFound />
                   )}
                 </Box>
               ) : (
