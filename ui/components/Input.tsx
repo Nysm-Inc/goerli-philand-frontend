@@ -6,8 +6,8 @@ const Input: FC<{
   w: LayoutProps["w"];
   placeholder: string;
   value: string | number;
-  leftIcon: ReactNode;
-  rightIcon: JSX.Element;
+  leftIcon?: ReactNode;
+  rightIcon?: JSX.Element;
   onChange: ChangeEventHandler<HTMLInputElement>;
 }> = ({ w, placeholder, value, leftIcon, rightIcon, onChange }) => {
   const { colorMode } = useContext(AppContext);
@@ -32,21 +32,27 @@ const Input: FC<{
         borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
       }}
     >
-      <InputLeftElement inlineSize="48px" h="100%">
-        {leftIcon}
-      </InputLeftElement>
+      {leftIcon && (
+        <InputLeftElement inlineSize="48px" h="100%">
+          {leftIcon}
+        </InputLeftElement>
+      )}
       <ChakraInput
         //
         variant="unstyled"
         _placeholder={{ color: "#808080" }}
         //
+        pl={leftIcon ? "48px" : "12px"}
+        pr={rightIcon ? "48px" : "12px"}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
       />
-      <InputRightElement inlineSize="48px" h="100%">
-        {rightIcon}
-      </InputRightElement>
+      {rightIcon && (
+        <InputRightElement inlineSize="48px" h="100%">
+          {rightIcon}
+        </InputRightElement>
+      )}
     </InputGroup>
   );
 };
