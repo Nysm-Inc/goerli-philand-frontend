@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { FC, useContext, useEffect, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, Button, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { Box, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject, ObjectContractAddress } from "~/types";
-import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput } from "~/ui/components";
+import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalFooterButton, ModalHeader, QuantityInput } from "~/ui/components";
 import { AppContext } from "~/contexts";
 
 type InventoryObject = DepositObject & { select: number; writed: boolean };
@@ -151,10 +151,9 @@ const Inventory: FC<{
       </ModalBody>
       {objects.some((object) => object.select > 0) && (
         <ModalFooter>
-          <Button
-            bgColor="gray.800"
-            borderRadius="12px"
-            color="white"
+          <ModalFooterButton
+            text="Withdraw Objects"
+            buttonText={`${objects.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)} ITEMS`}
             onClick={() => {
               const args = objects.reduce((memo, object) => {
                 if (object.select > 0) {
@@ -172,10 +171,7 @@ const Inventory: FC<{
               }, [] as BalanceObject[]);
               onSubmit(args).then(() => reset());
             }}
-            disabled={!objects.some((object) => object.select > 0)}
-          >
-            Withdraw Objects / {objects.filter((object) => object.select > 0).length}
-          </Button>
+          />
         </ModalFooter>
       )}
     </Modal>

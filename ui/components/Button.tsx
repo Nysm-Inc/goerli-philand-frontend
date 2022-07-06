@@ -5,6 +5,7 @@ import { AppContext } from "~/contexts";
 
 const Button: FC<{
   w: LayoutProps["w"];
+  h?: LayoutProps["h"];
   color?: keyof typeof themeColors;
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
@@ -13,14 +14,13 @@ const Button: FC<{
   onClick?: () => void;
   children?: ReactNode;
 }> = forwardRef((props, ref) => {
-  const { w, color, leftIcon, rightIcon, disabled, onClick, children } = props;
+  const { w, h = "48px", color, leftIcon, rightIcon, disabled, onClick, children } = props;
   const { colorMode } = useContext(AppContext);
   return (
     <ChakraButton
       variant="unstyled"
       _focusVisible={{ outline: "none" }}
       //
-      h="48px"
       p="8px"
       boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
       borderRadius="12px"
@@ -31,6 +31,7 @@ const Button: FC<{
       //
       ref={ref}
       w={w}
+      h={h}
       disabled={disabled}
       onClick={onClick}
       {...(color

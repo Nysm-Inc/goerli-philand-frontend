@@ -12,8 +12,10 @@ import {
   HStack,
   useDimensions,
   PositionProps,
+  Flex,
 } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import Button from "./Button";
 
 const Line: FC = () => {
   const { colorMode } = useContext(AppContext);
@@ -65,8 +67,24 @@ const ModalBody: FC<{ children: ReactNode }> = ({ children }) => {
     </ChakraModalBody>
   );
 };
+
 const ModalFooter: FC<{ children: ReactNode }> = ({ children }) => {
   return <ChakraModalFooter justifyContent="center">{children}</ChakraModalFooter>;
+};
+
+const ModalFooterButton: FC<{ text: string; buttonText: string; onClick: () => void }> = ({ text, buttonText, onClick }) => {
+  const { colorMode } = useContext(AppContext);
+
+  return (
+    <Flex w="730px" h="64px" p="12px 16px 12px 24px" bgColor="#1A1A1A" borderRadius="16px" justify="space-between" align="center">
+      <Text textStyle="headline-2" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+        {text}
+      </Text>
+      <Button w="90px" h="40px" onClick={onClick}>
+        {buttonText}
+      </Button>
+    </Flex>
+  );
 };
 
 const Modal: FC<{
@@ -102,4 +120,4 @@ const Modal: FC<{
   );
 };
 
-export { Modal, ModalBody, ModalHeader, ModalFooter };
+export { Modal, ModalBody, ModalHeader, ModalFooter, ModalFooterButton };

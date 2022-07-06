@@ -1,22 +1,92 @@
 import Image from "next/image";
-import { FC, useContext } from "react";
+import { FC, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
 import { Box, SimpleGrid, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
-import { objectMetadataList } from "~/types/object";
-import { Icon, IconButton, Modal, ModalBody, ModalHeader, Tab } from "~/ui/components";
+import { ObjectMetadata, objectMetadataList } from "~/types/object";
+import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, ModalFooterButton, QuantityInput, Tab } from "~/ui/components";
 import { AppContext } from "~/contexts";
+import { ShopItemContractAddress } from "~/types";
+
+type Item = ObjectMetadata & { select: number };
+
+const defaultItems: { [contract in ShopItemContractAddress]: Item[] } = {
+  [FREE_OBJECT_CONTRACT_ADDRESS]: Object.values(objectMetadataList[FREE_OBJECT_CONTRACT_ADDRESS]).map((metadata) => ({
+    ...metadata,
+    select: 0,
+  })),
+  [PREMIUM_OBJECT_CONTRACT_ADDRESS]: Object.values(objectMetadataList[PREMIUM_OBJECT_CONTRACT_ADDRESS]).map((metadata) => ({
+    ...metadata,
+    select: 0,
+  })),
+  [WALLPAPER_CONTRACT_ADDRESS]: Object.values(objectMetadataList[WALLPAPER_CONTRACT_ADDRESS]).map((metadata) => ({
+    ...metadata,
+    select: 0,
+  })),
+};
+
+const tabIdx2Contract: { [idx: number]: ShopItemContractAddress } = {
+  0: FREE_OBJECT_CONTRACT_ADDRESS,
+  1: PREMIUM_OBJECT_CONTRACT_ADDRESS,
+  2: WALLPAPER_CONTRACT_ADDRESS,
+};
+
+const Cart: FC<{
+  items: Item[];
+  plus: (idx: number) => void;
+  minus: (idx: number) => void;
+}> = ({ items, plus, minus }) => (
+  <SimpleGrid columns={3}>
+    {items.map((item, i) => (
+      <VStack key={i} height="320px" p="16px">
+        <Box w="100%" minH="144px" maxH="144px" position="relative">
+          <Image src={item.image_url} layout="fill" objectFit="contain" />
+        </Box>
+
+        <Text>{item.name}</Text>
+        <Text>¥{item.price}</Text>
+
+        <QuantityInput num={item.select} balance={10} handleClickMinus={() => minus(i)} handleClickPlus={() => plus(i)} />
+      </VStack>
+    ))}
+  </SimpleGrid>
+);
 
 const Shop: FC<{
   isOpen: boolean;
   onClose: () => void;
-  onClickFreeObject: (tokenId: number) => Promise<TransactionResponse | undefined>;
-  onClickPremiumObject: (tokenId: number) => Promise<TransactionResponse | undefined>;
-  onClickFreeWallpaper: (tokenId: number) => Promise<TransactionResponse | undefined>;
-}> = ({ isOpen, onClose, onClickFreeObject, onClickPremiumObject, onClickFreeWallpaper }) => {
+  onSubmit: {
+    [FREE_OBJECT_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
+    [PREMIUM_OBJECT_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
+    [WALLPAPER_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
+  };
+}> = ({ isOpen, onClose, onSubmit }) => {
   const { colorMode } = useContext(AppContext);
+  const [items, setItems] = useState<Item[]>(defaultItems[FREE_OBJECT_CONTRACT_ADDRESS]);
+  const [tabIdx, setTabIdx] = useState(0);
+
+  const plus = (idx: number) => {
+    const copied = [...items];
+    copied[idx].select += 1;
+    setItems(copied);
+  };
+  const minus = (idx: number) => {
+    const copied = [...items];
+    copied[idx].select -= 1;
+    setItems(copied);
+  };
+  const reset = (contract: ShopItemContractAddress) => {
+    setItems(defaultItems[contract]);
+  };
+
   return (
-    <Tabs variant="unstyled">
+    <Tabs
+      variant="unstyled"
+      onChange={(idx) => {
+        setTabIdx(idx);
+        reset(tabIdx2Contract[idx]);
+      }}
+    >
       <Modal w="858px" h="700px" isOpen={isOpen} onClose={() => {}}>
         <ModalHeader
           title="SHOP"
@@ -36,78 +106,34 @@ const Shop: FC<{
           <Tab text="Wallpaper" />
         </TabList>
         <ModalBody>
-          <TabPanels>
-            <TabPanel>
-              <SimpleGrid columns={3}>
-                {Object.values(objectMetadataList[FREE_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
-                  return (
-                    <VStack key={i} height="320px" p="16px">
-                      <Box
-                        w="100%"
-                        minH="144px"
-                        maxH="144px"
-                        position="relative"
-                        cursor="pointer"
-                        onClick={() => onClickFreeObject(metadata.tokenId)}
-                      >
-                        <Image src={metadata.image_url} layout="fill" objectFit="contain" />
-                      </Box>
-
-                      <Text>{metadata.name}</Text>
-                      <Text>¥{metadata.price}</Text>
-                    </VStack>
-                  );
-                })}
-              </SimpleGrid>
-            </TabPanel>
-            <TabPanel>
-              <SimpleGrid columns={3}>
-                {Object.values(objectMetadataList[PREMIUM_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
-                  return (
-                    <VStack key={i} height="320px" p="16px">
-                      <Box
-                        w="100%"
-                        minH="144px"
-                        maxH="144px"
-                        position="relative"
-                        cursor="pointer"
-                        onClick={() => onClickPremiumObject(metadata.tokenId)}
-                      >
-                        <Image src={metadata.image_url} layout="fill" objectFit="contain" />
-                      </Box>
-
-                      <Text>{metadata.name}</Text>
-                      <Text>¥{metadata.price}</Text>
-                    </VStack>
-                  );
-                })}
-              </SimpleGrid>
-            </TabPanel>
-            <TabPanel>
-              <SimpleGrid columns={3}>
-                {Object.values(objectMetadataList[WALLPAPER_CONTRACT_ADDRESS]).map((metadata, i) => {
-                  return (
-                    <VStack key={i} height="320px" p="16px">
-                      <Box
-                        w="100%"
-                        minH="144px"
-                        maxH="144px"
-                        position="relative"
-                        cursor="pointer"
-                        onClick={() => onClickFreeWallpaper(metadata.tokenId)}
-                      >
-                        <Image src={metadata.image_url} layout="fill" objectFit="contain" />
-                      </Box>
-
-                      <Text>{metadata.name}</Text>
-                      <Text>¥{metadata.price}</Text>
-                    </VStack>
-                  );
-                })}
-              </SimpleGrid>
-            </TabPanel>
+          <TabPanels id="8">
+            {Object.values(tabIdx2Contract).map((idx) => (
+              <TabPanel key={idx}>
+                <Cart items={items} plus={plus} minus={minus} />
+              </TabPanel>
+            ))}
           </TabPanels>
         </ModalBody>
+        {items.some((item) => item.select > 0) && (
+          <ModalFooter>
+            <ModalFooterButton
+              text={`PURCHASE ${
+                {
+                  [FREE_OBJECT_CONTRACT_ADDRESS]: "FREE OBJECTS",
+                  [PREMIUM_OBJECT_CONTRACT_ADDRESS]: "PREMIUM OBJECTS",
+                  [WALLPAPER_CONTRACT_ADDRESS]: "WALLPAPER",
+                }[tabIdx2Contract[tabIdx]]
+              }`}
+              buttonText={`${items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)} ITEMS`}
+              onClick={() => {
+                const tokenIds = items.reduce((memo, item) => {
+                  return item.select > 0 ? [...memo, ...[...new Array(item.select)].map(() => item.tokenId)] : memo;
+                }, [] as number[]);
+                onSubmit[tabIdx2Contract[tabIdx]](tokenIds).then(() => reset(tabIdx2Contract[tabIdx]));
+              }}
+            />
+          </ModalFooter>
+        )}
       </Modal>
     </Tabs>
   );

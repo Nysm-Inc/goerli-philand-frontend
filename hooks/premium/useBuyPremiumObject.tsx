@@ -1,13 +1,15 @@
 import { useContractWrite, useWaitForTransaction } from "wagmi";
-import { Provider, TransactionResponse } from "@ethersproject/providers";
+import { TransactionResponse } from "@ethersproject/providers";
 import { PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { PremiumObjectAbi } from "~/abi";
-import { Contract, Signer } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { Tx } from "~/types/wagmi";
+import { objectMetadataList } from "~/types/object";
 
-const useBuyPremiumObject = (
-  signerOrProvider?: Signer | Provider
-): { buyPremiumObject: (tokenId: number) => Promise<TransactionResponse | undefined>; tx: Tx } => {
+const useBuyPremiumObject = (): {
+  buyPremiumObject: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
+  tx: Tx;
+} => {
   const {
     data,
     writeAsync,
@@ -15,16 +17,25 @@ const useBuyPremiumObject = (
   } = useContractWrite({
     addressOrName: PREMIUM_OBJECT_CONTRACT_ADDRESS,
     contractInterface: PremiumObjectAbi,
-    functionName: "buyObject",
+    functionName: "batchBuyObject",
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
   return {
-    buyPremiumObject: async (tokenId: number) => {
-      const contract = new Contract(PREMIUM_OBJECT_CONTRACT_ADDRESS, PremiumObjectAbi, signerOrProvider);
-      const tokenPrice = await contract.getTokenPrice(tokenId);
-      const calldata = [tokenId];
-      return writeAsync({ args: calldata, overrides: { value: tokenPrice } });
+    buyPremiumObject: async (tokenIds: number[]) => {
+      const calldata = [tokenIds];
+      return writeAsync({
+        args: calldata,
+        overrides: {
+          value: tokenIds
+            .reduce((sum, tokenId) => {
+              const metadata = objectMetadataList[PREMIUM_OBJECT_CONTRACT_ADDRESS][tokenId];
+              const wei = ethers.utils.parseEther(metadata.price.toString());
+              return sum.add(wei);
+            }, BigNumber.from(0))
+            .toString(),
+        },
+      });
     },
     tx: {
       hash: data?.hash,

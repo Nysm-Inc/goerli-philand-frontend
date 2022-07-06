@@ -4,7 +4,7 @@ import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Flex, SimpleGrid, Text, useDisclosure, VStack } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
 import { objectMetadataList } from "~/types/object";
-import { Icon, IconButton, Button, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput } from "~/ui/components";
+import { Icon, IconButton, Button, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput, ModalFooterButton } from "~/ui/components";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   PHI_OBJECT_CONTRACT_ADDRESS,
@@ -12,6 +12,23 @@ import {
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
 import { AppContext } from "~/contexts";
+
+const ApproveButton: FC<{ text: string; isApproved: boolean; onApprove: () => void }> = ({ text, isApproved, onApprove }) => (
+  <Flex w="full" h="72px" p="16px" align="center" justify="space-between">
+    <Text>{text}</Text>
+    <Button
+      w={isApproved ? "183px" : "140px"}
+      color={isApproved ? undefined : "purple"}
+      onClick={onApprove}
+      disabled={isApproved}
+      leftIcon={isApproved ? <Icon name="check" /> : undefined}
+    >
+      <Text color="white" textStyle="button-1">
+        {isApproved ? "Approved" : "Approve"}
+      </Text>
+    </Button>
+  </Flex>
+);
 
 type CollectionObject = BalanceObject & { select: number };
 
@@ -80,63 +97,27 @@ const Collection: FC<{
           />
           <ModalBody>
             <VStack>
-              <Flex w="full" h="72px" p="16px" align="center" justify="space-between">
-                <Text>Phi Object</Text>
-                <Button
-                  w={isApproved[PHI_OBJECT_CONTRACT_ADDRESS] ? "183px" : "140px"}
-                  color={isApproved[PHI_OBJECT_CONTRACT_ADDRESS] ? undefined : "purple"}
-                  onClick={() => onApprove[PHI_OBJECT_CONTRACT_ADDRESS]()}
-                  disabled={isApproved[PHI_OBJECT_CONTRACT_ADDRESS]}
-                  leftIcon={isApproved[PHI_OBJECT_CONTRACT_ADDRESS] ? <Icon name="check" /> : undefined}
-                >
-                  <Text color="white" textStyle="button-1">
-                    {isApproved[PHI_OBJECT_CONTRACT_ADDRESS] ? "Approved" : "Approve"}
-                  </Text>
-                </Button>
-              </Flex>
-              <Flex w="full" h="72px" p="16px" align="center" justify="space-between">
-                <Text>Free Object</Text>
-                <Button
-                  w={isApproved[FREE_OBJECT_CONTRACT_ADDRESS] ? "183px" : "140px"}
-                  color={isApproved[FREE_OBJECT_CONTRACT_ADDRESS] ? undefined : "purple"}
-                  onClick={() => onApprove[FREE_OBJECT_CONTRACT_ADDRESS]()}
-                  disabled={isApproved[FREE_OBJECT_CONTRACT_ADDRESS]}
-                  leftIcon={isApproved[FREE_OBJECT_CONTRACT_ADDRESS] ? <Icon name="check" /> : undefined}
-                >
-                  <Text color="white" textStyle="button-1">
-                    {isApproved[FREE_OBJECT_CONTRACT_ADDRESS] ? "Approved" : "Approve"}
-                  </Text>
-                </Button>
-              </Flex>
+              <ApproveButton
+                text="Phi Object"
+                isApproved={isApproved[PHI_OBJECT_CONTRACT_ADDRESS]}
+                onApprove={onApprove[PHI_OBJECT_CONTRACT_ADDRESS]}
+              />
 
-              <Flex w="full" h="72px" p="16px" align="center" justify="space-between">
-                <Text>Premium Object</Text>
-                <Button
-                  w={isApproved[PREMIUM_OBJECT_CONTRACT_ADDRESS] ? "183px" : "140px"}
-                  color={isApproved[PREMIUM_OBJECT_CONTRACT_ADDRESS] ? undefined : "purple"}
-                  onClick={() => onApprove[PREMIUM_OBJECT_CONTRACT_ADDRESS]()}
-                  disabled={isApproved[PREMIUM_OBJECT_CONTRACT_ADDRESS]}
-                  leftIcon={isApproved[PREMIUM_OBJECT_CONTRACT_ADDRESS] ? <Icon name="check" /> : undefined}
-                >
-                  <Text color="white" textStyle="button-1">
-                    {isApproved[PREMIUM_OBJECT_CONTRACT_ADDRESS] ? "Approved" : "Approve"}
-                  </Text>
-                </Button>
-              </Flex>
-              <Flex w="full" h="72px" p="16px" align="center" justify="space-between">
-                <Text>Wallpaper</Text>
-                <Button
-                  w={isApproved[WALLPAPER_CONTRACT_ADDRESS] ? "183px" : "140px"}
-                  color={isApproved[WALLPAPER_CONTRACT_ADDRESS] ? undefined : "purple"}
-                  onClick={() => onApprove[WALLPAPER_CONTRACT_ADDRESS]()}
-                  disabled={isApproved[WALLPAPER_CONTRACT_ADDRESS]}
-                  leftIcon={isApproved[WALLPAPER_CONTRACT_ADDRESS] ? <Icon name="check" /> : undefined}
-                >
-                  <Text color="white" textStyle="button-1">
-                    {isApproved[WALLPAPER_CONTRACT_ADDRESS] ? "Approved" : "Approve"}
-                  </Text>
-                </Button>
-              </Flex>
+              <ApproveButton
+                text="Free Object"
+                isApproved={isApproved[FREE_OBJECT_CONTRACT_ADDRESS]}
+                onApprove={onApprove[FREE_OBJECT_CONTRACT_ADDRESS]}
+              />
+              <ApproveButton
+                text="Premium Object"
+                isApproved={isApproved[PREMIUM_OBJECT_CONTRACT_ADDRESS]}
+                onApprove={onApprove[PREMIUM_OBJECT_CONTRACT_ADDRESS]}
+              />
+              <ApproveButton
+                text="Wallpaper"
+                isApproved={isApproved[WALLPAPER_CONTRACT_ADDRESS]}
+                onApprove={onApprove[WALLPAPER_CONTRACT_ADDRESS]}
+              />
             </VStack>
           </ModalBody>
         </>
@@ -185,9 +166,9 @@ const Collection: FC<{
           </ModalBody>
           {items.some((item) => item.select > 0) && (
             <ModalFooter>
-              <Button
-                w="200px"
-                color="grey"
+              <ModalFooterButton
+                text="Deposit Objects"
+                buttonText={`${items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)} ITEMS`}
                 onClick={() => {
                   const args = items.reduce((memo, item) => {
                     if (item.select > 0) {
@@ -205,10 +186,7 @@ const Collection: FC<{
                   }, [] as BalanceObject[]);
                   onSubmit(args).then(() => reset());
                 }}
-                disabled={!items.some((item) => item.select > 0)}
-              >
-                Deposit Objects / {items.filter((item) => item.select > 0).length}
-              </Button>
+              />
             </ModalFooter>
           )}
         </>

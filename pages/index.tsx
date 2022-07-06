@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Image from "next/image";
-import { chain as chains, useAccount, useEnsName, useNetwork, useProvider } from "wagmi";
+import { chain as chains, useAccount, useEnsName, useNetwork } from "wagmi";
 import { Box, useDisclosure, useBoolean, VStack, Text } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
@@ -42,7 +42,6 @@ const Index: NextPage = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const { data: dataENS } = useEnsName({ address });
-  const provider = useProvider();
   const ens = chain?.id === chains.goerli.id ? dataENS : "";
 
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
@@ -64,7 +63,7 @@ const Index: NextPage = () => {
   const [isAprvWall, { approve: aprvWall, tx: txAprvWall }] = useApprove(WALLPAPER_CONTRACT_ADDRESS, address);
   const [claimedList, { claimPhi, tx: txClaimPhi }] = useClaim(address);
   const { getFreeObject, tx: txGetFreeObject } = useGetFreeObject();
-  const { buyPremiumObject, tx: txBuyPremiumObject } = useBuyPremiumObject(provider);
+  const { buyPremiumObject, tx: txBuyPremiumObject } = useBuyPremiumObject();
   const { getFreeWallpaper, tx: txGetFreeWallpaper } = useWallpaper();
   const balancePhiObjects = useBalances(PHI_OBJECT_CONTRACT_ADDRESS, address);
   const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
@@ -131,9 +130,12 @@ const Index: NextPage = () => {
         //
         isOpen={isOpenShop}
         onClose={onCloseShop}
-        onClickFreeObject={getFreeObject}
-        onClickPremiumObject={buyPremiumObject}
-        onClickFreeWallpaper={getFreeWallpaper}
+        onSubmit={{
+          [FREE_OBJECT_CONTRACT_ADDRESS]: getFreeObject,
+          [PREMIUM_OBJECT_CONTRACT_ADDRESS]: buyPremiumObject,
+          // todo
+          [WALLPAPER_CONTRACT_ADDRESS]: (tokenIds: number[]) => getFreeWallpaper(tokenIds[0]),
+        }}
       />
       <Collection
         items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects]}

@@ -4,7 +4,7 @@ import { FREE_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { FreeObjectAbi } from "~/abi";
 import { Tx } from "~/types/wagmi";
 
-const useGetFreeObject = (): { getFreeObject: (tokenId: number) => Promise<TransactionResponse | undefined>; tx: Tx } => {
+const useGetFreeObject = (): { getFreeObject: (tokenIds: number[]) => Promise<TransactionResponse | undefined>; tx: Tx } => {
   const {
     data,
     writeAsync,
@@ -12,13 +12,13 @@ const useGetFreeObject = (): { getFreeObject: (tokenId: number) => Promise<Trans
   } = useContractWrite({
     addressOrName: FREE_OBJECT_CONTRACT_ADDRESS,
     contractInterface: FreeObjectAbi,
-    functionName: "getFreeObject",
+    functionName: "batchGetFreeObject",
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
   return {
-    getFreeObject: async (tokenId: number) => {
-      const calldata = [tokenId];
+    getFreeObject: async (tokenIds: number[]) => {
+      const calldata = [tokenIds];
       return writeAsync({ args: calldata });
     },
     tx: {

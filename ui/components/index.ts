@@ -11,7 +11,7 @@ import SelectBox from "./SelectBox";
 import { ConfirmTx, StatusTx } from "./transaction";
 import Wallet from "./Wallet";
 import Icon from "./Icon";
-import { Modal, ModalBody, ModalHeader, ModalFooter } from "./Modal";
+import { Modal, ModalBody, ModalHeader, ModalFooter, ModalFooterButton } from "./Modal";
 import IconButton from "./IconButton";
 import Tab from "./Tab";
 import ENSNotFound from "./ENSNotFound";
@@ -40,4 +40,5 @@ export {
   Icon,
   IconButton,
   Tab,
+  ModalFooterButton,
 };
