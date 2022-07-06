@@ -67,7 +67,7 @@ export const themeFonts = {
     fontSize: "32px",
     lineHeight: "48px",
     textShadow: "-2px 4px 8px rgba(13, 13, 13, 0.1)",
-    "-webkit-text-stroke": "1px #1A1A1A",
+    WebkitTextStroke: "1px #1A1A1A",
   },
   "headline-1": {
     fontFamily: "JetBrainsMono",
@@ -119,7 +119,7 @@ export const themeFonts = {
     fontSize: "16px",
     fontFeatureSettings: "'ss01' on, 'liga' off",
     textShadow: "3px 3px 0px rgba(13, 13, 13, 0.1)",
-    "-webkit-text-stroke": "1px #1A1A1A",
+    WebkitTextStroke: "1px #1A1A1A",
   },
   "button-2": {
     fontSize: "14px",

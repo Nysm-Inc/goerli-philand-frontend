@@ -47,6 +47,7 @@ export default class Engine {
     });
     this.app.stage = new LayerStage();
     this.app.stage.sortableChildren = true;
+    this.app.loader.concurrency = 100; // todo
     document.body.appendChild(this.app.view);
 
     this.viewport = new Viewport({

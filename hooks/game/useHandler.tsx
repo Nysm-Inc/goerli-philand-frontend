@@ -4,7 +4,7 @@ import { IObject, ObjectContractAddress, PhiLink, PhiObject, Wallpaper } from "~
 import { SaveArgs } from "~/hooks/map";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 
-export type UIHandler = {
+export type UIHandlerProps = {
   edit: () => void;
   view: () => void;
   tryWrite: (contract: ObjectContractAddress, tokenId: number) => void;
@@ -13,15 +13,7 @@ export type UIHandler = {
   save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => void;
 };
 
-const useHandler = ({
-  phiObjects,
-  wallpaper,
-  uiHandler,
-}: {
-  phiObjects: (PhiObject & { removeIdx: number })[];
-  wallpaper?: Wallpaper;
-  uiHandler?: UIHandler;
-}): {
+export type Handler = {
   onEdit: () => void;
   onView: () => void;
   onMoveObject: () => void;
@@ -31,7 +23,17 @@ const useHandler = ({
   onChangeLink: (id: string, link: PhiLink) => void;
   onChangeWallpaper: (tokenId: number) => void;
   onSave: () => void;
-} => {
+};
+
+const useHandler = ({
+  phiObjects,
+  wallpaper,
+  uiHandler,
+}: {
+  phiObjects: (PhiObject & { removeIdx: number })[];
+  wallpaper?: Wallpaper;
+  uiHandler?: UIHandlerProps;
+}): Handler => {
   const { game } = useContext(AppContext);
 
   const onEdit = () => {

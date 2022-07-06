@@ -22,9 +22,9 @@ const points = [
   },
 ];
 
-type TileStyle = "grid" | "select" | "collision";
+type TileType = "grid" | "select" | "collision";
 
-const tileColors: { [style in TileStyle]: { stroke: string; fill: string } } = {
+const tileStyles: { [style in TileType]: { stroke: string; fill: string } } = {
   grid: {
     stroke: "rgba(0,0,0,0.1)",
     fill: "transparent",
@@ -34,21 +34,21 @@ const tileColors: { [style in TileStyle]: { stroke: string; fill: string } } = {
     fill: "transparent",
   },
   collision: {
-    stroke: "#EF4444",
-    fill: "rgba(239, 68, 68, 0.72)",
+    stroke: "rgba(229, 77, 77, 0.5)",
+    fill: "rgba(229, 77, 77, 0.7)",
   },
 };
 
-export const newTile = (s: TileStyle): Texture => {
+export const newTile = (typ: TileType): Texture => {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
   canvas.width = TILE_W;
   canvas.height = TILE_H;
 
-  const color = tileColors[s];
+  const style = tileStyles[typ];
   if (ctx != null) {
-    ctx.strokeStyle = color.stroke;
-    ctx.fillStyle = color.fill;
+    ctx.strokeStyle = style.stroke;
+    ctx.fillStyle = style.fill;
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(points[0].x, points[0].y);

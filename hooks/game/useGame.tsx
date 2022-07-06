@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "~/contexts";
 import { UIManagerHandler } from "~/game/ui/UIManager";
 import { PhiObject, Wallpaper } from "~/types";
-import useHandler, { UIHandler } from "./useHandler";
+import useHandler, { UIHandlerProps, Handler } from "./useHandler";
 
 type UseGame = {
   state: {
@@ -11,13 +11,14 @@ type UseGame = {
     phiObjects: (PhiObject & { removeIdx: number })[];
     wallpaper?: Wallpaper;
   };
-  uiHandler?: UIHandler;
+  uiHandler?: UIHandlerProps;
   gameUIHandler?: UIManagerHandler;
 };
 
-const useGame = ({ state, uiHandler, gameUIHandler }: UseGame) => {
+const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { initialized: boolean; handler: Handler } => {
   const _strictRef = useRef(false); // for avoiding react18 strict mode
-  const [loadGame, setLoadGame] = useState(false);
+  const [loadedGame, setLoadedGame] = useState(false);
+  const [initialized, setInitialized] = useState(false);
   const { game, colorMode } = useContext(AppContext);
 
   useEffect(() => {
@@ -26,40 +27,41 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame) => {
 
     (async () => {
       await game.loadGame(gameUIHandler);
-      setLoadGame(true);
+      setLoadedGame(true);
     })();
   }, []);
 
   useEffect(() => {
-    if (!loadGame) return;
+    if (!loadedGame) return;
 
     if (state.isCreatedPhiland) {
       game.room.enterRoom();
     } else {
       game.room.leaveRoom();
     }
-  }, [state.isCreatedPhiland, loadGame]);
+  }, [state.isCreatedPhiland, loadedGame]);
 
   useEffect(() => {
-    if (!loadGame) return;
+    if (!loadedGame) return;
     if (state.isEdit) return;
-    if (state.phiObjects.length <= 0) return;
-
-    game.room.roomItemManager.loadItems(state.phiObjects);
-  }, [state.phiObjects.length, loadGame, state.isEdit]);
+    if (state.phiObjects.length > 0) {
+      game.room.roomItemManager.loadItems(state.phiObjects);
+    }
+    setInitialized(true);
+  }, [state.phiObjects.length, loadedGame, state.isEdit]);
 
   useEffect(() => {
-    if (!loadGame) return;
+    if (!loadedGame) return;
     if (!state.wallpaper) return;
 
     game.room.wallpaper.update(state.wallpaper.tokenId);
-  }, [state.wallpaper?.tokenId, loadGame]);
+  }, [state.wallpaper?.tokenId, loadedGame]);
 
   useEffect(() => {
     game.engine.changeColorMode(colorMode);
   }, [colorMode]);
 
-  return useHandler({ phiObjects: state.phiObjects, wallpaper: state.wallpaper, uiHandler });
+  return { initialized, handler: useHandler({ phiObjects: state.phiObjects, wallpaper: state.wallpaper, uiHandler }) };
 };
 
 export default useGame;

@@ -74,6 +74,20 @@ const MenuBar: FC<{
         {!isEdit ? (
           <>
             <IconButton
+              ariaLabel="inventory"
+              icon={<Image src="/icons/inventory.svg" width="48px" height="48px" />}
+              outline={isOpen.inventory}
+              boxShadow={false}
+              onClick={actionHandler.onOpenInventry}
+            />
+            <IconButton
+              ariaLabel="collection"
+              icon={<Image src="/icons/diamond.svg" width="48px" height="48px" />}
+              outline={isOpen.collection}
+              boxShadow={false}
+              onClick={actionHandler.onOpenCollection}
+            />
+            <IconButton
               ariaLabel="quest"
               icon={<Image src="/icons/sword.svg" width="48px" height="48px" />}
               outline={isOpen.quest}
@@ -82,24 +96,10 @@ const MenuBar: FC<{
             />
             <IconButton
               ariaLabel="shop"
-              icon={<Image src="/icons/diamond.svg" width="48px" height="48px" />}
+              icon={<Image src="/icons/bag.svg" width="48px" height="48px" />}
               outline={isOpen.shop}
               boxShadow={false}
               onClick={actionHandler.onOpenShop}
-            />
-            <IconButton
-              ariaLabel="collection"
-              icon={<Image src="/icons/collection.svg" width="48px" height="48px" />}
-              outline={isOpen.collection}
-              boxShadow={false}
-              onClick={actionHandler.onOpenCollection}
-            />
-            <IconButton
-              ariaLabel="inventory"
-              icon={<Image src="/icons/bag.svg" width="48px" height="48px" />}
-              outline={isOpen.inventory}
-              boxShadow={false}
-              onClick={actionHandler.onOpenInventry}
             />
           </>
         ) : (
@@ -116,7 +116,7 @@ const MenuBar: FC<{
             />
             <IconButton
               ariaLabel="inventory"
-              icon={<Image src="/icons/bag.svg" width="48px" height="48px" />}
+              icon={<Image src="/icons/inventory.svg" width="48px" height="48px" />}
               outline={isOpen.inventory}
               boxShadow={false}
               onClick={actionHandler.onOpenInventry}

@@ -74,12 +74,14 @@ const Index: NextPage = () => {
   const [claimableList, updateClaimableList, refetchClaimableList] = useClaimableList(address);
   const [inventoryObjects, plus, minus, tryWrite, tryRemove, reset] = useInventory(depositObjects, isEdit);
 
-  const { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onChangeLink, onChangeWallpaper, onSave } =
-    useGame({
-      state: { isEdit, isCreatedPhiland, phiObjects, wallpaper },
-      uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
-      gameUIHandler: { onOpenActionMenu, onChangeLinkMenu: changeLink },
-    });
+  const {
+    initialized,
+    handler: { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onChangeLink, onChangeWallpaper, onSave },
+  } = useGame({
+    state: { isEdit, isCreatedPhiland, phiObjects, wallpaper },
+    uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
+    gameUIHandler: { onOpenActionMenu, onChangeLinkMenu: changeLink },
+  });
 
   return (
     <>
@@ -119,7 +121,6 @@ const Index: NextPage = () => {
       />
       <Quest
         claimableList={claimableList}
-        // todo: new method
         claimedList={claimedList}
         isOpen={isOpenQuest}
         onClose={onCloseQuest}
@@ -185,7 +186,7 @@ const Index: NextPage = () => {
       />
       <Header />
 
-      {isCreatedPhiland ? (
+      {initialized ? (
         <MenuBar
           isEdit={isEdit}
           currentENS={currentENS}
@@ -225,7 +226,7 @@ const Index: NextPage = () => {
                   selected={{ label: currentENS, value: currentENS }}
                   handleChange={switchCurrentENS}
                 />
-                <Button w="360px" color="purple" onClick={createPhiland}>
+                <Button w="360px" color="purple" onClick={createPhiland} disabled={isCreatedPhiland}>
                   <Text color="white" textStyle="button-1">
                     CREATE LAND
                   </Text>
