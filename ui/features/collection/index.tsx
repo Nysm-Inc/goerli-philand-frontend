@@ -142,8 +142,12 @@ const Collection: FC<{
                   <Box w="100%" minH="144px" maxH="144px" position="relative">
                     <Image src={objectMetadataList[item.contract][item.tokenId].image_url} layout="fill" objectFit="contain" />
                   </Box>
-                  <Text>owned: {item.amount}</Text>
-                  <Text>name</Text>
+                  <Text textStyle="label-2" color="#808080">
+                    OWNED: {item.amount}
+                  </Text>
+                  <Text textStyle="headline-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                    {objectMetadataList[item.contract][item.tokenId].name}
+                  </Text>
                   {!isEdit && (
                     <>
                       {isApproved[item.contract] ? (

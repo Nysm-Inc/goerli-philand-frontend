@@ -86,6 +86,7 @@ const Inventory: FC<{
   reset: () => void;
 }> = ({ objects, isEdit, isOpen, onClose, onClickPlus, onClickMinus, onClickObject, onSubmit, reset }) => {
   const { colorMode } = useContext(AppContext);
+
   return (
     <Modal
       w="408px"
@@ -135,12 +136,16 @@ const Inventory: FC<{
               >
                 <Image src={objectMetadataList[object.contractAddress][object.tokenId].image_url} layout="fill" objectFit="contain" />
               </Box>
-              <Text>use: {object.used}</Text>
-              <Text>name</Text>
+              <Text textStyle="label-2" color="#808080">
+                OWNED {object.amount - object.used}
+              </Text>
+              <Text textStyle="headline-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                {objectMetadataList[object.contractAddress][object.tokenId].name}
+              </Text>
               {!isEdit && !object.writed && (
                 <QuantityInput
                   num={object.select}
-                  balance={object.amount}
+                  balance={object.amount - object.used}
                   handleClickPlus={() => onClickPlus(i)}
                   handleClickMinus={() => onClickMinus(i)}
                 />

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, SimpleGrid, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
+import { Box, HStack, SimpleGrid, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList } from "~/types/object";
 import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, ModalFooterButton, QuantityInput, Tab } from "~/ui/components";
@@ -35,22 +35,33 @@ const Cart: FC<{
   items: Item[];
   plus: (idx: number) => void;
   minus: (idx: number) => void;
-}> = ({ items, plus, minus }) => (
-  <SimpleGrid columns={3}>
-    {items.map((item, i) => (
-      <VStack key={i} height="320px" p="16px">
-        <Box w="100%" minH="144px" maxH="144px" position="relative">
-          <Image src={item.image_url} layout="fill" objectFit="contain" />
-        </Box>
+}> = ({ items, plus, minus }) => {
+  const { colorMode } = useContext(AppContext);
 
-        <Text>{item.name}</Text>
-        <Text>¥{item.price}</Text>
+  return (
+    <SimpleGrid columns={3}>
+      {items.map((item, i) => (
+        <VStack key={i} height="320px" p="16px" spacing="16px">
+          <Box w="100%" minH="144px" maxH="144px" position="relative">
+            <Image src={item.image_url} layout="fill" objectFit="contain" />
+          </Box>
 
-        <QuantityInput num={item.select} balance={10} handleClickMinus={() => minus(i)} handleClickPlus={() => plus(i)} />
-      </VStack>
-    ))}
-  </SimpleGrid>
-);
+          <Text textStyle="headline-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+            {item.name}
+          </Text>
+          <HStack>
+            <Image src="/icons/eth.svg" width="16px" height="16px" />
+            <Text textStyle="label-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+              {item.price}
+            </Text>
+          </HStack>
+
+          <QuantityInput num={item.select} balance={10} handleClickMinus={() => minus(i)} handleClickPlus={() => plus(i)} />
+        </VStack>
+      ))}
+    </SimpleGrid>
+  );
+};
 
 const Shop: FC<{
   isOpen: boolean;

@@ -46,11 +46,7 @@ export default class TileManager {
   }
 
   getUUIDFromTilemap(x: number, y: number) {
-    if (isValidTile(x, y)) {
-      return this.tileMap[x][y];
-    } else {
-      return "";
-    }
+    return isValidTile(x, y) ? this.tileMap[x][y] : "";
   }
 
   getTilemap() {
