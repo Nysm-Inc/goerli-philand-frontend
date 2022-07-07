@@ -20,6 +20,7 @@ import {
   ModalHeader,
   Button,
   ENSNotFound,
+  Help,
 } from "~/ui/components";
 import { useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
@@ -185,6 +186,7 @@ const Index: NextPage = () => {
         onChange={(id: string, link: PhiLink) => onChangeLink(id, { title: link.title, url: link.url })}
       />
       <Header />
+      <Help />
 
       {initialized ? (
         <MenuBar

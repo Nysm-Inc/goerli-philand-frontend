@@ -15,6 +15,7 @@ import { Modal, ModalBody, ModalHeader, ModalFooter, ModalFooterButton } from ".
 import IconButton from "./IconButton";
 import Tab from "./Tab";
 import ENSNotFound from "./ENSNotFound";
+import Help from "./Help";
 
 export {
   ActionMenu,
@@ -25,6 +26,7 @@ export {
   StatusTx,
   Head,
   Header,
+  Help,
   LinkMenu,
   useLinkMenu,
   MenuList,

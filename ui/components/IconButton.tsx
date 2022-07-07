@@ -1,5 +1,5 @@
 import { FC, useContext } from "react";
-import { Center, IconButton as ChakraIconButton } from "@chakra-ui/react";
+import { Center, forwardRef, IconButton as ChakraIconButton } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 
 const IconButton: FC<{
@@ -10,7 +10,7 @@ const IconButton: FC<{
   boxShadow?: boolean;
   flipColor?: boolean;
   onClick: () => void;
-}> = ({ ariaLabel, icon, size = 48, boxShadow = true, outline = true, flipColor, onClick }) => {
+}> = forwardRef(({ ariaLabel, icon, size = 48, boxShadow = true, outline = true, flipColor, onClick }, ref) => {
   const { colorMode } = useContext(AppContext);
   const _colorMode = colorMode === (flipColor ? "dark" : "light");
 
@@ -28,6 +28,7 @@ const IconButton: FC<{
       borderRadius="12px"
       boxShadow={boxShadow ? "-2px 4px 8px rgba(13, 13, 13, 0.1)" : ""}
       //
+      ref={ref}
       aria-label={ariaLabel}
       onClick={onClick}
       //
@@ -48,6 +49,6 @@ const IconButton: FC<{
       <Center>{icon}</Center>
     </ChakraIconButton>
   );
-};
+});
 
 export default IconButton;

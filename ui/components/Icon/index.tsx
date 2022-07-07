@@ -5,6 +5,7 @@ import Check from "./Check";
 import Close from "./Close";
 import Dropdown from "./Dropdown";
 import Edit from "./Edit";
+import Help from "./Help";
 import Link from "./Link";
 import Minus from "./Minus";
 import Moon from "./Moon";
@@ -25,6 +26,7 @@ const icons = {
   close: Close,
   dropdown: Dropdown,
   edit: Edit,
+  help: Help,
   link: Link,
   minus: Minus,
   moon: Moon,

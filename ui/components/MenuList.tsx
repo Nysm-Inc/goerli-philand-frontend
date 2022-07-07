@@ -48,7 +48,6 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
                 else if (onClick) onClick(item.value);
               }}
               //
-              textColor={colorMode === "light" ? "#1A1A1A" : "white"}
               bgColor={colorMode === "light" ? "white" : "#1A1A1A"}
               _hover={{
                 bgColor: colorMode === "light" ? "#F5F2EB" : "#333333",
@@ -60,7 +59,14 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
                 bgColor: colorMode === "light" ? "white" : "#333333",
               }}
             >
-              <Text w="calc(100% - 16px)" whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis">
+              <Text
+                textStyle="button-2"
+                textColor={colorMode === "light" ? "#1A1A1A" : "white"}
+                w="calc(100% - 16px)"
+                whiteSpace="nowrap"
+                overflow="hidden"
+                textOverflow="ellipsis"
+              >
                 {item.label}
               </Text>
               <Box w="8px" />
