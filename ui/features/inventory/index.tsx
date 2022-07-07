@@ -111,9 +111,9 @@ const Inventory: FC<{
         ]}
       />
       <ModalBody>
-        <SimpleGrid columns={2}>
+        <SimpleGrid columns={2} spacing="8px">
           {objects.map((object, i) => (
-            <VStack key={i} height="320px" p="16px">
+            <VStack key={i} height="320px" p="16px" borderRadius="16px" bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
               <Box
                 position="relative"
                 w="100%"

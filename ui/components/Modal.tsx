@@ -62,7 +62,7 @@ const ModalHeader: FC<{ title?: string; buttons: JSX.Element[] }> = ({ title, bu
 const ModalBody: FC<{ children: ReactNode }> = ({ children }) => {
   const { colorMode } = useContext(AppContext);
   return (
-    <ChakraModalBody bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"} borderRadius="16px">
+    <ChakraModalBody borderRadius="16px" p="0px" bgColor={colorMode === "light" ? "#FBF9F5" : "#0D0D0D"}>
       {children}
     </ChakraModalBody>
   );

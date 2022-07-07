@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, Center, LayoutProps, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { Box, Center, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList } from "~/types/object";
 import { ClaimableList } from "~/types/quest";
@@ -55,12 +55,19 @@ const Quest: FC<{
         {selected ? (
           <></>
         ) : (
-          <SimpleGrid columns={3}>
+          <SimpleGrid columns={3} spacing="8px">
             {Object.values(objectMetadataList[PHI_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
               const claimable = Boolean(claimableList.find((v) => v.TokenId === metadata.tokenId.toString()));
               const claimed = claimedList.length > 0 && claimedList[metadata.tokenId - 1];
               return (
-                <VStack key={i} height="320px" p="16px" align="flex-start">
+                <VStack
+                  key={i}
+                  height="320px"
+                  p="16px"
+                  align="flex-start"
+                  borderRadius="16px"
+                  bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}
+                >
                   <Box w="100%" minH="144px" maxH="144px" position="relative" {...(!claimable && { opacity: 0.5 })}>
                     <Image src={metadata.image_url} layout="fill" objectFit="contain" />
                   </Box>

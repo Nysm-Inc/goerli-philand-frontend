@@ -136,9 +136,9 @@ const Collection: FC<{
             ]}
           />
           <ModalBody>
-            <SimpleGrid columns={3}>
+            <SimpleGrid columns={3} spacing="8px">
               {items.map((item, i) => (
-                <VStack key={i} height="320px" p="16px">
+                <VStack key={i} height="320px" p="16px" borderRadius="16px" bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
                   <Box w="100%" minH="144px" maxH="144px" position="relative">
                     <Image src={objectMetadataList[item.contract][item.tokenId].image_url} layout="fill" objectFit="contain" />
                   </Box>
