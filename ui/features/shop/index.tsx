@@ -1,10 +1,21 @@
 import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, HStack, SimpleGrid, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
+import { Box, HStack, SimpleGrid, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList } from "~/types/object";
-import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, ModalFooterButton, QuantityInput, Tab } from "~/ui/components";
+import {
+  Icon,
+  IconButton,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalFooterButton,
+  QuantityInput,
+  Tab,
+  TabList,
+} from "~/ui/components";
 import { AppContext } from "~/contexts";
 import { ShopItemContractAddress } from "~/types";
 
@@ -111,7 +122,7 @@ const Shop: FC<{
             />,
           ]}
         />
-        <TabList justifyContent="center" gap="16px" mb="24px">
+        <TabList>
           <Tab text="Free" />
           <Tab text="Premium" />
           <Tab text="Wallpaper" />

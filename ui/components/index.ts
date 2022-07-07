@@ -13,7 +13,7 @@ import Wallet from "./Wallet";
 import Icon from "./Icon";
 import { Modal, ModalBody, ModalHeader, ModalFooter, ModalFooterButton } from "./Modal";
 import IconButton from "./IconButton";
-import Tab from "./Tab";
+import { Tab, TabList } from "./Tab";
 import ENSNotFound from "./ENSNotFound";
 import Help from "./Help";
 
@@ -42,5 +42,6 @@ export {
   Icon,
   IconButton,
   Tab,
+  TabList,
   ModalFooterButton,
 };
