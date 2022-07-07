@@ -51,9 +51,9 @@ const Button: FC<{
           }
         : {
             textColor: colorMode === "light" ? "#1A1A1A" : "white",
-            bgColor: colorMode === "light" ? "white" : "#333333",
+            bgColor: colorMode === "light" ? "white" : "#1A1A1A",
             border: colorMode === "light" ? "1px solid" : "none",
-            borderColor: colorMode === "light" ? "#CECCC9" : "none",
+            borderColor: colorMode === "light" ? "#CECCC9" : "#333333",
             _hover: {
               "&:not([disabled])": {
                 bgColor: colorMode === "light" ? "#F5F2EB" : "#333333",
@@ -64,7 +64,11 @@ const Button: FC<{
               bgColor: colorMode === "light" ? "white" : "#333333",
               borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
             },
-            // _disabled: {},
+            _disabled: {
+              bgColor: "#F5F2EB",
+              borderColor: "#CECCC9",
+              cursor: "not-allowed",
+            },
             _focus: { outline: "none" },
           })}
     >

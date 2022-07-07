@@ -19,7 +19,11 @@ const Search = () => {
         placeholder="visit other lands"
         value={searchText}
         leftIcon={<Icon name="search" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
-        rightIcon={<Text>.eth</Text>}
+        rightIcon={
+          <Text textStyle="label-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+            .ETH
+          </Text>
+        }
         onChange={(e) => setSearchText(e.target.value)}
       />
     </form>

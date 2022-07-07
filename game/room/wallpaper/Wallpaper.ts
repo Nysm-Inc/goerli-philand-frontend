@@ -21,8 +21,8 @@ export default class Wallpaper {
     this.container.addChild(this.sprite);
   }
 
-  get(): TWallpaper {
-    return { contractAddress: this.contract, tokenId: this.tokenId };
+  get(): TWallpaper | undefined {
+    return this.tokenId ? { contractAddress: this.contract, tokenId: this.tokenId } : undefined;
   }
 
   update(tokenId: number) {

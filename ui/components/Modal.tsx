@@ -76,7 +76,15 @@ const ModalFooterButton: FC<{ text: string; buttonText: string; onClick: () => v
   const { colorMode } = useContext(AppContext);
 
   return (
-    <Flex w="730px" h="64px" p="12px 16px 12px 24px" bgColor="#1A1A1A" borderRadius="16px" justify="space-between" align="center">
+    <Flex
+      w="730px"
+      h="64px"
+      p="12px 16px 12px 24px"
+      borderRadius="16px"
+      justify="space-between"
+      align="center"
+      bgColor={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}
+    >
       <Text textStyle="headline-2" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
         {text}
       </Text>

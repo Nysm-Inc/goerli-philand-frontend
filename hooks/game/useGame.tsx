@@ -6,6 +6,7 @@ import useHandler, { UIHandlerProps, Handler } from "./useHandler";
 
 type UseGame = {
   state: {
+    currentENS: string;
     isEdit: boolean;
     isCreatedPhiland: boolean;
     phiObjects: (PhiObject & { removeIdx: number })[];
@@ -39,7 +40,7 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { initialized: b
     } else {
       game.room.leaveRoom();
     }
-  }, [state.isCreatedPhiland, loadedGame]);
+  }, [state.currentENS, state.isCreatedPhiland, loadedGame]);
 
   useEffect(() => {
     if (!loadedGame) return;
@@ -48,14 +49,14 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { initialized: b
       game.room.roomItemManager.loadItems(state.phiObjects);
     }
     setInitialized(true);
-  }, [state.phiObjects.length, loadedGame, state.isEdit]);
+  }, [state.currentENS, state.phiObjects.length, loadedGame, state.isEdit]);
 
   useEffect(() => {
     if (!loadedGame) return;
-    if (!state.wallpaper) return;
+    if (!state.isCreatedPhiland) return;
 
-    game.room.wallpaper.update(state.wallpaper.tokenId);
-  }, [state.wallpaper?.tokenId, loadedGame]);
+    game.room.wallpaper.update(state.wallpaper?.tokenId || 0);
+  }, [state.currentENS, state.wallpaper?.tokenId, loadedGame]);
 
   useEffect(() => {
     game.engine.changeColorMode(colorMode);

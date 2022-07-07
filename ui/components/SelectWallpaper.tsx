@@ -19,6 +19,7 @@ const SelectWallpaper: FC<{
   return (
     <SelectBox
       w="136px"
+      menuW="160px"
       options={[
         ...wallpapers.map((wallpaper) => ({
           label: objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][wallpaper.tokenId].name,

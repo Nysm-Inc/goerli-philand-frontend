@@ -2,7 +2,7 @@ import { useContractRead } from "wagmi";
 import { BigNumber } from "ethers";
 import { MapAbi } from "~/abi";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
-import { PhiObject } from "~/types";
+import { nullAddress, PhiObject } from "~/types";
 
 const useViewPhiland = (ens?: string | null, disabled?: boolean): { owner: string; phiObjects: (PhiObject & { removeIdx: number })[] } => {
   const { data: objects } = useContractRead({
@@ -32,7 +32,7 @@ const useViewPhiland = (ens?: string | null, disabled?: boolean): { owner: strin
 
   return {
     // @ts-ignore
-    owner: owner || "",
+    owner: owner || nullAddress,
     phiObjects:
       objects && links
         ? objects.reduce((memo, object, idx) => {

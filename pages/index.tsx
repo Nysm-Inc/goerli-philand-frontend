@@ -22,7 +22,7 @@ import {
   ENSNotFound,
   Help,
 } from "~/ui/components";
-import { useCreatePhiland } from "~/hooks/registry";
+import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
 import { useCheckWallpaper, useDeposit, useSave, useViewPhiland } from "~/hooks/map";
 import { useApprove, useBalances } from "~/hooks/object";
@@ -37,7 +37,7 @@ import {
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
-import { PhiLink } from "~/types";
+import { nullAddress, PhiLink } from "~/types";
 
 const Index: NextPage = () => {
   const { chain } = useNetwork();
@@ -55,8 +55,9 @@ const Index: NextPage = () => {
 
   const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens, chain?.id);
   const [isCreated, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(currentENS);
+  const { changePhilandOwner, tx: txChangePhilandOwner } = useChangePhilandOwner(currentENS);
   const { owner, phiObjects } = useViewPhiland(currentENS);
-  const isCreatedPhiland = isCreated || phiObjects.length > 0;
+  const isCreatedPhiland = owner === address && (isCreated || phiObjects.length > 0);
   const [wallpaper, { withdrawWallpaper, tx: txWithdrawWallpaper }] = useCheckWallpaper(currentENS);
   const [isAprvPhi, { approve: aprvPhi, tx: txAprvPhi }] = useApprove(PHI_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvFree, { approve: aprvFree, tx: txAprvFree }] = useApprove(FREE_OBJECT_CONTRACT_ADDRESS, address);
@@ -79,7 +80,7 @@ const Index: NextPage = () => {
     initialized,
     handler: { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onChangeLink, onChangeWallpaper, onSave },
   } = useGame({
-    state: { isEdit, isCreatedPhiland, phiObjects, wallpaper },
+    state: { currentENS, isEdit, isCreatedPhiland, phiObjects, wallpaper },
     uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
     gameUIHandler: { onOpenActionMenu, onChangeLinkMenu: changeLink },
   });
@@ -89,6 +90,7 @@ const Index: NextPage = () => {
       <ConfirmTx
         txs={[
           txCreatePhiland,
+          txChangePhilandOwner,
           txAprvPhi,
           txAprvFree,
           txAprvPre,
@@ -106,6 +108,7 @@ const Index: NextPage = () => {
       <StatusTx
         txs={[
           txCreatePhiland,
+          txChangePhilandOwner,
           txAprvPhi,
           txAprvFree,
           txAprvPre,
@@ -229,9 +232,14 @@ const Index: NextPage = () => {
                   selected={{ label: currentENS, value: currentENS }}
                   handleChange={switchCurrentENS}
                 />
-                <Button w="360px" color="purple" onClick={createPhiland} disabled={isCreatedPhiland}>
+                <Button
+                  w="360px"
+                  color="purple"
+                  onClick={owner === nullAddress ? createPhiland : changePhilandOwner}
+                  disabled={isCreatedPhiland}
+                >
                   <Text color="white" textStyle="button-1">
-                    {owner === address ? "CREATE LAND" : "CHANGE OWNER"}
+                    {owner === nullAddress ? "CREATE LAND" : "CHANGE OWNER"}
                   </Text>
                 </Button>
               </VStack>

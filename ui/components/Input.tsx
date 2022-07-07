@@ -40,6 +40,7 @@ const Input: FC<{
       <ChakraInput
         //
         variant="unstyled"
+        textStyle="label-1"
         _placeholder={{ color: "#808080" }}
         //
         pl={leftIcon ? "48px" : "12px"}
@@ -49,7 +50,7 @@ const Input: FC<{
         onChange={onChange}
       />
       {rightIcon && (
-        <InputRightElement inlineSize="48px" h="100%">
+        <InputRightElement inlineSize="48px" h="100%" pr="16px">
           {rightIcon}
         </InputRightElement>
       )}

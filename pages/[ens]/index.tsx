@@ -22,10 +22,10 @@ const Index: NextPage = () => {
   const ens = decodeURI(router.asPath).substring(1);
 
   const [isCreated] = useCreatePhiland(ens);
-  const phiObjects = useViewPhiland(ens);
+  const { phiObjects } = useViewPhiland(ens);
   const [wallpaper] = useCheckWallpaper(ens);
 
-  useGame({ state: { isEdit: false, isCreatedPhiland: isCreated, phiObjects, wallpaper } });
+  useGame({ state: { currentENS: ens, isEdit: false, isCreatedPhiland: isCreated, phiObjects, wallpaper } });
 
   return <></>;
 };

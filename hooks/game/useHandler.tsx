@@ -92,9 +92,9 @@ const useHandler = ({
         writeArgs,
         linkArgs,
         wallpaperArgs: {
-          change_wall_check: prevWallpaper?.tokenId !== newWallpaper.tokenId,
+          change_wall_check: prevWallpaper?.tokenId !== newWallpaper?.tokenId,
           contractAddress: WALLPAPER_CONTRACT_ADDRESS,
-          tokenId: newWallpaper.tokenId,
+          tokenId: newWallpaper?.tokenId || 0,
         },
       });
     }

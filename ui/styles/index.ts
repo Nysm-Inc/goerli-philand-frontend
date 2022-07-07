@@ -33,6 +33,7 @@ export const themeColors = {
     250: "#FF6666",
     150: "#FF8080",
   },
+  // todo
   grey: {
     350: "#1A1A1A",
     250: "#808080",
@@ -67,7 +68,7 @@ export const themeFonts = {
     fontSize: "32px",
     lineHeight: "48px",
     textShadow: "-2px 4px 8px rgba(13, 13, 13, 0.1)",
-    WebkitTextStroke: "1px #1A1A1A",
+    WebkitTextStroke: "1.5px #1A1A1A",
   },
   "headline-1": {
     fontFamily: "JetBrainsMono",
@@ -122,8 +123,10 @@ export const themeFonts = {
     WebkitTextStroke: "1px #1A1A1A",
   },
   "button-2": {
-    fontSize: "14px",
+    fontFamily: "JetBrainsMono",
     fontWeight: 500,
+    fontSize: "14px",
+    lineHeight: "16px",
     letterSpacing: "-0.02em",
   },
   "label-1": {

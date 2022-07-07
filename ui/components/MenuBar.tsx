@@ -63,6 +63,7 @@ const MenuBar: FC<{
         ) : (
           <SelectBox
             w="136px"
+            menuW="160px"
             options={domains.map((domain) => ({ label: domain, value: domain }))}
             selected={{ label: currentENS, value: currentENS }}
             handleChange={actionHandler.onSwitchCurrentENS}

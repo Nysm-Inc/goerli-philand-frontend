@@ -13,22 +13,27 @@ import {
 } from "~/constants";
 import { AppContext } from "~/contexts";
 
-const ApproveButton: FC<{ text: string; isApproved: boolean; onApprove: () => void }> = ({ text, isApproved, onApprove }) => (
-  <Flex w="full" h="72px" p="16px" align="center" justify="space-between">
-    <Text>{text}</Text>
-    <Button
-      w={isApproved ? "183px" : "140px"}
-      color={isApproved ? undefined : "purple"}
-      onClick={onApprove}
-      disabled={isApproved}
-      leftIcon={isApproved ? <Icon name="check" /> : undefined}
-    >
-      <Text color="white" textStyle="button-1">
-        {isApproved ? "Approved" : "Approve"}
+const ApproveButton: FC<{ text: string; isApproved: boolean; onApprove: () => void }> = ({ text, isApproved, onApprove }) => {
+  const { colorMode } = useContext(AppContext);
+  return (
+    <Flex w="full" h="72px" p="16px" align="center" justify="space-between">
+      <Text textStyle="headline-2" color={isApproved ? "#808080" : colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+        {text}
       </Text>
-    </Button>
-  </Flex>
-);
+      <Button
+        w={isApproved ? "183px" : "140px"}
+        color={isApproved ? undefined : "purple"}
+        onClick={onApprove}
+        disabled={isApproved}
+        leftIcon={isApproved ? <Icon name="check" /> : undefined}
+      >
+        <Text color="white" textStyle="button-1">
+          {isApproved ? "Approved" : "Approve"}
+        </Text>
+      </Button>
+    </Flex>
+  );
+};
 
 type CollectionObject = BalanceObject & { select: number };
 
@@ -76,7 +81,7 @@ const Collection: FC<{
   return (
     <Modal
       w={isOpenApprove ? "528px" : "858px"}
-      h={isOpenApprove ? "428px" : "700px"}
+      h={isOpenApprove ? "436px" : "700px"}
       isOpen={isOpen}
       onClose={() => {}}
       onCloseComplete={reset}
@@ -158,7 +163,7 @@ const Collection: FC<{
                           handleClickPlus={() => plus(i)}
                         />
                       ) : (
-                        <Text cursor="pointer" onClick={onOpenApprove}>
+                        <Text textStyle="label-1" color="#8080FF" cursor="pointer" onClick={onOpenApprove}>
                           + Deposit
                         </Text>
                       )}

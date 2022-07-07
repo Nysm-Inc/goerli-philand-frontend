@@ -113,7 +113,14 @@ const Inventory: FC<{
       <ModalBody>
         <SimpleGrid columns={2} spacing="8px">
           {objects.map((object, i) => (
-            <VStack key={i} height="320px" p="16px" borderRadius="16px" bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+            <VStack
+              key={i}
+              align="flex-start"
+              height="320px"
+              p="16px"
+              borderRadius="16px"
+              bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}
+            >
               <Box
                 position="relative"
                 w="100%"
@@ -139,7 +146,7 @@ const Inventory: FC<{
               <Text textStyle="label-2" color="#808080">
                 OWNED {object.amount - object.used}
               </Text>
-              <Text textStyle="headline-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+              <Text h="40px" textStyle="headline-3" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
                 {objectMetadataList[object.contractAddress][object.tokenId].name}
               </Text>
               {!isEdit && !object.writed && (
