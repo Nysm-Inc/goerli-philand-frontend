@@ -9,6 +9,7 @@ import { BalanceObject, Wallpaper } from "~/types";
 import SelectWallpaper from "./SelectWallpaper";
 
 const MenuBar: FC<{
+  initialized: boolean;
   isEdit: boolean;
   isOpen: {
     quest: boolean;
@@ -32,7 +33,7 @@ const MenuBar: FC<{
     onSave: () => void;
     onWithdrawWallpaper: () => Promise<any>;
   };
-}> = ({ isEdit, isOpen, currentENS, domains, currentWallpaper, wallpapers, actionHandler }) => {
+}> = ({ initialized, isEdit, isOpen, currentENS, domains, currentWallpaper, wallpapers, actionHandler }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -147,7 +148,7 @@ const MenuBar: FC<{
           </>
         )}
         {!isEdit && (
-          <Button w="88px" color="purple" leftIcon={<Icon name="edit" />} onClick={actionHandler.onEdit}>
+          <Button w="88px" color="purple" leftIcon={<Icon name="edit" />} onClick={actionHandler.onEdit} disabled={!initialized}>
             EDIT
           </Button>
         )}

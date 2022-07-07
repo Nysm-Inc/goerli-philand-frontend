@@ -188,8 +188,9 @@ const Index: NextPage = () => {
       <Header />
       <Help />
 
-      {initialized ? (
+      {isCreatedPhiland ? (
         <MenuBar
+          initialized={initialized}
           isEdit={isEdit}
           currentENS={currentENS}
           domains={domains}
