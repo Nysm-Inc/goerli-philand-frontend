@@ -54,7 +54,7 @@ const Index: NextPage = () => {
 
   const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens, chain?.id);
   const [isCreated, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(currentENS);
-  const phiObjects = useViewPhiland(currentENS);
+  const { owner, phiObjects } = useViewPhiland(currentENS);
   const isCreatedPhiland = isCreated || phiObjects.length > 0;
   const [wallpaper, { withdrawWallpaper, tx: txWithdrawWallpaper }] = useCheckWallpaper(currentENS);
   const [isAprvPhi, { approve: aprvPhi, tx: txAprvPhi }] = useApprove(PHI_OBJECT_CONTRACT_ADDRESS, address);
@@ -228,7 +228,7 @@ const Index: NextPage = () => {
                 />
                 <Button w="360px" color="purple" onClick={createPhiland} disabled={isCreatedPhiland}>
                   <Text color="white" textStyle="button-1">
-                    CREATE LAND
+                    {owner === address ? "CREATE LAND" : "CHANGE OWNER"}
                   </Text>
                 </Button>
               </VStack>
