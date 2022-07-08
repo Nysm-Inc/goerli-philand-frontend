@@ -110,7 +110,7 @@ export default class Room {
       movingItem.updateContainerPlacement(local.x, local.y);
     }
     {
-      const collision = this.movingItemManager.checkCollision(movingItem.getUUID(), tile.x, tile.y, sizeX, sizeY);
+      const collision = this.movingItemManager.checkCollision({ x: tile.x, y: tile.y }, { uuid: movingItem.getUUID(), sizeX, sizeY });
       this.tileManager.updateCollisionTiles(collision);
     }
     {

@@ -73,15 +73,22 @@ export default class MovingItemManager {
     return this.item;
   }
 
-  checkCollision(uuid: string, tileX: number, tileY: number, sizeX: number, sizeY: number): Tile[] {
+  checkCollision(tile: { x: number; y: number }, movingItem: { uuid: string; sizeX: number; sizeY: number }): Tile[] {
     const { room } = GameInstance.get();
 
     const collisionTiles: Tile[] = [];
-    for (let x = tileX; x <= tileX + sizeX - 1; x++) {
-      for (let y = tileY; y <= tileY + sizeY - 1; y++) {
-        const prevUUID = room.tileManager.getUUIDFromTilemap(x, y);
-        if (prevUUID && prevUUID !== uuid) {
-          collisionTiles.push({ x, y });
+    for (let x = tile.x; x <= tile.x + movingItem.sizeX - 1; x++) {
+      for (let y = tile.y; y <= tile.y + movingItem.sizeY - 1; y++) {
+        const uuid = room.tileManager.getUUIDFromTilemap(x, y);
+        if (uuid && uuid !== movingItem.uuid) {
+          const item = room.roomItemManager.getItems()[uuid];
+          const [tileX, tileY] = item.getTile();
+          const [sizeX, sizeY] = item.getSize();
+          for (let x = tileX; x <= tileX + sizeX - 1; x++) {
+            for (let y = tileY; y <= tileY + sizeY - 1; y++) {
+              collisionTiles.push({ x, y });
+            }
+          }
         }
       }
     }
@@ -93,7 +100,7 @@ export default class MovingItemManager {
     const [sizeX, sizeY] = this.item.getSize();
     if (sizeX + tileX > ROOM_TILE_N) return;
     if (sizeY + tileY > ROOM_TILE_N) return;
-    if (this.checkCollision(this.item.getUUID(), tileX, tileY, sizeX, sizeY).length > 0) return;
+    if (this.checkCollision({ x: tileX, y: tileY }, { uuid: this.item.getUUID(), sizeX, sizeY }).length > 0) return;
 
     const { room } = GameInstance.get();
     if (this.item instanceof RoomItem) {
