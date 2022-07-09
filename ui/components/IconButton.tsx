@@ -6,11 +6,12 @@ const IconButton: FC<{
   ariaLabel: string;
   icon: JSX.Element;
   size?: 32 | 48;
+  borderRadius?: 8 | 12;
   outline?: boolean;
   boxShadow?: boolean;
   flipColor?: boolean;
   onClick: () => void;
-}> = forwardRef(({ ariaLabel, icon, size = 48, boxShadow = true, outline = true, flipColor, onClick }, ref) => {
+}> = forwardRef(({ ariaLabel, icon, size = 48, borderRadius = 12, boxShadow = true, outline = true, flipColor, onClick }, ref) => {
   const { colorMode } = useContext(AppContext);
   const _colorMode = colorMode === (flipColor ? "dark" : "light");
 
@@ -25,7 +26,7 @@ const IconButton: FC<{
       minH={`${size}px`}
       maxW={`${size}px`}
       maxH={`${size}px`}
-      borderRadius="12px"
+      borderRadius={`${borderRadius}px`}
       boxShadow={boxShadow ? "-2px 4px 8px rgba(13, 13, 13, 0.1)" : ""}
       //
       ref={ref}

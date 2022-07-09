@@ -118,6 +118,8 @@ const Shop: FC<{
               ariaLabel="close"
               icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
               size={32}
+              borderRadius={8}
+              boxShadow={false}
               onClick={onClose}
             />,
           ]}

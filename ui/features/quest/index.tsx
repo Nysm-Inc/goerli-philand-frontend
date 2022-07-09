@@ -2,7 +2,7 @@ import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
 import axios from "axios";
-import { Box, Center, HStack, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { Box, Center, Flex, HStack, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList, ObjectTraits } from "~/types/object";
 import { ClaimableList } from "~/types/quest";
@@ -20,10 +20,8 @@ const getTraits = () => {
 };
 getTraits();
 
-// todo: Label.tsx ?
 const EXP: FC<{ exp: number }> = ({ exp }) => {
   const { colorMode } = useContext(AppContext);
-
   return (
     <Center display="inline-block" p="2px 4px" h="20px" borderRadius="4px" bgColor={colorMode === "light" ? "#292929" : "#CCCCCC"}>
       <Text textStyle="label-2" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>{`EXP:${exp}`}</Text>
@@ -44,6 +42,30 @@ const Network: FC<{ tokenId: number }> = ({ tokenId }) => {
   );
 };
 
+const ClaimButton: FC<{ claimable: boolean; claimed: boolean; onClick: () => void }> = ({ claimable, claimed, onClick }) => (
+  <>
+    {claimable && !claimed ? (
+      <Button w="full" color="purple" onClick={onClick}>
+        <Text color="white" textStyle="button-1">
+          Claim
+        </Text>
+      </Button>
+    ) : (
+      <>
+        {claimed ? (
+          <Button w="full" leftIcon={<Icon name="check" />}>
+            <Text color="white" textStyle="button-1">
+              Claimed
+            </Text>
+          </Button>
+        ) : (
+          <Button w="full" disabled />
+        )}
+      </>
+    )}
+  </>
+);
+
 const Quest: FC<{
   claimableList: ClaimableList;
   claimedList: boolean[];
@@ -52,33 +74,109 @@ const Quest: FC<{
   onClickItem: (tokenId: number) => Promise<TransactionResponse | undefined>;
   onClickUpdate: () => Promise<void>;
 }> = ({ claimableList, claimedList, isOpen, onClose, onClickItem, onClickUpdate }) => {
-  const [selected, setSelected] = useState<ObjectMetadata | undefined>(undefined);
+  const [selected, setSelected] = useState<(ObjectMetadata & { claimable: boolean; claimed: boolean }) | undefined>(undefined);
   const { colorMode } = useContext(AppContext);
 
   return (
     <Modal w="858px" h="700px" isOpen={isOpen} onClose={() => {}}>
       <ModalHeader
         title="QUEST"
-        buttons={[
-          <IconButton
-            key="refresh"
-            ariaLabel="refresh"
-            icon={<Icon name="refresh" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
-            size={32}
-            onClick={onClickUpdate}
-          />,
-          <IconButton
-            key="close"
-            ariaLabel="close"
-            icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
-            size={32}
-            onClick={onClose}
-          />,
-        ]}
+        buttons={
+          selected
+            ? [
+                <IconButton
+                  key="back"
+                  ariaLabel="back"
+                  icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} transform="rotate(180)" />}
+                  size={32}
+                  borderRadius={8}
+                  boxShadow={false}
+                  onClick={() => setSelected(undefined)}
+                />,
+              ]
+            : [
+                <IconButton
+                  key="refresh"
+                  ariaLabel="refresh"
+                  icon={<Icon name="refresh" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+                  size={32}
+                  borderRadius={8}
+                  boxShadow={false}
+                  onClick={onClickUpdate}
+                />,
+                <IconButton
+                  key="close"
+                  ariaLabel="close"
+                  icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+                  size={32}
+                  borderRadius={8}
+                  boxShadow={false}
+                  onClick={onClose}
+                />,
+              ]
+        }
       />
       <ModalBody>
         {selected ? (
-          <></>
+          <VStack p="32px 27px" spacing="32px" bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+            <HStack spacing="32px" w="730px" h="293px">
+              <Center w="294px" h="294px" borderRadius="8px" border="1px solid" borderColor={colorMode === "light" ? "#CECCC9" : "#333333"}>
+                <Box minW="144px" maxW="144px" minH="144px" maxH="144px" position="relative">
+                  <Image src={selected.image_url} layout="fill" objectFit="contain" />
+                </Box>
+              </Center>
+              <VStack w="404px" h="100%" spacing="24px" align="flex-start">
+                <Text textStyle="headline-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                  {selected.name}
+                </Text>
+                <VStack spacing="10px" align="flex-start">
+                  <HStack spacing="4px">
+                    <Image src="/icons/eth.svg" width="24px" height="24px" />
+                    <Text textStyle="label-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                      {selected.EXP} EXP
+                    </Text>
+                  </HStack>
+                  <HStack>
+                    <Image src="/icons/eth.svg" width="24px" height="24px" />
+                    <Text textStyle="label-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                      XXX Claimed
+                    </Text>
+                  </HStack>
+                  <HStack>
+                    <Image src="/icons/eth.svg" width="24px" height="24px" />
+                    <Text textStyle="label-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                      April XX, 2022 - Sep XX 2022
+                    </Text>
+                  </HStack>
+                </VStack>
+                <Box w="134px">
+                  <ClaimButton claimable={selected.claimable} claimed={selected.claimed} onClick={() => onClickItem(selected.tokenId)} />
+                </Box>
+              </VStack>
+            </HStack>
+            <Text w="720px" h="40px" textStyle="paragraph-2" color={colorMode === "light" ? "#808080" : "#CCCCCC"}>
+              {traits[selected.tokenId]?.description}
+            </Text>
+            <VStack spacing="2px">
+              <Flex
+                p="12px 16px"
+                gap="16px"
+                w="730px"
+                h="56px"
+                borderRadius="12px 12px 0 0"
+                bgColor={colorMode === "light" ? "#F5F2EB" : "#292929"}
+              />
+              <Flex p="12px 16px" gap="16px" w="730px" h="56px" bgColor={colorMode === "light" ? "#F5F2EB" : "#292929"} />
+              <Flex
+                p="12px 16px"
+                gap="16px"
+                w="730px"
+                h="56px"
+                borderRadius="0 0 12px 12px"
+                bgColor={colorMode === "light" ? "#F5F2EB" : "#292929"}
+              />
+            </VStack>
+          </VStack>
         ) : (
           <SimpleGrid columns={3} spacing="8px">
             {Object.values(objectMetadataList[PHI_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
@@ -93,37 +191,25 @@ const Quest: FC<{
                   borderRadius="16px"
                   bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}
                 >
-                  <Box w="100%" minH="144px" maxH="144px" position="relative" {...(!claimable && { opacity: 0.5 })}>
+                  <Box
+                    w="100%"
+                    minH="144px"
+                    maxH="144px"
+                    position="relative"
+                    cursor="pointer"
+                    {...(!claimable && { opacity: 0.5 })}
+                    onClick={() => setSelected({ ...metadata, claimable, claimed })}
+                  >
                     <Image src={metadata.image_url} layout="fill" objectFit="contain" />
                   </Box>
                   <Text textStyle="headline-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
                     {metadata.name}
                   </Text>
-
                   <HStack spacing="8px">
                     <EXP exp={metadata.EXP || 0} />
                     <Network tokenId={metadata.tokenId} />
                   </HStack>
-
-                  {claimable && !claimed ? (
-                    <Button w="full" color="purple" onClick={() => onClickItem(metadata.tokenId)}>
-                      <Text color="white" textStyle="button-1">
-                        Claim
-                      </Text>
-                    </Button>
-                  ) : (
-                    <>
-                      {claimed ? (
-                        <Button w="full" leftIcon={<Icon name="check" />}>
-                          <Text color="white" textStyle="button-1">
-                            Claimed
-                          </Text>
-                        </Button>
-                      ) : (
-                        <Button w="full" disabled />
-                      )}
-                    </>
-                  )}
+                  <ClaimButton claimable={claimable} claimed={claimed} onClick={() => onClickItem(metadata.tokenId)} />
                 </VStack>
               );
             })}

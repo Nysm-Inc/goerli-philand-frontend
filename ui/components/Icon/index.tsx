@@ -1,5 +1,6 @@
 import { FC, SVGProps } from "react";
 import Alert from "./Alert";
+import Arrow from "./Arrow";
 import Arrows from "./Arrows";
 import Check from "./Check";
 import Close from "./Close";
@@ -21,6 +22,7 @@ import Undo from "./Undo";
 
 const icons = {
   alert: Alert,
+  arrow: Arrow,
   arrows: Arrows,
   check: Check,
   close: Close,
