@@ -1,21 +1,46 @@
 import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, Center, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import axios from "axios";
+import { Box, Center, HStack, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
-import { ObjectMetadata, objectMetadataList } from "~/types/object";
+import { ObjectMetadata, objectMetadataList, ObjectTraits } from "~/types/object";
 import { ClaimableList } from "~/types/quest";
 import { Button, IconButton, Modal, ModalBody, ModalHeader, Icon } from "~/ui/components";
 import { AppContext } from "~/contexts";
+
+let traits: { [tokenId: number]: ObjectTraits } = {};
+const getTraits = () => {
+  Promise.all(
+    Object.values(objectMetadataList[PHI_OBJECT_CONTRACT_ADDRESS]).map(async (meta) => {
+      const res = await axios.get<ObjectTraits>(meta.json_url);
+      traits = { ...traits, [meta.tokenId]: res.data };
+    })
+  );
+};
+getTraits();
 
 // todo: Label.tsx ?
 const EXP: FC<{ exp: number }> = ({ exp }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
-    <Center display="inline-block" p="2px 4px" h="20px" borderRadius="4px" bgColor={colorMode === "light" ? "#292929" : "#333333"}>
-      <Text textStyle="label-2" color="#FFFFFF">{`EXP:${exp}`}</Text>
+    <Center display="inline-block" p="2px 4px" h="20px" borderRadius="4px" bgColor={colorMode === "light" ? "#292929" : "#CCCCCC"}>
+      <Text textStyle="label-2" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>{`EXP:${exp}`}</Text>
     </Center>
+  );
+};
+
+const Network: FC<{ tokenId: number }> = ({ tokenId }) => {
+  const { colorMode } = useContext(AppContext);
+  return (
+    <HStack h="24px" p="2px 8px 2px 4px" borderRadius="16px" spacing="4px" bgColor={colorMode === "light" ? "#EEEEEE" : "#333333"}>
+      <Image src="/icons/eth_logo.svg" width="16px" height="16px" />
+      <Text textStyle="label-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+        {/* todo */}
+        {traits[tokenId]?.attributes[0]?.value}
+      </Text>
+    </HStack>
   );
 };
 
@@ -75,7 +100,10 @@ const Quest: FC<{
                     {metadata.name}
                   </Text>
 
-                  <EXP exp={metadata.EXP || 0} />
+                  <HStack spacing="8px">
+                    <EXP exp={metadata.EXP || 0} />
+                    <Network tokenId={metadata.tokenId} />
+                  </HStack>
 
                   {claimable && !claimed ? (
                     <Button w="full" color="purple" onClick={() => onClickItem(metadata.tokenId)}>
