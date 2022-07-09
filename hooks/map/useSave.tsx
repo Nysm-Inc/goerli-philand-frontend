@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
 import { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
@@ -24,6 +24,7 @@ const useSave = (
   ens?: string | null
 ): { save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => Promise<TransactionResponse | undefined>; tx: Tx } => {
   const { game } = useContext(AppContext);
+  const [ogp, setOGP] = useState("");
 
   const {
     data,
@@ -37,16 +38,14 @@ const useSave = (
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
   useEffect(() => {
-    if (status !== "success") return;
-
-    (async () => {
-      const ogp = game.engine.getViewImageDataURL();
-      const res = await updateOGP(ens, ogp);
-
-      if (res.status === 200) {
-        alert("updated OGP");
+    switch (status) {
+      case "loading": {
+        setOGP(game.engine.exportImage());
       }
-    })();
+      case "success": {
+        updateOGP(ens, ogp); // todo
+      }
+    }
   }, [status]);
 
   return {

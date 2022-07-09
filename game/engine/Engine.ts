@@ -141,7 +141,7 @@ export default class Engine {
     }
   }
 
-  getViewImageDataURL() {
+  exportImage() {
     return this.app.view.toDataURL("image/png");
   }
 
