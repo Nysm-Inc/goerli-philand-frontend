@@ -1,7 +1,6 @@
 import { ROOM_TILE_N } from "~/constants";
 import { IObject } from "~/types";
 import GameInstance from "~/game/GameInstance";
-import { Tile } from "~/game/room/tile/types";
 import Item from "~/game/item/Item";
 import { itemToLocal, tileToLocal } from "~/game/room/pos";
 import RoomItem from "./RoomItem";
@@ -73,10 +72,10 @@ export default class MovingItemManager {
     return this.item;
   }
 
-  checkCollision(tile: { x: number; y: number }, movingItem: { uuid: string; sizeX: number; sizeY: number }): Tile[] {
+  checkCollision(tile: { x: number; y: number }, movingItem: { uuid: string; sizeX: number; sizeY: number }): { x: number; y: number }[] {
     const { room } = GameInstance.get();
 
-    const collisionTiles: Tile[] = [];
+    const collisionTiles: { x: number; y: number }[] = [];
     for (let x = tile.x; x <= tile.x + movingItem.sizeX - 1; x++) {
       for (let y = tile.y; y <= tile.y + movingItem.sizeY - 1; y++) {
         const uuid = room.tileManager.getUUIDFromTilemap(x, y);

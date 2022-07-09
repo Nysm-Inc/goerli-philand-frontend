@@ -116,7 +116,7 @@ const Inventory: FC<{
             <VStack
               key={i}
               align="flex-start"
-              height="320px"
+              height="288px"
               p="16px"
               borderRadius="16px"
               bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}

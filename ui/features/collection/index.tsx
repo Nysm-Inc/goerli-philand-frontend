@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useContext, useEffect, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, Flex, SimpleGrid, Text, useDisclosure, VStack } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid, Spacer, Text, useDisclosure, VStack } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
 import { objectMetadataList } from "~/types/object";
 import { Icon, IconButton, Button, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput, ModalFooterButton } from "~/ui/components";
@@ -153,6 +153,7 @@ const Collection: FC<{
                   <Text textStyle="headline-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
                     {objectMetadataList[item.contract][item.tokenId].name}
                   </Text>
+                  <Box h="8px" />
                   {!isEdit && (
                     <>
                       {isApproved[item.contract] ? (

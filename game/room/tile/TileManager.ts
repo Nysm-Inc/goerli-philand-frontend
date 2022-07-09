@@ -2,7 +2,6 @@ import { Container, Sprite, Texture } from "pixi.js";
 import { GAME_APP_HEIGHT, GAME_APP_WIDTH, ROOM_TILE_N } from "~/constants";
 import GameInstance from "~/game/GameInstance";
 import { isValidTile, tileToLocal } from "~/game/room/pos";
-import { Tile } from "./types";
 import { newTile } from "./Tile";
 
 const emptyTilemap = (): string[][] => [...Array(ROOM_TILE_N)].map(() => Array(ROOM_TILE_N).fill(""));
@@ -74,7 +73,7 @@ export default class TileManager {
     this.collisionTiles.visible = false;
   }
 
-  updateCollisionTiles(tiles: Tile[]) {
+  updateCollisionTiles(tiles: { x: number; y: number }[]) {
     this.collisionTiles.removeChildren();
 
     const tmp = new Container();

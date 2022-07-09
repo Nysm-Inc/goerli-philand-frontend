@@ -5,7 +5,6 @@ import GameInstance from "~/game/GameInstance";
 import MovingItemManager from "./item/MovingItemManager";
 import RoomItemManager from "./item/RoomItemManager";
 import TileManager from "./tile/TileManager";
-import { Tile } from "./tile/types";
 import { isValidTile, itemToLocal, tileToLocal } from "./pos";
 import Wallpaper from "./wallpaper/Wallpaper";
 
@@ -134,7 +133,7 @@ export default class Room {
     this.movingItemManager.placeItem(tile.x, tile.y);
   }
 
-  globalToLandTile(globalX: number, globalY: number): Tile | null {
+  globalToLandTile(globalX: number, globalY: number): { x: number; y: number } | null {
     const tile = this.globalToTile(globalX, globalY);
     if (isValidTile(tile.x, tile.y)) {
       return { x: tile.x, y: tile.y };
@@ -142,7 +141,7 @@ export default class Room {
     return null;
   }
 
-  globalToTile(globalX: number, globalY: number): Tile {
+  globalToTile(globalX: number, globalY: number): { x: number; y: number } {
     const offsetX = this.landContainer.x + (LAND_W / 2 - TILE_W / 2);
     const offsetY = this.landContainer.y + LAND_OFFSET_Y;
 
