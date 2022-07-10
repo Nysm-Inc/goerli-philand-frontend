@@ -72,7 +72,7 @@ const Button: FC<{
             _focus: { outline: "none" },
           })}
     >
-      <Flex justify="space-evenly">
+      <Flex justify="space-evenly" align="center">
         <Center>{leftIcon}</Center>
         {children}
         <Center>{rightIcon}</Center>

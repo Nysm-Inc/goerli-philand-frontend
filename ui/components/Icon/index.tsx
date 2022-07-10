@@ -10,6 +10,7 @@ import Help from "./Help";
 import Info from "./Info";
 import InfoActive from "./InfoActive";
 import Link from "./Link";
+import Menu from "./Menu";
 import Minus from "./Minus";
 import Moon from "./Moon";
 import Plus from "./Plus";
@@ -34,6 +35,7 @@ const icons = {
   info: Info,
   infoActive: InfoActive,
   link: Link,
+  menu: Menu,
   minus: Minus,
   moon: Moon,
   plus: Plus,

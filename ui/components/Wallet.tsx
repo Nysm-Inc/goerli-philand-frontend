@@ -2,9 +2,10 @@ import Image from "next/image";
 import { FC } from "react";
 import { useDisconnect } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Box, Menu, MenuButton, Text } from "@chakra-ui/react";
+import { Avatar, Box, Menu, MenuButton, Text } from "@chakra-ui/react";
 import Button from "./Button";
 import MenuList from "./MenuList";
+import Icon from "./Icon";
 
 const showAddress = (address: string) => `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
 
@@ -52,8 +53,15 @@ const Wallet: FC = () => {
                 <Menu matchWidth variant="unstyled" autoSelect={false}>
                   {({ isOpen }) => (
                     <>
-                      <MenuButton as={Button} w="218px">
-                        {account.displayName}
+                      <MenuButton
+                        as={Button}
+                        w="218px"
+                        leftIcon={<Avatar w="32px" h="32px" src={account.ensAvatar || "/icons/sample_avatar.svg"} />}
+                        rightIcon={<Icon name="menu" />}
+                      >
+                        <Text textAlign="left" textStyle="button-2" pl="4px">
+                          {account.displayName}
+                        </Text>
                       </MenuButton>
                       <MenuList
                         w="218px"
