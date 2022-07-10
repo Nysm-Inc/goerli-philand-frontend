@@ -4,4 +4,5 @@ export type Tx = {
   hash?: string;
   status: Status;
   tmpStatus: Status;
+  msg?: string;
 };

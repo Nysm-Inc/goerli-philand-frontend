@@ -1,20 +1,16 @@
 import { FC, useContext, useEffect, useState } from "react";
 import { Box, Center, Flex, HStack, Link, Text, useToast, UseToastOptions } from "@chakra-ui/react";
 import { ETHERSCAN_BLOCK_EXPLORER } from "~/constants";
-import { Status, Tx } from "~/types/wagmi";
+import { Tx } from "~/types/wagmi";
 import { AppContext } from "~/contexts";
 import { Icon, IconButton } from "~/ui/components";
 import { ColorMode } from "~/ui/styles";
 
-const StatusComponent: FC<{ colorMode: ColorMode; status: Status; hash: string; onClose: () => void }> = ({
-  colorMode,
-  status,
-  hash,
-  onClose,
-}) => (
+const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }> = ({ colorMode, tx, onClose }) => (
   <Box
     w="348px"
-    h="112px"
+    minH="112px"
+    h="auto"
     p="8px 8px 8px 0px"
     border="1px solid #1A1A1A"
     boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
@@ -28,21 +24,21 @@ const StatusComponent: FC<{ colorMode: ColorMode; status: Status; hash: string; 
       </Center>
       <Box w="16px" />
 
-      <Flex direction="column" h="100%">
+      <Flex direction="column" w="220px" h="100%">
         <Text color="#808080" textStyle="label-1">
           ACTION LABEL
         </Text>
         <Text color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"} textStyle="paragraph-1">
-          {
-            {
-              idle: "TRANSACTION SUBMITTED",
-              loading: "TRANSACTION SUBMITTED",
-              success: "TRANSACTION SUCCESS",
-              error: "TRANSACTION FAILED",
-            }[status]
-          }
+          {tx.msg
+            ? tx.msg
+            : {
+                idle: "TRANSACTION SUBMITTED",
+                loading: "TRANSACTION SUBMITTED",
+                success: "TRANSACTION SUCCESS",
+                error: "TRANSACTION FAILED",
+              }[tx.status]}
         </Text>
-        <Link textStyle="button-2" color="#8080FF" href={`${ETHERSCAN_BLOCK_EXPLORER}/tx/${hash}`} isExternal>
+        <Link textStyle="button-2" color="#8080FF" href={`${ETHERSCAN_BLOCK_EXPLORER}/tx/${tx.hash}`} isExternal>
           View on explorer
         </Link>
       </Flex>
@@ -65,8 +61,7 @@ const options = (colorMode: ColorMode, tx: Tx): UseToastOptions => {
     position: "top-right",
     duration: null,
     isClosable: true,
-    // @ts-ignore
-    render: (props) => <StatusComponent colorMode={colorMode} status={tx.status} hash={tx.hash} onClose={() => props.onClose()} />,
+    render: (props) => <StatusComponent colorMode={colorMode} tx={tx} onClose={() => props.onClose()} />,
   };
 };
 
