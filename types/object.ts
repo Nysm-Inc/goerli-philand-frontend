@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   PHI_OBJECT_CONTRACT_ADDRESS,
@@ -656,3 +657,29 @@ export type ObjectTraits = {
     name: string;
   };
 };
+
+export let objectTraisList: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: ObjectTraits } } = {
+  [PHI_OBJECT_CONTRACT_ADDRESS]: {},
+  [FREE_OBJECT_CONTRACT_ADDRESS]: {},
+  [PREMIUM_OBJECT_CONTRACT_ADDRESS]: {},
+  [WALLPAPER_CONTRACT_ADDRESS]: {},
+};
+
+const getTraits = () => {
+  Promise.all(
+    Object.keys(objectMetadataList).map((key) => {
+      const contract = key as ObjectContractAddress | WallpaperContractAddress;
+      Object.values(objectMetadataList[contract]).map(async (meta) => {
+        const res = await axios.get<ObjectTraits>(meta.json_url);
+        objectTraisList = {
+          ...objectTraisList,
+          [key]: {
+            ...objectTraisList[contract],
+            [meta.tokenId]: res.data,
+          },
+        };
+      });
+    })
+  );
+};
+getTraits();

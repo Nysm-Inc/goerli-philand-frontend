@@ -3,7 +3,7 @@ import { FC, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
 import { Box, HStack, SimpleGrid, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
-import { ObjectMetadata, objectMetadataList } from "~/types/object";
+import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
 import {
   Icon,
   IconButton,
@@ -43,18 +43,44 @@ const tabIdx2Contract: { [idx: number]: ShopItemContractAddress } = {
 };
 
 const Cart: FC<{
-  items: Item[];
-  plus: (idx: number) => void;
-  minus: (idx: number) => void;
-}> = ({ items, plus, minus }) => {
+  contract: ShopItemContractAddress;
+  item: Item;
+  plus: () => void;
+  minus: () => void;
+}> = ({ contract, item, plus, minus }) => {
   const { colorMode } = useContext(AppContext);
+  const [selected, setSelected] = useState(false);
 
   return (
-    <SimpleGrid columns={3} spacing="8px">
-      {items.map((item, i) => (
-        <VStack key={i} height="320px" p="16px" spacing="16px" borderRadius="16px" bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+    <>
+      {selected ? (
+        <VStack
+          height="320px"
+          p="16px"
+          spacing="8px"
+          borderRadius="16px"
+          align="flex-start"
+          bgColor={colorMode === "light" ? "#F5F2EB" : "#333333"}
+        >
+          <Box position="relative" w="100%">
+            <Box position="absolute" right="0" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
+              <Icon name="infoActive" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />
+            </Box>
+          </Box>
+          <Text textStyle="headline-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+            {item.name}
+          </Text>
+          <Text textStyle="paragraph-2" color={colorMode === "light" ? "#808080" : "#CCCCCC"}>
+            {objectTraisList[contract][item.tokenId].description}
+          </Text>
+        </VStack>
+      ) : (
+        <VStack height="320px" p="16px" spacing="16px" borderRadius="16px" bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
           <Box w="100%" minH="144px" maxH="144px" position="relative">
             <Image src={item.image_url} layout="fill" objectFit="contain" />
+            <Box position="absolute" right="0" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
+              <Icon name="info" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />
+            </Box>
           </Box>
 
           <Text textStyle="headline-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
@@ -67,10 +93,10 @@ const Cart: FC<{
             </Text>
           </HStack>
 
-          <QuantityInput num={item.select} balance={10} handleClickMinus={() => minus(i)} handleClickPlus={() => plus(i)} />
+          <QuantityInput num={item.select} balance={10} handleClickMinus={minus} handleClickPlus={plus} />
         </VStack>
-      ))}
-    </SimpleGrid>
+      )}
+    </>
   );
 };
 
@@ -133,7 +159,11 @@ const Shop: FC<{
           <TabPanels id="8">
             {Object.values(tabIdx2Contract).map((idx) => (
               <TabPanel key={idx}>
-                <Cart items={items} plus={plus} minus={minus} />
+                <SimpleGrid columns={3} spacing="8px">
+                  {items.map((item, i) => (
+                    <Cart key={i} contract={tabIdx2Contract[tabIdx]} item={item} plus={() => plus(i)} minus={() => minus(i)} />
+                  ))}
+                </SimpleGrid>
               </TabPanel>
             ))}
           </TabPanels>

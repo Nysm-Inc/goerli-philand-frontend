@@ -1,24 +1,12 @@
 import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import axios from "axios";
 import { Box, Center, Flex, HStack, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
-import { ObjectMetadata, objectMetadataList, ObjectTraits } from "~/types/object";
+import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
 import { ClaimableList } from "~/types/quest";
 import { Button, IconButton, Modal, ModalBody, ModalHeader, Icon } from "~/ui/components";
 import { AppContext } from "~/contexts";
-
-let traits: { [tokenId: number]: ObjectTraits } = {};
-const getTraits = () => {
-  Promise.all(
-    Object.values(objectMetadataList[PHI_OBJECT_CONTRACT_ADDRESS]).map(async (meta) => {
-      const res = await axios.get<ObjectTraits>(meta.json_url);
-      traits = { ...traits, [meta.tokenId]: res.data };
-    })
-  );
-};
-getTraits();
 
 const EXP: FC<{ exp: number }> = ({ exp }) => {
   const { colorMode } = useContext(AppContext);
@@ -36,7 +24,7 @@ const Network: FC<{ tokenId: number }> = ({ tokenId }) => {
       <Image src="/icons/eth_logo.svg" width="16px" height="16px" />
       <Text textStyle="label-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
         {/* todo */}
-        {traits[tokenId]?.attributes[0]?.value}
+        {objectTraisList[PHI_OBJECT_CONTRACT_ADDRESS][tokenId]?.attributes[0]?.value}
       </Text>
     </HStack>
   );
@@ -155,7 +143,7 @@ const Quest: FC<{
               </VStack>
             </HStack>
             <Text w="720px" h="40px" textStyle="paragraph-2" color={colorMode === "light" ? "#808080" : "#CCCCCC"}>
-              {traits[selected.tokenId]?.description}
+              {objectTraisList[PHI_OBJECT_CONTRACT_ADDRESS][selected.tokenId]?.description}
             </Text>
             <VStack spacing="2px">
               <Flex
