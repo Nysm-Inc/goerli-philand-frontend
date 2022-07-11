@@ -159,12 +159,16 @@ const Collection: FC<{
                   {!isEdit && (
                     <>
                       {isApproved[item.contract] ? (
-                        <QuantityInput
-                          num={item.select}
-                          balance={item.amount}
-                          handleClickMinus={() => minus(i)}
-                          handleClickPlus={() => plus(i)}
-                        />
+                        <>
+                          {item.contract !== WALLPAPER_CONTRACT_ADDRESS && (
+                            <QuantityInput
+                              num={item.select}
+                              balance={item.amount}
+                              handleClickMinus={() => minus(i)}
+                              handleClickPlus={() => plus(i)}
+                            />
+                          )}
+                        </>
                       ) : (
                         <Text textStyle="label-1" color="#8080FF" cursor="pointer" onClick={onOpenApprove}>
                           + Deposit

@@ -10,7 +10,7 @@ import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 
 const alchemyId = process.env.ALCHEMY_ID;
-const { chains, provider } = configureChains([chain.goerli], [alchemyProvider({ alchemyId })]);
+const { chains, provider } = configureChains([chain.polygonMumbai], [alchemyProvider({ alchemyId })]);
 const { connectors } = getDefaultWallets({ appName: "Phi", chains });
 const client = createClient({
   autoConnect: true,

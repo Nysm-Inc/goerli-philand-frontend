@@ -9,7 +9,10 @@ const useBalances = (contract: ObjectContractAddress | WallpaperContractAddress,
     contractInterface: ContractAbis[contract],
     functionName: "balanceOfBatch",
     args: account
-      ? [Object.keys(objectMetadataList[contract]).map(() => account), Object.keys(objectMetadataList[contract]).map((tokenId) => tokenId)]
+      ? [
+          Object.keys(objectMetadataList[contract]).map(() => account),
+          Object.values(objectMetadataList[contract]).map((metadata) => metadata.tokenId),
+        ]
       : null,
     watch: true,
     enabled: !!account && !disabled,
@@ -23,7 +26,9 @@ const useBalances = (contract: ObjectContractAddress | WallpaperContractAddress,
             ...memo,
             {
               contract: contract,
-              tokenId: i + 1,
+              // todo
+              // tokenId: i + 1,
+              tokenId: Object.values(objectMetadataList[contract]).find((v, idx) => i === idx)?.tokenId,
               amount: BigNumber.from(balance).toNumber(),
             },
           ];

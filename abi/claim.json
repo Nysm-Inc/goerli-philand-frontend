@@ -398,7 +398,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_admin",
+        "name": "admin",
         "type": "address"
       },
       {

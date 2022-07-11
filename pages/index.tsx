@@ -43,7 +43,7 @@ const Index: NextPage = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const { data: dataENS } = useEnsName({ address });
-  const ens = chain?.id === chains.goerli.id ? dataENS : "";
+  const ens = chain?.id === chains.polygonMumbai.id ? dataENS : "";
 
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
@@ -54,11 +54,11 @@ const Index: NextPage = () => {
   const { isOpen: isOpenInventory, onOpen: onOpenInventry, onClose: onCloseInventory } = useDisclosure();
 
   const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens, chain?.id);
-  const [isCreated, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(currentENS);
+  const [isCreated, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(address, currentENS);
   const { changePhilandOwner, tx: txChangePhilandOwner } = useChangePhilandOwner(currentENS);
   const { owner, phiObjects } = useViewPhiland(currentENS);
   const isCreatedPhiland = owner === address && (isCreated || phiObjects.length > 0);
-  const [wallpaper, { withdrawWallpaper, tx: txWithdrawWallpaper }] = useCheckWallpaper(currentENS);
+  const [wallpaper] = useCheckWallpaper(currentENS);
   const [isAprvPhi, { approve: aprvPhi, tx: txAprvPhi }] = useApprove(PHI_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvFree, { approve: aprvFree, tx: txAprvFree }] = useApprove(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvPre, { approve: aprvPre, tx: txAprvPre }] = useApprove(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
@@ -66,7 +66,7 @@ const Index: NextPage = () => {
   const [claimedList, { claimPhi, tx: txClaimPhi }] = useClaim(address);
   const { getFreeObject, tx: txGetFreeObject } = useGetFreeObject();
   const { buyPremiumObject, tx: txBuyPremiumObject } = useBuyPremiumObject();
-  const { getFreeWallpaper, tx: txGetFreeWallpaper } = useWallpaper();
+  const { batchWallPaper, tx: txGetFreeWallpaper } = useWallpaper();
   const balancePhiObjects = useBalances(PHI_OBJECT_CONTRACT_ADDRESS, address);
   const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
@@ -82,6 +82,7 @@ const Index: NextPage = () => {
   } = useGame({
     state: { currentENS, isEdit, isCreatedPhiland, phiObjects, wallpaper },
     uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
+    // todo: onOpenWallpaperMenu
     gameUIHandler: { onOpenActionMenu, onChangeLinkMenu: changeLink },
   });
 
@@ -102,7 +103,6 @@ const Index: NextPage = () => {
           txDeposit,
           txUndeposit,
           txSave,
-          txWithdrawWallpaper,
         ]}
       />
       <StatusTx
@@ -120,7 +120,6 @@ const Index: NextPage = () => {
           txDeposit,
           txUndeposit,
           txSave,
-          txWithdrawWallpaper,
         ]}
       />
       <Quest
@@ -138,12 +137,13 @@ const Index: NextPage = () => {
         onSubmit={{
           [FREE_OBJECT_CONTRACT_ADDRESS]: getFreeObject,
           [PREMIUM_OBJECT_CONTRACT_ADDRESS]: buyPremiumObject,
-          // todo
-          [WALLPAPER_CONTRACT_ADDRESS]: (tokenIds: number[]) => getFreeWallpaper(tokenIds[0]),
+          [WALLPAPER_CONTRACT_ADDRESS]: batchWallPaper,
         }}
       />
       <Collection
-        items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects]}
+        // todo
+        // wallpapers
+        items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
         isApproved={{
           [PHI_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
           [FREE_OBJECT_CONTRACT_ADDRESS]: isAprvFree,
@@ -197,8 +197,9 @@ const Index: NextPage = () => {
           isEdit={isEdit}
           currentENS={currentENS}
           domains={domains}
+          isApprovedWallpaper={isAprvWall}
           currentWallpaper={wallpaper}
-          wallpapers={balanceWallpapers}
+          balanceWallpapers={balanceWallpapers}
           actionHandler={{
             onOpenQuest: () => {
               refetchClaimableList();
@@ -212,7 +213,6 @@ const Index: NextPage = () => {
             onView,
             onEdit,
             onSave,
-            onWithdrawWallpaper: withdrawWallpaper,
           }}
           isOpen={{ quest: isOpenQuest, shop: isOpenShop, collection: isOpenCollection, inventory: isOpenInventory }}
         />

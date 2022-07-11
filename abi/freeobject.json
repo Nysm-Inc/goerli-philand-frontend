@@ -549,7 +549,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "_newPrice",
+        "name": "newPrice",
         "type": "uint256"
       }
     ],
@@ -567,7 +567,7 @@
       },
       {
         "internalType": "string",
-        "name": "_uri",
+        "name": "tokenUri",
         "type": "string"
       },
       {
@@ -589,12 +589,12 @@
           }
         ],
         "internalType": "struct BaseObject.Size",
-        "name": "_size",
+        "name": "size",
         "type": "tuple"
       },
       {
         "internalType": "address payable",
-        "name": "_creator",
+        "name": "creator",
         "type": "address"
       }
     ],
@@ -732,6 +732,79 @@
         "type": "uint256"
       }
     ],
+    "name": "getObjectInfo",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "tokenURI",
+            "type": "string"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint8",
+                "name": "x",
+                "type": "uint8"
+              },
+              {
+                "internalType": "uint8",
+                "name": "y",
+                "type": "uint8"
+              },
+              {
+                "internalType": "uint8",
+                "name": "z",
+                "type": "uint8"
+              }
+            ],
+            "internalType": "struct BaseObject.Size",
+            "name": "size",
+            "type": "tuple"
+          },
+          {
+            "internalType": "address payable",
+            "name": "creator",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maxClaimed",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "price",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "exp",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "forSale",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct BaseObject.Object",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
     "name": "getSize",
     "outputs": [
       {
@@ -807,7 +880,7 @@
       },
       {
         "internalType": "string",
-        "name": "_uri",
+        "name": "tokenUri",
         "type": "string"
       },
       {
@@ -829,12 +902,12 @@
           }
         ],
         "internalType": "struct BaseObject.Size",
-        "name": "_size",
+        "name": "size",
         "type": "tuple"
       },
       {
         "internalType": "address payable",
-        "name": "_creator",
+        "name": "creator",
         "type": "address"
       }
     ],
@@ -1073,7 +1146,7 @@
       },
       {
         "internalType": "address payable",
-        "name": "_creator",
+        "name": "creator",
         "type": "address"
       }
     ],
@@ -1091,7 +1164,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "_exp",
+        "name": "exp",
         "type": "uint256"
       }
     ],
@@ -1109,7 +1182,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "_newMaxClaimed",
+        "name": "newMaxClaimed",
         "type": "uint256"
       }
     ],
@@ -1135,7 +1208,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_royalityFee",
+        "name": "newRoyalityFee",
         "type": "uint256"
       }
     ],
@@ -1148,7 +1221,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_secondaryRoyalty",
+        "name": "newSecondaryRoyalty",
         "type": "uint256"
       }
     ],
@@ -1183,7 +1256,7 @@
           }
         ],
         "internalType": "struct BaseObject.Size",
-        "name": "_size",
+        "name": "size",
         "type": "tuple"
       }
     ],
@@ -1201,7 +1274,7 @@
       },
       {
         "internalType": "string",
-        "name": "_uri",
+        "name": "uri",
         "type": "string"
       }
     ],
@@ -1214,7 +1287,7 @@
     "inputs": [
       {
         "internalType": "address payable",
-        "name": "_treasuryAddress",
+        "name": "newTreasuryAddress",
         "type": "address"
       }
     ],
@@ -1227,7 +1300,7 @@
     "inputs": [
       {
         "internalType": "string",
-        "name": "_baseMetadataURI",
+        "name": "newBaseMetadataURI",
         "type": "string"
       }
     ],

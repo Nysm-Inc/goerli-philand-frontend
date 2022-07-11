@@ -27,7 +27,6 @@ const useApprove = (
     addressOrName: contract,
     contractInterface: PhiObjectAbi,
     functionName: "setApprovalForAll",
-    args: [MAP_CONTRACT_ADDRESS, 1],
   });
   const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });
 
@@ -35,7 +34,11 @@ const useApprove = (
     // @ts-ignore
     data,
     {
-      approve: writeAsync,
+      approve: () => {
+        return writeAsync({
+          args: [MAP_CONTRACT_ADDRESS, 1],
+        });
+      },
       tx: {
         hash: writeData?.hash,
         tmpStatus,

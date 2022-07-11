@@ -19,8 +19,9 @@ const MenuBar: FC<{
   };
   currentENS: string;
   domains: string[];
+  isApprovedWallpaper: boolean;
   currentWallpaper?: Wallpaper;
-  wallpapers: BalanceObject[];
+  balanceWallpapers: BalanceObject[];
   actionHandler: {
     onOpenQuest: () => void;
     onOpenShop: () => void;
@@ -31,9 +32,8 @@ const MenuBar: FC<{
     onView: () => void;
     onEdit: () => void;
     onSave: () => void;
-    onWithdrawWallpaper: () => Promise<any>;
   };
-}> = ({ initialized, isEdit, isOpen, currentENS, domains, currentWallpaper, wallpapers, actionHandler }) => {
+}> = ({ initialized, isEdit, isOpen, currentENS, domains, isApprovedWallpaper, currentWallpaper, balanceWallpapers, actionHandler }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -56,9 +56,9 @@ const MenuBar: FC<{
         {isEdit ? (
           <SelectWallpaper
             currentWallpaper={currentWallpaper}
-            wallpapers={wallpapers}
+            balanceWallpapers={balanceWallpapers}
+            disabled={!isApprovedWallpaper}
             onChange={actionHandler.onChangeWallpaper}
-            onWithdraw={actionHandler.onWithdrawWallpaper}
           />
         ) : (
           <SelectBox

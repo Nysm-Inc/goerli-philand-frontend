@@ -21,7 +21,7 @@ const Index: NextPage = () => {
   const router = useRouter();
   const ens = decodeURI(router.asPath).substring(1);
 
-  const [isCreated] = useCreatePhiland(ens);
+  const [isCreated] = useCreatePhiland("", ens);
   const { phiObjects } = useViewPhiland(ens);
   const [wallpaper] = useCheckWallpaper(ens);
 

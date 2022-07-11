@@ -1,6 +1,6 @@
 import { FC, useContext, useEffect, useState } from "react";
 import { Box, Center, Flex, HStack, Link, Text, useToast, UseToastOptions } from "@chakra-ui/react";
-import { ETHERSCAN_BLOCK_EXPLORER } from "~/constants";
+import { MUMBAI_BLOCK_EXPLORER } from "~/constants";
 import { Tx } from "~/types/wagmi";
 import { AppContext } from "~/contexts";
 import { Icon, IconButton } from "~/ui/components";
@@ -38,7 +38,7 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
                 error: "TRANSACTION FAILED",
               }[tx.status]}
         </Text>
-        <Link textStyle="button-2" color="#8080FF" href={`${ETHERSCAN_BLOCK_EXPLORER}/tx/${tx.hash}`} isExternal>
+        <Link textStyle="button-2" color="#8080FF" href={`${MUMBAI_BLOCK_EXPLORER}/tx/${tx.hash}`} isExternal>
           View on explorer
         </Link>
       </Flex>

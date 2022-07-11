@@ -6,10 +6,10 @@ import SelectBox from "./SelectBox";
 
 const SelectWallpaper: FC<{
   currentWallpaper?: Wallpaper;
-  wallpapers: BalanceObject[];
+  balanceWallpapers: BalanceObject[];
+  disabled?: boolean;
   onChange: (tokenId: number) => void;
-  onWithdraw: () => Promise<any>;
-}> = ({ currentWallpaper, wallpapers, onChange, onWithdraw }) => {
+}> = ({ currentWallpaper, balanceWallpapers, disabled, onChange }) => {
   const [selectedWallpaper, setSelectedWallpaper] = useState(currentWallpaper?.tokenId || 0);
 
   useEffect(() => {
@@ -21,44 +21,24 @@ const SelectWallpaper: FC<{
       w="136px"
       menuW="160px"
       options={[
-        ...wallpapers.map((wallpaper) => ({
-          label: objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][wallpaper.tokenId].name,
+        ...balanceWallpapers.map((wallpaper) => ({
+          label: objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][wallpaper.tokenId]?.name,
           value: wallpaper.tokenId.toString(),
         })),
         ...(currentWallpaper?.tokenId
           ? [
               {
-                label: objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][currentWallpaper.tokenId].name,
+                label: objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][currentWallpaper.tokenId]?.name,
                 value: currentWallpaper.tokenId.toString(),
               },
-              {
-                label: "default",
-                value: "default",
-                onClick: () => {
-                  onWithdraw().then(() => {
-                    onChange(0);
-                    setSelectedWallpaper(0);
-                  });
-                },
-              },
             ]
-          : [
-              {
-                label: "default",
-                value: "default",
-                onClick: () => {
-                  onWithdraw().then(() => {
-                    onChange(0);
-                    setSelectedWallpaper(0);
-                  });
-                },
-              },
-            ]),
+          : []),
       ]}
       selected={{
-        label: selectedWallpaper ? objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][selectedWallpaper]?.name : "default",
-        value: selectedWallpaper.toString() || "default",
+        label: selectedWallpaper ? objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][selectedWallpaper]?.name : "",
+        value: selectedWallpaper.toString() || "",
       }}
+      disabled={disabled}
       handleChange={(v) => {
         onChange(Number(v));
         setSelectedWallpaper(Number(v));

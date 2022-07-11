@@ -63,7 +63,7 @@ export type DepositObject = {
 };
 
 export type BalanceObject = {
-  contract: ObjectContractAddress;
+  contract: ObjectContractAddress | WallpaperContractAddress;
   tokenId: number;
   amount: number;
 };

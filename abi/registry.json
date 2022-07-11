@@ -33,6 +33,49 @@
         "type": "address"
       },
       {
+        "internalType": "address",
+        "name": "signer",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "digest",
+        "type": "bytes32"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "r",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "s",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint8",
+            "name": "v",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct Registry.Coupon",
+        "name": "coupon",
+        "type": "tuple"
+      }
+    ],
+    "name": "ECDSAInvalidSignature",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
         "internalType": "string",
         "name": "name",
         "type": "string"
@@ -238,6 +281,19 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": true,
+        "internalType": "address",
+        "name": "verifierAddress",
+        "type": "address"
+      }
+    ],
+    "name": "SetAdminSigner",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": false,
         "internalType": "bytes32",
         "name": "basenode",
@@ -264,7 +320,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_phiMapAddress",
+        "name": "phiMapAddress",
         "type": "address"
       }
     ],
@@ -279,6 +335,28 @@
         "internalType": "string",
         "name": "name",
         "type": "string"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "r",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "s",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint8",
+            "name": "v",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct Registry.Coupon",
+        "name": "coupon",
+        "type": "tuple"
       }
     ],
     "name": "changePhilandOwner",
@@ -305,11 +383,46 @@
         "internalType": "string",
         "name": "name",
         "type": "string"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "r",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "s",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint8",
+            "name": "v",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct Registry.Coupon",
+        "name": "coupon",
+        "type": "tuple"
       }
     ],
     "name": "createPhiland",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAdminSigner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -377,17 +490,17 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_admin",
+        "name": "admin",
         "type": "address"
       },
       {
-        "internalType": "contract IENS",
-        "name": "ens",
+        "internalType": "address",
+        "name": "initMap",
         "type": "address"
       },
       {
-        "internalType": "contract IPhiMap",
-        "name": "map",
+        "internalType": "address",
+        "name": "initAdminSigner",
         "type": "address"
       }
     ],
@@ -397,7 +510,25 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "map",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
       {
         "internalType": "string",
         "name": "",
@@ -454,12 +585,12 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "_basenode",
-        "type": "bytes32"
+        "internalType": "address",
+        "name": "verifierAdderss",
+        "type": "address"
       }
     ],
-    "name": "setBaseNode",
+    "name": "setAdminSigner",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

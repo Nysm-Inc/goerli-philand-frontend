@@ -48,7 +48,7 @@ const useENS = (
 
   useEffect(() => {
     setIsLoading(true);
-    if (!account || chainId !== chain.goerli.id) {
+    if (!account || chainId !== chain.polygonMumbai.id) {
       setIsLoading(false);
       return;
     }
@@ -66,7 +66,7 @@ const useENS = (
   }, [ens]);
 
   useEffect(() => {
-    if (chainId !== chain.goerli.id) {
+    if (chainId !== chain.polygonMumbai.id) {
       switchCurrentENS("");
       setDomains([]);
     }

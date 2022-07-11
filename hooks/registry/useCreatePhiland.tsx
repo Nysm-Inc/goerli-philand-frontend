@@ -1,11 +1,14 @@
 import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
 import { TransactionResponse } from "@ethersproject/providers";
-import { MAP_CONTRACT_ADDRESS, REGISTRY_CONTRACT_ADDRESS } from "~/constants";
+import axios from "axios";
+import { MAP_CONTRACT_ADDRESS, REGISTRY_CONTRACT_ADDRESS, UTILS_API_GATEWAY } from "~/constants";
 import { MapAbi, RegistryAbi } from "~/abi";
-import { Tx } from "~/types/wagmi";
 import { nullAddress } from "~/types";
+import { Tx } from "~/types/wagmi";
+import { Coupon } from "~/types/quest";
 
 const useCreatePhiland = (
+  account?: string,
   ens?: string,
   disabled?: boolean
 ): [boolean, { createPhiland: () => Promise<TransactionResponse | undefined>; tx: Tx }] => {
@@ -33,10 +36,18 @@ const useCreatePhiland = (
     // @ts-ignore
     data && data !== nullAddress,
     {
-      createPhiland: () =>
-        writeAsync({
-          args: ens ? [ens.slice(0, -4)] : [],
-        }),
+      createPhiland: async () => {
+        if (!account || !ens) return;
+
+        const url = new URL(UTILS_API_GATEWAY + "/ens");
+        url.searchParams.append("address", account);
+        url.searchParams.append("name", ens.slice(0, -4));
+        const res = await axios.get<{ coupon: Coupon }>(url.toString());
+
+        return writeAsync({
+          args: [ens.slice(0, -4), res.data.coupon],
+        });
+      },
       tx: {
         hash: writeData?.hash,
         tmpStatus,

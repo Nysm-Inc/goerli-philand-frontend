@@ -4,7 +4,7 @@ import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { WallpaperAbi } from "~/abi";
 import { Tx } from "~/types/wagmi";
 
-const useWallpaper = (): { getFreeWallpaper: (tokenId: number) => Promise<TransactionResponse | undefined>; tx: Tx } => {
+const useWallpaper = (): { batchWallPaper: (tokenIds: number[]) => Promise<TransactionResponse | undefined>; tx: Tx } => {
   const {
     data,
     writeAsync,
@@ -12,13 +12,13 @@ const useWallpaper = (): { getFreeWallpaper: (tokenId: number) => Promise<Transa
   } = useContractWrite({
     addressOrName: WALLPAPER_CONTRACT_ADDRESS,
     contractInterface: WallpaperAbi,
-    functionName: "getFreeWallPaper",
+    functionName: "batchWallPaper",
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
   return {
-    getFreeWallpaper: async (tokenId: number) => {
-      const calldata = [tokenId];
+    batchWallPaper: async (tokenIds: number[]) => {
+      const calldata = [tokenIds];
       return writeAsync({ args: calldata });
     },
     tx: {

@@ -10,8 +10,9 @@ const SelectBox: FC<{
   menuW?: LayoutProps["w"];
   options: Option[];
   selected: Option;
+  disabled?: boolean;
   handleChange: (value: string) => void;
-}> = ({ w, menuW, options, selected, handleChange }) => {
+}> = ({ w, menuW, options, selected, disabled, handleChange }) => {
   const { colorMode } = useContext(AppContext);
   return (
     <Menu matchWidth={!menuW} variant="unstyled" autoSelect={false}>
@@ -27,6 +28,7 @@ const SelectBox: FC<{
                 color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}
               />
             }
+            disabled={disabled}
           >
             {selected.label}
           </MenuButton>

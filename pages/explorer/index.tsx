@@ -4,13 +4,14 @@ import {
   CLAIM_CONTRACT_ADDRESS,
   FREE_OBJECT_CONTRACT_ADDRESS,
   MAP_CONTRACT_ADDRESS,
+  MUMBAI_BLOCK_EXPLORER,
   PHI_OBJECT_CONTRACT_ADDRESS,
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   REGISTRY_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
 
-const baseURL = "https://goerli.etherscan.io/address/";
+const baseURL = MUMBAI_BLOCK_EXPLORER + "/address/";
 
 const Explorer: NextPage = () => {
   return (
