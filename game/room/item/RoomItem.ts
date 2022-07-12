@@ -1,6 +1,6 @@
 import GameInstance from "~/game/GameInstance";
 import Item from "~/game/item/Item";
-import { isValidTile, itemToLocal } from "~/game/room/pos";
+import { isValidTile, itemToLocal } from "~/game/room/helper";
 import { IObject, PhiObject } from "~/types";
 
 export default class RoomItem extends Item {

@@ -1,13 +1,16 @@
-import { Container, Rectangle, Sprite } from "pixi.js";
+import { Container, Point, Rectangle, Sprite } from "pixi.js";
 import { TILE_W } from "~/constants";
 import { IObject, PhiLink } from "~/types";
 import GameInstance from "~/game/GameInstance";
+import { calcPoint } from "~/game/room/helper";
 import LinkPreview from "./LinkPreview";
+import StatusTiles from "./StatusTiles";
 
 export default class Item {
   private uuid: string;
   private object: IObject;
   private preview: LinkPreview;
+  private tiles: StatusTiles;
   container: Container;
   sprites: Sprite[];
 
@@ -44,7 +47,7 @@ export default class Item {
       this.sprites.push(unit);
       this.container.addChild(unit);
     }
-
+    this.tiles = new StatusTiles(this);
     room.landItemContainer.addChild(this.container);
   }
 
@@ -58,6 +61,21 @@ export default class Item {
 
   getObject() {
     return this.object;
+  }
+
+  getTiles() {
+    return this.tiles;
+  }
+
+  getTileBounds(): { leftTop: Point; rightTop: Point; leftBottom: Point; rightBottom: Point } {
+    const [sizeX, sizeY] = this.getSize();
+    const baseSize = sizeX > sizeY ? sizeX : sizeY;
+
+    const leftTop = new Point((TILE_W / 2) * baseSize, 0);
+    const rightTop = calcPoint(sizeX, 0, leftTop);
+    const leftBottom = calcPoint(0, sizeY, leftTop);
+    const rightBottom = calcPoint(sizeX, sizeY, leftTop);
+    return { leftTop, rightTop, leftBottom, rightBottom };
   }
 
   updateLink(link: PhiLink) {

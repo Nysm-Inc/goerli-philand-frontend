@@ -4,17 +4,14 @@ import { GAME_APP_HEIGHT, GAME_APP_WIDTH, LAND_H, LAND_OFFSET_Y, LAND_W, TILE_H,
 import GameInstance from "~/game/GameInstance";
 import MovingItemManager from "./item/MovingItemManager";
 import RoomItemManager from "./item/RoomItemManager";
-import TileManager from "./tile/TileManager";
-import { isValidTile, itemToLocal, tileToLocal } from "./pos";
 import Wallpaper from "./wallpaper/Wallpaper";
+import { isItemInLand, isValidTile, itemToLocal } from "./helper";
 
 export default class Room {
-  tileManager: TileManager;
   roomItemManager: RoomItemManager;
   movingItemManager: MovingItemManager;
   wallpaper: Wallpaper;
 
-  worldContainer: Container;
   landContainer: Container;
   landItemContainer: Container;
   landItemLayer: Layer;
@@ -24,17 +21,14 @@ export default class Room {
   constructor() {
     this.roomItemManager = new RoomItemManager();
     this.movingItemManager = new MovingItemManager();
-    this.tileManager = new TileManager();
     this.wallpaper = new Wallpaper();
 
-    this.worldContainer = new Container();
-    this.worldContainer.zIndex = 1;
     this.landContainer = new Container();
-    this.landContainer.zIndex = 2;
+    this.landContainer.zIndex = 1;
     this.landItemContainer = new Container();
-    this.landItemContainer.zIndex = 4;
+    this.landItemContainer.zIndex = 2;
     this.landItemLayer = new Layer();
-    this.landItemLayer.zIndex = 5;
+    this.landItemLayer.zIndex = 3;
     this.landItemLayer.group.enableSort = true;
 
     this.isEdit = false;
@@ -52,49 +46,32 @@ export default class Room {
     this.landContainer.addChild(land);
     this.landContainer.addChild(this.wallpaper.container);
 
-    engine.viewport.addChild(this.worldContainer);
     engine.viewport.addChild(this.landContainer);
     engine.viewport.addChild(this.landItemContainer);
     engine.viewport.addChild(this.landItemLayer);
   }
 
   enterRoom() {
-    this.tileManager.setGrid();
-    this.tileManager.setSelectedTile();
-    this.tileManager.setCollisionTiles();
     this.landContainer.visible = true;
   }
 
   leaveRoom() {
-    const { room } = GameInstance.get();
-
-    room.roomItemManager.reset();
-    room.tileManager.reset();
+    this.roomItemManager.reset();
     this.landContainer.visible = false;
   }
 
   view() {
-    const { room } = GameInstance.get();
-
     this.isEdit = false;
-    room.landItemContainer.children.forEach((child) => {
+    this.landItemContainer.children.forEach((child) => {
       child.buttonMode = false;
     });
-    this.tileManager.hideGrid();
-    this.tileManager.hideSelectedTile();
-    this.tileManager.hideCollisionTiles();
   }
 
   edit() {
-    const { room } = GameInstance.get();
-
     this.isEdit = true;
-    room.landItemContainer.children.forEach((child) => {
+    this.landItemContainer.children.forEach((child) => {
       child.buttonMode = true;
     });
-    this.tileManager.showGrid();
-    this.tileManager.showSelectedTile();
-    this.tileManager.showCollisionTiles();
   }
 
   handleMouseMovement(globalX: number, globalY: number) {
@@ -109,16 +86,11 @@ export default class Room {
       movingItem.updateContainerPlacement(local.x, local.y);
     }
     {
-      const collision = this.movingItemManager.checkCollision({ x: tile.x, y: tile.y }, { uuid: movingItem.getUUID(), sizeX, sizeY });
-      this.tileManager.updateCollisionTiles(collision);
-    }
-    {
-      const local = tileToLocal(tile.x, tile.y);
-      if (isValidTile(tile.x, tile.y)) {
-        this.tileManager.updateSelectedTile(local.x, local.y);
-        this.tileManager.showSelectedTile();
+      const isCollision = this.movingItemManager.checkCollision({ x: tile.x, y: tile.y }, { uuid: movingItem.getUUID(), sizeX, sizeY });
+      if (isCollision || !isItemInLand(tile.x, tile.y, sizeX, sizeY)) {
+        movingItem.getTiles().showCollisionTile();
       } else {
-        this.tileManager.hideSelectedTile();
+        movingItem.getTiles().showPlaceableTile();
       }
     }
   }
