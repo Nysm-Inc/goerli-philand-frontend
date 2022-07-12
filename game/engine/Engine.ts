@@ -60,13 +60,13 @@ export default class Engine {
     const isMobile = window.matchMedia("(any-pointer:coarse)").matches;
     this.viewport
       .moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2)
-      .setZoom(0.6, true)
-      .clampZoom({
-        minWidth: GAME_APP_WIDTH / 2,
-        maxWidth: GAME_APP_WIDTH * 2,
-        minHeight: GAME_APP_HEIGHT / 2,
-        maxHeight: GAME_APP_HEIGHT * 2,
-      })
+      .setZoom(isMobile ? 0.25 : 0.6, true)
+      // .clampZoom({
+      //   minWidth: GAME_APP_WIDTH / 2,
+      //   maxWidth: GAME_APP_WIDTH * 2,
+      //   minHeight: GAME_APP_HEIGHT / 2,
+      //   maxHeight: GAME_APP_HEIGHT * 2,
+      // })
       .drag({
         clampWheel: false,
         wheel: true,

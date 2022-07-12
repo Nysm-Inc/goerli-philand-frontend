@@ -2,6 +2,7 @@ import Image from "next/image";
 import { FC, useContext, useRef } from "react";
 import { Box, Center } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import { LP_URL } from "~/constants";
 import Search from "./Search";
 import Wallet from "./Wallet";
 import IconButton from "./IconButton";
@@ -19,7 +20,7 @@ const Header: FC = () => {
         left="24px"
         cursor="pointer"
         onClick={() => {
-          window.location.href = "/explorer"; // todo: redirect to LP
+          window.location.href = LP_URL;
         }}
       >
         <Image src="/icons/logo.svg" width="72px" height="80px" />

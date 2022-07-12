@@ -43,7 +43,7 @@ const Input: FC<{
         textStyle="label-1"
         _placeholder={{ color: "#808080" }}
         //
-        pl={leftIcon ? "48px" : "12px"}
+        pl={leftIcon ? "40px" : "12px"}
         pr={rightIcon ? "48px" : "12px"}
         placeholder={placeholder}
         value={value}

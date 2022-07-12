@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
 import Image from "next/image";
+import { FC } from "react";
 import { chain as chains, useAccount, useEnsName, useNetwork } from "wagmi";
-import { Box, useDisclosure, useBoolean, VStack, Text } from "@chakra-ui/react";
+import { Box, useDisclosure, useBoolean, VStack, Text, Center } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
 import Inventory, { useInventory } from "~/ui/features/inventory";
@@ -38,6 +39,19 @@ import {
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
 import { nullAddress, PhiLink } from "~/types";
+
+const Mobile: FC = () => {
+  return (
+    <Modal w="320px" h="400px" isOpen={true} onClose={() => {}}>
+      <ModalHeader buttons={[]} />
+      <Center>
+        <Text textStyle="headline" color="#FFFFFF">
+          Mobile
+        </Text>
+      </Center>
+    </Modal>
+  );
+};
 
 const Index: NextPage = () => {
   const { chain } = useNetwork();
@@ -86,6 +100,9 @@ const Index: NextPage = () => {
     gameUIHandler: { onOpenActionMenu, onChangeLinkMenu: changeLink },
   });
 
+  if (window.matchMedia("(any-pointer:coarse)").matches) {
+    return <Mobile />;
+  }
   return (
     <>
       <ConfirmTx

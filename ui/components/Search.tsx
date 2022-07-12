@@ -1,10 +1,10 @@
-import { useContext, useState } from "react";
-import { Text } from "@chakra-ui/react";
+import { FC, useContext, useState } from "react";
+import { LayoutProps, Text } from "@chakra-ui/react";
 import Input from "./Input";
 import Icon from "./Icon";
 import { AppContext } from "~/contexts";
 
-const Search = () => {
+const Search: FC<{ w?: LayoutProps["w"] }> = ({ w }) => {
   const { colorMode } = useContext(AppContext);
   const [searchText, setSearchText] = useState("");
   return (
@@ -15,7 +15,7 @@ const Search = () => {
       }}
     >
       <Input
-        w="336px"
+        w={w || "336px"}
         placeholder="visit other lands"
         value={searchText}
         leftIcon={<Icon name="search" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
