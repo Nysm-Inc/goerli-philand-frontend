@@ -21,7 +21,7 @@ const Search: FC<{ w?: LayoutProps["w"] }> = ({ w }) => {
         leftIcon={<Icon name="search" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
         rightIcon={
           <Text textStyle="label-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
-            .ETH
+            .eth
           </Text>
         }
         onChange={(e) => setSearchText(e.target.value)}

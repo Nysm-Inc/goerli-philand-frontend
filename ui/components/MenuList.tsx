@@ -42,7 +42,7 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
               h="32px"
               p="8px"
               textAlign="left"
-              borderRadius="8px"
+              borderRadius="6px"
               onClick={() => {
                 if (item.onClick) item.onClick();
                 else if (onClick) onClick(item.value);

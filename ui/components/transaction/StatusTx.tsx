@@ -20,22 +20,22 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
   >
     <HStack spacing="0" p="16px" align="flex-start">
       <Center w="40px" h="40px" borderRadius="40px" bgColor="#70DBB8">
-        <Icon name={status === "error" ? "alert" : "check"} />
+        <Icon name={tx.status === "error" ? "alert" : "check"} />
       </Center>
       <Box w="16px" />
 
       <Flex direction="column" w="220px" h="100%">
         <Text color="#808080" textStyle="label-1">
-          ACTION LABEL
+          Action Label
         </Text>
         <Text color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"} textStyle="paragraph-1">
           {tx.msg
             ? tx.msg
             : {
-                idle: "TRANSACTION SUBMITTED",
-                loading: "TRANSACTION SUBMITTED",
-                success: "TRANSACTION SUCCESS",
-                error: "TRANSACTION FAILED",
+                idle: "Transaction Submitted",
+                loading: "Transaction Submitted",
+                success: "Transaction Success",
+                error: "Transaction Failed",
               }[tx.status]}
         </Text>
         <Link textStyle="button-2" color="#8080FF" href={`${MUMBAI_BLOCK_EXPLORER}/tx/${tx.hash}`} isExternal>
