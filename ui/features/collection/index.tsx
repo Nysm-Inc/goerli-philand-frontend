@@ -39,6 +39,13 @@ type CollectionObject = BalanceObject & { select: number };
 
 const Collection: FC<{
   items: BalanceObject[];
+  // todo
+  // items: {
+  //   [PHI_OBJECT_CONTRACT_ADDRESS]: BalanceObject[];
+  //   [FREE_OBJECT_CONTRACT_ADDRESS]: BalanceObject[];
+  //   [PREMIUM_OBJECT_CONTRACT_ADDRESS]: BalanceObject[];
+  //   [WALLPAPER_CONTRACT_ADDRESS]: BalanceObject[];
+  // };
   isApproved: {
     [PHI_OBJECT_CONTRACT_ADDRESS]: boolean;
     [FREE_OBJECT_CONTRACT_ADDRESS]: boolean;

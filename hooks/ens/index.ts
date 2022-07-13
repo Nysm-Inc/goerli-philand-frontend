@@ -63,7 +63,7 @@ const useENS = (
   useEffect(() => {
     const prev = getENSFromStorage(account);
     switchCurrentENS(prev || ens || "");
-  }, [ens]);
+  }, [account]);
 
   useEffect(() => {
     if (chainId !== chain.polygonMumbai.id) {

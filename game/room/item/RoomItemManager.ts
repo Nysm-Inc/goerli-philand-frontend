@@ -51,6 +51,10 @@ export default class RoomItemManager {
   addItem(tileX: number, tileY: number, object: IObject): RoomItem {
     const uuid = this.randomUUID();
     const item = new RoomItem(uuid, tileX, tileY, object);
+    const { room } = GameInstance.get();
+    if (room.isEdit) {
+      item.container.buttonMode = true;
+    }
     this.roomItems[uuid] = item;
     this.addItemToTilemap(tileX, tileY, item);
     return item;

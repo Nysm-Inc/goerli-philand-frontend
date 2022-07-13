@@ -100,6 +100,7 @@ const Index: NextPage = () => {
     gameUIHandler: { onOpenActionMenu, onChangeLinkMenu: changeLink },
   });
 
+  // todo: use breakpoints
   if (window.matchMedia("(any-pointer:coarse)").matches) {
     return <Mobile />;
   }

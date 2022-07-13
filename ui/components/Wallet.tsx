@@ -1,8 +1,9 @@
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { useDisconnect } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Avatar, Box, Menu, MenuButton, Text } from "@chakra-ui/react";
+import { AppContext } from "~/contexts";
 import Button from "./Button";
 import MenuList from "./MenuList";
 import Icon from "./Icon";
@@ -10,6 +11,7 @@ import Icon from "./Icon";
 const showAddress = (address: string) => `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
 
 const Wallet: FC = () => {
+  const { colorMode } = useContext(AppContext);
   const { disconnect } = useDisconnect();
   return (
     <ConnectButton.Custom>
@@ -57,7 +59,7 @@ const Wallet: FC = () => {
                         as={Button}
                         w="218px"
                         leftIcon={<Avatar w="32px" h="32px" src={account.ensAvatar || "/icons/sample_avatar.svg"} />}
-                        rightIcon={<Icon name="menu" />}
+                        rightIcon={<Icon name="menu" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
                       >
                         <Text textAlign="left" textStyle="button-2" pl="4px">
                           {account.displayName}
