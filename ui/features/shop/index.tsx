@@ -93,7 +93,13 @@ const Cart: FC<{
             </Text>
           </HStack>
 
-          <QuantityInput defaultText="+ Add to Cart" num={item.select} balance={10} handleClickMinus={minus} handleClickPlus={plus} />
+          <QuantityInput
+            defaultText="+ Add to Cart"
+            num={item.select}
+            balance={contract === WALLPAPER_CONTRACT_ADDRESS ? 1 : 10}
+            handleClickMinus={minus}
+            handleClickPlus={plus}
+          />
         </VStack>
       )}
     </>
