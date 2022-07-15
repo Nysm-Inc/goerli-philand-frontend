@@ -169,6 +169,7 @@ const Collection: FC<{
                         <>
                           {item.contract !== WALLPAPER_CONTRACT_ADDRESS && (
                             <QuantityInput
+                              defaultText="+ Deposit"
                               num={item.select}
                               balance={item.amount}
                               handleClickMinus={() => minus(i)}

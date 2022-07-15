@@ -153,6 +153,7 @@ const Inventory: FC<{
               </Text>
               {!isEdit && !object.writed && (
                 <QuantityInput
+                  defaultText="+ Withdraw"
                   num={object.select}
                   balance={object.amount - object.used}
                   handleClickPlus={() => onClickPlus(i)}
