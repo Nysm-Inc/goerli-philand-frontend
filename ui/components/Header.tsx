@@ -16,14 +16,14 @@ const Header: FC = () => {
     <>
       <Box
         position="fixed"
-        top="8px"
+        top="16px"
         left="24px"
         cursor="pointer"
         onClick={() => {
           window.location.href = LP_URL;
         }}
       >
-        <Image src="/icons/logo.svg" width="72px" height="80px" />
+        <Image src="/icons/logo.svg" width="64px" height="64px" />
       </Box>
 
       <Box position="fixed" top="24px" left="106px">
