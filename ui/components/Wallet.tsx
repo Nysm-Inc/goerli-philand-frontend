@@ -58,7 +58,19 @@ const Wallet: FC = () => {
                       <MenuButton
                         as={Button}
                         w="218px"
-                        leftIcon={<Avatar w="32px" h="32px" src={account.ensAvatar || "/icons/sample_avatar.svg"} />}
+                        leftIcon={
+                          <Avatar
+                            w="32px"
+                            h="32px"
+                            bgColor={colorMode === "light" ? "#B2B2FF" : "#FF8080"}
+                            src={account.ensAvatar}
+                            icon={
+                              <Box position="absolute" top="4px">
+                                <Image width="28px" height="28px" src="/icons/dotty.svg" />
+                              </Box>
+                            }
+                          />
+                        }
                         rightIcon={<Icon name="menu" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
                       >
                         <Text textAlign="left" textStyle="button-2" pl="4px">
