@@ -28,6 +28,9 @@ export default class LinkPreview {
     this.g.beginFill(0x000000);
     this.g.drawRoundedRect(0, 0, 296, 80, 16);
     this.g.endFill();
+    this.g.beginFill(0xffffff, 0.001); // todo
+    this.g.drawRoundedRect(0, 80, 296, 80, 0);
+    this.g.endFill();
     this.container.addChild(this.g);
 
     this.defaultOGP = new Graphics();
