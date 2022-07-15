@@ -44,6 +44,7 @@ export default class LinkPreview {
     this.ogp.y = 16;
     this.ogp.width = 48;
     this.ogp.height = 48;
+    this.ogp.mask = this.defaultOGP;
     this.container.addChild(this.ogp);
   }
 

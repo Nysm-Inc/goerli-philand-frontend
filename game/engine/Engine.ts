@@ -1,6 +1,7 @@
-import { Application, Container, LoaderResource, ObservablePoint, Sprite, Texture } from "pixi.js";
+import { Application, Container, Graphics, LoaderResource, Sprite, Texture } from "pixi.js";
 import { Stage as LayerStage } from "@pixi/layers";
 import { Viewport } from "pixi-viewport";
+import cloneDeep from "lodash.clonedeep"; // todo
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   GAME_APP_HEIGHT,
@@ -123,10 +124,7 @@ export default class Engine {
         }
       });
 
-      this.app.loader.onComplete.add(() => {
-        console.log("loaded all assets");
-        resolve("loaded");
-      });
+      this.app.loader.onComplete.add(() => resolve("loaded"));
       this.app.loader.onError.add(() => reject("failed to load"));
     });
   }
@@ -144,7 +142,24 @@ export default class Engine {
   }
 
   exportImage() {
-    return this.app.view.toDataURL("image/png");
+    const [ogpW, ogpH] = [2000, 2000]; // todo
+    const container = new Container();
+    const background = new Graphics().beginFill(0xf5f2eb).drawRect(0, 0, ogpW, ogpH).endFill();
+    container.addChild(background);
+
+    const clouds = Sprite.from("assets/clouds.png");
+    clouds.width = ogpW;
+    clouds.height = ogpH;
+    container.addChild(clouds);
+
+    const viewport = cloneDeep(this.viewport);
+    viewport.resize(ogpW, ogpH, ogpW, ogpH);
+    viewport.setZoom(1, true);
+    viewport.x = -ogpW / 2;
+    viewport.y = -ogpH / 2;
+    container.addChild(viewport);
+
+    return this.app.renderer.plugins.extract.base64(container);
   }
 
   reset() {
