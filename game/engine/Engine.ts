@@ -1,4 +1,4 @@
-import { Application, LoaderResource, Sprite, Texture } from "pixi.js";
+import { Application, Container, LoaderResource, ObservablePoint, Sprite, Texture } from "pixi.js";
 import { Stage as LayerStage } from "@pixi/layers";
 import { Viewport } from "pixi-viewport";
 import {
@@ -17,6 +17,7 @@ import "./pixelPerfectInteraction";
 export default class Engine {
   app: Application;
   viewport: Viewport;
+  worldContainer: Container;
   globalTextures: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: Texture } };
   staticAssets: {
     clouds: Sprite;
@@ -44,6 +45,7 @@ export default class Engine {
       antialias: true,
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
+      // resizeTo: window, // todo
     });
     this.app.stage = new LayerStage();
     this.app.stage.sortableChildren = true;
@@ -61,12 +63,7 @@ export default class Engine {
     this.viewport
       .moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2)
       .setZoom(isMobile ? 0.25 : 0.6, true)
-      // .clampZoom({
-      //   minWidth: GAME_APP_WIDTH / 2,
-      //   maxWidth: GAME_APP_WIDTH * 2,
-      //   minHeight: GAME_APP_HEIGHT / 2,
-      //   maxHeight: GAME_APP_HEIGHT * 2,
-      // })
+      .clampZoom({ minScale: 0.1, maxScale: 16 })
       .drag({
         clampWheel: false,
         wheel: true,
@@ -81,6 +78,9 @@ export default class Engine {
       .on("mousemove", (evt) => {
         const world = this.viewport.toWorld(evt.data.global);
         this.onMouseMoveHandler(world.x, world.y);
+      })
+      .on("zoomed", ({ viewport }: { viewport: Viewport }) => {
+        this.worldContainer.visible = viewport.scale._x < 2;
       });
     this.app.stage.addChild(this.viewport);
 
@@ -91,11 +91,13 @@ export default class Engine {
     this.staticAssets.clouds.width = window.innerWidth;
     this.staticAssets.clouds.height = window.innerHeight;
     this.staticAssets.clouds.visible = false;
-    this.app.stage.addChild(this.staticAssets.clouds);
     this.staticAssets.cloudsBlack.width = window.innerWidth;
     this.staticAssets.cloudsBlack.height = window.innerHeight;
     this.staticAssets.cloudsBlack.visible = false;
-    this.app.stage.addChild(this.staticAssets.cloudsBlack);
+    this.worldContainer = new Container();
+    this.worldContainer.addChild(this.staticAssets.clouds);
+    this.worldContainer.addChild(this.staticAssets.cloudsBlack);
+    this.app.stage.addChild(this.worldContainer);
   }
 
   // todo: cache loaded files

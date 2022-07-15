@@ -24,8 +24,8 @@ export const COLOR_MODE_KEY = "color_mode_key";
 export const CURRENT_ENS_KEY = "current_ens_key";
 
 // game
-export const GAME_APP_WIDTH = 2400;
-export const GAME_APP_HEIGHT = 1600;
+export const GAME_APP_WIDTH = 4000;
+export const GAME_APP_HEIGHT = 4000;
 export const TILE_W = 97 - 1;
 export const TILE_H = 49 - 1;
 export const LAND_W = 1576;
