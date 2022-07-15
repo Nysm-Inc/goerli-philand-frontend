@@ -67,7 +67,7 @@ const useENS = (
 
   useEffect(() => {
     if (chainId !== chain.polygonMumbai.id) {
-      switchCurrentENS("");
+      setCurrent("");
       setDomains([]);
     }
   }, [chainId]);
