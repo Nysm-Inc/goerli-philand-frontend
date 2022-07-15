@@ -47,7 +47,11 @@ const ClaimButton: FC<{ claimable: boolean; claimed: boolean; onClick: () => voi
             </Text>
           </Button>
         ) : (
-          <Button w="full" disabled />
+          <Button w="full" disabled>
+            <Text color="white" textStyle="button-1">
+              Not Eligible
+            </Text>
+          </Button>
         )}
       </>
     )}
