@@ -87,7 +87,7 @@ const Cart: FC<{
             {item.name}
           </Text>
           <HStack>
-            <Image src="/icons/eth.svg" width="16px" height="16px" />
+            <Image src="/icons/polygon_logo.svg" width="16px" height="16px" />
             <Text textStyle="label-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
               {item.price}
             </Text>

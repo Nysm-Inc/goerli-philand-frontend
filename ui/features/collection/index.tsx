@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useContext, useEffect, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, Flex, SimpleGrid, Spacer, Text, useDisclosure, VStack } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid, Text, useDisclosure, VStack } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
 import { objectMetadataList } from "~/types/object";
 import { Icon, IconButton, Button, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput, ModalFooterButton } from "~/ui/components";
