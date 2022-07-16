@@ -21,19 +21,11 @@ import { ShopItemContractAddress } from "~/types";
 
 type Item = ObjectMetadata & { select: number };
 
-const defaultItems: { [contract in ShopItemContractAddress]: Item[] } = {
-  [FREE_OBJECT_CONTRACT_ADDRESS]: Object.values(objectMetadataList[FREE_OBJECT_CONTRACT_ADDRESS]).map((metadata) => ({
+const defaultItems = (contract: ShopItemContractAddress): Item[] => {
+  return Object.values(objectMetadataList[contract]).map((metadata) => ({
     ...metadata,
     select: 0,
-  })),
-  [PREMIUM_OBJECT_CONTRACT_ADDRESS]: Object.values(objectMetadataList[PREMIUM_OBJECT_CONTRACT_ADDRESS]).map((metadata) => ({
-    ...metadata,
-    select: 0,
-  })),
-  [WALLPAPER_CONTRACT_ADDRESS]: Object.values(objectMetadataList[WALLPAPER_CONTRACT_ADDRESS]).map((metadata) => ({
-    ...metadata,
-    select: 0,
-  })),
+  }));
 };
 
 const tabIdx2Contract: { [idx: number]: ShopItemContractAddress } = {
@@ -116,7 +108,7 @@ const Shop: FC<{
   };
 }> = ({ isOpen, onClose, onSubmit }) => {
   const { colorMode } = useContext(AppContext);
-  const [items, setItems] = useState<Item[]>(defaultItems[FREE_OBJECT_CONTRACT_ADDRESS]);
+  const [items, setItems] = useState<Item[]>(defaultItems(FREE_OBJECT_CONTRACT_ADDRESS));
   const [tabIdx, setTabIdx] = useState(0);
 
   const plus = (idx: number) => {
@@ -130,7 +122,7 @@ const Shop: FC<{
     setItems(copied);
   };
   const reset = (contract: ShopItemContractAddress) => {
-    setItems(defaultItems[contract]);
+    setItems(defaultItems(contract));
   };
 
   return (
