@@ -67,7 +67,7 @@ const Button: FC<{
               borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
             },
             _disabled: {
-              bgColor: "#F5F2EB",
+              bgColor: colorMode === "light" ? "#F5F2EB" : "#292929",
               borderColor: "#CECCC9",
               cursor: "not-allowed",
             },

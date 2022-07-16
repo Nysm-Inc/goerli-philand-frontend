@@ -24,7 +24,7 @@ const ApproveButton: FC<{ text: string; isApproved: boolean; onApprove: () => vo
         color={isApproved ? undefined : "purple"}
         onClick={onApprove}
         disabled={isApproved}
-        leftIcon={isApproved ? <Icon name="check" /> : undefined}
+        leftIcon={isApproved ? <Icon name="check" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} /> : undefined}
       >
         <Text color="white" textStyle="button-1">
           {isApproved ? "Approved" : "Approve"}

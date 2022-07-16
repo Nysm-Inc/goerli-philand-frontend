@@ -61,6 +61,8 @@ const useENS = (
   }, [account, chainId]);
 
   useEffect(() => {
+    if (!account) return;
+
     const prev = getENSFromStorage(account);
     switchCurrentENS(prev || ens || "");
   }, [account]);
