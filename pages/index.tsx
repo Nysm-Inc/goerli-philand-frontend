@@ -22,6 +22,7 @@ import {
   Button,
   ENSNotFound,
   Help,
+  Permissions,
 } from "~/ui/components";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
@@ -66,6 +67,7 @@ const Index: NextPage = () => {
   const { isOpen: isOpenShop, onOpen: onOpenShop, onClose: onCloseShop } = useDisclosure();
   const { isOpen: isOpenCollection, onOpen: onOpenCollection, onClose: onCloseCollection } = useDisclosure();
   const { isOpen: isOpenInventory, onOpen: onOpenInventry, onClose: onCloseInventory } = useDisclosure();
+  const { isOpen: isOpenPermissions, onOpen: onOpenPermissions, onClose: onClosePermissions } = useDisclosure();
 
   const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens, chain?.id);
   const [isCreated, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(address, currentENS);
@@ -159,8 +161,6 @@ const Index: NextPage = () => {
         }}
       />
       <Collection
-        // todo
-        // wallpapers
         items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
         isApproved={{
           [PHI_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
@@ -170,13 +170,8 @@ const Index: NextPage = () => {
         }}
         isEdit={isEdit}
         isOpen={isOpenCollection}
+        onOpenPermissions={onOpenPermissions}
         onClose={onCloseCollection}
-        onApprove={{
-          [PHI_OBJECT_CONTRACT_ADDRESS]: aprvPhi,
-          [FREE_OBJECT_CONTRACT_ADDRESS]: aprvFree,
-          [PREMIUM_OBJECT_CONTRACT_ADDRESS]: aprvPre,
-          [WALLPAPER_CONTRACT_ADDRESS]: aprvWall,
-        }}
         onSubmit={deposit}
       />
       <Inventory
@@ -206,6 +201,22 @@ const Index: NextPage = () => {
         onBack={onDropObject}
         onChange={(id: string, link: PhiLink) => onChangeLink(id, { title: link.title, url: link.url })}
       />
+      <Permissions
+        isApproved={{
+          [PHI_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
+          [FREE_OBJECT_CONTRACT_ADDRESS]: isAprvFree,
+          [PREMIUM_OBJECT_CONTRACT_ADDRESS]: isAprvPre,
+          [WALLPAPER_CONTRACT_ADDRESS]: isAprvWall,
+        }}
+        onApprove={{
+          [PHI_OBJECT_CONTRACT_ADDRESS]: aprvPhi,
+          [FREE_OBJECT_CONTRACT_ADDRESS]: aprvFree,
+          [PREMIUM_OBJECT_CONTRACT_ADDRESS]: aprvPre,
+          [WALLPAPER_CONTRACT_ADDRESS]: aprvWall,
+        }}
+        isOpen={isOpenPermissions}
+        onClose={onClosePermissions}
+      />
       <Header />
       <Help />
 
@@ -234,7 +245,7 @@ const Index: NextPage = () => {
       ) : (
         <>
           {domains.length > 0 ? (
-            <Modal w="456px" h="438px" isOpen={true} onClose={() => {}}>
+            <Modal w="456px" h="438px" isOpen={true} onClose={() => {}} overlay>
               <ModalHeader buttons={[]} />
               <VStack spacing="8px">
                 <Image src="/icons/ens.svg" width="134px" height="150px" />

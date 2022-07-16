@@ -8,7 +8,7 @@ import { AppContext } from "~/contexts";
 const ConfirmTx: FC<{ txs: Tx[] }> = ({ txs }) => {
   const { colorMode } = useContext(AppContext);
   return (
-    <Modal w="456px" h="532px" isOpen={txs.some((tx) => tx.tmpStatus === "loading")} onClose={() => {}}>
+    <Modal w="456px" h="532px" isOpen={txs.some((tx) => tx.tmpStatus === "loading")} onClose={() => {}} overlay>
       <ModalHeader buttons={[]} />
       <VStack spacing="16px">
         <Image src={`/icons/${colorMode === "light" ? "loader" : "loader_dark"}.svg`} width="144px" height="144px" />

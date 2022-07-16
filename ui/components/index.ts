@@ -16,6 +16,7 @@ import IconButton from "./IconButton";
 import { Tab, TabList } from "./Tab";
 import ENSNotFound from "./ENSNotFound";
 import Help from "./Help";
+import Permissions from "./Permissions";
 
 export {
   ActionMenu,
@@ -44,4 +45,5 @@ export {
   Tab,
   TabList,
   ModalFooterButton,
+  Permissions,
 };
