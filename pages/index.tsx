@@ -87,7 +87,7 @@ const Index: NextPage = () => {
   const balanceWallpapers = useBalances(WALLPAPER_CONTRACT_ADDRESS, address);
   const [depositObjects, { deposit, tx: txDeposit }, { withdraw, tx: txUndeposit }] = useDeposit(currentENS);
   const { save, tx: txSave } = useSave(currentENS);
-  const [claimableList, updateClaimableList, refetchClaimableList] = useClaimableList(address);
+  const [claimableList, updateClaimableList] = useClaimableList(address);
   const [inventoryObjects, plus, minus, tryWrite, tryRemove, reset] = useInventory(depositObjects, isEdit);
 
   const {
@@ -219,10 +219,7 @@ const Index: NextPage = () => {
           currentWallpaper={wallpaper}
           balanceWallpapers={balanceWallpapers}
           actionHandler={{
-            onOpenQuest: () => {
-              refetchClaimableList();
-              onOpenQuest();
-            },
+            onOpenQuest,
             onOpenShop,
             onOpenCollection,
             onOpenInventry,
