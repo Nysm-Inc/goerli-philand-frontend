@@ -13,6 +13,7 @@ import {
   useDimensions,
   PositionProps,
   Flex,
+  ModalOverlay,
 } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Button from "./Button";
@@ -99,15 +100,17 @@ const Modal: FC<{
   w: LayoutProps["w"];
   h: LayoutProps["h"];
   left?: PositionProps["left"];
+  overlay?: boolean;
   isOpen: boolean;
   onClose: () => void;
   onCloseComplete?: () => void;
   children: ReactNode;
-}> = ({ w, h, isOpen, left, onClose, onCloseComplete, children }) => {
+}> = ({ w, h, isOpen, left, overlay, onClose, onCloseComplete, children }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
     <ChakraModal isOpen={isOpen} onClose={onClose} isCentered={!!left || true} scrollBehavior="inside" onCloseComplete={onCloseComplete}>
+      {overlay && <ModalOverlay bgColor="rgba(26, 26, 26, 0.32)" />}
       <ChakraModalContent
         p="24px"
         border="1px solid"
