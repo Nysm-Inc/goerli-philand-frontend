@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { FC, useContext, useState } from "react";
+import { FC, ReactNode, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, Center, Flex, HStack, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { Box, Center, Flex, HStack, Link, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
-import { ClaimableList } from "~/types/quest";
+import { ClaimableList, conditionList } from "~/types/quest";
 import { Button, IconButton, Modal, ModalBody, ModalHeader, Icon } from "~/ui/components";
 import { AppContext } from "~/contexts";
 
@@ -57,6 +57,32 @@ const ClaimButton: FC<{ claimable: boolean; claimed: boolean; onClick: () => voi
     )}
   </>
 );
+
+const Row: FC<{ idx: number; length: number; children?: ReactNode }> = ({ idx, length, children }) => {
+  const { colorMode } = useContext(AppContext);
+
+  let radius = "";
+  if (idx === 0 && idx === length - 1) {
+    radius = "12px";
+  } else if (idx === 0) {
+    radius = "12px 12px 0 0";
+  } else if (idx === length - 1) {
+    radius = "0 0 12px 12px";
+  }
+  return (
+    <Flex
+      p="16px"
+      gap="16px"
+      w="730px"
+      h="56px"
+      align="center"
+      borderRadius={radius}
+      bgColor={colorMode === "light" ? "#F5F2EB" : "#292929"}
+    >
+      {children}
+    </Flex>
+  );
+};
 
 const Quest: FC<{
   claimableList: ClaimableList;
@@ -149,25 +175,41 @@ const Quest: FC<{
             <Text w="720px" h="40px" textStyle="paragraph-2" color={colorMode === "light" ? "#808080" : "#CCCCCC"}>
               {objectTraisList[QUEST_OBJECT_CONTRACT_ADDRESS][selected.tokenId]?.description}
             </Text>
-            <VStack spacing="2px">
-              <Flex
-                p="12px 16px"
-                gap="16px"
-                w="730px"
-                h="56px"
-                borderRadius="12px 12px 0 0"
-                bgColor={colorMode === "light" ? "#F5F2EB" : "#292929"}
-              />
-              <Flex p="12px 16px" gap="16px" w="730px" h="56px" bgColor={colorMode === "light" ? "#F5F2EB" : "#292929"} />
-              <Flex
-                p="12px 16px"
-                gap="16px"
-                w="730px"
-                h="56px"
-                borderRadius="0 0 12px 12px"
-                bgColor={colorMode === "light" ? "#F5F2EB" : "#292929"}
-              />
+            <VStack spacing="16px" align="flex-start">
+              <Text textStyle="headline-2" color="#808080">
+                Requirements
+              </Text>
+              <VStack spacing="2px">
+                <Row idx={0} length={3} />
+                <Row idx={1} length={3} />
+                <Row idx={2} length={3} />
+              </VStack>
             </VStack>
+            {conditionList[selected.tokenId].links.length > 0 && (
+              <VStack spacing="16px" align="flex-start">
+                <Text textStyle="headline-2" color="#808080">
+                  References
+                </Text>
+                <VStack spacing="2px">
+                  {conditionList[selected.tokenId].links.map((link, i) => (
+                    <Row key={i} idx={i} length={conditionList[selected.tokenId].links.length}>
+                      <Center w="32px" h="32px" bgColor="#FFFFFF" borderRadius="8px">
+                        <Icon name="link" width="16px" height="16px" color="#1A1A1A" />
+                      </Center>
+                      <Link
+                        href={link.url}
+                        isExternal
+                        textStyle="paragraph-2"
+                        cursor="pointer"
+                        color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}
+                      >
+                        {link.title}
+                      </Link>
+                    </Row>
+                  ))}
+                </VStack>
+              </VStack>
+            )}
           </VStack>
         ) : (
           <SimpleGrid columns={3} spacing="8px">

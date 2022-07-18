@@ -665,7 +665,7 @@ export let objectTraisList: { [contract in ObjectContractAddress | WallpaperCont
   [WALLPAPER_CONTRACT_ADDRESS]: {},
 };
 
-const getTraits = () => {
+const setTraits = () => {
   Promise.all(
     Object.keys(objectMetadataList).map((key) => {
       const contract = key as ObjectContractAddress | WallpaperContractAddress;
@@ -682,4 +682,4 @@ const getTraits = () => {
     })
   );
 };
-getTraits();
+setTraits();
