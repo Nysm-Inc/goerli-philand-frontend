@@ -6,7 +6,7 @@ import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   GAME_APP_HEIGHT,
   GAME_APP_WIDTH,
-  PHI_OBJECT_CONTRACT_ADDRESS,
+  QUEST_OBJECT_CONTRACT_ADDRESS,
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
@@ -32,7 +32,7 @@ export default class Engine {
     this.onMouseClickHandler = onMouseClick;
 
     this.globalTextures = {
-      [PHI_OBJECT_CONTRACT_ADDRESS]: {},
+      [QUEST_OBJECT_CONTRACT_ADDRESS]: {},
       [FREE_OBJECT_CONTRACT_ADDRESS]: {},
       [PREMIUM_OBJECT_CONTRACT_ADDRESS]: {},
       [WALLPAPER_CONTRACT_ADDRESS]: {},

@@ -71,27 +71,22 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      },
-      {
         "internalType": "string",
         "name": "name",
         "type": "string"
       },
       {
-        "internalType": "bytes32",
-        "name": "label",
-        "type": "bytes32"
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
       },
       {
         "internalType": "address",
-        "name": "owner",
+        "name": "contractAddress",
         "type": "address"
       }
     ],
-    "name": "InvalidENS",
+    "name": "InvalidCoupon",
     "type": "error"
   },
   {
@@ -157,7 +152,7 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "_phiMapAddress",
+        "name": "phiMapAddress",
         "type": "address"
       }
     ],
@@ -324,7 +319,7 @@
         "type": "address"
       }
     ],
-    "name": "changePhilandAddress",
+    "name": "changePhiMapAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -415,6 +410,19 @@
   {
     "inputs": [],
     "name": "getAdminSigner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getPhiMapAddress",
     "outputs": [
       {
         "internalType": "address",

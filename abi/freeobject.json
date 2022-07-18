@@ -77,7 +77,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "_newPrice",
+        "name": "newPrice",
         "type": "uint256"
       }
     ],
@@ -160,7 +160,7 @@
       {
         "indexed": false,
         "internalType": "address payable",
-        "name": "_creator",
+        "name": "creator",
         "type": "address"
       }
     ],
@@ -211,7 +211,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "_royalityFee",
+        "name": "royalityFee",
         "type": "uint256"
       }
     ],
@@ -224,7 +224,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "_secondaryRoyalty",
+        "name": "secondaryRoyalty",
         "type": "uint256"
       }
     ],
@@ -274,7 +274,7 @@
       {
         "indexed": false,
         "internalType": "string",
-        "name": "_uri",
+        "name": "uri",
         "type": "string"
       }
     ],
@@ -287,7 +287,7 @@
       {
         "indexed": false,
         "internalType": "address payable",
-        "name": "_treasuryAddress",
+        "name": "treasuryAddress",
         "type": "address"
       }
     ],
@@ -662,7 +662,7 @@
         "type": "uint256"
       }
     ],
-    "name": "getCreator",
+    "name": "getCreatorAddress",
     "outputs": [
       {
         "internalType": "address payable",
@@ -792,6 +792,19 @@
         "internalType": "struct BaseObject.Object",
         "name": "",
         "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getRoyalityFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -1150,7 +1163,7 @@
         "type": "address"
       }
     ],
-    "name": "setCreator",
+    "name": "setCreatorAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

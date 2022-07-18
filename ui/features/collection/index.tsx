@@ -7,7 +7,7 @@ import { objectMetadataList } from "~/types/object";
 import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput, ModalFooterButton } from "~/ui/components";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
-  PHI_OBJECT_CONTRACT_ADDRESS,
+  QUEST_OBJECT_CONTRACT_ADDRESS,
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
@@ -18,7 +18,7 @@ type CollectionObject = BalanceObject & { select: number };
 const Collection: FC<{
   items: BalanceObject[];
   isApproved: {
-    [PHI_OBJECT_CONTRACT_ADDRESS]: boolean;
+    [QUEST_OBJECT_CONTRACT_ADDRESS]: boolean;
     [FREE_OBJECT_CONTRACT_ADDRESS]: boolean;
     [PREMIUM_OBJECT_CONTRACT_ADDRESS]: boolean;
     [WALLPAPER_CONTRACT_ADDRESS]: boolean;

@@ -35,7 +35,7 @@ import { useBuyPremiumObject } from "~/hooks/premium";
 import useWallpaper from "~/hooks/wallpaper";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
-  PHI_OBJECT_CONTRACT_ADDRESS,
+  QUEST_OBJECT_CONTRACT_ADDRESS,
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
@@ -75,7 +75,7 @@ const Index: NextPage = () => {
   const { owner, phiObjects } = useViewPhiland(currentENS);
   const isCreatedPhiland = owner === address && (isCreated || phiObjects.length > 0);
   const [wallpaper] = useCheckWallpaper(currentENS);
-  const [isAprvPhi, { approve: aprvPhi, tx: txAprvPhi }] = useApprove(PHI_OBJECT_CONTRACT_ADDRESS, address);
+  const [isAprvPhi, { approve: aprvPhi, tx: txAprvPhi }] = useApprove(QUEST_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvFree, { approve: aprvFree, tx: txAprvFree }] = useApprove(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvPre, { approve: aprvPre, tx: txAprvPre }] = useApprove(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvWall, { approve: aprvWall, tx: txAprvWall }] = useApprove(WALLPAPER_CONTRACT_ADDRESS, address);
@@ -83,7 +83,7 @@ const Index: NextPage = () => {
   const { getFreeObject, tx: txGetFreeObject } = useGetFreeObject();
   const { buyPremiumObject, tx: txBuyPremiumObject } = useBuyPremiumObject();
   const { batchWallPaper, tx: txGetFreeWallpaper } = useWallpaper();
-  const balancePhiObjects = useBalances(PHI_OBJECT_CONTRACT_ADDRESS, address);
+  const balancePhiObjects = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address);
   const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
   const balanceWallpapers = useBalances(WALLPAPER_CONTRACT_ADDRESS, address);
@@ -163,7 +163,7 @@ const Index: NextPage = () => {
       <Collection
         items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
         isApproved={{
-          [PHI_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
+          [QUEST_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
           [FREE_OBJECT_CONTRACT_ADDRESS]: isAprvFree,
           [PREMIUM_OBJECT_CONTRACT_ADDRESS]: isAprvPre,
           [WALLPAPER_CONTRACT_ADDRESS]: isAprvWall,
@@ -203,13 +203,13 @@ const Index: NextPage = () => {
       />
       <Permissions
         isApproved={{
-          [PHI_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
+          [QUEST_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
           [FREE_OBJECT_CONTRACT_ADDRESS]: isAprvFree,
           [PREMIUM_OBJECT_CONTRACT_ADDRESS]: isAprvPre,
           [WALLPAPER_CONTRACT_ADDRESS]: isAprvWall,
         }}
         onApprove={{
-          [PHI_OBJECT_CONTRACT_ADDRESS]: aprvPhi,
+          [QUEST_OBJECT_CONTRACT_ADDRESS]: aprvPhi,
           [FREE_OBJECT_CONTRACT_ADDRESS]: aprvFree,
           [PREMIUM_OBJECT_CONTRACT_ADDRESS]: aprvPre,
           [WALLPAPER_CONTRACT_ADDRESS]: aprvWall,

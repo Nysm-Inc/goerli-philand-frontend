@@ -2,7 +2,7 @@ import { FC, useContext } from "react";
 import { Flex, Text, VStack } from "@chakra-ui/react";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
-  PHI_OBJECT_CONTRACT_ADDRESS,
+  QUEST_OBJECT_CONTRACT_ADDRESS,
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
@@ -37,13 +37,13 @@ const ApproveButton: FC<{ text: string; isApproved: boolean; onApprove: () => vo
 const Permissions: FC<{
   isOpen: boolean;
   isApproved: {
-    [PHI_OBJECT_CONTRACT_ADDRESS]: boolean;
+    [QUEST_OBJECT_CONTRACT_ADDRESS]: boolean;
     [FREE_OBJECT_CONTRACT_ADDRESS]: boolean;
     [PREMIUM_OBJECT_CONTRACT_ADDRESS]: boolean;
     [WALLPAPER_CONTRACT_ADDRESS]: boolean;
   };
   onApprove: {
-    [PHI_OBJECT_CONTRACT_ADDRESS]: () => void;
+    [QUEST_OBJECT_CONTRACT_ADDRESS]: () => void;
     [FREE_OBJECT_CONTRACT_ADDRESS]: () => void;
     [PREMIUM_OBJECT_CONTRACT_ADDRESS]: () => void;
     [WALLPAPER_CONTRACT_ADDRESS]: () => void;
@@ -72,8 +72,8 @@ const Permissions: FC<{
         <VStack>
           <ApproveButton
             text="Phi Object"
-            isApproved={isApproved[PHI_OBJECT_CONTRACT_ADDRESS]}
-            onApprove={onApprove[PHI_OBJECT_CONTRACT_ADDRESS]}
+            isApproved={isApproved[QUEST_OBJECT_CONTRACT_ADDRESS]}
+            onApprove={onApprove[QUEST_OBJECT_CONTRACT_ADDRESS]}
           />
 
           <ApproveButton

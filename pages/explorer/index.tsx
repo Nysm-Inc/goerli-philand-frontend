@@ -5,7 +5,7 @@ import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   MAP_CONTRACT_ADDRESS,
   MUMBAI_BLOCK_EXPLORER,
-  PHI_OBJECT_CONTRACT_ADDRESS,
+  QUEST_OBJECT_CONTRACT_ADDRESS,
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   REGISTRY_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
@@ -23,7 +23,7 @@ const Explorer: NextPage = () => {
       <Link href={baseURL + FREE_OBJECT_CONTRACT_ADDRESS} isExternal textDecoration="underline">
         Free Object
       </Link>
-      <Link href={baseURL + PHI_OBJECT_CONTRACT_ADDRESS} isExternal textDecoration="underline">
+      <Link href={baseURL + QUEST_OBJECT_CONTRACT_ADDRESS} isExternal textDecoration="underline">
         Phi Object
       </Link>
       <Link href={baseURL + WALLPAPER_CONTRACT_ADDRESS} isExternal textDecoration="underline">

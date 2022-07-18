@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
-  PHI_OBJECT_CONTRACT_ADDRESS,
+  QUEST_OBJECT_CONTRACT_ADDRESS,
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
@@ -21,7 +21,7 @@ export type ObjectMetadata = {
 
 export const objectMetadataList: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: ObjectMetadata } } =
   {
-    [PHI_OBJECT_CONTRACT_ADDRESS]: {
+    [QUEST_OBJECT_CONTRACT_ADDRESS]: {
       1: {
         tokenId: 1,
         name: "ENS Signboard",
@@ -659,7 +659,7 @@ export type ObjectTraits = {
 };
 
 export let objectTraisList: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: ObjectTraits } } = {
-  [PHI_OBJECT_CONTRACT_ADDRESS]: {},
+  [QUEST_OBJECT_CONTRACT_ADDRESS]: {},
   [FREE_OBJECT_CONTRACT_ADDRESS]: {},
   [PREMIUM_OBJECT_CONTRACT_ADDRESS]: {},
   [WALLPAPER_CONTRACT_ADDRESS]: {},

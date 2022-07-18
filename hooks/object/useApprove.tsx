@@ -1,7 +1,7 @@
 import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
 import { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
-import { PhiObjectAbi } from "~/abi";
+import { QuestObjectAbi } from "~/abi";
 import { Tx } from "~/types/wagmi";
 import { ContractAbis, ObjectContractAddress, WallpaperContractAddress } from "~/types";
 
@@ -25,7 +25,7 @@ const useApprove = (
     status: tmpStatus,
   } = useContractWrite({
     addressOrName: contract,
-    contractInterface: PhiObjectAbi,
+    contractInterface: QuestObjectAbi,
     functionName: "setApprovalForAll",
   });
   const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });

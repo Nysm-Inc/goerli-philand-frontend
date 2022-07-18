@@ -1,6 +1,6 @@
 import { useContractReads, useContractWrite, useWaitForTransaction } from "wagmi";
 import { TransactionResponse } from "@ethersproject/providers";
-import { CLAIM_CONTRACT_ADDRESS, PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
+import { CLAIM_CONTRACT_ADDRESS, QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ClaimAbi } from "~/abi";
 import { getCoupon } from "~/utils/coupon";
 import { conditionList } from "~/types/quest";
@@ -11,7 +11,7 @@ const checkClaimedStatus = (tokenId: number) => ({
   addressOrName: CLAIM_CONTRACT_ADDRESS,
   contractInterface: ClaimAbi,
   functionName: "checkClaimedStatus",
-  args: [PHI_OBJECT_CONTRACT_ADDRESS, tokenId],
+  args: [QUEST_OBJECT_CONTRACT_ADDRESS, tokenId],
 });
 
 const useClaim = (
@@ -19,7 +19,7 @@ const useClaim = (
   disabled?: boolean
 ): [boolean[], { claimPhi: (tokenId: number) => Promise<TransactionResponse | undefined>; tx: Tx }] => {
   const { data } = useContractReads({
-    contracts: Object.values(objectMetadataList[PHI_OBJECT_CONTRACT_ADDRESS]).map((metadata) => checkClaimedStatus(metadata.tokenId)),
+    contracts: Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]).map((metadata) => checkClaimedStatus(metadata.tokenId)),
     watch: true,
     enabled: !!address && !disabled,
   });
@@ -46,7 +46,7 @@ const useClaim = (
         if (!coupon) return;
 
         const condition = conditionList[tokenId];
-        const calldata = [PHI_OBJECT_CONTRACT_ADDRESS, tokenId, condition.name + condition.value.toString(), coupon];
+        const calldata = [QUEST_OBJECT_CONTRACT_ADDRESS, tokenId, condition.name + condition.value.toString(), coupon];
         return writeAsync({ args: calldata });
       },
       tx: {

@@ -2,7 +2,7 @@ import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, Flex, HStack, SimpleGrid, Text, VStack } from "@chakra-ui/react";
-import { PHI_OBJECT_CONTRACT_ADDRESS } from "~/constants";
+import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
 import { ClaimableList } from "~/types/quest";
 import { Button, IconButton, Modal, ModalBody, ModalHeader, Icon } from "~/ui/components";
@@ -24,7 +24,7 @@ const Network: FC<{ tokenId: number }> = ({ tokenId }) => {
       <Image src="/icons/eth_logo.svg" width="16px" height="16px" />
       <Text textStyle="label-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
         {/* todo */}
-        {objectTraisList[PHI_OBJECT_CONTRACT_ADDRESS][tokenId]?.attributes[0]?.value}
+        {objectTraisList[QUEST_OBJECT_CONTRACT_ADDRESS][tokenId]?.attributes[0]?.value}
       </Text>
     </HStack>
   );
@@ -147,7 +147,7 @@ const Quest: FC<{
               </VStack>
             </HStack>
             <Text w="720px" h="40px" textStyle="paragraph-2" color={colorMode === "light" ? "#808080" : "#CCCCCC"}>
-              {objectTraisList[PHI_OBJECT_CONTRACT_ADDRESS][selected.tokenId]?.description}
+              {objectTraisList[QUEST_OBJECT_CONTRACT_ADDRESS][selected.tokenId]?.description}
             </Text>
             <VStack spacing="2px">
               <Flex
@@ -171,7 +171,7 @@ const Quest: FC<{
           </VStack>
         ) : (
           <SimpleGrid columns={3} spacing="8px">
-            {Object.values(objectMetadataList[PHI_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
+            {Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
               const claimable = Boolean(claimableList.find((v) => v.TokenId === metadata.tokenId.toString()));
               const claimed = claimedList.length > 0 && claimedList[metadata.tokenId - 1];
               return (
