@@ -10,7 +10,7 @@ import Search from "./Search";
 import SelectBox from "./SelectBox";
 import { ConfirmTx, StatusTx } from "./transaction";
 import Wallet from "./Wallet";
-import Icon from "./Icon";
+import Icon, { IconName } from "./Icon";
 import { Modal, ModalBody, ModalHeader, ModalFooter, ModalFooterButton } from "./Modal";
 import IconButton from "./IconButton";
 import { Tab, TabList } from "./Tab";
@@ -42,6 +42,7 @@ export {
   SelectBox,
   Wallet,
   Icon,
+  type IconName,
   IconButton,
   Tab,
   TabList,

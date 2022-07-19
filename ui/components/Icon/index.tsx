@@ -20,6 +20,7 @@ import Save from "./Save";
 import Search from "./Search";
 import Share from "./Share";
 import Sun from "./Sun";
+import Timer from "./Timer";
 import Trash from "./Trash";
 import Undo from "./Undo";
 
@@ -45,11 +46,12 @@ const icons = {
   search: Search,
   share: Share,
   sun: Sun,
+  timer: Timer,
   trash: Trash,
   undo: Undo,
 };
 
-type IconName = keyof typeof icons;
+export type IconName = keyof typeof icons;
 
 const Icon: FC<{ name: IconName } & SVGProps<SVGSVGElement>> = ({ name, ...rest }) => {
   const IconComponent = icons[name];
