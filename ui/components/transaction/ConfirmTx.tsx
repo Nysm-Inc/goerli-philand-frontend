@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
 import { Box, Text, VStack } from "@chakra-ui/react";
-import { Tx } from "~/types/wagmi";
+import { Tx } from "~/types/tx";
 import { Modal, ModalHeader } from "~/ui/components";
 import { AppContext } from "~/contexts";
 

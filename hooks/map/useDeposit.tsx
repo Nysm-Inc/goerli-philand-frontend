@@ -4,7 +4,7 @@ import type { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { MapAbi } from "~/abi";
 import { BalanceObject, DepositObject } from "~/types";
-import { Tx } from "~/types/wagmi";
+import { Tx } from "~/types/tx";
 
 const useDeposit = (
   ens?: string | null,

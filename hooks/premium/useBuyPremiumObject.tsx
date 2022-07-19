@@ -3,7 +3,7 @@ import { TransactionResponse } from "@ethersproject/providers";
 import { PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { PremiumObjectAbi } from "~/abi";
 import { BigNumber, ethers } from "ethers";
-import { Tx } from "~/types/wagmi";
+import { Tx } from "~/types/tx";
 import { objectMetadataList } from "~/types/object";
 
 const useBuyPremiumObject = (): {

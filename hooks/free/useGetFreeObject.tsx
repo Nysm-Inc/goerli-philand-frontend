@@ -2,7 +2,7 @@ import { useContractWrite, useWaitForTransaction } from "wagmi";
 import { TransactionResponse } from "@ethersproject/providers";
 import { FREE_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { FreeObjectAbi } from "~/abi";
-import { Tx } from "~/types/wagmi";
+import { Tx } from "~/types/tx";
 
 const useGetFreeObject = (): { getFreeObject: (tokenIds: number[]) => Promise<TransactionResponse | undefined>; tx: Tx } => {
   const {

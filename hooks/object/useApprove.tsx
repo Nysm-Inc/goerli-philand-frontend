@@ -2,7 +2,7 @@ import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi"
 import { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { QuestObjectAbi } from "~/abi";
-import { Tx } from "~/types/wagmi";
+import { Tx } from "~/types/tx";
 import { ContractAbis, ObjectContractAddress, WallpaperContractAddress } from "~/types";
 
 const useApprove = (

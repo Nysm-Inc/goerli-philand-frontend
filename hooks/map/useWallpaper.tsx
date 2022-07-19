@@ -4,7 +4,7 @@ import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi"
 import { MapAbi } from "~/abi";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { nullAddress, Wallpaper } from "~/types";
-import { Tx } from "~/types/wagmi";
+import { Tx } from "~/types/tx";
 
 const useCheckWallpaper = (
   ens?: string | null,

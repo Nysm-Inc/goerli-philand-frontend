@@ -2,7 +2,7 @@ import { useContractWrite, useWaitForTransaction } from "wagmi";
 import { TransactionResponse } from "@ethersproject/providers";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { WallpaperAbi } from "~/abi";
-import { Tx } from "~/types/wagmi";
+import { Tx } from "~/types/tx";
 
 const useWallpaper = (): { batchWallPaper: (tokenIds: number[]) => Promise<TransactionResponse | undefined>; tx: Tx } => {
   const {

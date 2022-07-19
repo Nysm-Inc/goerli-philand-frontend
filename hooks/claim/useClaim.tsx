@@ -4,7 +4,7 @@ import { CLAIM_CONTRACT_ADDRESS, QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constan
 import { ClaimAbi } from "~/abi";
 import { getCoupon } from "~/utils/coupon";
 import { conditionList } from "~/types/quest";
-import { Tx } from "~/types/wagmi";
+import { Tx } from "~/types/tx";
 import { objectMetadataList } from "~/types/object";
 
 const checkClaimedStatus = (tokenId: number) => ({

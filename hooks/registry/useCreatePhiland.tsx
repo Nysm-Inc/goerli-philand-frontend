@@ -4,7 +4,7 @@ import axios from "axios";
 import { MAP_CONTRACT_ADDRESS, REGISTRY_CONTRACT_ADDRESS, UTILS_API_GATEWAY } from "~/constants";
 import { MapAbi, RegistryAbi } from "~/abi";
 import { nullAddress } from "~/types";
-import { Tx } from "~/types/wagmi";
+import { Tx } from "~/types/tx";
 import { Coupon } from "~/types/quest";
 
 const useCreatePhiland = (

@@ -5,7 +5,7 @@ import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { MapAbi } from "~/abi";
 import { AppContext } from "~/contexts";
 import { updateOGP } from "~/utils/ogp";
-import { Tx } from "~/types/wagmi";
+import { Tx } from "~/types/tx";
 import { PhiLink } from "~/types";
 
 export type SaveArgs = {

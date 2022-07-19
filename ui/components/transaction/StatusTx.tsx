@@ -1,7 +1,7 @@
 import { FC, useContext, useEffect, useState } from "react";
 import { Box, Center, Flex, HStack, Link, Text, useToast, UseToastOptions } from "@chakra-ui/react";
 import { MUMBAI_BLOCK_EXPLORER } from "~/constants";
-import { Tx } from "~/types/wagmi";
+import { Tx } from "~/types/tx";
 import { AppContext } from "~/contexts";
 import { Icon, IconButton } from "~/ui/components";
 import { ColorMode } from "~/ui/styles";
