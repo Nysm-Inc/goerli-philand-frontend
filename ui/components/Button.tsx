@@ -38,18 +38,24 @@ const Button: FC<{
       onClick={onClick}
       {...(color
         ? {
-            bgColor: `${color}.150`,
+            bgColor: `${color}.250`,
             _hover: {
-              bgColor: `${color}.250`,
+              bgColor: `${color}.350`,
             },
             _active: {
-              bgColor: `${color}.250`,
+              bgColor: `${color}.350`,
             },
             _focus: {
-              bgColor: `${color}.150`,
+              bgColor: `${color}.250`,
               border: "2px solid",
-              borderColor: `${color}.250`,
+              borderColor: `${color}.350`,
             },
+            _disabled: !isLoading
+              ? {
+                  // todo
+                  cursor: "not-allowed",
+                }
+              : {},
           }
         : {
             textColor: colorMode === "light" ? "#1A1A1A" : "white",
@@ -66,12 +72,16 @@ const Button: FC<{
               bgColor: colorMode === "light" ? "white" : "#333333",
               borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
             },
-            _disabled: {
-              bgColor: colorMode === "light" ? "#F5F2EB" : "#292929",
-              borderColor: "#CECCC9",
-              cursor: "not-allowed",
+            _focus: {
+              outline: "none",
             },
-            _focus: { outline: "none" },
+            _disabled: !isLoading
+              ? {
+                  bgColor: colorMode === "light" ? "#F5F2EB" : "#292929",
+                  borderColor: "#CECCC9",
+                  cursor: "not-allowed",
+                }
+              : {},
           })}
     >
       <Flex justify="space-evenly" align="center">
