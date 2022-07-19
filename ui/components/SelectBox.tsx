@@ -1,5 +1,5 @@
 import { FC, useContext } from "react";
-import { Menu, MenuButton, LayoutProps } from "@chakra-ui/react";
+import { Menu, MenuButton, LayoutProps, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import MenuList, { Option } from "./MenuList";
 import Button from "./Button";
@@ -30,7 +30,9 @@ const SelectBox: FC<{
             }
             disabled={disabled}
           >
-            {selected.label}
+            <Text textStyle="button-2" textAlign="left" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+              {selected.label}
+            </Text>
           </MenuButton>
 
           <MenuList w={menuW || w} value={selected.value} isOpen={isOpen} options={options} onClick={handleChange} />
