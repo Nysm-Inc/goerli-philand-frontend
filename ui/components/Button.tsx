@@ -40,19 +40,25 @@ const Button: FC<{
         ? {
             bgColor: `${color}.250`,
             _hover: {
-              bgColor: `${color}.350`,
+              "&:not([disabled])": {
+                bgColor: `${color}.350`,
+              },
             },
             _active: {
-              bgColor: `${color}.350`,
+              "&:not([disabled])": {
+                bgColor: `${color}.350`,
+              },
             },
             _focus: {
-              bgColor: `${color}.250`,
-              border: "2px solid",
-              borderColor: `${color}.350`,
+              "&:not([disabled])": {
+                bgColor: `${color}.250`,
+                border: "2px solid",
+                borderColor: `${color}.350`,
+              },
             },
             _disabled: !isLoading
               ? {
-                  // todo
+                  bgColor: colorMode === "light" ? "#CCCCCC" : "#292929",
                   cursor: "not-allowed",
                 }
               : {},
@@ -69,8 +75,10 @@ const Button: FC<{
               },
             },
             _active: {
-              bgColor: colorMode === "light" ? "white" : "#333333",
-              borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
+              "&:not([disabled])": {
+                bgColor: colorMode === "light" ? "white" : "#333333",
+                borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
+              },
             },
             _focus: {
               outline: "none",

@@ -19,7 +19,7 @@ export const themeColors = {
     150: "#FFF7B2",
   },
   yellow: {
-    350: "#E40867",
+    350: "#F5C13D",
     250: "#FFF280",
     150: "#FFE299",
   },

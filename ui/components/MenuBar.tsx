@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Divider, HStack, useBoolean } from "@chakra-ui/react";
+import { Divider, HStack, Text, useBoolean } from "@chakra-ui/react";
 import { FRONTEND_URL } from "~/constants";
 import { AppContext } from "~/contexts";
 import { Button, SelectBox, Icon } from "~/ui/components";
@@ -143,7 +143,9 @@ const MenuBar: FC<{
         {isEdit && (
           <>
             <Button w="104px" color="yellow" leftIcon={<Icon name="undo" />} onClick={actionHandler.onView}>
-              CANCEL
+              <Text textStyle="button-2" color="#1A1A1A">
+                CANCEL
+              </Text>
             </Button>
             <Button
               w="88px"
@@ -161,13 +163,17 @@ const MenuBar: FC<{
                   .catch(stopLoading);
               }}
             >
-              Save
+              <Text textStyle="button-2" color="#1A1A1A">
+                Save
+              </Text>
             </Button>
           </>
         )}
         {!isEdit && (
           <Button w="88px" color="purple" leftIcon={<Icon name="edit" />} onClick={actionHandler.onEdit} disabled={!initialized}>
-            EDIT
+            <Text textStyle="button-2" color="#1A1A1A">
+              EDIT
+            </Text>
           </Button>
         )}
       </>
