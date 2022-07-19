@@ -206,9 +206,29 @@ const Quest: FC<{
                 Requirements
               </Text>
               <VStack spacing="2px">
-                <Row idx={0} length={3} />
-                <Row idx={1} length={3} />
-                <Row idx={2} length={3} />
+                <Row idx={0} length={1}>
+                  <Center
+                    w="32px"
+                    h="32px"
+                    borderRadius="8px"
+                    bgColor={
+                      selected.claimable ? (colorMode === "light" ? "#1A1A1A" : "#FFFFFF") : colorMode === "light" ? "#FFFFFF" : "#1A1A1A"
+                    }
+                  >
+                    <Icon
+                      name="check"
+                      width="16px"
+                      height="16px"
+                      color={
+                        selected.claimable ? (colorMode === "light" ? "#FFFFFF" : "#1A1A1A") : colorMode === "light" ? "#B3B3B3" : "#808080"
+                      }
+                    />
+                  </Center>
+                  <Text textStyle="paragraph-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                    hoge
+                    {/* {conditionList[selected.tokenId].xxxxxx} */}
+                  </Text>
+                </Row>
               </VStack>
             </VStack>
             {conditionList[selected.tokenId].links.length > 0 && (
@@ -246,6 +266,7 @@ const Quest: FC<{
                 <VStack
                   key={i}
                   height="320px"
+                  spacing="0px"
                   p="16px"
                   align="flex-start"
                   borderRadius="16px"
@@ -262,13 +283,16 @@ const Quest: FC<{
                   >
                     <Image src={metadata.image_url} layout="fill" objectFit="contain" />
                   </Box>
+                  <Box h="16px" />
                   <Text textStyle="headline-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
                     {metadata.name}
                   </Text>
+                  <Box h="8px" />
                   <HStack spacing="8px">
                     <EXP exp={metadata.EXP || 0} />
                     <Network tokenId={metadata.tokenId} />
                   </HStack>
+                  <Box h="16px" />
                   <ClaimButton claimable={claimable} claimed={claimed} onClick={() => onClickItem(metadata.tokenId)} />
                 </VStack>
               );

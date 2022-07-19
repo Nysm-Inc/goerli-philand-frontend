@@ -19,6 +19,8 @@ const fetchOGP = async (req: NextApiRequest, res: NextApiResponse) => {
       const raw = await axios.get(ogp, { responseType: "arraybuffer" });
       const base64 = Buffer.from(raw.data, "binary").toString("base64");
       res.status(200).json({ ogp: `data:${raw.headers["content-type"]};base64,${base64}` });
+    } else {
+      // todo
     }
   } catch (err) {
     res.status(400).json({ err });

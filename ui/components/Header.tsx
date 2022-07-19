@@ -2,7 +2,6 @@ import Image from "next/image";
 import { FC, useContext, useRef } from "react";
 import { Box, Center } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import { LP_URL } from "~/constants";
 import Search from "./Search";
 import Wallet from "./Wallet";
 import IconButton from "./IconButton";
@@ -14,15 +13,7 @@ const Header: FC = () => {
 
   return (
     <>
-      <Box
-        position="fixed"
-        top="16px"
-        left="24px"
-        cursor="pointer"
-        onClick={() => {
-          window.location.href = LP_URL;
-        }}
-      >
+      <Box position="fixed" top="16px" left="24px" cursor="pointer" onClick={() => (window.location.href = "/")}>
         <Image src="/icons/logo.svg" width="64px" height="64px" />
       </Box>
 
