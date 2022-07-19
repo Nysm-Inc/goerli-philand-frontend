@@ -2,7 +2,7 @@ import axios from "axios";
 import { UTILS_API_GATEWAY } from "~/constants";
 import { ClaimableList, Condition } from "~/types/quest";
 
-type ConditionListResponse = { Condition: string; Value: string; TokenId: string; Links: string };
+type ConditionListResponse = { Condition: string; Value: string; TokenId: string; Links: string; Activities: string };
 
 export const getConditionList = async (): Promise<Condition[]> => {
   const url = new URL(UTILS_API_GATEWAY + "/condition/list");
@@ -10,6 +10,7 @@ export const getConditionList = async (): Promise<Condition[]> => {
   return res.data.condition.map((c) => {
     try {
       const links = JSON.parse(c.Links) as { [title: string]: string }[];
+      const activities = JSON.parse(c.Activities) as string[];
       return {
         name: c.Condition,
         value: c.Value,
@@ -19,7 +20,8 @@ export const getConditionList = async (): Promise<Condition[]> => {
           const url = Object.values(link)[0];
           return { title, url };
         }),
-      } as Condition;
+        activities,
+      };
     } catch (err) {
       console.error(err);
       return {} as Condition;

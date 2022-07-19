@@ -14,6 +14,7 @@ export type Condition = {
     title: string;
     url: string;
   }[];
+  activities: string[];
 };
 
 export type ClaimableList = {

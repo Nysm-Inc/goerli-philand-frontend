@@ -206,29 +206,36 @@ const Quest: FC<{
                 Requirements
               </Text>
               <VStack spacing="2px">
-                <Row idx={0} length={1}>
-                  <Center
-                    w="32px"
-                    h="32px"
-                    borderRadius="8px"
-                    bgColor={
-                      selected.claimable ? (colorMode === "light" ? "#1A1A1A" : "#FFFFFF") : colorMode === "light" ? "#FFFFFF" : "#1A1A1A"
-                    }
-                  >
-                    <Icon
-                      name="check"
-                      width="16px"
-                      height="16px"
-                      color={
-                        selected.claimable ? (colorMode === "light" ? "#FFFFFF" : "#1A1A1A") : colorMode === "light" ? "#B3B3B3" : "#808080"
+                {conditionList[selected.tokenId].activities.map((activity, i) => (
+                  <Row key={i} idx={i} length={conditionList[selected.tokenId].activities.length}>
+                    <Center
+                      w="32px"
+                      h="32px"
+                      borderRadius="8px"
+                      bgColor={
+                        selected.claimable ? (colorMode === "light" ? "#1A1A1A" : "#FFFFFF") : colorMode === "light" ? "#FFFFFF" : "#1A1A1A"
                       }
-                    />
-                  </Center>
-                  <Text textStyle="paragraph-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
-                    hoge
-                    {/* {conditionList[selected.tokenId].xxxxxx} */}
-                  </Text>
-                </Row>
+                    >
+                      <Icon
+                        name="check"
+                        width="16px"
+                        height="16px"
+                        color={
+                          selected.claimable
+                            ? colorMode === "light"
+                              ? "#FFFFFF"
+                              : "#1A1A1A"
+                            : colorMode === "light"
+                            ? "#B3B3B3"
+                            : "#808080"
+                        }
+                      />
+                    </Center>
+                    <Text textStyle="paragraph-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                      {activity}
+                    </Text>
+                  </Row>
+                ))}
               </VStack>
             </VStack>
             {conditionList[selected.tokenId].links.length > 0 && (
