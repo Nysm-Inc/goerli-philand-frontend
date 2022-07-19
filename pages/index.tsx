@@ -22,6 +22,7 @@ import {
   Help,
   Permissions,
   CreatePhiland,
+  Share,
 } from "~/ui/components";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
@@ -217,6 +218,7 @@ const Index: NextPage = () => {
         onClose={onClosePermissions}
       />
       <Header />
+      {!isEdit && <Share currentENS={currentENS} />}
       <Help />
 
       {isCreatedPhiland ? (

@@ -18,6 +18,7 @@ import ENSNotFound from "./ENSNotFound";
 import Help from "./Help";
 import Permissions from "./Permissions";
 import CreatePhiland from "./CreatePhiland";
+import Share from "./Share";
 
 export {
   ActionMenu,
@@ -49,4 +50,5 @@ export {
   ModalFooterButton,
   Permissions,
   CreatePhiland,
+  Share,
 };

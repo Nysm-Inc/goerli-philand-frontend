@@ -2,7 +2,6 @@ import Image from "next/image";
 import { FC, useContext } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
 import { Divider, HStack, Text, useBoolean } from "@chakra-ui/react";
-import { FRONTEND_URL } from "~/constants";
 import { AppContext } from "~/contexts";
 import { Button, SelectBox, Icon } from "~/ui/components";
 import IconButton from "./IconButton";
@@ -131,15 +130,6 @@ const MenuBar: FC<{
       </>
 
       <>
-        {!isEdit && (
-          <IconButton
-            ariaLabel="share"
-            icon={<Icon name="share" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
-            onClick={() => {
-              window.open(`https://twitter.com/intent/tweet?text=Come visit my philand @phi_xyz%0a${FRONTEND_URL}/${currentENS}`, "_blank");
-            }}
-          />
-        )}
         {isEdit && (
           <>
             <Button w="104px" color="yellow" leftIcon={<Icon name="undo" />} onClick={actionHandler.onView}>
