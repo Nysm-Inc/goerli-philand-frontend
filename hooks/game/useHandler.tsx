@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { TransactionResponse } from "@ethersproject/providers";
 import { AppContext } from "~/contexts";
 import { IObject, ObjectContractAddress, PhiLink, PhiObject, Wallpaper } from "~/types";
 import { SaveArgs } from "~/hooks/map";
@@ -10,7 +11,7 @@ export type UIHandlerProps = {
   tryWrite: (contract: ObjectContractAddress, tokenId: number) => void;
   tryRemove: (contract: ObjectContractAddress, tokenId: number) => void;
   changeLink: (id: string, link: PhiLink) => void;
-  save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => void;
+  save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => Promise<TransactionResponse | undefined>;
 };
 
 export type Handler = {
@@ -22,7 +23,7 @@ export type Handler = {
   onRemoveObject: (uuid: string) => void;
   onChangeLink: (id: string, link: PhiLink) => void;
   onChangeWallpaper: (tokenId: number) => void;
-  onSave: () => void;
+  onSave: () => Promise<TransactionResponse | undefined>;
 };
 
 const useHandler = ({
@@ -87,7 +88,7 @@ const useHandler = ({
     const newWallpaper = game.room.wallpaper.get();
 
     if (removeIdxs.length > 0 || writeArgs.length > 0) {
-      uiHandler?.save({
+      return uiHandler?.save({
         removeArgs: { removeIdxs: removeIdxs, remove_check: removeIdxs.length > 0 },
         writeArgs,
         linkArgs,
@@ -109,6 +110,7 @@ const useHandler = ({
     onRemoveObject,
     onChangeLink,
     onChangeWallpaper,
+    // @ts-ignore
     onSave,
   };
 };

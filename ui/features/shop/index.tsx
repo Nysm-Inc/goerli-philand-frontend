@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, HStack, SimpleGrid, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
+import { Box, HStack, SimpleGrid, TabPanel, TabPanels, Tabs, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
 import {
@@ -110,6 +110,7 @@ const Shop: FC<{
   const { colorMode } = useContext(AppContext);
   const [items, setItems] = useState<Item[]>(defaultItems(FREE_OBJECT_CONTRACT_ADDRESS));
   const [tabIdx, setTabIdx] = useState(0);
+  const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
   const plus = (idx: number) => {
     const copied = [...items];
@@ -177,11 +178,19 @@ const Shop: FC<{
                 }[tabIdx2Contract[tabIdx]]
               }`}
               buttonText={`${items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)} ITEMS`}
+              isLoading={isLoading}
               onClick={() => {
+                startLoading();
                 const tokenIds = items.reduce((memo, item) => {
                   return item.select > 0 ? [...memo, ...[...new Array(item.select)].map(() => item.tokenId)] : memo;
                 }, [] as number[]);
-                onSubmit[tabIdx2Contract[tabIdx]](tokenIds).then(() => reset(tabIdx2Contract[tabIdx]));
+                onSubmit[tabIdx2Contract[tabIdx]](tokenIds)
+                  .then(async (res) => {
+                    reset(tabIdx2Contract[tabIdx]);
+                    await res?.wait();
+                    stopLoading();
+                  })
+                  .catch(stopLoading);
               }}
             />
           </ModalFooter>

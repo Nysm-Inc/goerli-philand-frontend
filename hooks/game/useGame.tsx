@@ -45,9 +45,8 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { initialized: b
   useEffect(() => {
     if (!loadedGame) return;
     if (state.isEdit) return;
-    if (state.phiObjects.length > 0) {
-      game.room.roomItemManager.loadItems(state.phiObjects);
-    }
+    game.room.roomItemManager.loadItems(state.phiObjects);
+
     setInitialized(true);
   }, [state.currentENS, state.phiObjects.length, loadedGame, state.isEdit]);
 

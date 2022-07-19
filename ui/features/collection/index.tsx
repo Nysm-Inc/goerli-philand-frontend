@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useContext, useEffect, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { Box, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
 import { objectMetadataList } from "~/types/object";
 import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput, ModalFooterButton } from "~/ui/components";
@@ -31,6 +31,7 @@ const Collection: FC<{
 }> = ({ items: originItems, isApproved, isEdit, isOpen, onOpenPermissions, onClose, onSubmit }) => {
   const { colorMode } = useContext(AppContext);
   const [items, setItems] = useState<CollectionObject[]>([]);
+  const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
   const plus = (idx: number) => {
     const copied = [...items];
@@ -108,7 +109,9 @@ const Collection: FC<{
           <ModalFooterButton
             text="Deposit Objects"
             buttonText={`${items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)} ITEMS`}
+            isLoading={isLoading}
             onClick={() => {
+              startLoading();
               const args = items.reduce((memo, item) => {
                 if (item.select > 0) {
                   return [
@@ -123,7 +126,13 @@ const Collection: FC<{
                   return memo;
                 }
               }, [] as BalanceObject[]);
-              onSubmit(args).then(() => reset());
+              onSubmit(args)
+                .then(async (res) => {
+                  reset();
+                  await res?.wait();
+                  stopLoading();
+                })
+                .catch(stopLoading);
             }}
           />
         </ModalFooter>

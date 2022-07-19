@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import { FC } from "react";
 import { chain as chains, useAccount, useEnsName, useNetwork } from "wagmi";
-import { Box, useDisclosure, useBoolean, VStack, Text, Center } from "@chakra-ui/react";
+import { Box, useDisclosure, useBoolean, Text, Center } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
 import Inventory, { useInventory } from "~/ui/features/inventory";
@@ -13,16 +13,15 @@ import {
   LinkMenu,
   useLinkMenu,
   MenuBar,
-  SelectBox,
   StatusTx,
   ConfirmTx,
   Header,
   Modal,
   ModalHeader,
-  Button,
   ENSNotFound,
   Help,
   Permissions,
+  CreatePhiland,
 } from "~/ui/components";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
@@ -39,7 +38,7 @@ import {
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
-import { nullAddress, PhiLink } from "~/types";
+import { PhiLink } from "~/types";
 
 const Mobile: FC = () => {
   return (
@@ -245,31 +244,15 @@ const Index: NextPage = () => {
       ) : (
         <>
           {domains.length > 0 ? (
-            <Modal w="456px" h="438px" isOpen={true} onClose={() => {}} overlay>
-              <ModalHeader buttons={[]} />
-              <VStack spacing="8px">
-                <Image src="/icons/ens.svg" width="134px" height="150px" />
-                <Box h="16px" />
-                <SelectBox
-                  w="360px"
-                  options={domains.map((domain) => {
-                    return { label: domain, value: domain };
-                  })}
-                  selected={{ label: currentENS, value: currentENS }}
-                  handleChange={switchCurrentENS}
-                />
-                <Button
-                  w="360px"
-                  color="purple"
-                  onClick={owner === nullAddress ? createPhiland : changePhilandOwner}
-                  disabled={isCreatedPhiland}
-                >
-                  <Text color="white" textStyle="button-1">
-                    {owner === nullAddress ? "CREATE LAND" : "CHANGE OWNER"}
-                  </Text>
-                </Button>
-              </VStack>
-            </Modal>
+            <CreatePhiland
+              owner={owner}
+              currentENS={currentENS}
+              domains={domains}
+              isCreatedPhiland={isCreatedPhiland}
+              switchCurrentENS={switchCurrentENS}
+              createPhiland={createPhiland}
+              changePhilandOwner={changePhilandOwner}
+            />
           ) : (
             <>
               {address ? (

@@ -73,7 +73,12 @@ const ModalFooter: FC<{ children: ReactNode }> = ({ children }) => {
   return <ChakraModalFooter justifyContent="center">{children}</ChakraModalFooter>;
 };
 
-const ModalFooterButton: FC<{ text: string; buttonText: string; onClick: () => void }> = ({ text, buttonText, onClick }) => {
+const ModalFooterButton: FC<{ text: string; buttonText: string; isLoading?: boolean; onClick: () => void }> = ({
+  text,
+  buttonText,
+  isLoading,
+  onClick,
+}) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -89,7 +94,7 @@ const ModalFooterButton: FC<{ text: string; buttonText: string; onClick: () => v
       <Text textStyle="headline-2" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
         {text}
       </Text>
-      <Button w="90px" h="40px" onClick={onClick}>
+      <Button w="90px" h="40px" isLoading={isLoading} onClick={onClick}>
         {buttonText}
       </Button>
     </Flex>

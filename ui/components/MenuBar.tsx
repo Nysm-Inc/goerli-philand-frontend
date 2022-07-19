@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
-import { Divider, HStack } from "@chakra-ui/react";
+import { TransactionResponse } from "@ethersproject/providers";
+import { Divider, HStack, useBoolean } from "@chakra-ui/react";
 import { FRONTEND_URL } from "~/constants";
 import { AppContext } from "~/contexts";
 import { Button, SelectBox, Icon } from "~/ui/components";
@@ -31,10 +32,11 @@ const MenuBar: FC<{
     onChangeWallpaper: (tokenId: number) => void;
     onView: () => void;
     onEdit: () => void;
-    onSave: () => void;
+    onSave: () => Promise<TransactionResponse | undefined>;
   };
 }> = ({ initialized, isEdit, isOpen, currentENS, domains, isApprovedWallpaper, currentWallpaper, balanceWallpapers, actionHandler }) => {
   const { colorMode } = useContext(AppContext);
+  const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
   return (
     <HStack
@@ -143,7 +145,22 @@ const MenuBar: FC<{
             <Button w="104px" color="yellow" leftIcon={<Icon name="undo" />} onClick={actionHandler.onView}>
               CANCEL
             </Button>
-            <Button w="88px" color="green" leftIcon={<Icon name="save" />} onClick={actionHandler.onSave}>
+            <Button
+              w="88px"
+              color="green"
+              leftIcon={<Icon name="save" />}
+              isLoading={isLoading}
+              onClick={() => {
+                startLoading();
+                actionHandler
+                  .onSave()
+                  .then(async (res) => {
+                    await res?.wait();
+                    stopLoading();
+                  })
+                  .catch(stopLoading);
+              }}
+            >
               Save
             </Button>
           </>

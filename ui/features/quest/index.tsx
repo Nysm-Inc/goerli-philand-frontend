@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, ReactNode, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, Center, Flex, HStack, Link, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { Box, Center, Flex, HStack, Link, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
 import { ClaimableList, conditionList } from "~/types/quest";
@@ -30,33 +30,53 @@ const Network: FC<{ tokenId: number }> = ({ tokenId }) => {
   );
 };
 
-const ClaimButton: FC<{ claimable: boolean; claimed: boolean; onClick: () => void }> = ({ claimable, claimed, onClick }) => (
-  <>
-    {claimable && !claimed ? (
-      <Button w="full" color="purple" onClick={onClick}>
-        <Text color="white" textStyle="button-1">
-          Claim
-        </Text>
-      </Button>
-    ) : (
-      <>
-        {claimed ? (
-          <Button w="full" leftIcon={<Icon name="check" />}>
-            <Text color="white" textStyle="button-1">
-              Claimed
-            </Text>
-          </Button>
-        ) : (
-          <Button w="full" disabled>
-            <Text color="white" textStyle="button-1">
-              Not Eligible
-            </Text>
-          </Button>
-        )}
-      </>
-    )}
-  </>
-);
+const ClaimButton: FC<{ claimable: boolean; claimed: boolean; onClick: () => Promise<TransactionResponse | undefined> }> = ({
+  claimable,
+  claimed,
+  onClick,
+}) => {
+  const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
+  return (
+    <>
+      {claimable && !claimed ? (
+        <Button
+          w="full"
+          color="purple"
+          isLoading={isLoading}
+          onClick={() => {
+            startLoading();
+            onClick()
+              .then(async (res) => {
+                await res?.wait();
+                stopLoading();
+              })
+              .catch(stopLoading);
+          }}
+        >
+          <Text color="white" textStyle="button-1">
+            Claim
+          </Text>
+        </Button>
+      ) : (
+        <>
+          {claimed ? (
+            <Button w="full" leftIcon={<Icon name="check" />}>
+              <Text color="white" textStyle="button-1">
+                Claimed
+              </Text>
+            </Button>
+          ) : (
+            <Button w="full" disabled>
+              <Text color="white" textStyle="button-1">
+                Not Eligible
+              </Text>
+            </Button>
+          )}
+        </>
+      )}
+    </>
+  );
+};
 
 const Row: FC<{ idx: number; length: number; children?: ReactNode }> = ({ idx, length, children }) => {
   const { colorMode } = useContext(AppContext);
@@ -92,8 +112,9 @@ const Quest: FC<{
   onClickItem: (tokenId: number) => Promise<TransactionResponse | undefined>;
   onClickUpdate: () => Promise<void>;
 }> = ({ claimableList, claimedList, isOpen, onClose, onClickItem, onClickUpdate }) => {
-  const [selected, setSelected] = useState<(ObjectMetadata & { claimable: boolean; claimed: boolean }) | undefined>(undefined);
   const { colorMode } = useContext(AppContext);
+  const [selected, setSelected] = useState<(ObjectMetadata & { claimable: boolean; claimed: boolean }) | undefined>(undefined);
+  const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
   return (
     <Modal w="858px" h="700px" isOpen={isOpen} onClose={() => {}}>
@@ -120,7 +141,12 @@ const Quest: FC<{
                   size={32}
                   borderRadius={8}
                   boxShadow={false}
-                  onClick={onClickUpdate}
+                  isLoading={isLoading}
+                  onClick={() => {
+                    startLoading();
+                    onClickUpdate();
+                    setTimeout(() => stopLoading(), 8000);
+                  }}
                 />,
                 <IconButton
                   key="close"
@@ -167,7 +193,7 @@ const Quest: FC<{
                     </Text>
                   </HStack>
                 </VStack>
-                <Box w="134px">
+                <Box w={selected.claimable ? "134px" : "200px"}>
                   <ClaimButton claimable={selected.claimable} claimed={selected.claimed} onClick={() => onClickItem(selected.tokenId)} />
                 </Box>
               </VStack>

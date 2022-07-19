@@ -17,6 +17,7 @@ import { Tab, TabList } from "./Tab";
 import ENSNotFound from "./ENSNotFound";
 import Help from "./Help";
 import Permissions from "./Permissions";
+import CreatePhiland from "./CreatePhiland";
 
 export {
   ActionMenu,
@@ -46,4 +47,5 @@ export {
   TabList,
   ModalFooterButton,
   Permissions,
+  CreatePhiland,
 };
