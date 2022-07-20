@@ -4,6 +4,7 @@ import { AppContext } from "~/contexts";
 import { IObject, ObjectContractAddress, PhiLink, PhiObject, Wallpaper } from "~/types";
 import { SaveArgs } from "~/hooks/map";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
+import { diff } from "./helper";
 
 export type UIHandlerProps = {
   edit: () => void;
@@ -80,24 +81,35 @@ const useHandler = ({
     const prevPhiObjects = phiObjects;
     const newPhiObjects = Object.values(roomItems).map((item) => item.getPhiObject());
 
-    const removeIdxs = prevPhiObjects.map((prevObject) => prevObject.removeIdx);
-    const writeArgs = newPhiObjects;
-    const linkArgs = newPhiObjects.map((newPhiObject) => newPhiObject.link);
+    //
+    // const removeIdxs = prevPhiObjects.map((prevObject) => prevObject.removeIdx);
+    // const writeArgs = newPhiObjects;
+    // const linkArgs = newPhiObjects.map((newPhiObject) => newPhiObject.link);
+
+    // diff
+    const diffRemove = diff(prevPhiObjects, newPhiObjects) as (PhiObject & { removeIdx: number })[];
+    const diffWrite = diff(newPhiObjects, prevPhiObjects);
+    const removeIdxs = diffRemove.map((prevPhiObject) => prevPhiObject.removeIdx);
+    const writeArgs = diffWrite;
+    const linkArgs = diffWrite.map((newPhiObject) => newPhiObject.link);
 
     const prevWallpaper = wallpaper;
     const newWallpaper = game.room.wallpaper.get();
+    const changeWallpaper = prevWallpaper?.tokenId !== newWallpaper?.tokenId;
 
-    if (removeIdxs.length > 0 || writeArgs.length > 0) {
+    if (removeIdxs.length > 0 || writeArgs.length > 0 || changeWallpaper) {
       return uiHandler?.save({
         removeArgs: { removeIdxs: removeIdxs, remove_check: removeIdxs.length > 0 },
         writeArgs,
         linkArgs,
         wallpaperArgs: {
-          change_wall_check: prevWallpaper?.tokenId !== newWallpaper?.tokenId,
+          change_wall_check: changeWallpaper,
           contractAddress: WALLPAPER_CONTRACT_ADDRESS,
           tokenId: newWallpaper?.tokenId || 0,
         },
       });
+    } else {
+      return Promise.resolve();
     }
   };
 
