@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useContext, useEffect, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
+import { Box, Center, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject, ObjectContractAddress } from "~/types";
 import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalFooterButton, ModalHeader, QuantityInput } from "~/ui/components";
@@ -114,56 +114,67 @@ const Inventory: FC<{
         ]}
       />
       <ModalBody>
-        <SimpleGrid columns={2} spacing="8px">
-          {objects.map((object, i) => (
-            <VStack
-              key={i}
-              align="flex-start"
-              height="288px"
-              p="16px"
-              borderRadius="16px"
-              bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}
-            >
-              <Box
-                position="relative"
-                w="100%"
-                minH="144px"
-                maxH="144px"
-                cursor={isEdit ? "pointer" : ""}
-                onClick={() => {
-                  if (!isEdit) return;
-
-                  const metadata = objectMetadataList[object.contractAddress][object.tokenId];
-                  onClickObject({
-                    contractAddress: object.contractAddress,
-                    tokenId: object.tokenId,
-                    sizeX: metadata.size[0],
-                    sizeY: metadata.size[1],
-                    link: { title: "", url: "" },
-                  });
-                  onClose();
-                }}
+        {objects.length > 0 ? (
+          <SimpleGrid columns={2} spacing="8px">
+            {objects.map((object, i) => (
+              <VStack
+                key={i}
+                align="flex-start"
+                height="288px"
+                p="16px"
+                borderRadius="16px"
+                bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}
               >
-                <Image src={objectMetadataList[object.contractAddress][object.tokenId].image_url} layout="fill" objectFit="contain" />
-              </Box>
-              <Text textStyle="label-2" color="#808080">
-                OWNED {object.amount - object.used}
+                <Box
+                  position="relative"
+                  w="100%"
+                  minH="144px"
+                  maxH="144px"
+                  cursor={isEdit ? "pointer" : ""}
+                  onClick={() => {
+                    if (!isEdit) return;
+
+                    const metadata = objectMetadataList[object.contractAddress][object.tokenId];
+                    onClickObject({
+                      contractAddress: object.contractAddress,
+                      tokenId: object.tokenId,
+                      sizeX: metadata.size[0],
+                      sizeY: metadata.size[1],
+                      link: { title: "", url: "" },
+                    });
+                    onClose();
+                  }}
+                >
+                  <Image src={objectMetadataList[object.contractAddress][object.tokenId].image_url} layout="fill" objectFit="contain" />
+                </Box>
+                <Text textStyle="label-2" color="#808080">
+                  OWNED {object.amount - object.used}
+                </Text>
+                <Text h="40px" textStyle="headline-3" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                  {objectMetadataList[object.contractAddress][object.tokenId].name}
+                </Text>
+                {!isEdit && !object.writed && (
+                  <QuantityInput
+                    defaultText="+ Withdraw"
+                    num={object.select}
+                    balance={object.amount - object.used}
+                    handleClickPlus={() => onClickPlus(i)}
+                    handleClickMinus={() => onClickMinus(i)}
+                  />
+                )}
+              </VStack>
+            ))}
+          </SimpleGrid>
+        ) : (
+          <Center w="358px" h="590px" borderRadius="16px" bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+            <VStack spacing="32px">
+              <Image src="/assets/empty-inventory.png" width="360px" height="240px" />
+              <Text w="300px" h="40px" color="#808080" textStyle="paragraph-2" textAlign="center">
+                {"To place Objects & Wallpapers in Land, Deposit them from Collection."}
               </Text>
-              <Text h="40px" textStyle="headline-3" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
-                {objectMetadataList[object.contractAddress][object.tokenId].name}
-              </Text>
-              {!isEdit && !object.writed && (
-                <QuantityInput
-                  defaultText="+ Withdraw"
-                  num={object.select}
-                  balance={object.amount - object.used}
-                  handleClickPlus={() => onClickPlus(i)}
-                  handleClickMinus={() => onClickMinus(i)}
-                />
-              )}
             </VStack>
-          ))}
-        </SimpleGrid>
+          </Center>
+        )}
       </ModalBody>
       {objects.some((object) => object.select > 0) && (
         <ModalFooter>
