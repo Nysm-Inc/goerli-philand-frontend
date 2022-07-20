@@ -27,7 +27,7 @@ import {
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
 import { useCheckWallpaper, useDeposit, useSave, useViewPhiland } from "~/hooks/map";
-import { useApprove, useBalances } from "~/hooks/object";
+import { useApprove, useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList } from "~/hooks/claim";
 import { useGame } from "~/hooks/game";
 import { useGetFreeObject } from "~/hooks/free";
@@ -80,6 +80,7 @@ const Index: NextPage = () => {
   const [isAprvPre, { approve: aprvPre, tx: txAprvPre }] = useApprove(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvWall, { approve: aprvWall, tx: txAprvWall }] = useApprove(WALLPAPER_CONTRACT_ADDRESS, address);
   const [claimedList, { claimPhi, tx: txClaimPhi }] = useClaim(address);
+  const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS);
   const { getFreeObject, tx: txGetFreeObject } = useGetFreeObject();
   const { buyPremiumObject, tx: txBuyPremiumObject } = useBuyPremiumObject();
   const { batchWallPaper, tx: txGetFreeWallpaper } = useWallpaper();
@@ -145,6 +146,7 @@ const Index: NextPage = () => {
       <Quest
         claimableList={claimableList}
         claimedList={claimedList}
+        totalSupply={totalSupply}
         isOpen={isOpenQuest}
         onClose={onCloseQuest}
         onClickItem={claimPhi}

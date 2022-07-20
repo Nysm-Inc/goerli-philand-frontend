@@ -107,11 +107,12 @@ const Row: FC<{ idx: number; length: number; children?: ReactNode }> = ({ idx, l
 const Quest: FC<{
   claimableList: ClaimableList;
   claimedList: boolean[];
+  totalSupply: { [tokenId: number]: number };
   isOpen: boolean;
   onClose: () => void;
   onClickItem: (tokenId: number) => Promise<TransactionResponse | undefined>;
   onClickUpdate: () => Promise<void>;
-}> = ({ claimableList, claimedList, isOpen, onClose, onClickItem, onClickUpdate }) => {
+}> = ({ claimableList, claimedList, totalSupply, isOpen, onClose, onClickItem, onClickUpdate }) => {
   const { colorMode } = useContext(AppContext);
   const [selected, setSelected] = useState<(ObjectMetadata & { claimable: boolean; claimed: boolean }) | undefined>(undefined);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
@@ -183,7 +184,7 @@ const Quest: FC<{
                   <HStack>
                     <Image src="/icons/eth.svg" width="24px" height="24px" />
                     <Text textStyle="label-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
-                      XXX Claimed
+                      {totalSupply[selected.tokenId]} Claimed
                     </Text>
                   </HStack>
                   <HStack>
