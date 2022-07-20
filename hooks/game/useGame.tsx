@@ -16,7 +16,7 @@ type UseGame = {
   gameUIHandler?: UIManagerHandler;
 };
 
-const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { initialized: boolean; handler: Handler } => {
+const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initialized: boolean }; handler: Handler } => {
   const _strictRef = useRef(false); // for avoiding react18 strict mode
   const [loadedGame, setLoadedGame] = useState(false);
   const [initialized, setInitialized] = useState(false);
@@ -61,7 +61,7 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { initialized: b
     game.engine.changeColorMode(colorMode);
   }, [colorMode]);
 
-  return { initialized, handler: useHandler({ phiObjects: state.phiObjects, wallpaper: state.wallpaper, uiHandler }) };
+  return { state: { initialized }, handler: useHandler({ phiObjects: state.phiObjects, wallpaper: state.wallpaper, uiHandler }) };
 };
 
 export default useGame;

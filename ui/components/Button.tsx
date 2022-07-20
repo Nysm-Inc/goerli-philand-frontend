@@ -61,7 +61,9 @@ const Button: FC<{
                   bgColor: colorMode === "light" ? "#CCCCCC" : "#292929",
                   cursor: "not-allowed",
                 }
-              : {},
+              : {
+                  cursor: "not-allowed",
+                },
           }
         : {
             textColor: colorMode === "light" ? "#1A1A1A" : "white",
@@ -89,7 +91,9 @@ const Button: FC<{
                   borderColor: "#CECCC9",
                   cursor: "not-allowed",
                 }
-              : {},
+              : {
+                  cursor: "not-allowed",
+                },
           })}
     >
       <Flex justify="space-evenly" align="center">

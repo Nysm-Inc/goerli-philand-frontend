@@ -93,7 +93,7 @@ const Index: NextPage = () => {
   const [inventoryObjects, plus, minus, tryWrite, tryRemove, reset] = useInventory(depositObjects, isEdit);
 
   const {
-    initialized,
+    state: { initialized },
     handler: { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onChangeLink, onChangeWallpaper, onSave },
   } = useGame({
     state: { currentENS, isEdit, isCreatedPhiland, phiObjects, wallpaper },
