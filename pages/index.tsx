@@ -23,6 +23,7 @@ import {
   Permissions,
   CreatePhiland,
   Share,
+  Dev,
 } from "~/ui/components";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
@@ -226,6 +227,7 @@ const Index: NextPage = () => {
       <Header />
       {!isEdit && <Share currentENS={currentENS} />}
       <Help />
+      <Dev />
 
       {isCreatedPhiland ? (
         <MenuBar

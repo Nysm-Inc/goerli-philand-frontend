@@ -16,8 +16,9 @@ export const COUPON_API_GATEWAY = "https://object-api.phi.blue/v1";
 export const UTILS_API_GATEWAY = "https://utils-api.phi.blue/v1/philand";
 
 // app
+export const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "";
+export const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV || "";
 export const LP_URL = "https://philand.xyz";
-export const FRONTEND_URL = "https://goerli-philand-frontend.vercel.app";
 export const ETHERSCAN_BLOCK_EXPLORER = "https://goerli.etherscan.io";
 export const MUMBAI_BLOCK_EXPLORER = "https://mumbai.polygonscan.com";
 export const COLOR_MODE_KEY = "color_mode_key";
