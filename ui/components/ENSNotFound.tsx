@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
-import { Box, Text, useBoolean, VStack } from "@chakra-ui/react";
+import { Box, Link, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Icon from "./Icon";
 import IconButton from "./IconButton";
@@ -25,15 +25,19 @@ const ENSNotFound: FC = () => {
           />,
         ]}
       />
-      <VStack spacing="8px">
+      <VStack spacing="32px">
         <Image src="/icons/ens.svg" width="134px" height="150px" />
-        <Box h="16px" />
-        <Text color="white" textStyle="headline">
-          ENS NOT FOUND
-        </Text>
-        <Text color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} textStyle="paragraph-1">
-          Get your ENS to get your land.
-        </Text>
+        <VStack spacing="8px">
+          <Text textStyle="headline-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+            ENS NOT FOUND
+          </Text>
+          <Text color="#808080" textStyle="paragraph-1">
+            Get your ENS to get your land.
+          </Text>
+        </VStack>
+        <Link color="#8080FF" textStyle="button-2" href="https://app.ens.domains/" isExternal>
+          Get a new ENS on Goerli
+        </Link>
       </VStack>
     </Modal>
   );
