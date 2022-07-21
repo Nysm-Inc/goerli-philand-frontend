@@ -20,12 +20,14 @@ import Permissions from "./Permissions";
 import CreatePhiland from "./CreatePhiland";
 import Share from "./Share";
 import useNavi from "./NaviNotification";
+import Dev from "./Dev";
 
 export {
   ActionMenu,
   useActionMenu,
   Button,
   ConfirmTx,
+  Dev,
   ENSNotFound,
   StatusTx,
   Head,
