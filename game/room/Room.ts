@@ -36,6 +36,7 @@ export default class Room {
 
   initialize() {
     const { engine } = GameInstance.get();
+
     const landOffsetX = GAME_APP_WIDTH / 2 - LAND_W / 2;
     const landOffsetY = GAME_APP_HEIGHT / 2 - LAND_H / 2;
     this.landContainer.x = landOffsetX;
@@ -61,6 +62,9 @@ export default class Room {
   }
 
   view() {
+    const { engine } = GameInstance.get();
+
+    engine.grids.visible = false;
     this.isEdit = false;
     this.landItemContainer.children.forEach((child) => {
       child.buttonMode = false;
@@ -68,6 +72,9 @@ export default class Room {
   }
 
   edit() {
+    const { engine } = GameInstance.get();
+
+    engine.grids.visible = true;
     this.isEdit = true;
     this.landItemContainer.children.forEach((child) => {
       child.buttonMode = true;
