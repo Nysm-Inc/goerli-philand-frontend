@@ -1,8 +1,9 @@
 import { FC, useContext, useState } from "react";
 import { LayoutProps, Text } from "@chakra-ui/react";
+import { AppContext } from "~/contexts";
+import { isValid } from "~/utils/ens";
 import Input from "./Input";
 import Icon from "./Icon";
-import { AppContext } from "~/contexts";
 
 const Search: FC<{ w?: LayoutProps["w"] }> = ({ w }) => {
   const { colorMode } = useContext(AppContext);
@@ -11,7 +12,7 @@ const Search: FC<{ w?: LayoutProps["w"] }> = ({ w }) => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        window.location.href = searchText.match(/^.+\.eth$/g) ? searchText : searchText + ".eth";
+        window.location.href = isValid(searchText) ? searchText : searchText + ".eth";
       }}
     >
       <Input

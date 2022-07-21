@@ -2,6 +2,8 @@ import axios from "axios";
 import { Container, Graphics, Sprite, Text, Texture } from "pixi.js";
 import { PhiLink } from "~/types";
 import GameInstance from "~/game/GameInstance";
+import { postAccess } from "~/utils/access";
+import { isValid } from "~/utils/ens";
 
 const PREVIEW_OFFSET = -80;
 
@@ -31,8 +33,16 @@ export default class LinkPreview {
     g.buttonMode = true;
     g.on("mousedown", () => {
       try {
-        const url = new URL(this.link.url);
-        window.open(url, "_blank");
+        const target = new URL(this.link.url);
+        const landENS = new URL(window.location.href).pathname.slice(1);
+        if (isValid(landENS)) {
+          postAccess(landENS, target.toString(), "");
+        }
+        if (isValid(target.pathname.slice(1))) {
+          window.location.href = target.toString();
+        } else {
+          window.open(target, "_blank");
+        }
       } catch {}
     });
     this.container.addChild(g);
