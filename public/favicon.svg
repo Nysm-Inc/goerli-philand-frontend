@@ -1,0 +1,25 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M13 1H19V2H21V3H23V4H25V5H27V6H29V7H31V8H1V7H3V6H5V5H7V4H9V3H11V2H13V1Z" fill="#8181FC"/>
+<rect x="5" y="10" width="22" height="1" fill="#8181FC"/>
+<rect x="5" y="11" width="22" height="1" fill="#8181FC"/>
+<rect x="5" y="12" width="22" height="1" fill="#8181FC"/>
+<rect x="5" y="13" width="22" height="1" fill="#8181FC"/>
+<rect x="5" y="14" width="22" height="1" fill="#8181FC"/>
+<rect x="5" y="15" width="22" height="1" fill="#8181FC"/>
+<rect x="3" y="9" width="26" height="1" fill="#8181FC"/>
+<rect x="3" y="8" width="27" height="1" fill="#8181FC"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M29 9H30V24H29V25H27V27H25V28H23V29H21V30H19V31H17V15H19V14H21V13H23V12H25V11H27V10H29V9Z" fill="#F7F5F5"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M1 25H3H5V26H7V27H9V28H11V29H13V31H15H16V14H15H13V12H11V11H9V10H7V9H5V8H3H1V25Z" fill="#8181FC"/>
+<rect x="30" y="8" width="1" height="16" fill="#141414"/>
+<rect y="8" width="1" height="16" fill="#141414"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M17 0H15V1H13V2H11V3H9V4H7V5H5V6H3V7H1V8H3V7H5V6H7V5H9V4H11V3H13V2H15V1H17V2H19V3H21V4H23V5H25V6H27V7H29V8H31V7H29V6H27V5H25V4H23V3H21V2H19V1H17V0Z" fill="#141414"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M15 17H17V16H15V17ZM13 15V16H15V15H13ZM11 14V15H13V14H11ZM9 13V14H11V13H9ZM7 12V13H9V12H7ZM5 11V12H7V11H5ZM3 10V11H5V10H3ZM3 10V9H1V10H3ZM19 15H17V16H19V15ZM21 14H19V15H21V14ZM23 13H21V14H23V13ZM25 12H23V13H25V12ZM25 12H27V11H25V12ZM1 8H3V7H1V8ZM29 8H31V7H29V8Z" fill="#141414"/>
+<rect width="2" height="1" transform="matrix(1 0 0 -1 27 11)" fill="#141414"/>
+<rect width="2" height="1" transform="matrix(1 0 0 -1 29 10)" fill="#141414"/>
+<rect width="1" height="4" transform="matrix(1 0 0 -1 20 22)" fill="#000003"/>
+<rect width="1" height="4" transform="matrix(1 0 0 -1 21 21)" fill="#000003"/>
+<rect width="1" height="4" transform="matrix(1 0 0 -1 26 19)" fill="#000003"/>
+<rect width="1" height="4" transform="matrix(1 0 0 -1 27 18)" fill="#000003"/>
+<rect x="16" y="16" width="1" height="16" fill="#141414"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M17 32H15V31H13V30H11V29H9V28H7V27H5V26H3V25H1V24H3V25H5V26H7V27H9V28H11V29H13V30H15V31H17V30H19V29H21V28H23V27H25V26H27V25H29V24H31V25H29V26H27V27H25V28H23V29H21V30H19V31H17V32Z" fill="#141414"/>
+</svg>

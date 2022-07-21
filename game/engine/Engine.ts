@@ -9,6 +9,8 @@ import {
   QUEST_OBJECT_CONTRACT_ADDRESS,
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
+  LAND_OGP_W,
+  LAND_OGP_H,
 } from "~/constants";
 import { ObjectContractAddress, WallpaperContractAddress } from "~/types";
 import { objectMetadataList } from "~/types/object";
@@ -152,7 +154,7 @@ export default class Engine {
   }
 
   exportImage() {
-    const [ogpW, ogpH] = [2000, 2000]; // todo
+    const [ogpW, ogpH] = [LAND_OGP_W, LAND_OGP_H];
     const container = new Container();
     const background = new Graphics().beginFill(0xf5f2eb).drawRect(0, 0, ogpW, ogpH).endFill();
     container.addChild(background);
