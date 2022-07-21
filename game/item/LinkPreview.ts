@@ -9,7 +9,6 @@ export default class LinkPreview {
   private link: PhiLink;
   private ogpURL: string;
   container: Container;
-  g: Graphics;
   ogp: Sprite;
   defaultOGP: Graphics;
 
@@ -24,14 +23,25 @@ export default class LinkPreview {
     this.container.zOrder = 9999;
     this.container.y = PREVIEW_OFFSET;
 
-    this.g = new Graphics();
-    this.g.beginFill(0x000000);
-    this.g.drawRoundedRect(0, 0, 296, 80, 16);
-    this.g.endFill();
-    this.g.beginFill(0xffffff, 0.001); // todo
-    this.g.drawRoundedRect(0, 80, 296, 80, 0);
-    this.g.endFill();
-    this.container.addChild(this.g);
+    const g = new Graphics();
+    g.beginFill(0x000000);
+    g.drawRoundedRect(0, 0, 296, 80, 16);
+    g.endFill();
+    g.interactive = true;
+    g.buttonMode = true;
+    g.on("mousedown", () => {
+      try {
+        const url = new URL(this.link.url);
+        window.open(url, "_blank");
+      } catch {}
+    });
+    this.container.addChild(g);
+
+    const gapArea = new Graphics();
+    gapArea.beginFill(0xffffff, 0.001);
+    gapArea.drawRoundedRect(0, 80, 296, 80, 0);
+    gapArea.endFill();
+    this.container.addChild(gapArea);
 
     this.defaultOGP = new Graphics();
     this.defaultOGP.beginFill(0xffffff);
@@ -44,7 +54,6 @@ export default class LinkPreview {
     this.ogp.y = 16;
     this.ogp.width = 48;
     this.ogp.height = 48;
-    this.ogp.mask = this.defaultOGP;
     this.container.addChild(this.ogp);
   }
 
@@ -73,6 +82,7 @@ export default class LinkPreview {
         const res = await axios.get<{ ogp: string }>(`/api/fetchOGP?url=${url}`);
         this.ogpURL = res.data.ogp;
         this.ogp.texture = Texture.from(this.ogpURL);
+        this.ogp.mask = this.defaultOGP;
       } catch {}
     })();
   }
