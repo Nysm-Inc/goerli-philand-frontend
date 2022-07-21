@@ -153,7 +153,7 @@ const StatusTx: FC<{ txs: Tx[] }> = ({ txs }) => {
           setTimeout(() => {
             // @ts-ignore
             toast.close(tx.hash);
-          }, 3000);
+          }, 5000);
         }
       }
     });

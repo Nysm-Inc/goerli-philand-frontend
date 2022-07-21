@@ -19,6 +19,7 @@ import Help from "./Help";
 import Permissions from "./Permissions";
 import CreatePhiland from "./CreatePhiland";
 import Share from "./Share";
+import useNavi from "./NaviNotification";
 
 export {
   ActionMenu,
@@ -51,4 +52,5 @@ export {
   Permissions,
   CreatePhiland,
   Share,
+  useNavi,
 };

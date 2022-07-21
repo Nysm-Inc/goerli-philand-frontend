@@ -148,6 +148,7 @@ const Index: NextPage = () => {
         claimedList={claimedList}
         totalSupply={totalSupply}
         isOpen={isOpenQuest}
+        onOpenCollection={onOpenCollection}
         onClose={onCloseQuest}
         onClickItem={claimPhi}
         onClickUpdate={updateClaimableList}
@@ -155,6 +156,7 @@ const Index: NextPage = () => {
       <Shop
         //
         isOpen={isOpenShop}
+        onOpenCollection={onOpenCollection}
         onClose={onCloseShop}
         onSubmit={{
           [FREE_OBJECT_CONTRACT_ADDRESS]: getFreeObject,
@@ -172,6 +174,7 @@ const Index: NextPage = () => {
         }}
         isEdit={isEdit}
         isOpen={isOpenCollection}
+        onOpenInventory={onOpenInventry}
         onOpenPermissions={onOpenPermissions}
         onClose={onCloseCollection}
         onSubmit={deposit}
@@ -180,6 +183,7 @@ const Index: NextPage = () => {
         objects={inventoryObjects}
         isEdit={isEdit}
         isOpen={isOpenInventory}
+        onOpenCollection={onOpenCollection}
         onClose={onCloseInventory}
         onClickPlus={plus}
         onClickMinus={minus}

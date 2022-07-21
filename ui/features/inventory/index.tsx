@@ -4,7 +4,7 @@ import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject, ObjectContractAddress } from "~/types";
-import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalFooterButton, ModalHeader, QuantityInput } from "~/ui/components";
+import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalFooterButton, ModalHeader, QuantityInput, useNavi } from "~/ui/components";
 import { AppContext } from "~/contexts";
 
 type InventoryObject = DepositObject & { select: number; writed: boolean };
@@ -78,15 +78,17 @@ const Inventory: FC<{
   objects: InventoryObject[];
   isEdit: boolean;
   isOpen: boolean;
+  onOpenCollection: () => void;
   onClose: () => void;
   onClickPlus: (idx: number) => void;
   onClickMinus: (idx: number) => void;
   onClickObject: (object: IObject) => void;
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
   reset: () => void;
-}> = ({ objects, isEdit, isOpen, onClose, onClickPlus, onClickMinus, onClickObject, onSubmit, reset }) => {
+}> = ({ objects, isEdit, isOpen, onOpenCollection, onClose, onClickPlus, onClickMinus, onClickObject, onSubmit, reset }) => {
   const { colorMode } = useContext(AppContext);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
+  const openNavi = useNavi();
 
   return (
     <Modal
@@ -203,6 +205,10 @@ const Inventory: FC<{
                   reset();
                   await res?.wait();
                   stopLoading();
+                  openNavi("Withdrew Objects into Collection.", "Open Collection", () => {
+                    onClose();
+                    onOpenCollection();
+                  });
                 })
                 .catch(stopLoading);
             }}

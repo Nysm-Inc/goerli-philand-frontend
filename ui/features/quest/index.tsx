@@ -5,7 +5,7 @@ import { Box, Center, Flex, HStack, Link, SimpleGrid, Text, useBoolean, VStack }
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
 import { ClaimableList, conditionList } from "~/types/quest";
-import { Button, IconButton, Modal, ModalBody, ModalHeader, Icon } from "~/ui/components";
+import { Button, IconButton, Modal, ModalBody, ModalHeader, Icon, useNavi } from "~/ui/components";
 import { AppContext } from "~/contexts";
 
 const EXP: FC<{ exp: number }> = ({ exp }) => {
@@ -30,12 +30,15 @@ const Network: FC<{ tokenId: number }> = ({ tokenId }) => {
   );
 };
 
-const ClaimButton: FC<{ claimable: boolean; claimed: boolean; onClick: () => Promise<TransactionResponse | undefined> }> = ({
-  claimable,
-  claimed,
-  onClick,
-}) => {
+const ClaimButton: FC<{
+  claimable: boolean;
+  claimed: boolean;
+  onClick: () => Promise<TransactionResponse | undefined>;
+  onClickAfterTx: () => void;
+}> = ({ claimable, claimed, onClick, onClickAfterTx }) => {
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
+  const openNavi = useNavi();
+
   return (
     <>
       {claimable && !claimed ? (
@@ -49,6 +52,7 @@ const ClaimButton: FC<{ claimable: boolean; claimed: boolean; onClick: () => Pro
               .then(async (res) => {
                 await res?.wait();
                 stopLoading();
+                openNavi("Claimed Objects into Collection.", "Open Collection", onClickAfterTx);
               })
               .catch(stopLoading);
           }}
@@ -109,10 +113,11 @@ const Quest: FC<{
   claimedList: boolean[];
   totalSupply: { [tokenId: number]: number };
   isOpen: boolean;
+  onOpenCollection: () => void;
   onClose: () => void;
   onClickItem: (tokenId: number) => Promise<TransactionResponse | undefined>;
   onClickUpdate: () => Promise<void>;
-}> = ({ claimableList, claimedList, totalSupply, isOpen, onClose, onClickItem, onClickUpdate }) => {
+}> = ({ claimableList, claimedList, totalSupply, isOpen, onOpenCollection, onClose, onClickItem, onClickUpdate }) => {
   const { colorMode } = useContext(AppContext);
   const [selected, setSelected] = useState<(ObjectMetadata & { claimable: boolean; claimed: boolean }) | undefined>(undefined);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
@@ -195,7 +200,15 @@ const Quest: FC<{
                   </HStack>
                 </VStack>
                 <Box w={selected.claimable ? "134px" : "200px"}>
-                  <ClaimButton claimable={selected.claimable} claimed={selected.claimed} onClick={() => onClickItem(selected.tokenId)} />
+                  <ClaimButton
+                    claimable={selected.claimable}
+                    claimed={selected.claimed}
+                    onClick={() => onClickItem(selected.tokenId)}
+                    onClickAfterTx={() => {
+                      onClose();
+                      onOpenCollection();
+                    }}
+                  />
                 </Box>
               </VStack>
             </HStack>
@@ -301,7 +314,15 @@ const Quest: FC<{
                     <Network tokenId={metadata.tokenId} />
                   </HStack>
                   <Box h="16px" />
-                  <ClaimButton claimable={claimable} claimed={claimed} onClick={() => onClickItem(metadata.tokenId)} />
+                  <ClaimButton
+                    claimable={claimable}
+                    claimed={claimed}
+                    onClick={() => onClickItem(metadata.tokenId)}
+                    onClickAfterTx={() => {
+                      onClose();
+                      onOpenCollection();
+                    }}
+                  />
                 </VStack>
               );
             })}

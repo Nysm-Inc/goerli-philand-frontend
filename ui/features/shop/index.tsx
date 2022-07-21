@@ -15,6 +15,7 @@ import {
   QuantityInput,
   Tab,
   TabList,
+  useNavi,
 } from "~/ui/components";
 import { AppContext } from "~/contexts";
 import { ShopItemContractAddress } from "~/types";
@@ -100,17 +101,19 @@ const Cart: FC<{
 
 const Shop: FC<{
   isOpen: boolean;
+  onOpenCollection: () => void;
   onClose: () => void;
   onSubmit: {
     [FREE_OBJECT_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
     [PREMIUM_OBJECT_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
     [WALLPAPER_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
   };
-}> = ({ isOpen, onClose, onSubmit }) => {
+}> = ({ isOpen, onOpenCollection, onClose, onSubmit }) => {
   const { colorMode } = useContext(AppContext);
   const [items, setItems] = useState<Item[]>(defaultItems(FREE_OBJECT_CONTRACT_ADDRESS));
   const [tabIdx, setTabIdx] = useState(0);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
+  const openNavi = useNavi();
 
   const plus = (idx: number) => {
     const copied = [...items];
@@ -189,6 +192,10 @@ const Shop: FC<{
                     reset(tabIdx2Contract[tabIdx]);
                     await res?.wait();
                     stopLoading();
+                    openNavi("Purchased Objects into Collection.", "Open Collection", () => {
+                      onClose();
+                      onOpenCollection();
+                    });
                   })
                   .catch(stopLoading);
               }}

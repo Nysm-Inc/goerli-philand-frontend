@@ -4,7 +4,7 @@ import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
 import { objectMetadataList } from "~/types/object";
-import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput, ModalFooterButton } from "~/ui/components";
+import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput, ModalFooterButton, useNavi } from "~/ui/components";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   QUEST_OBJECT_CONTRACT_ADDRESS,
@@ -26,12 +26,14 @@ const Collection: FC<{
   isEdit: boolean;
   isOpen: boolean;
   onOpenPermissions: () => void;
+  onOpenInventory: () => void;
   onClose: () => void;
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
-}> = ({ items: originItems, isApproved, isEdit, isOpen, onOpenPermissions, onClose, onSubmit }) => {
+}> = ({ items: originItems, isApproved, isEdit, isOpen, onOpenPermissions, onOpenInventory, onClose, onSubmit }) => {
   const { colorMode } = useContext(AppContext);
   const [items, setItems] = useState<CollectionObject[]>([]);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
+  const openNavi = useNavi();
 
   const plus = (idx: number) => {
     const copied = [...items];
@@ -143,6 +145,10 @@ const Collection: FC<{
                   reset();
                   await res?.wait();
                   stopLoading();
+                  openNavi("Deposited Objects into Inventory.", "Open Inventory", () => {
+                    onClose();
+                    onOpenInventory();
+                  });
                 })
                 .catch(stopLoading);
             }}
