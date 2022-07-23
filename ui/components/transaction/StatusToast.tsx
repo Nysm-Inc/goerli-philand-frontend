@@ -90,9 +90,11 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
         <Box w="16px" />
 
         <Flex direction="column" w="220px" h="100%">
-          <Text color="grey.500" textStyle="label-1">
-            Action Label
-          </Text>
+          {tx.action && (
+            <Text color="grey.500" textStyle="label-1">
+              {tx.action}
+            </Text>
+          )}
           <Text color={colorMode === "light" ? "white" : "grey.900"} textStyle="paragraph-1">
             {tx.msg
               ? tx.msg
