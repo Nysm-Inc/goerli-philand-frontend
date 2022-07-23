@@ -4,8 +4,9 @@ import { TransactionResponse } from "@ethersproject/providers";
 import { Divider, HStack, Text, useBoolean } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { Button, SelectBox, Icon } from "~/ui/components";
-import IconButton from "./IconButton";
 import { BalanceObject, Wallpaper } from "~/types";
+import { event } from "~/utils/ga/ga";
+import IconButton from "./IconButton";
 import SelectWallpaper from "./SelectWallpaper";
 
 const MenuBar: FC<{
@@ -81,33 +82,45 @@ const MenuBar: FC<{
               icon={<Image src="/icons/inventory.svg" width="48px" height="48px" />}
               outline={isOpen.inventory}
               boxShadow={false}
-              onClick={actionHandler.onOpenInventry}
+              onClick={() => {
+                actionHandler.onOpenInventry();
+                event({ action: "click", category: "menubar", label: "inventory" });
+              }}
             />
             <IconButton
               ariaLabel="collection"
               icon={<Image src="/icons/diamond.svg" width="48px" height="48px" />}
               outline={isOpen.collection}
               boxShadow={false}
-              onClick={actionHandler.onOpenCollection}
+              onClick={() => {
+                actionHandler.onOpenCollection();
+                event({ action: "click", category: "menubar", label: "collection" });
+              }}
             />
             <IconButton
               ariaLabel="quest"
               icon={<Image src="/icons/sword.svg" width="48px" height="48px" />}
               outline={isOpen.quest}
               boxShadow={false}
-              onClick={actionHandler.onOpenQuest}
+              onClick={() => {
+                actionHandler.onOpenQuest();
+                event({ action: "click", category: "menubar", label: "quest" });
+              }}
             />
             <IconButton
               ariaLabel="shop"
               icon={<Image src="/icons/bag.svg" width="48px" height="48px" />}
               outline={isOpen.shop}
               boxShadow={false}
-              onClick={actionHandler.onOpenShop}
+              onClick={() => {
+                actionHandler.onOpenShop();
+                event({ action: "click", category: "menubar", label: "shop" });
+              }}
             />
           </>
         ) : (
           <>
-            <IconButton
+            {/* <IconButton
               ariaLabel="undo"
               icon={<Icon name="undo" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
               onClick={() => {}}
@@ -116,13 +129,16 @@ const MenuBar: FC<{
               ariaLabel="redo"
               icon={<Icon name="redo" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
               onClick={() => {}}
-            />
+            /> */}
             <IconButton
               ariaLabel="inventory"
               icon={<Image src="/icons/inventory.svg" width="48px" height="48px" />}
               outline={isOpen.inventory}
               boxShadow={false}
-              onClick={actionHandler.onOpenInventry}
+              onClick={() => {
+                actionHandler.onOpenInventry();
+                event({ action: "click", category: "menubar", label: "inventory" });
+              }}
             />
           </>
         )}
@@ -132,7 +148,15 @@ const MenuBar: FC<{
       <>
         {isEdit && (
           <>
-            <Button w="104px" color="yellow" leftIcon={<Icon name="undo" />} onClick={actionHandler.onView}>
+            <Button
+              w="104px"
+              color="yellow"
+              leftIcon={<Icon name="undo" />}
+              onClick={() => {
+                actionHandler.onView();
+                event({ action: "click", category: "menubar", label: "cancel" });
+              }}
+            >
               <Text textStyle="button-2" color="#1A1A1A">
                 CANCEL
               </Text>
@@ -143,6 +167,7 @@ const MenuBar: FC<{
               leftIcon={<Icon name="save" />}
               isLoading={isLoading}
               onClick={() => {
+                event({ action: "click", category: "menubar", label: "save" });
                 startLoading();
                 actionHandler
                   .onSave()
@@ -160,7 +185,16 @@ const MenuBar: FC<{
           </>
         )}
         {!isEdit && (
-          <Button w="88px" color="purple" leftIcon={<Icon name="edit" />} onClick={actionHandler.onEdit} disabled={!initialized}>
+          <Button
+            w="88px"
+            color="purple"
+            leftIcon={<Icon name="edit" />}
+            disabled={!initialized}
+            onClick={() => {
+              actionHandler.onEdit();
+              event({ action: "click", category: "menubar", label: "edit" });
+            }}
+          >
             <Text textStyle="button-2" color="#1A1A1A">
               EDIT
             </Text>
