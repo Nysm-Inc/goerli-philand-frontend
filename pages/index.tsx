@@ -13,8 +13,8 @@ import {
   LinkMenu,
   useLinkMenu,
   MenuBar,
-  StatusTx,
-  ConfirmTx,
+  ConfirmModal,
+  StatusToast,
   Header,
   Modal,
   ModalHeader,
@@ -110,7 +110,7 @@ const Index: NextPage = () => {
   }
   return (
     <>
-      <ConfirmTx
+      <ConfirmModal
         txs={[
           txCreatePhiland,
           txChangePhilandOwner,
@@ -127,7 +127,7 @@ const Index: NextPage = () => {
           txSave,
         ]}
       />
-      <StatusTx
+      <StatusToast
         txs={[
           txCreatePhiland,
           txChangePhilandOwner,

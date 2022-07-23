@@ -10,7 +10,7 @@ export const main = {
     200: "#CCCCCC",
     100: "#EEEEEE",
   },
-  white: "white",
+  white: "#FFFFFF",
 };
 
 export const lightDark = {

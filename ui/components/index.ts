@@ -8,7 +8,7 @@ import MenuBar from "./MenuBar";
 import QuantityInput from "./QuantityInput";
 import Search from "./Search";
 import SelectBox from "./SelectBox";
-import { ConfirmTx, StatusTx } from "./transaction";
+import { ConfirmModal, StatusToast } from "./transaction";
 import Wallet from "./Wallet";
 import Icon, { IconName } from "./Icon";
 import { Modal, ModalBody, ModalHeader, ModalFooter, ModalFooterButton } from "./Modal";
@@ -26,10 +26,10 @@ export {
   ActionMenu,
   useActionMenu,
   Button,
-  ConfirmTx,
+  ConfirmModal,
   Dev,
   ENSNotFound,
-  StatusTx,
+  StatusToast,
   Head,
   Header,
   Help,
