@@ -5,7 +5,7 @@ import { FC } from "react";
 import { Box } from "@chakra-ui/react";
 import axios from "axios";
 import { LP_URL, UTILS_API_GATEWAY } from "~/constants";
-import { useCheckWallpaper, useViewPhiland } from "~/hooks/map";
+import { useWallpaper, useViewPhiland } from "~/hooks/map";
 import { useGame } from "~/hooks/game";
 import { useCreatePhiland } from "~/hooks/registry";
 import { Header, Search } from "~/ui/components";
@@ -50,7 +50,7 @@ const Index: NextPage = () => {
 
   const [isCreated] = useCreatePhiland("", ens);
   const { phiObjects } = useViewPhiland(ens);
-  const [wallpaper] = useCheckWallpaper(ens);
+  const wallpaper = useWallpaper(ens);
 
   useGame({ state: { currentENS: ens, isEdit: false, isCreatedPhiland: isCreated, phiObjects, wallpaper } });
 
