@@ -31,8 +31,8 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
           w={w}
           //
           border={colorMode === "light" ? "1px solid" : "none"}
-          borderColor="#CECCC9"
-          bgColor={colorMode === "light" ? "white" : "#1A1A1A"}
+          borderColor="light.g_orange"
+          bgColor={colorMode === "light" ? "white" : "grey.900"}
         >
           {options.map((item, i) => (
             <MenuItem
@@ -48,20 +48,20 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
                 else if (onClick) onClick(item.value);
               }}
               //
-              bgColor={colorMode === "light" ? "white" : "#1A1A1A"}
+              bgColor={colorMode === "light" ? "white" : "grey.900"}
               _hover={{
-                bgColor: colorMode === "light" ? "#F5F2EB" : "#333333",
+                bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
               }}
               _active={{
-                bgColor: colorMode === "light" ? "white" : "#333333",
+                bgColor: colorMode === "light" ? "white" : "dark.grey700",
               }}
               _focus={{
-                bgColor: colorMode === "light" ? "white" : "#333333",
+                bgColor: colorMode === "light" ? "white" : "dark.grey700",
               }}
             >
               <Text
                 textStyle="button-2"
-                textColor={colorMode === "light" ? "#1A1A1A" : "white"}
+                textColor={colorMode === "light" ? "grey.900" : "white"}
                 w="calc(100% - 16px)"
                 whiteSpace="nowrap"
                 overflow="hidden"
@@ -70,9 +70,7 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
                 {item.label}
               </Text>
               <Box w="8px" />
-              <Center w="24px">
-                {value === item.value && <Icon name="check" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
-              </Center>
+              <Center w="24px">{value === item.value && <Icon name="check" color={colorMode === "light" ? "grey.900" : "white"} />}</Center>
             </MenuItem>
           ))}
         </ChakraMenuList>

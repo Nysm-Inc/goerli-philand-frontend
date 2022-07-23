@@ -7,8 +7,8 @@ const FooterButton: FC<{ text: string; buttonText: string; onClick: () => void }
   const { colorMode } = useContext(AppContext);
 
   return (
-    <Flex w="730px" h="64px" p="12px 16px 12px 24px" bgColor="#1A1A1A" borderRadius="16px" justify="space-between" align="center">
-      <Text textStyle="headline-2" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+    <Flex w="730px" h="64px" p="12px 16px 12px 24px" bgColor="grey.900" borderRadius="16px" justify="space-between" align="center">
+      <Text textStyle="headline-2" color={colorMode === "light" ? "white" : "grey.900"}>
         {text}
       </Text>
       <Button w="90px" h="40px" onClick={onClick}>

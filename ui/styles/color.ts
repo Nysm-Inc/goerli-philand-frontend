@@ -8,8 +8,9 @@ export const main = {
     900: "#1A1A1A",
     500: "#808080",
     200: "#CCCCCC",
+    100: "#EEEEEE",
   },
-  white: "#FFFFFF",
+  white: "white",
 };
 
 export const lightDark = {

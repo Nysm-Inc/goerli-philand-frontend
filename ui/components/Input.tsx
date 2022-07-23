@@ -19,17 +19,17 @@ const Input: FC<{
       borderRadius="12px"
       w={w}
       //
-      textColor={colorMode === "light" ? "#1A1A1A" : "white"}
+      textColor={colorMode === "light" ? "grey.900" : "white"}
       border={colorMode === "light" ? "1px solid" : "none"}
-      bgColor={colorMode === "light" ? "white" : "#1A1A1A"}
-      borderColor={colorMode === "light" ? "#CECCC9" : "none"}
+      bgColor={colorMode === "light" ? "white" : "grey.900"}
+      borderColor={colorMode === "light" ? "light.g_orange" : "none"}
       _hover={{
-        bgColor: colorMode === "light" ? "#F5F2EB" : "#333333",
-        borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
+        bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
+        borderColor: colorMode === "light" ? "grey.900" : "grey.500",
       }}
       _active={{
-        bgColor: colorMode === "light" ? "white" : "#333333",
-        borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
+        bgColor: colorMode === "light" ? "white" : "dark.grey700",
+        borderColor: colorMode === "light" ? "grey.900" : "grey.500",
       }}
     >
       {leftIcon && (
@@ -41,7 +41,7 @@ const Input: FC<{
         //
         variant="unstyled"
         textStyle="label-1"
-        _placeholder={{ color: "#808080" }}
+        _placeholder={{ color: "grey.500" }}
         //
         pl={leftIcon ? "40px" : "12px"}
         pr={rightIcon ? "48px" : "12px"}

@@ -19,9 +19,9 @@ const Search: FC<{ w?: LayoutProps["w"] }> = ({ w }) => {
         w={w || "336px"}
         placeholder="visit other lands"
         value={searchText}
-        leftIcon={<Icon name="search" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+        leftIcon={<Icon name="search" color={colorMode === "light" ? "grey.900" : "white"} />}
         rightIcon={
-          <Text textStyle="label-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+          <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
             .eth
           </Text>
         }

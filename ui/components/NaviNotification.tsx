@@ -22,11 +22,11 @@ const NaviNotification: FC<{ text: string; btnText: string; colorMode: ColorMode
       h="64px"
       borderRadius="20px"
       border="1px solid"
-      borderColor={colorMode === "light" ? "#292929" : "#F5F2EB"}
-      bgColor={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}
+      borderColor={colorMode === "light" ? "dark.grey800" : "light.lg_orange40"}
+      bgColor={colorMode === "light" ? "grey.900" : "white"}
       boxShadow="0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 10px 10px -5px rgba(0, 0, 0, 0.04);"
     >
-      <Text w="294px" h="20px" textStyle="paragraph-2" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+      <Text w="294px" h="20px" textStyle="paragraph-2" color={colorMode === "light" ? "white" : "grey.900"}>
         {text}
       </Text>
       <Button
@@ -38,13 +38,13 @@ const NaviNotification: FC<{ text: string; btnText: string; colorMode: ColorMode
           onClose();
         }}
       >
-        <Text textStyle="button-2" color="#1A1A1A">
+        <Text textStyle="button-2" color="grey.900">
           {btnText}
         </Text>
       </Button>
       <IconButton
         ariaLabel="close"
-        icon={<Icon name="close" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"} />}
+        icon={<Icon name="close" color={colorMode === "light" ? "white" : "grey.900"} />}
         size={32}
         flipColor
         onClick={onClose}

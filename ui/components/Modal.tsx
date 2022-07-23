@@ -20,7 +20,9 @@ import Button from "./Button";
 
 const Line: FC = () => {
   const { colorMode } = useContext(AppContext);
-  return <Box w="full" height="2px" bgColor={colorMode === "light" ? "#CECCC9" : "#808080"} transform="matrix(1, 0, 0, -1, 0, 0)" />;
+  return (
+    <Box w="full" height="2px" bgColor={colorMode === "light" ? "light.g_orange" : "grey.500"} transform="matrix(1, 0, 0, -1, 0, 0)" />
+  );
 };
 const LineStack: FC<{ w?: LayoutProps["w"] }> = ({ w }) => (
   <VStack w={w || "full"} spacing="3px">
@@ -63,7 +65,7 @@ const ModalHeader: FC<{ title?: string; buttons: JSX.Element[] }> = ({ title, bu
 const ModalBody: FC<{ children: ReactNode }> = ({ children }) => {
   const { colorMode } = useContext(AppContext);
   return (
-    <ChakraModalBody borderRadius="16px" p="0px" bgColor={colorMode === "light" ? "#FBF9F5" : "#0D0D0D"}>
+    <ChakraModalBody borderRadius="16px" p="0px" bgColor={colorMode === "light" ? "light.lg_orange30" : "dark.black"}>
       {children}
     </ChakraModalBody>
   );
@@ -89,9 +91,9 @@ const ModalFooterButton: FC<{ text: string; buttonText: string; isLoading?: bool
       borderRadius="16px"
       justify="space-between"
       align="center"
-      bgColor={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}
+      bgColor={colorMode === "light" ? "grey.900" : "white"}
     >
-      <Text textStyle="headline-2" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+      <Text textStyle="headline-2" color={colorMode === "light" ? "white" : "grey.900"}>
         {text}
       </Text>
       <Button w="90px" h="40px" isLoading={isLoading} onClick={onClick}>
@@ -119,10 +121,10 @@ const Modal: FC<{
       <ChakraModalContent
         p="24px"
         border="1px solid"
-        borderColor={colorMode === "light" ? "#F5F2EB" : "#1A1A1A"}
+        borderColor={colorMode === "light" ? "light.lg_orange40" : "grey.900"}
         borderRadius="40px"
         boxShadow="0px 8px 16px rgba(13, 13, 13, 0.1)"
-        bgColor={colorMode === "light" ? "#FBF9F5" : "#0D0D0D"}
+        bgColor={colorMode === "light" ? "light.lg_orange30" : "dark.black"}
         minW={w}
         minH={h}
         maxW={w}

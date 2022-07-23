@@ -5,6 +5,7 @@ import { Status as TxStatus, Tx } from "~/types/tx";
 import { AppContext } from "~/contexts";
 import { Icon, IconName, IconButton } from "~/ui/components";
 import { ColorMode } from "~/ui/styles";
+import { information } from "~/ui/styles/color";
 
 type Status = "submitted" | "pending" | "success" | "failed";
 
@@ -42,20 +43,19 @@ const getIconName = (label: Status): IconName => {
   }
 };
 
-// todo: Theme Typings
 const getColor = (label: Status): string => {
   switch (label) {
     case "submitted": {
-      return "#0086F0";
+      return information.info.default;
     }
     case "pending": {
-      return "#FFC328";
+      return information.warning.default;
     }
     case "success": {
-      return "#70DBB8";
+      return information.success.default;
     }
     case "failed": {
-      return "#EF4444";
+      return information.danger.default;
     }
   }
 };
@@ -77,11 +77,11 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
       minH="112px"
       h="auto"
       p="8px 8px 8px 0px"
-      border="1px solid #1A1A1A"
+      border="1px solid grey.900"
       boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
       borderRadius="16px"
       position="relative"
-      bgColor={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}
+      bgColor={colorMode === "light" ? "grey.900" : "white"}
     >
       <HStack spacing="0" p="16px" align="flex-start">
         <Center w="40px" h="40px" borderRadius="40px" bgColor={getColor(status)}>
@@ -90,10 +90,10 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
         <Box w="16px" />
 
         <Flex direction="column" w="220px" h="100%">
-          <Text color="#808080" textStyle="label-1">
+          <Text color="grey.500" textStyle="label-1">
             Action Label
           </Text>
-          <Text color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"} textStyle="paragraph-1">
+          <Text color={colorMode === "light" ? "white" : "grey.900"} textStyle="paragraph-1">
             {tx.msg
               ? tx.msg
               : {
@@ -103,7 +103,7 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
                   failed: "Transaction Failed",
                 }[status]}
           </Text>
-          <Link textStyle="button-2" color="#8080FF" href={`${MUMBAI_BLOCK_EXPLORER}/tx/${tx.hash}`} isExternal>
+          <Link textStyle="button-2" color="primary.500" href={`${MUMBAI_BLOCK_EXPLORER}/tx/${tx.hash}`} isExternal>
             View on explorer
           </Link>
         </Flex>
@@ -111,7 +111,7 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
       <Box position="absolute" top="8px" right="8px">
         <IconButton
           ariaLabel="close"
-          icon={<Icon name="close" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"} />}
+          icon={<Icon name="close" color={colorMode === "light" ? "white" : "grey.900"} />}
           size={32}
           flipColor
           onClick={onClose}

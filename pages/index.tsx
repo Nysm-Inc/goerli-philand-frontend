@@ -47,7 +47,7 @@ const Mobile: FC = () => {
     <Modal w="320px" h="400px" isOpen={true} onClose={() => {}}>
       <ModalHeader buttons={[]} />
       <Center>
-        <Text textStyle="headline" color="#FFFFFF">
+        <Text textStyle="headline" color="white">
           Mobile
         </Text>
       </Center>

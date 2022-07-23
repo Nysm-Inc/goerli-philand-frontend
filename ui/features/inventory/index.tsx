@@ -107,7 +107,7 @@ const Inventory: FC<{
           <IconButton
             key="close"
             ariaLabel="close"
-            icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+            icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
             size={32}
             borderRadius={8}
             boxShadow={false}
@@ -125,7 +125,7 @@ const Inventory: FC<{
                 height="288px"
                 p="16px"
                 borderRadius="16px"
-                bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}
+                bgColor={colorMode === "light" ? "white" : "grey.900"}
               >
                 <Box
                   position="relative"
@@ -149,10 +149,10 @@ const Inventory: FC<{
                 >
                   <Image src={objectMetadataList[object.contractAddress][object.tokenId].image_url} layout="fill" objectFit="contain" />
                 </Box>
-                <Text textStyle="label-2" color="#808080">
+                <Text textStyle="label-2" color="grey.500">
                   OWNED {object.amount - object.used}
                 </Text>
-                <Text h="40px" textStyle="headline-3" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                <Text h="40px" textStyle="headline-3" color={colorMode === "light" ? "grey.900" : "white"}>
                   {objectMetadataList[object.contractAddress][object.tokenId].name}
                 </Text>
                 {!isEdit && !object.writed && (
@@ -168,10 +168,10 @@ const Inventory: FC<{
             ))}
           </SimpleGrid>
         ) : (
-          <Center w="358px" h="590px" borderRadius="16px" bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+          <Center w="358px" h="590px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <VStack spacing="32px">
               <Image src="/assets/empty-inventory.png" width="360px" height="240px" />
-              <Text w="300px" h="40px" color="#808080" textStyle="paragraph-2" textAlign="center">
+              <Text w="300px" h="40px" color="grey.500" textStyle="paragraph-2" textAlign="center">
                 {"To place Objects & Wallpapers in Land, Deposit them from Collection."}
               </Text>
             </VStack>

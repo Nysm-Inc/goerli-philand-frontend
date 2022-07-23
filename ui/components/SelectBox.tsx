@@ -22,15 +22,11 @@ const SelectBox: FC<{
             as={Button}
             w={w}
             rightIcon={
-              <Icon
-                name="dropdown"
-                transform={isOpen ? "rotate(0)" : "rotate(180)"}
-                color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}
-              />
+              <Icon name="dropdown" transform={isOpen ? "rotate(0)" : "rotate(180)"} color={colorMode === "light" ? "grey.900" : "white"} />
             }
             disabled={disabled}
           >
-            <Text textStyle="button-2" textAlign="left" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+            <Text textStyle="button-2" textAlign="left" color={colorMode === "light" ? "grey.900" : "white"}>
               {selected.label}
             </Text>
           </MenuButton>

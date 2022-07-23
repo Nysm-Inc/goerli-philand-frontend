@@ -12,7 +12,7 @@ const Share: FC<{ currentENS: string }> = ({ currentENS }) => {
     <Box position="fixed" bottom="32px" right="calc(24px + 48px + 16px)">
       <IconButton
         ariaLabel="share"
-        icon={<Icon name="share" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+        icon={<Icon name="share" color={colorMode === "light" ? "grey.900" : "white"} />}
         onClick={() => {
           window.open(`https://twitter.com/intent/tweet?text=Come visit my philand @phi_xyz%0a${FRONTEND_URL}/${currentENS}`, "_blank");
         }}

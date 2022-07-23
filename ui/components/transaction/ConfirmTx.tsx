@@ -16,7 +16,7 @@ const ConfirmTx: FC<{ txs: Tx[] }> = ({ txs }) => {
         <Text color="white" textStyle="headline" textAlign="center">
           WAITING FOR CONFIRMATION
         </Text>
-        <Text color="#808080" textStyle="paragraph-2" textAlign="center">
+        <Text color="grey.500" textStyle="paragraph-2" textAlign="center">
           Confirm this transaction in your wallet
         </Text>
       </VStack>

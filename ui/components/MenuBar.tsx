@@ -51,8 +51,8 @@ const MenuBar: FC<{
       borderRadius="16px"
       //
       border={colorMode === "light" ? "1px solid" : "none"}
-      borderColor={colorMode === "light" ? "#CECCC9" : "none"}
-      bgColor={colorMode === "light" ? "white" : "#1A1A1A"}
+      borderColor={colorMode === "light" ? "light.g_orange" : "none"}
+      bgColor={colorMode === "light" ? "white" : "grey.900"}
     >
       <>
         {isEdit ? (
@@ -71,7 +71,7 @@ const MenuBar: FC<{
             handleChange={actionHandler.onSwitchCurrentENS}
           />
         )}
-        <Divider orientation="vertical" color={colorMode === "light" ? "CECCC9" : "#333333"} h="48px" />
+        <Divider orientation="vertical" color={colorMode === "light" ? "light.g_orange" : "dark.grey700"} h="48px" />
       </>
 
       <>
@@ -122,12 +122,12 @@ const MenuBar: FC<{
           <>
             {/* <IconButton
               ariaLabel="undo"
-              icon={<Icon name="undo" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+              icon={<Icon name="undo" color={colorMode === "light" ? "grey.900" : "white"} />}
               onClick={() => {}}
             />
             <IconButton
               ariaLabel="redo"
-              icon={<Icon name="redo" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+              icon={<Icon name="redo" color={colorMode === "light" ? "grey.900" : "white"} />}
               onClick={() => {}}
             /> */}
             <IconButton
@@ -142,7 +142,7 @@ const MenuBar: FC<{
             />
           </>
         )}
-        <Divider orientation="vertical" color={colorMode === "light" ? "CECCC9" : "#333333"} h="48px" />
+        <Divider orientation="vertical" color={colorMode === "light" ? "light.g_orange" : "dark.grey700"} h="48px" />
       </>
 
       <>
@@ -157,7 +157,7 @@ const MenuBar: FC<{
                 event({ action: "click", category: "menubar", label: "cancel" });
               }}
             >
-              <Text textStyle="button-2" color="#1A1A1A">
+              <Text textStyle="button-2" color="grey.900">
                 CANCEL
               </Text>
             </Button>
@@ -178,7 +178,7 @@ const MenuBar: FC<{
                   .catch(stopLoading);
               }}
             >
-              <Text textStyle="button-2" color="#1A1A1A">
+              <Text textStyle="button-2" color="grey.900">
                 Save
               </Text>
             </Button>
@@ -195,7 +195,7 @@ const MenuBar: FC<{
               event({ action: "click", category: "menubar", label: "edit" });
             }}
           >
-            <Text textStyle="button-2" color="#1A1A1A">
+            <Text textStyle="button-2" color="grey.900">
               EDIT
             </Text>
           </Button>

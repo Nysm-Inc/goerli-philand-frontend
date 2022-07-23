@@ -61,7 +61,7 @@ const Collection: FC<{
           <IconButton
             key="close"
             ariaLabel="close"
-            icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+            icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
             size={32}
             onClick={onClose}
           />,
@@ -71,14 +71,14 @@ const Collection: FC<{
         {items.length > 0 ? (
           <SimpleGrid columns={3} spacing="8px">
             {items.map((item, i) => (
-              <VStack key={i} height="320px" p="16px" borderRadius="16px" bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+              <VStack key={i} height="320px" p="16px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
                 <Box w="100%" minH="144px" maxH="144px" position="relative">
                   <Image src={objectMetadataList[item.contract][item.tokenId].image_url} layout="fill" objectFit="contain" />
                 </Box>
-                <Text textStyle="label-2" color="#808080">
+                <Text textStyle="label-2" color="grey.500">
                   OWNED: {item.amount}
                 </Text>
-                <Text textStyle="headline-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
                   {objectMetadataList[item.contract][item.tokenId].name}
                 </Text>
                 <Box h="8px" />
@@ -97,7 +97,7 @@ const Collection: FC<{
                         )}
                       </>
                     ) : (
-                      <Text textStyle="label-1" color="#8080FF" cursor="pointer" onClick={onOpenPermissions}>
+                      <Text textStyle="label-1" color="primary.500" cursor="pointer" onClick={onOpenPermissions}>
                         + Deposit
                       </Text>
                     )}
@@ -108,10 +108,10 @@ const Collection: FC<{
           </SimpleGrid>
         ) : (
           // todo
-          <Center w="calc(784px + 24px)" h="calc(532px + 24px)" borderRadius="16px" bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+          <Center w="calc(784px + 24px)" h="calc(532px + 24px)" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <VStack spacing="32px">
               <Image src="/assets/empty-collection.png" width="360px" height="240px" />
-              <Text w="300px" h="40px" color="#808080" textStyle="paragraph-2" textAlign="center">
+              <Text w="300px" h="40px" color="grey.500" textStyle="paragraph-2" textAlign="center">
                 {"Manage Objects & Wallpaper collected from Shops and Quests"}
               </Text>
             </VStack>
