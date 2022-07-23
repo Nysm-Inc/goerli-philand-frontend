@@ -7,6 +7,7 @@ import { AppContext } from "~/contexts";
 import Button from "./Button";
 import MenuList from "./MenuList";
 import Icon from "./Icon";
+import { event } from "~/utils/ga/ga";
 
 const showAddress = (address: string) => `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
 
@@ -33,7 +34,10 @@ const Wallet: FC = () => {
                   <Button
                     w="153px"
                     color="purple"
-                    onClick={openConnectModal}
+                    onClick={() => {
+                      openConnectModal();
+                      event({ action: "click", category: "wallet", label: "connect" });
+                    }}
                     rightIcon={<Image src="/icons/wallet.svg" width="24px" height="24px" />}
                   >
                     <Text color="white" textStyle="button-1">
@@ -62,7 +66,7 @@ const Wallet: FC = () => {
                           <Avatar
                             w="32px"
                             h="32px"
-                            bgColor={colorMode === "light" ? "#B2B2FF" : "#FF8080"}
+                            bgColor={colorMode === "light" ? "purple.150" : "red.150"}
                             src={account.ensAvatar}
                             icon={
                               <Box position="absolute" top="4px">
@@ -71,7 +75,7 @@ const Wallet: FC = () => {
                             }
                           />
                         }
-                        rightIcon={<Icon name="menu" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+                        rightIcon={<Icon name="menu" color={colorMode === "light" ? "grey.900" : "white"} />}
                       >
                         <Text textAlign="left" textStyle="button-2" pl="4px">
                           {account.displayName}

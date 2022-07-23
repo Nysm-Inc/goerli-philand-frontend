@@ -66,6 +66,8 @@ const useSave = (
       hash: data?.hash,
       tmpStatus,
       status,
+
+      action: "save",
       msg: "Updating OGP image. Please do not move from this page to another.",
     },
   };

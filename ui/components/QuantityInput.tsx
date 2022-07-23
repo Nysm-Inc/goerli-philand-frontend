@@ -23,21 +23,21 @@ const QuantityInput: FC<{
           justify="space-between"
           align="center"
           borderRadius="12px"
-          bgColor={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}
+          bgColor={colorMode === "light" ? "grey.900" : "white"}
         >
           <Button variant="unstyled" display="flex" justifyContent="left" onClick={handleClickMinus}>
-            <Icon name="minus" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"} />
+            <Icon name="minus" color={colorMode === "light" ? "white" : "grey.900"} />
           </Button>
-          <Text textStyle="label-1" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+          <Text textStyle="label-1" color={colorMode === "light" ? "white" : "grey.900"}>
             {num}
           </Text>
           <Button variant="unstyled" display="flex" justifyContent="right" disabled={balance <= num} onClick={handleClickPlus}>
-            <Icon name="plus" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"} />
+            <Icon name="plus" color={colorMode === "light" ? "white" : "grey.900"} />
           </Button>
         </Flex>
       ) : (
         <Center h="32px">
-          <Text textStyle="label-1" color="#8080FF" cursor="pointer" onClick={handleClickPlus}>
+          <Text textStyle="label-1" color="primary.500" cursor="pointer" onClick={handleClickPlus}>
             {defaultText}
           </Text>
         </Center>

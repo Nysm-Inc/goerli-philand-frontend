@@ -13,11 +13,7 @@ const Help: FC = () => {
       <Menu variant="unstyled" autoSelect={false}>
         {({ isOpen }) => (
           <>
-            <MenuButton
-              as={IconButton}
-              ariaLabel="help"
-              icon={<Icon name="help" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
-            />
+            <MenuButton as={IconButton} ariaLabel="help" icon={<Icon name="help" color={colorMode === "light" ? "grey.900" : "white"} />} />
             <MenuList
               w="180px"
               isOpen={isOpen}

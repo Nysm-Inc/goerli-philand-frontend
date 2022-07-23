@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
-import { Box, Link, Text, useBoolean, VStack } from "@chakra-ui/react";
+import { Link, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Icon from "./Icon";
 import IconButton from "./IconButton";
@@ -17,7 +17,7 @@ const ENSNotFound: FC = () => {
           <IconButton
             key="close"
             ariaLabel="close"
-            icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+            icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
             size={32}
             borderRadius={8}
             boxShadow={false}
@@ -28,14 +28,14 @@ const ENSNotFound: FC = () => {
       <VStack spacing="32px">
         <Image src="/icons/ens.svg" width="134px" height="150px" />
         <VStack spacing="8px">
-          <Text textStyle="headline-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+          <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
             ENS NOT FOUND
           </Text>
-          <Text color="#808080" textStyle="paragraph-1">
+          <Text color="grey.500" textStyle="paragraph-1">
             Get your ENS to get your land.
           </Text>
         </VStack>
-        <Link color="#8080FF" textStyle="button-2" href="https://app.ens.domains/" isExternal>
+        <Link color="primary.500" textStyle="button-2" href="https://app.ens.domains/" isExternal>
           Get a new ENS on Goerli
         </Link>
       </VStack>

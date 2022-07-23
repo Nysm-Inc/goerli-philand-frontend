@@ -11,8 +11,8 @@ import { AppContext } from "~/contexts";
 const EXP: FC<{ exp: number }> = ({ exp }) => {
   const { colorMode } = useContext(AppContext);
   return (
-    <Center display="inline-block" p="2px 4px" h="20px" borderRadius="4px" bgColor={colorMode === "light" ? "#292929" : "#CCCCCC"}>
-      <Text textStyle="label-2" color={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>{`EXP:${exp}`}</Text>
+    <Center display="inline-block" p="2px 4px" h="20px" borderRadius="4px" bgColor={colorMode === "light" ? "dark.grey800" : "grey.200"}>
+      <Text textStyle="label-2" color={colorMode === "light" ? "white" : "grey.900"}>{`EXP:${exp}`}</Text>
     </Center>
   );
 };
@@ -20,9 +20,9 @@ const EXP: FC<{ exp: number }> = ({ exp }) => {
 const Network: FC<{ tokenId: number }> = ({ tokenId }) => {
   const { colorMode } = useContext(AppContext);
   return (
-    <HStack h="24px" p="2px 8px 2px 4px" borderRadius="16px" spacing="4px" bgColor={colorMode === "light" ? "#EEEEEE" : "#333333"}>
+    <HStack h="24px" p="2px 8px 2px 4px" borderRadius="16px" spacing="4px" bgColor={colorMode === "light" ? "grey.100" : "dark.grey700"}>
       <Image src="/icons/eth_logo.svg" width="16px" height="16px" />
-      <Text textStyle="label-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+      <Text textStyle="label-2" color={colorMode === "light" ? "grey.900" : "white"}>
         {/* todo */}
         {objectTraisList[QUEST_OBJECT_CONTRACT_ADDRESS][tokenId]?.attributes[0]?.value}
       </Text>
@@ -101,7 +101,7 @@ const Row: FC<{ idx: number; length: number; children?: ReactNode }> = ({ idx, l
       h="56px"
       align="center"
       borderRadius={radius}
-      bgColor={colorMode === "light" ? "#F5F2EB" : "#292929"}
+      bgColor={colorMode === "light" ? "light.lg_orange40" : "dark.grey800"}
     >
       {children}
     </Flex>
@@ -132,7 +132,7 @@ const Quest: FC<{
                 <IconButton
                   key="back"
                   ariaLabel="back"
-                  icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} transform="rotate(180)" />}
+                  icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} transform="rotate(180)" />}
                   size={32}
                   borderRadius={8}
                   boxShadow={false}
@@ -143,7 +143,7 @@ const Quest: FC<{
                 <IconButton
                   key="refresh"
                   ariaLabel="refresh"
-                  icon={<Icon name="refresh" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+                  icon={<Icon name="refresh" color={colorMode === "light" ? "grey.900" : "white"} />}
                   size={32}
                   borderRadius={8}
                   boxShadow={false}
@@ -157,7 +157,7 @@ const Quest: FC<{
                 <IconButton
                   key="close"
                   ariaLabel="close"
-                  icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+                  icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
                   size={32}
                   borderRadius={8}
                   boxShadow={false}
@@ -168,33 +168,39 @@ const Quest: FC<{
       />
       <ModalBody>
         {selected ? (
-          <VStack p="32px 27px" spacing="32px" bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+          <VStack p="32px 27px" spacing="32px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <HStack spacing="32px" w="730px" h="293px">
-              <Center w="294px" h="294px" borderRadius="8px" border="1px solid" borderColor={colorMode === "light" ? "#CECCC9" : "#333333"}>
+              <Center
+                w="294px"
+                h="294px"
+                borderRadius="8px"
+                border="1px solid"
+                borderColor={colorMode === "light" ? "light.g_orange" : "dark.grey700"}
+              >
                 <Box minW="144px" maxW="144px" minH="144px" maxH="144px" position="relative">
                   <Image src={selected.image_url} layout="fill" objectFit="contain" />
                 </Box>
               </Center>
               <VStack w="404px" h="100%" spacing="24px" align="flex-start">
-                <Text textStyle="headline-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
                   {selected.name}
                 </Text>
                 <VStack spacing="10px" align="flex-start">
                   <HStack spacing="4px">
                     <Image src="/icons/eth.svg" width="24px" height="24px" />
-                    <Text textStyle="label-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                    <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
                       {selected.EXP} EXP
                     </Text>
                   </HStack>
                   <HStack>
                     <Image src="/icons/eth.svg" width="24px" height="24px" />
-                    <Text textStyle="label-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                    <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
                       {totalSupply[selected.tokenId]} Claimed
                     </Text>
                   </HStack>
                   <HStack>
                     <Image src="/icons/eth.svg" width="24px" height="24px" />
-                    <Text textStyle="label-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                    <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
                       April XX, 2022 - Sep XX 2022
                     </Text>
                   </HStack>
@@ -212,11 +218,11 @@ const Quest: FC<{
                 </Box>
               </VStack>
             </HStack>
-            <Text w="720px" h="40px" textStyle="paragraph-2" color={colorMode === "light" ? "#808080" : "#CCCCCC"}>
+            <Text w="720px" h="40px" textStyle="paragraph-2" color={colorMode === "light" ? "grey.500" : "grey.200"}>
               {objectTraisList[QUEST_OBJECT_CONTRACT_ADDRESS][selected.tokenId]?.description}
             </Text>
             <VStack spacing="16px" align="flex-start">
-              <Text textStyle="headline-2" color="#808080">
+              <Text textStyle="headline-2" color="grey.500">
                 Requirements
               </Text>
               <VStack spacing="2px">
@@ -227,7 +233,7 @@ const Quest: FC<{
                       h="32px"
                       borderRadius="8px"
                       bgColor={
-                        selected.claimable ? (colorMode === "light" ? "#1A1A1A" : "#FFFFFF") : colorMode === "light" ? "#FFFFFF" : "#1A1A1A"
+                        selected.claimable ? (colorMode === "light" ? "grey.900" : "white") : colorMode === "light" ? "white" : "grey.900"
                       }
                     >
                       <Icon
@@ -237,15 +243,15 @@ const Quest: FC<{
                         color={
                           selected.claimable
                             ? colorMode === "light"
-                              ? "#FFFFFF"
-                              : "#1A1A1A"
+                              ? "white"
+                              : "grey.900"
                             : colorMode === "light"
-                            ? "#B3B3B3"
-                            : "#808080"
+                            ? "dark.grey300"
+                            : "grey.500"
                         }
                       />
                     </Center>
-                    <Text textStyle="paragraph-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                    <Text textStyle="paragraph-2" color={colorMode === "light" ? "grey.900" : "white"}>
                       {activity}
                     </Text>
                   </Row>
@@ -254,21 +260,21 @@ const Quest: FC<{
             </VStack>
             {conditionList[selected.tokenId].links.length > 0 && (
               <VStack spacing="16px" align="flex-start">
-                <Text textStyle="headline-2" color="#808080">
+                <Text textStyle="headline-2" color="grey.500">
                   References
                 </Text>
                 <VStack spacing="2px">
                   {conditionList[selected.tokenId].links.map((link, i) => (
                     <Row key={i} idx={i} length={conditionList[selected.tokenId].links.length}>
-                      <Center w="32px" h="32px" bgColor="#FFFFFF" borderRadius="8px">
-                        <Icon name="link" width="16px" height="16px" color="#1A1A1A" />
+                      <Center w="32px" h="32px" bgColor="white" borderRadius="8px">
+                        <Icon name="link" width="16px" height="16px" color="grey.900" />
                       </Center>
                       <Link
                         href={link.url}
                         isExternal
                         textStyle="paragraph-2"
                         cursor="pointer"
-                        color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}
+                        color={colorMode === "light" ? "grey.900" : "white"}
                       >
                         {link.title}
                       </Link>
@@ -291,7 +297,7 @@ const Quest: FC<{
                   p="16px"
                   align="flex-start"
                   borderRadius="16px"
-                  bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}
+                  bgColor={colorMode === "light" ? "white" : "grey.900"}
                 >
                   <Box
                     w="100%"
@@ -305,7 +311,7 @@ const Quest: FC<{
                     <Image src={metadata.image_url} layout="fill" objectFit="contain" />
                   </Box>
                   <Box h="16px" />
-                  <Text textStyle="headline-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+                  <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
                     {metadata.name}
                   </Text>
                   <Box h="8px" />

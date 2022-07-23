@@ -25,6 +25,7 @@ const useChangePhilandOwner = (ens?: string): { changePhilandOwner: () => Promis
       hash: data?.hash,
       tmpStatus,
       status,
+      action: "change philand owner",
     },
   };
 };

@@ -9,11 +9,11 @@ const Tab: FC<{ text: string }> = ({ text }) => {
       w="128px"
       textStyle="label-1"
       borderRadius="4px"
-      textColor="#808080"
+      textColor="grey.500"
       _selected={{
-        color: colorMode === "light" ? "#FFFFFF" : "#1A1A1A",
-        bgColor: colorMode === "light" ? "#1A1A1A" : "#FFFFFF",
-        textColor: colorMode === "light" ? "#FFFFFF" : "#1A1A1A",
+        color: colorMode === "light" ? "white" : "grey.900",
+        bgColor: colorMode === "light" ? "grey.900" : "white",
+        textColor: colorMode === "light" ? "white" : "grey.900",
       }}
     >
       <Text textStyle="label-1">{text}</Text>
@@ -32,7 +32,7 @@ const TabList: FC<{ children: ReactNode }> = ({ children }) => {
       display="inline-flex"
       justifyContent="center"
       border="1px solid"
-      borderColor={colorMode === "light" ? "#CCCCCC" : "#333333"}
+      borderColor={colorMode === "light" ? "grey.200" : "dark.grey700"}
     >
       {children}
     </ChakraTabList>

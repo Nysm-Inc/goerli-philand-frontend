@@ -37,17 +37,18 @@ const ActionMenu: FC<{
         h="64px"
         position="absolute"
         p="8px"
-        border={colorMode === "light" ? "1px solid #CECCC9" : "none"}
-        boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
         borderRadius="16px"
-        bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}
+        boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
+        borderColor="light.g_orange"
+        border={colorMode === "light" ? "1px solid" : "none"}
+        bgColor={colorMode === "light" ? "white" : "grey.900"}
         left={state.x}
         top={state.y - 64 * 2}
       >
         <HStack spacing="8px">
           <IconButton
             ariaLabel="arrows"
-            icon={<Icon name="arrows" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+            icon={<Icon name="arrows" color={colorMode === "light" ? "grey.900" : "white"} />}
             onClick={() => {
               onClickMove();
               onClose();
@@ -55,7 +56,7 @@ const ActionMenu: FC<{
           />
           <IconButton
             ariaLabel="link"
-            icon={<Icon name="link" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+            icon={<Icon name="link" color={colorMode === "light" ? "grey.900" : "white"} />}
             onClick={() => {
               onClickLink();
               onClose();
@@ -63,7 +64,7 @@ const ActionMenu: FC<{
           />
           <IconButton
             ariaLabel="trash"
-            icon={<Icon name="trash" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+            icon={<Icon name="trash" color={colorMode === "light" ? "grey.900" : "white"} />}
             onClick={() => {
               onClickTrash();
               onClose();

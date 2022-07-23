@@ -85,6 +85,7 @@ const useDeposit = (
         hash: depositData?.hash,
         tmpStatus: depositTmpStatus,
         status: depositStatus,
+        action: "deposit",
       },
     },
     {
@@ -93,6 +94,7 @@ const useDeposit = (
         hash: withdrawData?.hash,
         tmpStatus: withdrawTmpStatus,
         status: withdrawStatus,
+        action: "withdraw",
       },
     },
   ];

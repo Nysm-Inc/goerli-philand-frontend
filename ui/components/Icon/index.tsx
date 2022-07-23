@@ -1,4 +1,6 @@
+import { ColorProps, useToken } from "@chakra-ui/react";
 import { FC, SVGProps } from "react";
+import { colors } from "~/ui/styles/color";
 import Alert from "./Alert";
 import Arrow from "./Arrow";
 import Arrows from "./Arrows";
@@ -53,9 +55,10 @@ const icons = {
 
 export type IconName = keyof typeof icons;
 
-const Icon: FC<{ name: IconName } & SVGProps<SVGSVGElement>> = ({ name, ...rest }) => {
+const Icon: FC<SVGProps<SVGSVGElement> & { name: IconName; color?: ColorProps["color"] }> = ({ name, color = "grey.900", ...rest }) => {
+  const token = useToken("colors", [color]);
   const IconComponent = icons[name];
-  return <IconComponent {...rest} />;
+  return <IconComponent color={token} {...rest} />;
 };
 
 export default Icon;

@@ -4,7 +4,7 @@ import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { WallpaperAbi } from "~/abi";
 import { Tx } from "~/types/tx";
 
-const useWallpaper = (): { batchWallPaper: (tokenIds: number[]) => Promise<TransactionResponse | undefined>; tx: Tx } => {
+const useGetWallpaper = (): { batchWallPaper: (tokenIds: number[]) => Promise<TransactionResponse | undefined>; tx: Tx } => {
   const {
     data,
     writeAsync,
@@ -25,8 +25,9 @@ const useWallpaper = (): { batchWallPaper: (tokenIds: number[]) => Promise<Trans
       hash: data?.hash,
       tmpStatus,
       status,
+      action: "get wallpaper",
     },
   };
 };
 
-export default useWallpaper;
+export default useGetWallpaper;

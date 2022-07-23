@@ -23,7 +23,7 @@ const ApproveButton: FC<{ text: string; isApproved: boolean; onApprove: () => Pr
 
   return (
     <Flex w="full" h="72px" p="16px" align="center" justify="space-between">
-      <Text textStyle="headline-2" color={isApproved ? "#808080" : colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+      <Text textStyle="headline-2" color={isApproved ? "grey.500" : colorMode === "light" ? "grey.900" : "white"}>
         {text}
       </Text>
       <Button
@@ -40,7 +40,7 @@ const ApproveButton: FC<{ text: string; isApproved: boolean; onApprove: () => Pr
         }}
         disabled={isApproved}
         isLoading={isLoading}
-        leftIcon={isApproved ? <Icon name="check" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} /> : undefined}
+        leftIcon={isApproved ? <Icon name="check" color={colorMode === "light" ? "grey.900" : "white"} /> : undefined}
       >
         <Text color="white" textStyle="button-1">
           {isApproved ? "Approved" : "Approve"}
@@ -76,7 +76,7 @@ const Permissions: FC<{
           <IconButton
             key="close"
             ariaLabel="close"
-            icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+            icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
             size={32}
             borderRadius={8}
             boxShadow={false}

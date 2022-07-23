@@ -43,6 +43,7 @@ const useApprove = (
         hash: writeData?.hash,
         tmpStatus,
         status,
+        action: "approve",
       },
     },
   ];

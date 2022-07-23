@@ -13,8 +13,8 @@ import {
   LinkMenu,
   useLinkMenu,
   MenuBar,
-  StatusTx,
-  ConfirmTx,
+  ConfirmModal,
+  StatusToast,
   Header,
   Modal,
   ModalHeader,
@@ -27,13 +27,13 @@ import {
 } from "~/ui/components";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
-import { useCheckWallpaper, useDeposit, useSave, useViewPhiland } from "~/hooks/map";
+import { useWallpaper, useDeposit, useSave, useViewPhiland } from "~/hooks/map";
 import { useApprove, useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList } from "~/hooks/claim";
 import { useGame } from "~/hooks/game";
 import { useGetFreeObject } from "~/hooks/free";
 import { useBuyPremiumObject } from "~/hooks/premium";
-import useWallpaper from "~/hooks/wallpaper";
+import useGetWallpaper from "~/hooks/wallpaper";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   QUEST_OBJECT_CONTRACT_ADDRESS,
@@ -47,7 +47,7 @@ const Mobile: FC = () => {
     <Modal w="320px" h="400px" isOpen={true} onClose={() => {}}>
       <ModalHeader buttons={[]} />
       <Center>
-        <Text textStyle="headline" color="#FFFFFF">
+        <Text textStyle="headline" color="white">
           Mobile
         </Text>
       </Center>
@@ -75,7 +75,7 @@ const Index: NextPage = () => {
   const { changePhilandOwner, tx: txChangePhilandOwner } = useChangePhilandOwner(currentENS);
   const { owner, phiObjects } = useViewPhiland(currentENS);
   const isCreatedPhiland = owner === address && (isCreated || phiObjects.length > 0);
-  const [wallpaper] = useCheckWallpaper(currentENS);
+  const wallpaper = useWallpaper(currentENS);
   const [isAprvPhi, { approve: aprvPhi, tx: txAprvPhi }] = useApprove(QUEST_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvFree, { approve: aprvFree, tx: txAprvFree }] = useApprove(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const [isAprvPre, { approve: aprvPre, tx: txAprvPre }] = useApprove(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
@@ -84,7 +84,7 @@ const Index: NextPage = () => {
   const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS);
   const { getFreeObject, tx: txGetFreeObject } = useGetFreeObject();
   const { buyPremiumObject, tx: txBuyPremiumObject } = useBuyPremiumObject();
-  const { batchWallPaper, tx: txGetFreeWallpaper } = useWallpaper();
+  const { batchWallPaper, tx: txGetFreeWallpaper } = useGetWallpaper();
   const balancePhiObjects = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address);
   const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
@@ -110,7 +110,7 @@ const Index: NextPage = () => {
   }
   return (
     <>
-      <ConfirmTx
+      <ConfirmModal
         txs={[
           txCreatePhiland,
           txChangePhilandOwner,
@@ -127,7 +127,7 @@ const Index: NextPage = () => {
           txSave,
         ]}
       />
-      <StatusTx
+      <StatusToast
         txs={[
           txCreatePhiland,
           txChangePhilandOwner,

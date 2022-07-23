@@ -1,4 +1,4 @@
-import ConfirmTx from "./ConfirmTx";
-import StatusTx from "./StatusTx";
+import ConfirmModal from "./ConfirmModal";
+import StatusToast from "./StatusToast";
 
-export { ConfirmTx, StatusTx };
+export { ConfirmModal, StatusToast };

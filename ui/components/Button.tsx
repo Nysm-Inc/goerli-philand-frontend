@@ -1,18 +1,17 @@
 import { FC, ReactNode, useContext } from "react";
 import { Button as ChakraButton, LayoutProps, Flex, forwardRef, Center } from "@chakra-ui/react";
-import { themeColors } from "~/ui/styles";
 import { AppContext } from "~/contexts";
+import { subColors } from "~/ui/styles/color";
 import { Spinner } from "./Animation";
 
 const Button: FC<{
   w: LayoutProps["w"];
   h?: LayoutProps["h"];
-  color?: keyof typeof themeColors;
+  color?: keyof typeof subColors;
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
   disabled?: boolean;
   isLoading?: boolean;
-  // justify?: SystemProps["justifyContent"];
   onClick?: () => void;
   children?: ReactNode;
 }> = forwardRef((props, ref) => {
@@ -58,7 +57,7 @@ const Button: FC<{
             },
             _disabled: !isLoading
               ? {
-                  bgColor: colorMode === "light" ? "#CCCCCC" : "#292929",
+                  bgColor: colorMode === "light" ? "grey.200" : "dark.grey800",
                   cursor: "not-allowed",
                 }
               : {
@@ -66,20 +65,20 @@ const Button: FC<{
                 },
           }
         : {
-            textColor: colorMode === "light" ? "#1A1A1A" : "white",
-            bgColor: colorMode === "light" ? "white" : "#1A1A1A",
+            textColor: colorMode === "light" ? "grey.900" : "white",
+            bgColor: colorMode === "light" ? "white" : "grey.900",
             border: colorMode === "light" ? "1px solid" : "none",
-            borderColor: colorMode === "light" ? "#CECCC9" : "#333333",
+            borderColor: colorMode === "light" ? "light.g_orange" : "dark.grey700",
             _hover: {
               "&:not([disabled])": {
-                bgColor: colorMode === "light" ? "#F5F2EB" : "#333333",
-                borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
+                bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
+                borderColor: colorMode === "light" ? "grey.900" : "grey.500",
               },
             },
             _active: {
               "&:not([disabled])": {
-                bgColor: colorMode === "light" ? "white" : "#333333",
-                borderColor: colorMode === "light" ? "#1A1A1A" : "#808080",
+                bgColor: colorMode === "light" ? "white" : "dark.grey700",
+                borderColor: colorMode === "light" ? "grey.900" : "grey.500",
               },
             },
             _focus: {
@@ -87,8 +86,8 @@ const Button: FC<{
             },
             _disabled: !isLoading
               ? {
-                  bgColor: colorMode === "light" ? "#F5F2EB" : "#292929",
-                  borderColor: "#CECCC9",
+                  bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey800",
+                  borderColor: "light.g_orange",
                   cursor: "not-allowed",
                 }
               : {

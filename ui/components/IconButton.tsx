@@ -37,17 +37,17 @@ const IconButton: FC<{
         onClick={onClick}
         //
         border={outline ? "1px solid" : "none"}
-        bgColor={_colorMode ? "white" : "#1A1A1A"}
-        borderColor={_colorMode ? "#CECCC9" : "none"}
+        bgColor={_colorMode ? "white" : "grey.900"}
+        borderColor={_colorMode ? "light.g_orange" : "none"}
         _hover={{
-          bgColor: _colorMode ? "#F5F2EB" : "#333333",
+          bgColor: _colorMode ? "light.lg_orange40" : "dark.grey700",
           border: "1px solid",
-          borderColor: _colorMode ? "#1A1A1A" : "#808080",
+          borderColor: _colorMode ? "grey.900" : "grey.500",
         }}
         _active={{
-          bgColor: _colorMode ? "white" : "#333333",
+          bgColor: _colorMode ? "white" : "dark.grey700",
           border: "1px solid",
-          borderColor: _colorMode ? "#1A1A1A" : "#808080",
+          borderColor: _colorMode ? "grey.900" : "grey.500",
         }}
       >
         <Center>{isLoading ? <Spinner /> : <>{icon}</>}</Center>

@@ -53,35 +53,35 @@ const Cart: FC<{
           spacing="8px"
           borderRadius="16px"
           align="flex-start"
-          bgColor={colorMode === "light" ? "#F5F2EB" : "#333333"}
+          bgColor={colorMode === "light" ? "light.lg_orange40" : "dark.grey700"}
         >
           <Box position="relative" w="100%">
             <Box position="absolute" right="0" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
-              <Icon name="infoActive" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />
+              <Icon name="infoActive" color={colorMode === "light" ? "grey.900" : "white"} />
             </Box>
           </Box>
-          <Text textStyle="headline-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+          <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
             {item.name}
           </Text>
-          <Text textStyle="paragraph-2" color={colorMode === "light" ? "#808080" : "#CCCCCC"}>
+          <Text textStyle="paragraph-2" color={colorMode === "light" ? "grey.500" : "grey.200"}>
             {objectTraisList[contract][item.tokenId].description}
           </Text>
         </VStack>
       ) : (
-        <VStack height="320px" p="16px" spacing="16px" borderRadius="16px" bgColor={colorMode === "light" ? "#FFFFFF" : "#1A1A1A"}>
+        <VStack height="320px" p="16px" spacing="16px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
           <Box w="100%" minH="144px" maxH="144px" position="relative">
             <Image src={item.image_url} layout="fill" objectFit="contain" />
             <Box position="absolute" right="0" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
-              <Icon name="info" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />
+              <Icon name="info" color={colorMode === "light" ? "grey.900" : "white"} />
             </Box>
           </Box>
 
-          <Text textStyle="headline-2" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+          <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
             {item.name}
           </Text>
           <HStack>
             <Image src="/icons/polygon_logo.svg" width="16px" height="16px" />
-            <Text textStyle="label-1" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"}>
+            <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
               {item.price}
             </Text>
           </HStack>
@@ -144,7 +144,7 @@ const Shop: FC<{
             <IconButton
               key="close"
               ariaLabel="close"
-              icon={<Icon name="close" color={colorMode === "light" ? "#1A1A1A" : "#FFFFFF"} />}
+              icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
               size={32}
               borderRadius={8}
               boxShadow={false}
