@@ -2,6 +2,7 @@ export type Event = ClickEvent;
 
 type ClickEvent = {
   action: "click";
-  category: "other";
+  category: string;
   label: string;
+  value?: number;
 };

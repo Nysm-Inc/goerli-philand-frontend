@@ -36,7 +36,7 @@ const Wallet: FC = () => {
                     color="purple"
                     onClick={() => {
                       openConnectModal();
-                      event({ action: "click", category: "other", label: "wallet" });
+                      event({ action: "click", category: "wallet", label: "connect" });
                     }}
                     rightIcon={<Image src="/icons/wallet.svg" width="24px" height="24px" />}
                   >
