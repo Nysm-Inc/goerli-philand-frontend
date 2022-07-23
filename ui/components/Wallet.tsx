@@ -7,6 +7,7 @@ import { AppContext } from "~/contexts";
 import Button from "./Button";
 import MenuList from "./MenuList";
 import Icon from "./Icon";
+import { event } from "~/utils/ga/ga";
 
 const showAddress = (address: string) => `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
 
@@ -33,7 +34,10 @@ const Wallet: FC = () => {
                   <Button
                     w="153px"
                     color="purple"
-                    onClick={openConnectModal}
+                    onClick={() => {
+                      openConnectModal();
+                      event({ action: "click", category: "other", label: "wallet" });
+                    }}
                     rightIcon={<Image src="/icons/wallet.svg" width="24px" height="24px" />}
                   >
                     <Text color="white" textStyle="button-1">

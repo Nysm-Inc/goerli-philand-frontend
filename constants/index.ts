@@ -18,6 +18,7 @@ export const UTILS_API_GATEWAY = "https://utils-api.phi.blue/v1/philand";
 // app
 export const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "";
 export const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV || "";
+export const GA_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || "";
 export const LP_URL = "https://philand.xyz";
 export const ETHERSCAN_BLOCK_EXPLORER = "https://goerli.etherscan.io";
 export const MUMBAI_BLOCK_EXPLORER = "https://mumbai.polygonscan.com";
