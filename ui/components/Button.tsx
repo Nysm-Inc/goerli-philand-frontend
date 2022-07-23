@@ -1,18 +1,17 @@
 import { FC, ReactNode, useContext } from "react";
 import { Button as ChakraButton, LayoutProps, Flex, forwardRef, Center } from "@chakra-ui/react";
-import { themeColors } from "~/ui/styles";
 import { AppContext } from "~/contexts";
+import { subColors } from "~/ui/styles/color";
 import { Spinner } from "./Animation";
 
 const Button: FC<{
   w: LayoutProps["w"];
   h?: LayoutProps["h"];
-  color?: keyof typeof themeColors;
+  color?: keyof typeof subColors;
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
   disabled?: boolean;
   isLoading?: boolean;
-  // justify?: SystemProps["justifyContent"];
   onClick?: () => void;
   children?: ReactNode;
 }> = forwardRef((props, ref) => {
