@@ -23,10 +23,10 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
       {isOpen && (
         <ChakraMenuList
           maxHeight="240px"
-          boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
           borderRadius="12px"
           p="8px"
           overflowY="scroll"
+          boxShadow="0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);"
           minW="0"
           w={w}
           //
