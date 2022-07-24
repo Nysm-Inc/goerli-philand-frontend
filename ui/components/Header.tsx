@@ -8,7 +8,7 @@ import IconButton from "./IconButton";
 import Icon from "./Icon";
 import Button from "./Button";
 
-const Header: FC<{ onOpenPermissions: () => void }> = ({ onOpenPermissions }) => {
+const Header: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) => {
   const { colorMode, toggleColorMode } = useContext(AppContext);
   const ref = useRef(null);
 

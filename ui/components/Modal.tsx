@@ -12,9 +12,9 @@ import {
   HStack,
   useDimensions,
   PositionProps,
-  Flex,
   ModalOverlay,
   ModalHeaderProps,
+  Center,
 } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Button from "./Button";
@@ -82,31 +82,52 @@ const ModalFooter: FC<{ children: ReactNode }> = ({ children }) => {
   return <ChakraModalFooter justifyContent="center">{children}</ChakraModalFooter>;
 };
 
-const ModalFooterButton: FC<{ text: string; buttonText: string; isLoading?: boolean; onClick: () => void }> = ({
-  text,
-  buttonText,
-  isLoading,
-  onClick,
-}) => {
+const ModalFooterButton: FC<{
+  text: string;
+  buttonText: string;
+  buttonW?: "full" | "512px";
+  subText: string;
+  isLoading?: boolean;
+  onClick: () => void;
+}> = ({ text, buttonText, buttonW = "512px", subText, isLoading, onClick }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
-    <Flex
-      w="730px"
-      h="64px"
-      p="12px 16px 12px 24px"
-      borderRadius="16px"
-      justify="space-between"
-      align="center"
-      bgColor={colorMode === "light" ? "grey.900" : "white"}
+    <VStack
+      w="full"
+      h="120px"
+      p="16px 24px"
+      borderRadius="32px"
+      border="1px solid"
+      spacing="16px"
+      borderColor={colorMode === "light" ? "light.g_orange" : "dark.grey800"}
+      bgColor={colorMode === "light" ? "white" : "dark.black"}
     >
-      <Text textStyle="headline-2" color={colorMode === "light" ? "white" : "grey.900"}>
-        {text}
+      <Button
+        w={buttonW}
+        h="56px"
+        color="purple"
+        justify="space-between"
+        borderRadius="16px"
+        isLoading={isLoading}
+        onClick={onClick}
+        leftIcon={
+          <Text pl="12px" textStyle="button-1" color="white">
+            {text}
+          </Text>
+        }
+        rightIcon={
+          <Center p="8px 12px" w="90px" h="32px" bgColor="rgba(13, 13, 13, 0.32)" borderRadius="8px">
+            <Text textStyle="headline-2" color="white">
+              {buttonText}
+            </Text>
+          </Center>
+        }
+      />
+      <Text textStyle="paragraph-3" color="grey.500">
+        {subText}
       </Text>
-      <Button w="90px" h="40px" isLoading={isLoading} onClick={onClick}>
-        {buttonText}
-      </Button>
-    </Flex>
+    </VStack>
   );
 };
 
@@ -136,7 +157,7 @@ const Modal: FC<{
         minH={h}
         maxW={w}
         maxH={h}
-        position={left ? "absolute" : "static"}
+        position={left ? "absolute" : "relative"}
         left={left}
       >
         {children}

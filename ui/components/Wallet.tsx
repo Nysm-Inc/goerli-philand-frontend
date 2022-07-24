@@ -11,7 +11,7 @@ import { event } from "~/utils/ga/ga";
 
 const showAddress = (address: string) => `${address.substring(0, 6)}...${address.substring(address.length - 6)}`;
 
-const Wallet: FC<{ onOpenPermissions: () => void }> = ({ onOpenPermissions }) => {
+const Wallet: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) => {
   const { colorMode } = useContext(AppContext);
   const { disconnect } = useDisconnect();
 

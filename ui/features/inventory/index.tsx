@@ -179,10 +179,12 @@ const Inventory: FC<{
         )}
       </ModalBody>
       {objects.some((object) => object.select > 0) && (
-        <ModalFooter>
+        <Box w="full" position="absolute" bottom="0" left="0">
           <ModalFooterButton
-            text="Withdraw Objects"
+            text="Withdraw"
             buttonText={`${objects.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)} ITEMS`}
+            buttonW="full"
+            subText="The deposited objects is stored in Inventory"
             isLoading={isLoading}
             onClick={() => {
               startLoading();
@@ -213,7 +215,7 @@ const Inventory: FC<{
                 .catch(stopLoading);
             }}
           />
-        </ModalFooter>
+        </Box>
       )}
     </Modal>
   );

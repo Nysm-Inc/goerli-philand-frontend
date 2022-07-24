@@ -11,26 +11,40 @@ const Button: FC<{
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
   justify?: SystemProps["justifyContent"];
+  borderRadius?: SystemProps["borderRadius"];
   disabled?: boolean;
   isLoading?: boolean;
   onClick?: () => void;
   children?: ReactNode;
 }> = forwardRef((props, ref) => {
-  const { w, h = "48px", color, leftIcon, rightIcon, justify = "space-evenly", disabled, isLoading, onClick, children } = props;
+  const {
+    w,
+    h = "48px",
+    color,
+    leftIcon,
+    rightIcon,
+    justify = "space-evenly",
+    borderRadius = "12px",
+    disabled,
+    isLoading,
+    onClick,
+    children,
+  } = props;
   const { colorMode } = useContext(AppContext);
   return (
     <ChakraButton
       variant="unstyled"
       _focusVisible={{ outline: "none" }}
       p="8px 12px"
-      borderRadius="12px"
       whiteSpace="nowrap"
       overflow="hidden"
       textOverflow="ellipsis"
       //
       ref={ref}
       w={w}
-      h={h}
+      minH={h}
+      maxH={h}
+      borderRadius={borderRadius}
       disabled={disabled || isLoading}
       onClick={onClick}
       {...(color
@@ -91,7 +105,7 @@ const Button: FC<{
                 },
           })}
     >
-      <Flex justify={justify} align="center">
+      <Flex justify={isLoading ? "center" : justify} align="center">
         {isLoading ? (
           <Spinner />
         ) : (
