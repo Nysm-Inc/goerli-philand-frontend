@@ -160,7 +160,7 @@ const Shop: FC<{
         <ModalBody>
           <TabPanels id="8">
             {Object.values(tabIdx2Contract).map((idx) => (
-              <TabPanel key={idx}>
+              <TabPanel key={idx} p="16px 0 0">
                 <SimpleGrid columns={3} spacing="8px">
                   {items.map((item, i) => (
                     <Cart key={i} contract={tabIdx2Contract[tabIdx]} item={item} plus={() => plus(i)} minus={() => minus(i)} />
