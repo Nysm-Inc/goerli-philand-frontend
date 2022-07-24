@@ -28,14 +28,14 @@ const CreatePhiland: FC<{
         </Text>
         <VStack spacing="8px">
           <SelectBox
-            w="360px"
+            w="408px"
             options={domains.map((domain) => ({ label: domain, value: domain }))}
             selected={{ label: currentENS, value: currentENS }}
             handleChange={switchCurrentENS}
             disabled={isLoading}
           />
           <Button
-            w="360px"
+            w="408px"
             color="purple"
             onClick={() => {
               startLoading();
