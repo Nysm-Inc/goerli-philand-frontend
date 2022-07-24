@@ -224,7 +224,7 @@ const Index: NextPage = () => {
         isOpen={isOpenPermissions}
         onClose={onClosePermissions}
       />
-      <Header />
+      <Header onOpenPermissions={onOpenPermissions} />
       {!isEdit && <Share currentENS={currentENS} />}
       <Help />
       <Dev />

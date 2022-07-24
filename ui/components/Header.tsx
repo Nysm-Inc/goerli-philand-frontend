@@ -8,7 +8,7 @@ import IconButton from "./IconButton";
 import Icon from "./Icon";
 import Button from "./Button";
 
-const Header: FC = () => {
+const Header: FC<{ onOpenPermissions: () => void }> = ({ onOpenPermissions }) => {
   const { colorMode, toggleColorMode } = useContext(AppContext);
   const ref = useRef(null);
 
@@ -52,7 +52,7 @@ const Header: FC = () => {
       </Box>
 
       <Box ref={ref} position="fixed" top="24px" right="24px">
-        <Wallet />
+        <Wallet onOpenPermissions={onOpenPermissions} />
       </Box>
     </>
   );
