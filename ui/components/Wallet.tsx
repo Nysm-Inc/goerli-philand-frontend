@@ -9,7 +9,7 @@ import MenuList from "./MenuList";
 import Icon from "./Icon";
 import { event } from "~/utils/ga/ga";
 
-const showAddress = (address: string) => `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
+const showAddress = (address: string) => `${address.substring(0, 6)}...${address.substring(address.length - 6)}`;
 
 const Wallet: FC = () => {
   const { colorMode } = useContext(AppContext);
@@ -77,8 +77,8 @@ const Wallet: FC = () => {
                         }
                         rightIcon={<Icon name="menu" color={colorMode === "light" ? "grey.900" : "white"} />}
                       >
-                        <Text textAlign="left" textStyle="button-2" pl="4px">
-                          {account.displayName}
+                        <Text textAlign="left" textStyle="button-2" pl="4px" color={colorMode === "light" ? "grey.900" : "white"}>
+                          {showAddress(account.address)}
                         </Text>
                       </MenuButton>
                       <MenuList

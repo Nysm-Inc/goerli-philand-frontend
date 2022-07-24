@@ -1,6 +1,7 @@
 import { ChangeEventHandler, FC, ReactNode, useContext } from "react";
 import { InputGroup, Input as ChakraInput, InputLeftElement, InputRightElement, LayoutProps } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import { typographys } from "~/ui/styles/typography";
 
 const Input: FC<{
   w: LayoutProps["w"];
@@ -39,6 +40,7 @@ const Input: FC<{
       <ChakraInput
         variant="unstyled"
         textStyle="paragraph-2"
+        style={{ fontSize: typographys["paragraph-2"].fontSize }}
         color={colorMode === "light" ? "grey.900" : "white"}
         _placeholder={{ color: "grey.500", textStyle: "button-2" }}
         pl={leftIcon ? "40px" : "12px"}

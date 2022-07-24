@@ -87,7 +87,7 @@ const Permissions: FC<{
       <ModalBody>
         <VStack>
           <ApproveButton
-            text="Phi Object"
+            text="Quest Object"
             isApproved={isApproved[QUEST_OBJECT_CONTRACT_ADDRESS]}
             onApprove={onApprove[QUEST_OBJECT_CONTRACT_ADDRESS]}
           />
