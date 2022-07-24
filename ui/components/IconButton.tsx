@@ -6,8 +6,8 @@ import { Spinner } from "./Animation";
 const IconButton: FC<{
   ariaLabel: string;
   icon: JSX.Element;
-  size?: 32 | 48;
-  borderRadius?: 8 | 12;
+  size?: 32 | 48 | 76;
+  borderRadius?: 8 | 12 | 20;
   outline?: boolean;
   boxShadow?: boolean;
   flipColor?: boolean;
@@ -20,7 +20,6 @@ const IconButton: FC<{
 
     return (
       <ChakraIconButton
-        //
         variant="unstyled"
         _focus={{ outline: "none" }}
         _focusVisible={{ outline: "none" }}
@@ -30,14 +29,14 @@ const IconButton: FC<{
         maxW={`${size}px`}
         maxH={`${size}px`}
         borderRadius={`${borderRadius}px`}
-        boxShadow={boxShadow ? "-2px 4px 8px rgba(13, 13, 13, 0.1)" : ""}
+        boxShadow={boxShadow ? "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);" : ""}
         //
         ref={ref}
         aria-label={ariaLabel}
         onClick={onClick}
         //
-        border={outline ? "1px solid" : "none"}
         bgColor={_colorMode ? "white" : "grey.900"}
+        border={outline ? "1px solid" : "none"}
         borderColor={_colorMode ? "light.g_orange" : "none"}
         _hover={{
           bgColor: _colorMode ? "light.lg_orange40" : "dark.grey700",
@@ -49,6 +48,11 @@ const IconButton: FC<{
           border: "1px solid",
           borderColor: _colorMode ? "grey.900" : "grey.500",
         }}
+        // {...(isActive && {
+        //   bgColor: _colorMode ? "light.lg_orange40" : "dark.grey700",
+        //   border: "1px solid",
+        //   borderColor: _colorMode ? "light.g_orange" : "dark.grey700",
+        // })}
       >
         <Center>{isLoading ? <Spinner /> : <>{icon}</>}</Center>
       </ChakraIconButton>

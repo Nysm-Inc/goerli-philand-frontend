@@ -4,19 +4,7 @@ import { TransactionResponse } from "@ethersproject/providers";
 import { Box, HStack, SimpleGrid, TabPanel, TabPanels, Tabs, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
-import {
-  Icon,
-  IconButton,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  ModalFooterButton,
-  QuantityInput,
-  Tab,
-  TabList,
-  useNavi,
-} from "~/ui/components";
+import { Icon, IconButton, Modal, ModalBody, ModalHeader, ModalFooterButton, QuantityInput, Tab, TabList, useNavi } from "~/ui/components";
 import { AppContext } from "~/contexts";
 import { ShopItemContractAddress } from "~/types";
 
@@ -137,7 +125,7 @@ const Shop: FC<{
         reset(tabIdx2Contract[idx]);
       }}
     >
-      <Modal w="858px" h="700px" isOpen={isOpen} onClose={() => {}}>
+      <Modal w="832px" h="712px" isOpen={isOpen} onClose={() => {}}>
         <ModalHeader
           title="SHOP"
           buttons={[
@@ -152,15 +140,17 @@ const Shop: FC<{
             />,
           ]}
         />
+        <Box minH="16px" h="16px" />
         <TabList>
-          <Tab text="Free" />
-          <Tab text="Premium" />
+          <Tab text="Object (Free)" />
+          <Tab text="Object (Premium)" />
           <Tab text="Wallpaper" />
         </TabList>
+        <Box minH="16px" h="16px" />
         <ModalBody>
           <TabPanels id="8">
             {Object.values(tabIdx2Contract).map((idx) => (
-              <TabPanel key={idx} p="16px 0 0">
+              <TabPanel key={idx} p="0">
                 <SimpleGrid columns={3} spacing="8px">
                   {items.map((item, i) => (
                     <Cart key={i} contract={tabIdx2Contract[tabIdx]} item={item} plus={() => plus(i)} minus={() => minus(i)} />
@@ -171,16 +161,11 @@ const Shop: FC<{
           </TabPanels>
         </ModalBody>
         {items.some((item) => item.select > 0) && (
-          <ModalFooter>
+          <Box w="full" position="absolute" bottom="0" left="0">
             <ModalFooterButton
-              text={`PURCHASE ${
-                {
-                  [FREE_OBJECT_CONTRACT_ADDRESS]: "FREE OBJECTS",
-                  [PREMIUM_OBJECT_CONTRACT_ADDRESS]: "PREMIUM OBJECTS",
-                  [WALLPAPER_CONTRACT_ADDRESS]: "WALLPAPER",
-                }[tabIdx2Contract[tabIdx]]
-              }`}
+              text="Purchase"
               buttonText={`${items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)} ITEMS`}
+              subText="The deposited objects is stored in Inventory"
               isLoading={isLoading}
               onClick={() => {
                 startLoading();
@@ -200,7 +185,7 @@ const Shop: FC<{
                   .catch(stopLoading);
               }}
             />
-          </ModalFooter>
+          </Box>
         )}
       </Modal>
     </Tabs>

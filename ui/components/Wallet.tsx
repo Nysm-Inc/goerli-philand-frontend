@@ -9,11 +9,12 @@ import MenuList from "./MenuList";
 import Icon from "./Icon";
 import { event } from "~/utils/ga/ga";
 
-const showAddress = (address: string) => `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
+const showAddress = (address: string) => `${address.substring(0, 6)}...${address.substring(address.length - 6)}`;
 
-const Wallet: FC = () => {
+const Wallet: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) => {
   const { colorMode } = useContext(AppContext);
   const { disconnect } = useDisconnect();
+
   return (
     <ConnectButton.Custom>
       {({ account, chain, openChainModal, openConnectModal, mounted }) => {
@@ -77,8 +78,8 @@ const Wallet: FC = () => {
                         }
                         rightIcon={<Icon name="menu" color={colorMode === "light" ? "grey.900" : "white"} />}
                       >
-                        <Text textAlign="left" textStyle="button-2" pl="4px">
-                          {account.displayName}
+                        <Text textAlign="left" textStyle="button-2" pl="4px" color={colorMode === "light" ? "grey.900" : "white"}>
+                          {showAddress(account.address)}
                         </Text>
                       </MenuButton>
                       <MenuList
@@ -86,6 +87,7 @@ const Wallet: FC = () => {
                         isOpen={isOpen}
                         options={[
                           { label: showAddress(account.address), value: account.address },
+                          { label: "Permission settings", value: "Permission settings", onClick: onOpenPermissions },
                           { label: "disconnect", value: "disconnect", onClick: disconnect },
                         ]}
                       />

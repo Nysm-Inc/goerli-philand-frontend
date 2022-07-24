@@ -5,30 +5,8 @@ import { Box, Center, Flex, HStack, Link, SimpleGrid, Text, useBoolean, VStack }
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
 import { ClaimableList, conditionList } from "~/types/quest";
-import { Button, IconButton, Modal, ModalBody, ModalHeader, Icon, useNavi } from "~/ui/components";
+import { Button, IconButton, Modal, ModalBody, ModalHeader, Icon, useNavi, Badge, Network, ModalFooter, Message } from "~/ui/components";
 import { AppContext } from "~/contexts";
-
-const EXP: FC<{ exp: number }> = ({ exp }) => {
-  const { colorMode } = useContext(AppContext);
-  return (
-    <Center display="inline-block" p="2px 4px" h="20px" borderRadius="4px" bgColor={colorMode === "light" ? "dark.grey800" : "grey.200"}>
-      <Text textStyle="label-2" color={colorMode === "light" ? "white" : "grey.900"}>{`EXP:${exp}`}</Text>
-    </Center>
-  );
-};
-
-const Network: FC<{ tokenId: number }> = ({ tokenId }) => {
-  const { colorMode } = useContext(AppContext);
-  return (
-    <HStack h="24px" p="2px 8px 2px 4px" borderRadius="16px" spacing="4px" bgColor={colorMode === "light" ? "grey.100" : "dark.grey700"}>
-      <Image src="/icons/eth_logo.svg" width="16px" height="16px" />
-      <Text textStyle="label-2" color={colorMode === "light" ? "grey.900" : "white"}>
-        {/* todo */}
-        {objectTraisList[QUEST_OBJECT_CONTRACT_ADDRESS][tokenId]?.attributes[0]?.value}
-      </Text>
-    </HStack>
-  );
-};
 
 const ClaimButton: FC<{
   claimable: boolean;
@@ -123,7 +101,7 @@ const Quest: FC<{
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
   return (
-    <Modal w="858px" h="700px" isOpen={isOpen} onClose={() => {}}>
+    <Modal w="832px" h="712px" isOpen={isOpen} onClose={() => {}}>
       <ModalHeader
         title="QUEST"
         buttons={[
@@ -168,6 +146,7 @@ const Quest: FC<{
           ) : undefined
         }
       />
+      <Box h="16px" />
       <ModalBody>
         {selected ? (
           <VStack p="32px 27px" spacing="32px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
@@ -318,7 +297,7 @@ const Quest: FC<{
                   </Text>
                   <Box h="8px" />
                   <HStack spacing="8px">
-                    <EXP exp={metadata.EXP || 0} />
+                    <Badge text={`EXP ${metadata.EXP || 0}`} />
                     <Network tokenId={metadata.tokenId} />
                   </HStack>
                   <Box h="16px" />
@@ -337,6 +316,8 @@ const Quest: FC<{
           </SimpleGrid>
         )}
       </ModalBody>
+      <Box minH="16px" />
+      <Message color="info" text="All quests are based on your activity on the Ethereum Goerli Testnet." />
     </Modal>
   );
 };

@@ -8,7 +8,7 @@ import IconButton from "./IconButton";
 import Icon from "./Icon";
 import Button from "./Button";
 
-const Header: FC = () => {
+const Header: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) => {
   const { colorMode, toggleColorMode } = useContext(AppContext);
   const ref = useRef(null);
 
@@ -23,7 +23,7 @@ const Header: FC = () => {
       </Box>
 
       <Box position="fixed" top="24px" left="calc(106px + 336px + 16px)">
-        <Button w="146px" disabled leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" />}>
+        <Button w="146px" disabled justify="space-between" leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" />}>
           <Text textStyle="button-2" color={colorMode === "light" ? "grey.900" : "white"}>
             Leaderboard
           </Text>
@@ -37,11 +37,11 @@ const Header: FC = () => {
           icon={
             <Center h="100%" w="100%">
               {colorMode === "light" ? (
-                <Center h="32px" w="32px" bgColor="grey.900" borderRadius="6px">
+                <Center h="32px" w="32px" bgColor="grey.900" borderRadius="8px">
                   <Icon name="moon" color="white" />
                 </Center>
               ) : (
-                <Center w="32px" h="32px" bgColor="white" borderRadius="6px">
+                <Center w="32px" h="32px" bgColor="white" borderRadius="8px">
                   <Icon name="sun" />
                 </Center>
               )}
@@ -52,7 +52,7 @@ const Header: FC = () => {
       </Box>
 
       <Box ref={ref} position="fixed" top="24px" right="24px">
-        <Wallet />
+        <Wallet onOpenPermissions={onOpenPermissions} />
       </Box>
     </>
   );

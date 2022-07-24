@@ -2,7 +2,7 @@ export const typographys = {
   headline: {
     fontFamily: "PhilsonBlock",
     fontWeight: 400,
-    fontSize: "32px",
+    fontSize: "28px",
     lineHeight: "48px",
     textShadow: "-2px 4px 8px rgba(13, 13, 13, 0.1)",
     WebkitTextStroke: "1.5px #1A1A1A",
@@ -55,6 +55,7 @@ export const typographys = {
     fontFamily: "PhilsonBlock",
     fontWeight: 400,
     fontSize: "16px",
+    lineHeight: "16px",
     fontFeatureSettings: "'ss01' on, 'liga' off",
     textShadow: "3px 3px 0px rgba(13, 13, 13, 0.1)",
     WebkitTextStroke: "1px #1A1A1A",

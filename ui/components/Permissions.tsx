@@ -1,6 +1,6 @@
 import { FC, useContext } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Flex, Text, useBoolean, VStack } from "@chakra-ui/react";
+import { Center, Flex, Text, useBoolean, VStack } from "@chakra-ui/react";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   QUEST_OBJECT_CONTRACT_ADDRESS,
@@ -84,10 +84,16 @@ const Permissions: FC<{
           />,
         ]}
       />
+      <Center mb="16px" gap="8px">
+        <Text textStyle="paragraph-2" color={colorMode === "light" ? "grey.900" : "white"}>
+          Allow PHI to use your objects
+        </Text>
+        <Icon name="info" color={colorMode === "light" ? "grey.900" : "white"} />
+      </Center>
       <ModalBody>
-        <VStack>
+        <VStack spacing="0" bgColor={colorMode === "light" ? "white" : "grey.900"}>
           <ApproveButton
-            text="Phi Object"
+            text="Quest Object"
             isApproved={isApproved[QUEST_OBJECT_CONTRACT_ADDRESS]}
             onApprove={onApprove[QUEST_OBJECT_CONTRACT_ADDRESS]}
           />

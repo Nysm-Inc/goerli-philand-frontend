@@ -19,37 +19,41 @@ const CreatePhiland: FC<{
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
   return (
-    <Modal w="456px" h="438px" isOpen overlay onClose={() => {}}>
+    <Modal w="456px" h="398px" isOpen overlay onClose={() => {}}>
       <ModalHeader buttons={[]} />
-      <VStack spacing="8px">
-        <Image src="/icons/ens.svg" width="134px" height="150px" />
-        <Box h="16px" />
-        <SelectBox
-          w="360px"
-          options={domains.map((domain) => ({ label: domain, value: domain }))}
-          selected={{ label: currentENS, value: currentENS }}
-          handleChange={switchCurrentENS}
-          disabled={isLoading}
-        />
-        <Button
-          w="360px"
-          color="purple"
-          onClick={() => {
-            startLoading();
-            (owner === nullAddress ? createPhiland : changePhilandOwner)()
-              .then(async (res) => {
-                await res?.wait();
-                stopLoading();
-              })
-              .catch(stopLoading);
-          }}
-          isLoading={isLoading}
-          disabled={isCreatedPhiland}
-        >
-          <Text color="white" textStyle="button-1">
-            {owner === nullAddress ? "CREATE LAND" : "CHANGE OWNER"}
-          </Text>
-        </Button>
+      <VStack mt="14px" spacing="24px">
+        <Image src="/icons/ens.svg" width="128px" height="128px" />
+        <Text textAlign="center" textStyle="paragraph-1" color="grey.500">
+          Choose your ENS to create a new land
+        </Text>
+        <VStack spacing="8px">
+          <SelectBox
+            w="408px"
+            options={domains.map((domain) => ({ label: domain, value: domain }))}
+            selected={{ label: currentENS, value: currentENS }}
+            handleChange={switchCurrentENS}
+            disabled={isLoading}
+          />
+          <Button
+            w="408px"
+            color="purple"
+            onClick={() => {
+              startLoading();
+              (owner === nullAddress ? createPhiland : changePhilandOwner)()
+                .then(async (res) => {
+                  await res?.wait();
+                  stopLoading();
+                })
+                .catch(stopLoading);
+            }}
+            isLoading={isLoading}
+            disabled={isCreatedPhiland}
+          >
+            <Text color="white" textStyle="button-1">
+              {owner === nullAddress ? "CREATE LAND" : "CHANGE OWNER"}
+            </Text>
+          </Button>
+        </VStack>
       </VStack>
     </Modal>
   );

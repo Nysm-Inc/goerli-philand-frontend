@@ -24,6 +24,7 @@ import {
   CreatePhiland,
   Share,
   Dev,
+  MainMenu,
 } from "~/ui/components";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
@@ -224,7 +225,8 @@ const Index: NextPage = () => {
         isOpen={isOpenPermissions}
         onClose={onClosePermissions}
       />
-      <Header />
+      <Header onOpenPermissions={onOpenPermissions} />
+      <MainMenu isOpenQuest={isOpenQuest} isOpenShop={isOpenShop} onOpenQuest={onOpenQuest} onOpenShop={onOpenShop} />
       {!isEdit && <Share currentENS={currentENS} />}
       <Help />
       <Dev />
@@ -233,14 +235,13 @@ const Index: NextPage = () => {
         <MenuBar
           initialized={initialized}
           isEdit={isEdit}
+          isOpen={{ collection: isOpenCollection, inventory: isOpenInventory }}
           currentENS={currentENS}
           domains={domains}
           isApprovedWallpaper={isAprvWall}
           currentWallpaper={wallpaper}
           balanceWallpapers={balanceWallpapers}
           actionHandler={{
-            onOpenQuest,
-            onOpenShop,
             onOpenCollection,
             onOpenInventry,
             onSwitchCurrentENS: switchCurrentENS,
@@ -249,7 +250,6 @@ const Index: NextPage = () => {
             onEdit,
             onSave,
           }}
-          isOpen={{ quest: isOpenQuest, shop: isOpenShop, collection: isOpenCollection, inventory: isOpenInventory }}
         />
       ) : (
         <>
