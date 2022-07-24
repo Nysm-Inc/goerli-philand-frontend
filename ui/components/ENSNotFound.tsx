@@ -13,7 +13,6 @@ const ENSNotFound: FC = () => {
   return (
     <Modal w="456px" h="400px" isOpen={isOpen} onClose={() => {}}>
       <ModalHeader
-        h="32px"
         buttons={[
           <IconButton
             key="close"

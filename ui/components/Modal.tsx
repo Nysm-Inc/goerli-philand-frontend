@@ -33,8 +33,7 @@ const LineStack: FC<{ w?: LayoutProps["w"] }> = ({ w }) => (
   </VStack>
 );
 
-const ModalHeader: FC<{ h?: LayoutProps["h"]; title?: string; buttons: JSX.Element[]; back?: JSX.Element; style?: ModalHeaderProps }> = ({
-  h = "48px",
+const ModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Element; style?: ModalHeaderProps }> = ({
   title,
   buttons,
   back,
@@ -46,7 +45,7 @@ const ModalHeader: FC<{ h?: LayoutProps["h"]; title?: string; buttons: JSX.Eleme
 
   return (
     <ChakraModalHeader {...style} p="0">
-      <HStack h={h} align="center">
+      <HStack h={title ? "48px" : "32px"} align="center">
         {title ? (
           <>
             {back}
