@@ -125,7 +125,7 @@ const Shop: FC<{
         reset(tabIdx2Contract[idx]);
       }}
     >
-      <Modal w="858px" h="700px" isOpen={isOpen} onClose={() => {}}>
+      <Modal w="832px" h="712px" isOpen={isOpen} onClose={() => {}}>
         <ModalHeader
           title="SHOP"
           buttons={[
@@ -140,15 +140,17 @@ const Shop: FC<{
             />,
           ]}
         />
+        <Box minH="16px" h="16px" />
         <TabList>
-          <Tab text="Free" />
-          <Tab text="Premium" />
+          <Tab text="Object (Free)" />
+          <Tab text="Object (Premium)" />
           <Tab text="Wallpaper" />
         </TabList>
+        <Box minH="16px" h="16px" />
         <ModalBody>
           <TabPanels id="8">
             {Object.values(tabIdx2Contract).map((idx) => (
-              <TabPanel key={idx} p="16px 0 0">
+              <TabPanel key={idx} p="0">
                 <SimpleGrid columns={3} spacing="8px">
                   {items.map((item, i) => (
                     <Cart key={i} contract={tabIdx2Contract[tabIdx]} item={item} plus={() => plus(i)} minus={() => minus(i)} />

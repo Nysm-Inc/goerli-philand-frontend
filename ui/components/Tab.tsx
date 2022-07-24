@@ -6,9 +6,9 @@ const Tab: FC<{ text: string }> = ({ text }) => {
   const { colorMode } = useContext(AppContext);
   return (
     <ChakraTab
-      w="128px"
+      w="170px"
       textStyle="label-1"
-      borderRadius="4px"
+      borderRadius="8px"
       textColor="grey.500"
       _selected={{
         color: colorMode === "light" ? "white" : "grey.900",

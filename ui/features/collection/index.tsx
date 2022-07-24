@@ -54,7 +54,7 @@ const Collection: FC<{
   }, [originItems.length]);
 
   return (
-    <Modal w="858px" h="700px" isOpen={isOpen} onClose={() => {}} onCloseComplete={reset}>
+    <Modal w="832px" h="680px" isOpen={isOpen} onClose={() => {}} onCloseComplete={reset}>
       <ModalHeader
         title="COLLECTION"
         buttons={[
@@ -67,6 +67,7 @@ const Collection: FC<{
           />,
         ]}
       />
+      <Box h="16px" />
       <ModalBody>
         {items.length > 0 ? (
           <SimpleGrid columns={3} spacing="8px">
@@ -107,8 +108,7 @@ const Collection: FC<{
             ))}
           </SimpleGrid>
         ) : (
-          // todo
-          <Center w="calc(784px + 24px)" h="calc(532px + 24px)" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
+          <Center w="100%" h="562px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <VStack spacing="32px">
               <Image src="/assets/empty-collection.png" width="360px" height="240px" />
               <Text w="300px" h="40px" color="grey.500" textStyle="paragraph-2" textAlign="center">

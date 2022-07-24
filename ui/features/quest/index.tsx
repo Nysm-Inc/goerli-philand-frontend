@@ -5,7 +5,7 @@ import { Box, Center, Flex, HStack, Link, SimpleGrid, Text, useBoolean, VStack }
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
 import { ClaimableList, conditionList } from "~/types/quest";
-import { Button, IconButton, Modal, ModalBody, ModalHeader, Icon, useNavi, Badge, Network } from "~/ui/components";
+import { Button, IconButton, Modal, ModalBody, ModalHeader, Icon, useNavi, Badge, Network, ModalFooter, Message } from "~/ui/components";
 import { AppContext } from "~/contexts";
 
 const ClaimButton: FC<{
@@ -101,7 +101,7 @@ const Quest: FC<{
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
   return (
-    <Modal w="858px" h="700px" isOpen={isOpen} onClose={() => {}}>
+    <Modal w="832px" h="712px" isOpen={isOpen} onClose={() => {}}>
       <ModalHeader
         title="QUEST"
         buttons={[
@@ -146,6 +146,7 @@ const Quest: FC<{
           ) : undefined
         }
       />
+      <Box h="16px" />
       <ModalBody>
         {selected ? (
           <VStack p="32px 27px" spacing="32px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
@@ -315,6 +316,8 @@ const Quest: FC<{
           </SimpleGrid>
         )}
       </ModalBody>
+      <Box minH="16px" />
+      <Message color="info" text="All quests are based on your activity on the Ethereum Goerli Testnet." />
     </Modal>
   );
 };

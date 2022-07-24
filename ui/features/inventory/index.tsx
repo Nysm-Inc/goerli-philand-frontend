@@ -4,7 +4,7 @@ import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject, ObjectContractAddress } from "~/types";
-import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalFooterButton, ModalHeader, QuantityInput, useNavi } from "~/ui/components";
+import { Icon, IconButton, Modal, ModalBody, ModalFooterButton, ModalHeader, QuantityInput, useNavi } from "~/ui/components";
 import { AppContext } from "~/contexts";
 
 type InventoryObject = DepositObject & { select: number; writed: boolean };
@@ -92,8 +92,8 @@ const Inventory: FC<{
 
   return (
     <Modal
-      w="408px"
-      h="728px"
+      w="480px"
+      h="720px"
       left="24px"
       isOpen={isOpen}
       onClose={() => {}}
@@ -115,6 +115,7 @@ const Inventory: FC<{
           />,
         ]}
       />
+      <Box h="16px" />
       <ModalBody>
         {objects.length > 0 ? (
           <SimpleGrid columns={2} spacing="8px">
@@ -168,9 +169,9 @@ const Inventory: FC<{
             ))}
           </SimpleGrid>
         ) : (
-          <Center w="358px" h="590px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
+          <Center w="100%" h="616px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <VStack spacing="32px">
-              <Image src="/assets/empty-inventory.png" width="360px" height="240px" />
+              <Image src="/assets/empty-inventory.png" width="360px" height="270px" />
               <Text w="300px" h="40px" color="grey.500" textStyle="paragraph-2" textAlign="center">
                 {"To place Objects & Wallpapers in Land, Deposit them from Collection."}
               </Text>
