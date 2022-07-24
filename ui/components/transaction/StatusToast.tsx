@@ -1,5 +1,5 @@
 import { FC, useContext, useEffect, useState } from "react";
-import { Box, Center, Flex, HStack, Link, Text, useToast, UseToastOptions } from "@chakra-ui/react";
+import { Box, Center, HStack, Link, Text, useToast, UseToastOptions, VStack } from "@chakra-ui/react";
 import { MUMBAI_BLOCK_EXPLORER } from "~/constants";
 import { Status as TxStatus, Tx } from "~/types/tx";
 import { AppContext } from "~/contexts";
@@ -73,14 +73,13 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
 
   return (
     <Box
-      w="348px"
-      minH="112px"
-      h="auto"
-      p="8px 8px 8px 0px"
-      border="1px solid grey.900"
-      boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
-      borderRadius="16px"
       position="relative"
+      w="348px"
+      minH="100px"
+      h="auto"
+      border="1px solid grey.900"
+      boxShadow="0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 10px 10px -5px rgba(0, 0, 0, 0.04);"
+      borderRadius="16px"
       bgColor={colorMode === "light" ? "grey.900" : "white"}
     >
       <HStack spacing="0" p="16px" align="flex-start">
@@ -89,28 +88,30 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
         </Center>
         <Box w="16px" />
 
-        <Flex direction="column" w="220px" h="100%">
-          {tx.action && (
-            <Text color="grey.500" textStyle="label-1">
-              {tx.action}
+        <VStack spacing="8px" w="220px" h="100%" align="flex-start">
+          <VStack spacing="4px" w="220px" h="100%" align="flex-start">
+            {tx.action && (
+              <Text color="grey.500" textStyle="label-1">
+                {tx.action}
+              </Text>
+            )}
+            <Text color={colorMode === "light" ? "white" : "grey.900"} textStyle="paragraph-1">
+              {tx.msg
+                ? tx.msg
+                : {
+                    submitted: "Transaction Submitted",
+                    pending: "Transaction Pending",
+                    success: "Transaction Success",
+                    failed: "Transaction Failed",
+                  }[status]}
             </Text>
-          )}
-          <Text color={colorMode === "light" ? "white" : "grey.900"} textStyle="paragraph-1">
-            {tx.msg
-              ? tx.msg
-              : {
-                  submitted: "Transaction Submitted",
-                  pending: "Transaction Pending",
-                  success: "Transaction Success",
-                  failed: "Transaction Failed",
-                }[status]}
-          </Text>
+          </VStack>
           <Link textStyle="button-2" color="primary.500" href={`${MUMBAI_BLOCK_EXPLORER}/tx/${tx.hash}`} isExternal>
             View on explorer
           </Link>
-        </Flex>
+        </VStack>
       </HStack>
-      <Box position="absolute" top="8px" right="8px">
+      <Box position="absolute" top="16px" right="16px">
         <IconButton
           ariaLabel="close"
           icon={<Icon name="close" color={colorMode === "light" ? "white" : "grey.900"} />}
@@ -152,10 +153,10 @@ const StatusTx: FC<{ txs: Tx[] }> = ({ txs }) => {
 
         if (tx.status === "success" || tx.status === "error") {
           toast.update(tx.hash, options(colorMode, tx));
-          setTimeout(() => {
-            // @ts-ignore
-            toast.close(tx.hash);
-          }, 5000);
+          // setTimeout(() => {
+          //   // @ts-ignore
+          //   toast.close(tx.hash);
+          // }, 5000);
         }
       }
     });

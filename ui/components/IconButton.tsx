@@ -20,7 +20,6 @@ const IconButton: FC<{
 
     return (
       <ChakraIconButton
-        //
         variant="unstyled"
         _focus={{ outline: "none" }}
         _focusVisible={{ outline: "none" }}
@@ -30,14 +29,14 @@ const IconButton: FC<{
         maxW={`${size}px`}
         maxH={`${size}px`}
         borderRadius={`${borderRadius}px`}
-        boxShadow={boxShadow ? "-2px 4px 8px rgba(13, 13, 13, 0.1)" : ""}
+        boxShadow={boxShadow ? "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);" : ""}
         //
         ref={ref}
         aria-label={ariaLabel}
         onClick={onClick}
         //
-        border={outline ? "1px solid" : "none"}
         bgColor={_colorMode ? "white" : "grey.900"}
+        border={outline ? "1px solid" : "none"}
         borderColor={_colorMode ? "light.g_orange" : "none"}
         _hover={{
           bgColor: _colorMode ? "light.lg_orange40" : "dark.grey700",

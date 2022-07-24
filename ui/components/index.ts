@@ -21,9 +21,13 @@ import CreatePhiland from "./CreatePhiland";
 import Share from "./Share";
 import useNavi from "./NaviNotification";
 import Dev from "./Dev";
+import Badge from "./Badge";
+import Network from "./Network";
 
 export {
   ActionMenu,
+  Network,
+  Badge,
   useActionMenu,
   Button,
   ConfirmModal,

@@ -21,14 +21,11 @@ const Button: FC<{
     <ChakraButton
       variant="unstyled"
       _focusVisible={{ outline: "none" }}
-      //
       p="8px"
-      boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
       borderRadius="12px"
       whiteSpace="nowrap"
       overflow="hidden"
       textOverflow="ellipsis"
-      textStyle="button-2"
       //
       ref={ref}
       w={w}
@@ -65,7 +62,7 @@ const Button: FC<{
                 },
           }
         : {
-            textColor: colorMode === "light" ? "grey.900" : "white",
+            boxShadow: "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);",
             bgColor: colorMode === "light" ? "white" : "grey.900",
             border: colorMode === "light" ? "1px solid" : "none",
             borderColor: colorMode === "light" ? "light.g_orange" : "dark.grey700",
@@ -81,9 +78,7 @@ const Button: FC<{
                 borderColor: colorMode === "light" ? "grey.900" : "grey.500",
               },
             },
-            _focus: {
-              outline: "none",
-            },
+            _focus: {},
             _disabled: !isLoading
               ? {
                   bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey800",
