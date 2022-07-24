@@ -13,8 +13,6 @@ const MenuBar: FC<{
   initialized: boolean;
   isEdit: boolean;
   isOpen: {
-    quest: boolean;
-    shop: boolean;
     collection: boolean;
     inventory: boolean;
   };
@@ -24,8 +22,6 @@ const MenuBar: FC<{
   currentWallpaper?: Wallpaper;
   balanceWallpapers: BalanceObject[];
   actionHandler: {
-    onOpenQuest: () => void;
-    onOpenShop: () => void;
     onOpenCollection: () => void;
     onOpenInventry: () => void;
     onSwitchCurrentENS: (ens: string) => void;
@@ -95,26 +91,6 @@ const MenuBar: FC<{
               onClick={() => {
                 actionHandler.onOpenCollection();
                 event({ action: "click", category: "menubar", label: "collection" });
-              }}
-            />
-            <IconButton
-              ariaLabel="quest"
-              icon={<Image src="/icons/sword.svg" width="48px" height="48px" />}
-              outline={isOpen.quest}
-              boxShadow={false}
-              onClick={() => {
-                actionHandler.onOpenQuest();
-                event({ action: "click", category: "menubar", label: "quest" });
-              }}
-            />
-            <IconButton
-              ariaLabel="shop"
-              icon={<Image src="/icons/bag.svg" width="48px" height="48px" />}
-              outline={isOpen.shop}
-              boxShadow={false}
-              onClick={() => {
-                actionHandler.onOpenShop();
-                event({ action: "click", category: "menubar", label: "shop" });
               }}
             />
           </>

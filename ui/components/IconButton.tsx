@@ -6,8 +6,8 @@ import { Spinner } from "./Animation";
 const IconButton: FC<{
   ariaLabel: string;
   icon: JSX.Element;
-  size?: 32 | 48;
-  borderRadius?: 8 | 12;
+  size?: 32 | 48 | 76;
+  borderRadius?: 8 | 12 | 20;
   outline?: boolean;
   boxShadow?: boolean;
   flipColor?: boolean;
@@ -48,6 +48,11 @@ const IconButton: FC<{
           border: "1px solid",
           borderColor: _colorMode ? "grey.900" : "grey.500",
         }}
+        // {...(isActive && {
+        //   bgColor: _colorMode ? "light.lg_orange40" : "dark.grey700",
+        //   border: "1px solid",
+        //   borderColor: _colorMode ? "light.g_orange" : "dark.grey700",
+        // })}
       >
         <Center>{isLoading ? <Spinner /> : <>{icon}</>}</Center>
       </ChakraIconButton>
