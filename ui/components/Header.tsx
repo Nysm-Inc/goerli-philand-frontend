@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { FC, useContext, useRef } from "react";
-import { Box, Center } from "@chakra-ui/react";
+import { Box, Center, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Search from "./Search";
 import Wallet from "./Wallet";
 import IconButton from "./IconButton";
 import Icon from "./Icon";
+import Button from "./Button";
 
 const Header: FC = () => {
   const { colorMode, toggleColorMode } = useContext(AppContext);
@@ -19,6 +20,14 @@ const Header: FC = () => {
 
       <Box position="fixed" top="24px" left="106px">
         <Search />
+      </Box>
+
+      <Box position="fixed" top="24px" left="calc(106px + 336px + 16px)">
+        <Button w="146px" disabled leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" />}>
+          <Text textStyle="button-2" color={colorMode === "light" ? "grey.900" : "white"}>
+            Leaderboard
+          </Text>
+        </Button>
       </Box>
 
       {/* @ts-ignore */}

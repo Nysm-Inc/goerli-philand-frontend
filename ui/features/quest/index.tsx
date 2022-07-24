@@ -126,44 +126,46 @@ const Quest: FC<{
     <Modal w="858px" h="700px" isOpen={isOpen} onClose={() => {}}>
       <ModalHeader
         title="QUEST"
-        buttons={
-          selected
-            ? [
-                <IconButton
-                  key="back"
-                  ariaLabel="back"
-                  icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} transform="rotate(180)" />}
-                  size={32}
-                  borderRadius={8}
-                  boxShadow={false}
-                  onClick={() => setSelected(undefined)}
-                />,
-              ]
-            : [
-                <IconButton
-                  key="refresh"
-                  ariaLabel="refresh"
-                  icon={<Icon name="refresh" color={colorMode === "light" ? "grey.900" : "white"} />}
-                  size={32}
-                  borderRadius={8}
-                  boxShadow={false}
-                  isLoading={isLoading}
-                  onClick={() => {
-                    startLoading();
-                    onClickUpdate();
-                    setTimeout(() => stopLoading(), 8000);
-                  }}
-                />,
-                <IconButton
-                  key="close"
-                  ariaLabel="close"
-                  icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
-                  size={32}
-                  borderRadius={8}
-                  boxShadow={false}
-                  onClick={onClose}
-                />,
-              ]
+        buttons={[
+          <IconButton
+            key="refresh"
+            ariaLabel="refresh"
+            icon={<Icon name="refresh" color={colorMode === "light" ? "grey.900" : "white"} />}
+            size={32}
+            borderRadius={8}
+            boxShadow={false}
+            isLoading={isLoading}
+            onClick={() => {
+              startLoading();
+              onClickUpdate();
+              setTimeout(() => stopLoading(), 8000);
+            }}
+          />,
+          <IconButton
+            key="close"
+            ariaLabel="close"
+            icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
+            size={32}
+            borderRadius={8}
+            boxShadow={false}
+            onClick={() => {
+              onClose();
+              setSelected(undefined);
+            }}
+          />,
+        ]}
+        back={
+          selected ? (
+            <IconButton
+              key="back"
+              ariaLabel="back"
+              icon={<Icon name="arrow" transform="rotate(180)" color={colorMode === "light" ? "grey.900" : "white"} />}
+              size={32}
+              borderRadius={8}
+              boxShadow={false}
+              onClick={() => setSelected(undefined)}
+            />
+          ) : undefined
         }
       />
       <ModalBody>

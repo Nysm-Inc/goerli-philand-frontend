@@ -32,7 +32,7 @@ const LineStack: FC<{ w?: LayoutProps["w"] }> = ({ w }) => (
   </VStack>
 );
 
-const ModalHeader: FC<{ title?: string; buttons: JSX.Element[] }> = ({ title, buttons }) => {
+const ModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Element }> = ({ title, buttons, back }) => {
   const ref = useRef(null);
   const dimensions = useDimensions(ref);
   const titleW = dimensions?.borderBox.width || 0;
@@ -42,7 +42,8 @@ const ModalHeader: FC<{ title?: string; buttons: JSX.Element[] }> = ({ title, bu
       <HStack height="32px" align="center">
         {title ? (
           <>
-            <LineStack w={`calc(50% - ${titleW / 2}px)`} />
+            {back}
+            <LineStack w={`calc(50% - ${titleW / 2}px - 8px - ${back ? "40" : "0"}px)`} />
             <Text ref={ref} color="white" textStyle="headline">
               {title}
             </Text>
