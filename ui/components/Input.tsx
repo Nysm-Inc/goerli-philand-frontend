@@ -15,11 +15,10 @@ const Input: FC<{
   return (
     <InputGroup
       h="48px"
-      boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
       borderRadius="12px"
+      boxShadow="0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);"
       w={w}
       //
-      textColor={colorMode === "light" ? "grey.900" : "white"}
       border={colorMode === "light" ? "1px solid" : "none"}
       bgColor={colorMode === "light" ? "white" : "grey.900"}
       borderColor={colorMode === "light" ? "light.g_orange" : "none"}
@@ -38,11 +37,10 @@ const Input: FC<{
         </InputLeftElement>
       )}
       <ChakraInput
-        //
         variant="unstyled"
-        textStyle="label-1"
-        _placeholder={{ color: "grey.500" }}
-        //
+        textStyle="paragraph-2"
+        color={colorMode === "light" ? "grey.900" : "white"}
+        _placeholder={{ color: "grey.500", textStyle: "button-2" }}
         pl={leftIcon ? "40px" : "12px"}
         pr={rightIcon ? "48px" : "12px"}
         placeholder={placeholder}
