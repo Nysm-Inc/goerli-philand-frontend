@@ -14,6 +14,7 @@ import {
   PositionProps,
   Flex,
   ModalOverlay,
+  ModalHeaderProps,
 } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Button from "./Button";
@@ -32,13 +33,18 @@ const LineStack: FC<{ w?: LayoutProps["w"] }> = ({ w }) => (
   </VStack>
 );
 
-const ModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Element }> = ({ title, buttons, back }) => {
+const ModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Element; style?: ModalHeaderProps }> = ({
+  title,
+  buttons,
+  back,
+  style,
+}) => {
   const ref = useRef(null);
   const dimensions = useDimensions(ref);
   const titleW = dimensions?.borderBox.width || 0;
 
   return (
-    <ChakraModalHeader pr="0" pl="0" mb="24px">
+    <ChakraModalHeader {...style} pr="0" pl="0">
       <HStack height="32px" align="center">
         {title ? (
           <>

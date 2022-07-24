@@ -23,9 +23,11 @@ import useNavi from "./NaviNotification";
 import Dev from "./Dev";
 import Badge from "./Badge";
 import Network from "./Network";
+import Message from "./Message";
 
 export {
   ActionMenu,
+  Message,
   Network,
   Badge,
   useActionMenu,

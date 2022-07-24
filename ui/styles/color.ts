@@ -35,12 +35,18 @@ export const information = {
   },
   success: {
     default: "#14B881", // rgba(20, 184, 129, 1)
+    muted: "rgba(20, 184, 129, 0.48)",
+    subtle: "rgba(20, 184, 129, 0.16)",
   },
   warning: {
     default: "#FFC328", // rgba(255, 195, 40, 1)
+    muted: "rgba(255, 195, 40, 0.48)",
+    subtle: "rgba(255, 195, 40, 0.16)",
   },
   danger: {
     default: "#EF4444", // rgba(239, 68, 68, 1)
+    muted: "rgba(239, 68, 68, 0.48)",
+    subtle: "rgba(239, 68, 68, 0.16)",
   },
 };
 
