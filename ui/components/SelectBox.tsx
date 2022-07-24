@@ -26,7 +26,14 @@ const SelectBox: FC<{
             }
             disabled={disabled}
           >
-            <Text textStyle="button-2" textAlign="left" color={colorMode === "light" ? "grey.900" : "white"}>
+            <Text
+              textStyle="button-2"
+              textAlign="left"
+              whiteSpace="nowrap"
+              overflow="hidden"
+              textOverflow="ellipsis"
+              color={colorMode === "light" ? "grey.900" : "white"}
+            >
               {selected.label}
             </Text>
           </MenuButton>
