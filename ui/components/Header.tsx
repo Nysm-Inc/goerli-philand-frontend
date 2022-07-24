@@ -23,7 +23,7 @@ const Header: FC = () => {
       </Box>
 
       <Box position="fixed" top="24px" left="calc(106px + 336px + 16px)">
-        <Button w="146px" disabled leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" />}>
+        <Button w="146px" disabled justify="space-between" leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" />}>
           <Text textStyle="button-2" color={colorMode === "light" ? "grey.900" : "white"}>
             Leaderboard
           </Text>
