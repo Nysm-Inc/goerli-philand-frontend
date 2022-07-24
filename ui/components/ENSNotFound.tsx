@@ -11,8 +11,9 @@ const ENSNotFound: FC = () => {
   const [isOpen, { off: onClose }] = useBoolean(true);
 
   return (
-    <Modal w="456px" h="438px" isOpen={isOpen} onClose={() => {}}>
+    <Modal w="456px" h="400px" isOpen={isOpen} onClose={() => {}}>
       <ModalHeader
+        h="32px"
         buttons={[
           <IconButton
             key="close"
@@ -25,11 +26,11 @@ const ENSNotFound: FC = () => {
           />,
         ]}
       />
-      <VStack spacing="32px">
-        <Image src="/icons/ens.svg" width="134px" height="150px" />
+      <VStack mt="24px" spacing="32px">
+        <Image src="/icons/ens.svg" width="128px" height="128px" />
         <VStack spacing="8px">
           <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
-            ENS NOT FOUND
+            ENS Not Found
           </Text>
           <Text color="grey.500" textStyle="paragraph-1">
             Get your ENS to get your land.

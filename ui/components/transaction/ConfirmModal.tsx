@@ -12,9 +12,9 @@ const ConfirmTx: FC<{ txs: Tx[] }> = ({ txs }) => {
     <Modal w="528px" h="380px" isOpen={txs.some((tx) => tx.tmpStatus === "loading")} onClose={() => {}} overlay>
       <ModalHeader title="CONFIRMATION" buttons={[]} />
       <VStack spacing="16px">
-        <Spinner size="96px" />
+        <Spinner size="112px" />
         <Text textStyle="headline-1" textAlign="center" color={colorMode === "light" ? "grey.900" : "white"}>
-          WAITING FOR CONFIRMATION
+          Waiting For Confirmation
         </Text>
         <Text color="grey.500" textStyle="paragraph-2" textAlign="center">
           Description Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts
