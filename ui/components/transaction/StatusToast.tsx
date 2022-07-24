@@ -153,10 +153,10 @@ const StatusTx: FC<{ txs: Tx[] }> = ({ txs }) => {
 
         if (tx.status === "success" || tx.status === "error") {
           toast.update(tx.hash, options(colorMode, tx));
-          // setTimeout(() => {
-          //   // @ts-ignore
-          //   toast.close(tx.hash);
-          // }, 5000);
+          setTimeout(() => {
+            // @ts-ignore
+            toast.close(tx.hash);
+          }, 5000);
         }
       }
     });
