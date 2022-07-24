@@ -72,7 +72,7 @@ const Collection: FC<{
         {items.length > 0 ? (
           <SimpleGrid columns={3} spacing="8px">
             {items.map((item, i) => (
-              <VStack key={i} height="320px" p="16px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
+              <VStack key={i} height="288px" p="16px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
                 <Box w="100%" minH="144px" maxH="144px" position="relative">
                   <Image src={objectMetadataList[item.contract][item.tokenId].image_url} layout="fill" objectFit="contain" />
                 </Box>
