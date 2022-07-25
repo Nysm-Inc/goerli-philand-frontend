@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, HStack, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
+import { Box, Center, HStack, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList } from "~/types/object";
 import { ClaimableList } from "~/types/quest";
@@ -90,34 +90,33 @@ const Quest: FC<{
               return (
                 <VStack
                   key={i}
-                  height="320px"
-                  spacing="0px"
+                  height="calc(348px - 16px - 8px)"
                   p="16px"
-                  align="flex-start"
+                  spacing="16px"
                   borderRadius="16px"
+                  align="flex-start"
                   bgColor={colorMode === "light" ? "white" : "grey.900"}
                 >
-                  <Box
+                  <Center
                     w="100%"
-                    minH="144px"
-                    maxH="144px"
-                    position="relative"
+                    h="144px"
                     cursor="pointer"
                     {...(!claimable && { opacity: 0.5 })}
                     onClick={() => setSelected({ ...metadata, claimable, claimed })}
                   >
-                    <Image src={metadata.image_url} layout="fill" objectFit="contain" />
-                  </Box>
-                  <Box h="16px" />
-                  <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
-                    {metadata.name}
-                  </Text>
-                  <Box h="8px" />
-                  <HStack spacing="8px">
-                    <Badge text={`EXP ${metadata.EXP || 0}`} />
-                    <Network tokenId={metadata.tokenId} />
-                  </HStack>
-                  <Box h="16px" />
+                    <Box position="relative" w="96px" h="96px">
+                      <Image src={metadata.image_url} layout="fill" objectFit="contain" />
+                    </Box>
+                  </Center>
+                  <VStack spacing="8px" align="flex-start">
+                    <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
+                      {metadata.name}
+                    </Text>
+                    <HStack spacing="8px">
+                      <Badge text={`EXP ${metadata.EXP || 0}`} />
+                      <Network tokenId={metadata.tokenId} />
+                    </HStack>
+                  </VStack>
                   <ClaimButton
                     claimable={claimable}
                     claimed={claimed}

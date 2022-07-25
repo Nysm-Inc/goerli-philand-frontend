@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
-import { Box, HStack, SimpleGrid, TabPanel, TabPanels, Tabs, Text, useBoolean, VStack } from "@chakra-ui/react";
+import { Box, Center, HStack, SimpleGrid, TabPanel, TabPanels, Tabs, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
 import { Icon, IconButton, Modal, ModalBody, ModalHeader, ModalFooterButton, QuantityInput, Tab, TabList, useNavi } from "~/ui/components";
@@ -11,10 +11,7 @@ import { ShopItemContractAddress } from "~/types";
 type Item = ObjectMetadata & { select: number };
 
 const defaultItems = (contract: ShopItemContractAddress): Item[] => {
-  return Object.values(objectMetadataList[contract]).map((metadata) => ({
-    ...metadata,
-    select: 0,
-  }));
+  return Object.values(objectMetadataList[contract]).map((metadata) => ({ ...metadata, select: 0 }));
 };
 
 const tabIdx2Contract: { [idx: number]: ShopItemContractAddress } = {
@@ -57,12 +54,14 @@ const Cart: FC<{
         </VStack>
       ) : (
         <VStack height="320px" p="16px" spacing="16px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
-          <Box w="100%" minH="144px" maxH="144px" position="relative">
-            <Image src={item.image_url} layout="fill" objectFit="contain" />
-            <Box position="absolute" right="0" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
+          <Center position="relative" w="100%" h="144px">
+            <Box position="relative" w="96px" h="96px">
+              <Image src={item.image_url} layout="fill" objectFit="contain" />
+            </Box>
+            <Box position="absolute" top="0" right="0" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
               <Icon name="info" color={colorMode === "light" ? "grey.900" : "white"} />
             </Box>
-          </Box>
+          </Center>
 
           <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
             {item.name}
@@ -125,7 +124,7 @@ const Shop: FC<{
         reset(tabIdx2Contract[idx]);
       }}
     >
-      <Modal w="832px" h="712px" isOpen={isOpen} onClose={() => {}}>
+      <Modal w="832px" h="712px" isOpen={isOpen} onClose={() => {}} onCloseComplete={() => reset(tabIdx2Contract[tabIdx])}>
         <ModalHeader
           title="SHOP"
           buttons={[

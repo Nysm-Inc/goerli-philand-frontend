@@ -128,11 +128,10 @@ const Inventory: FC<{
                 borderRadius="16px"
                 bgColor={colorMode === "light" ? "white" : "grey.900"}
               >
-                <Box
+                <Center
                   position="relative"
                   w="100%"
-                  minH="144px"
-                  maxH="144px"
+                  h="144px"
                   cursor={isEdit ? "pointer" : ""}
                   onClick={() => {
                     if (!isEdit) return;
@@ -148,8 +147,10 @@ const Inventory: FC<{
                     onClose();
                   }}
                 >
-                  <Image src={objectMetadataList[object.contractAddress][object.tokenId].image_url} layout="fill" objectFit="contain" />
-                </Box>
+                  <Box position="relative" w="96px" h="96px">
+                    <Image src={objectMetadataList[object.contractAddress][object.tokenId].image_url} layout="fill" objectFit="contain" />
+                  </Box>
+                </Center>
                 <Text textStyle="label-2" color="grey.500">
                   OWNED {object.amount - object.used}
                 </Text>
