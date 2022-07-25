@@ -2,6 +2,7 @@ import ActionMenu, { useActionMenu } from "./ActionMenu";
 import Button from "./Button";
 import Head from "./Head";
 import Header from "./Header";
+import HeaderMd from "./HeaderMd";
 import LinkMenu, { useLinkMenu } from "./LinkMenu";
 import MenuList from "./MenuList";
 import MenuBar from "./MenuBar";
@@ -40,6 +41,7 @@ export {
   StatusToast,
   Head,
   Header,
+  HeaderMd,
   Help,
   LinkMenu,
   useLinkMenu,

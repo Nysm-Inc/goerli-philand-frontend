@@ -50,7 +50,7 @@ export default class Engine {
       antialias: true,
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
-      // resizeTo: window, // todo
+      // resizeTo: window, // todo: clouds
     });
     this.app.stage = new LayerStage();
     this.app.stage.sortableChildren = true;

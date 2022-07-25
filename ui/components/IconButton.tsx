@@ -6,7 +6,7 @@ import { Spinner } from "./Animation";
 const IconButton: FC<{
   ariaLabel: string;
   icon: JSX.Element;
-  size?: 32 | 48 | 76;
+  size?: 32 | 40 | 48 | 76;
   borderRadius?: 8 | 12 | 20;
   outline?: boolean;
   boxShadow?: boolean;
