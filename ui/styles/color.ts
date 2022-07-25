@@ -23,6 +23,7 @@ export const lightDark = {
     black: "#0D0D0D",
     grey800: "#292929",
     grey700: "#333333",
+    grey600: "#595959",
     grey300: "#B3B3B3",
   },
 };

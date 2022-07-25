@@ -4,14 +4,18 @@ import { colors } from "~/ui/styles/color";
 import Alert from "./Alert";
 import Arrow from "./Arrow";
 import Arrows from "./Arrows";
+import Calendar from "./Calendar";
 import Check from "./Check";
+import CheckCircle from "./CheckCircle";
 import Close from "./Close";
 import Dropdown from "./Dropdown";
 import Edit from "./Edit";
+import Expand from "./Expand";
 import Help from "./Help";
 import Info from "./Info";
 import InfoActive from "./InfoActive";
 import Link from "./Link";
+import Man from "./Man";
 import Menu from "./Menu";
 import Minus from "./Minus";
 import Moon from "./Moon";
@@ -30,14 +34,18 @@ const icons = {
   alert: Alert,
   arrow: Arrow,
   arrows: Arrows,
+  calendar: Calendar,
   check: Check,
+  checkCircle: CheckCircle,
   close: Close,
   dropdown: Dropdown,
   edit: Edit,
+  expand: Expand,
   help: Help,
   info: Info,
   infoActive: InfoActive,
   link: Link,
+  man: Man,
   menu: Menu,
   minus: Minus,
   moon: Moon,

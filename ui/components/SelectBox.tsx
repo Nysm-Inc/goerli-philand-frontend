@@ -14,6 +14,7 @@ const SelectBox: FC<{
   handleChange: (value: string) => void;
 }> = ({ w, menuW, options, selected, disabled, handleChange }) => {
   const { colorMode } = useContext(AppContext);
+
   return (
     <Menu matchWidth={!menuW} variant="unstyled" autoSelect={false}>
       {({ isOpen }) => (
@@ -22,7 +23,11 @@ const SelectBox: FC<{
             as={Button}
             w={w}
             rightIcon={
-              <Icon name="dropdown" transform={isOpen ? "rotate(0)" : "rotate(180)"} color={colorMode === "light" ? "grey.900" : "white"} />
+              <Icon
+                name="dropdown"
+                transform={isOpen ? "rotate(0)" : "rotate(180)"}
+                color={disabled ? (colorMode === "light" ? "dark.grey300" : "dark.grey600") : colorMode === "light" ? "grey.900" : "white"}
+              />
             }
             disabled={disabled}
           >
@@ -32,7 +37,7 @@ const SelectBox: FC<{
               whiteSpace="nowrap"
               overflow="hidden"
               textOverflow="ellipsis"
-              color={colorMode === "light" ? "grey.900" : "white"}
+              color={disabled ? (colorMode === "light" ? "dark.grey300" : "dark.grey600") : colorMode === "light" ? "grey.900" : "white"}
             >
               {selected.label}
             </Text>
