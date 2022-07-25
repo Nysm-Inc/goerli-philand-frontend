@@ -84,14 +84,14 @@ const Permissions: FC<{
           />,
         ]}
       />
-      <Center mb="16px" gap="8px">
+      <Center m="16px 0" gap="8px">
         <Text textStyle="paragraph-2" color={colorMode === "light" ? "grey.900" : "white"}>
           Allow PHI to use your objects
         </Text>
         <Icon name="info" color={colorMode === "light" ? "grey.900" : "white"} />
       </Center>
       <ModalBody>
-        <VStack spacing="0" bgColor={colorMode === "light" ? "white" : "grey.900"}>
+        <VStack h="288px" spacing="0" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
           <ApproveButton
             text="Quest Object"
             isApproved={isApproved[QUEST_OBJECT_CONTRACT_ADDRESS]}
