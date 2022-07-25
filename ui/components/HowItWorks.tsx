@@ -1,13 +1,29 @@
 import Image from "next/image";
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect } from "react";
 import { Box, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import { HOW_IT_WORKS_KEY } from "~/constants";
 import Icon from "./Icon";
 import IconButton from "./IconButton";
 import { Modal, ModalHeader, ModalBody } from "./Modal";
 
-const HowItWorks: FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
+const HowItWorks: FC<{ isCreatedPhiland: boolean; isOpen: boolean; onOpen: () => void; onClose: () => void }> = ({
+  isCreatedPhiland,
+  isOpen,
+  onOpen,
+  onClose,
+}) => {
   const { colorMode } = useContext(AppContext);
+
+  useEffect(() => {
+    if (!isCreatedPhiland) return;
+
+    const onlyOnce = localStorage.getItem(HOW_IT_WORKS_KEY);
+    if (!onlyOnce) {
+      onOpen();
+      localStorage.setItem(HOW_IT_WORKS_KEY, "true");
+    }
+  }, [isCreatedPhiland]);
 
   return (
     <Modal w="864px" h="712px" isOpen={isOpen} onClose={() => {}}>

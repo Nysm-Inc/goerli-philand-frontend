@@ -227,7 +227,7 @@ const Index: NextPage = () => {
         isOpen={isOpenPermissions}
         onClose={onClosePermissions}
       />
-      <HowItWorks isOpen={isOpenHowItWorks} onClose={onCloseHowItWorks} />
+      <HowItWorks isCreatedPhiland={isCreatedPhiland} isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
       <Header onOpenPermissions={onOpenPermissions} />
       <MainMenu isOpenQuest={isOpenQuest} isOpenShop={isOpenShop} onOpenQuest={onOpenQuest} onOpenShop={onOpenShop} />
       {!isEdit && <Share currentENS={currentENS} />}
