@@ -6,7 +6,7 @@ import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
 import { ObjectMetadata, objectTraisList } from "~/types/object";
 import { conditionList } from "~/types/quest";
-import { Icon } from "~/ui/components";
+import { Badge, Icon, Network } from "~/ui/components";
 import ClaimButton from "./ClaimButton";
 
 const Row: FC<{ idx: number; length: number; children?: ReactNode }> = ({ idx, length, children }) => {
@@ -61,23 +61,33 @@ const Detail: FC<{
           <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
             {selected.name}
           </Text>
-          <VStack spacing="10px" align="flex-start">
-            <HStack spacing="4px">
-              <Image src="/icons/eth.svg" width="24px" height="24px" />
-              <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
-                {selected.EXP} EXP
-              </Text>
+          <VStack spacing="12px" align="flex-start">
+            <HStack spacing="8px">
+              <Badge text={`EXP ${selected.EXP || 0}`} />
+              <Network tokenId={selected.tokenId} />
             </HStack>
-            <HStack>
-              <Image src="/icons/eth.svg" width="24px" height="24px" />
+            <HStack spacing="8px">
+              <Icon name="checkCircle" color={colorMode === "light" ? "grey.900" : "white"} />
               <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
                 {totalSupply[selected.tokenId]} Claimed
               </Text>
             </HStack>
-            <HStack>
-              <Image src="/icons/eth.svg" width="24px" height="24px" />
+            <HStack spacing="8px">
+              <Icon name="expand" color={colorMode === "light" ? "grey.900" : "white"} />
               <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
-                April XX, 2022 - Sep XX 2022
+                {`${selected.size[0]}x${selected.size[1]}`}
+              </Text>
+            </HStack>
+            <HStack spacing="8px">
+              <Icon name="man" color={colorMode === "light" ? "grey.900" : "white"} />
+              <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
+                {selected.creator}
+              </Text>
+            </HStack>
+            <HStack spacing="8px">
+              <Icon name="calendar" color={colorMode === "light" ? "grey.900" : "white"} />
+              <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
+                Aug 01, 2022 -
               </Text>
             </HStack>
           </VStack>
