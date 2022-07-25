@@ -5,7 +5,7 @@ import Icon from "./Icon";
 import IconButton from "./IconButton";
 import MenuList from "./MenuList";
 
-const Help: FC = () => {
+const Help: FC<{ onOpenHowItWorks: () => void }> = ({ onOpenHowItWorks }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -18,6 +18,7 @@ const Help: FC = () => {
               w="180px"
               isOpen={isOpen}
               options={[
+                { label: "How It Works", value: "How It Works", onClick: onOpenHowItWorks },
                 { label: "Feedbacks", value: "feedbacks", onClick: () => {} },
                 { label: "Help & Support", value: "help", onClick: () => {} },
               ]}

@@ -24,6 +24,7 @@ export const ETHERSCAN_BLOCK_EXPLORER = "https://goerli.etherscan.io";
 export const MUMBAI_BLOCK_EXPLORER = "https://mumbai.polygonscan.com";
 export const COLOR_MODE_KEY = "color_mode_key";
 export const CURRENT_ENS_KEY = "current_ens_key";
+export const HOW_IT_WORKS_KEY = "how_it_works_key";
 
 // game
 export const GAME_APP_WIDTH = 4000;

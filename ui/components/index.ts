@@ -25,6 +25,7 @@ import Badge from "./Badge";
 import Network from "./Network";
 import Message from "./Message";
 import MainMenu from "./MainMenu";
+import HowItWorks from "./HowItWorks";
 
 export {
   ActionMenu,
@@ -63,4 +64,5 @@ export {
   Share,
   useNavi,
   MainMenu,
+  HowItWorks,
 };
