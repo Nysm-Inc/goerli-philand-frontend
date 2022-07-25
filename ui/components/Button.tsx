@@ -96,8 +96,8 @@ const Button: FC<{
             _focus: {},
             _disabled: !isLoading
               ? {
-                  bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey800",
-                  borderColor: "light.g_orange",
+                  bgColor: colorMode === "light" ? "white" : "grey.900",
+                  borderColor: colorMode === "light" ? "light.g_orange" : "dark.grey700",
                   cursor: "not-allowed",
                 }
               : {
