@@ -115,7 +115,7 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
         <IconButton
           ariaLabel="close"
           icon={<Icon name="close" color={colorMode === "light" ? "white" : "grey.900"} />}
-          size={32}
+          size="32px"
           flipColor
           onClick={onClose}
         />
