@@ -21,6 +21,10 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
   const [loadedGame, setLoadedGame] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const { game, colorMode } = useContext(AppContext);
+  const controller = {
+    state: { initialized },
+    handler: useHandler({ phiObjects: state.phiObjects, wallpaper: state.wallpaper, uiHandler }),
+  };
 
   useEffect(() => {
     if (_strictRef.current) return;
@@ -61,7 +65,14 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
     game.engine.changeColorMode(colorMode);
   }, [colorMode]);
 
-  return { state: { initialized }, handler: useHandler({ phiObjects: state.phiObjects, wallpaper: state.wallpaper, uiHandler }) };
+  useEffect(() => {
+    if (!loadedGame) return;
+    if (state.isEdit) {
+      controller.handler.onView();
+    }
+  }, [state.currentENS]);
+
+  return controller;
 };
 
 export default useGame;

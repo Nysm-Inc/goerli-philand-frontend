@@ -153,13 +153,16 @@ export default class Engine {
     }
   }
 
-  exportImage() {
+  exportImage(colorMode: ColorMode) {
     const [ogpW, ogpH] = [LAND_OGP_W, LAND_OGP_H];
     const container = new Container();
-    const background = new Graphics().beginFill(0xf5f2eb).drawRect(0, 0, ogpW, ogpH).endFill();
+    const background = new Graphics()
+      .beginFill(colorMode === "light" ? 0xf5f2eb : 0x0d0d0d)
+      .drawRect(0, 0, ogpW, ogpH)
+      .endFill();
     container.addChild(background);
 
-    const clouds = Sprite.from("assets/clouds.png");
+    const clouds = Sprite.from(colorMode === "light" ? "assets/clouds.png" : "assets/clouds_black.png");
     clouds.width = ogpW;
     clouds.height = ogpH;
     container.addChild(clouds);
