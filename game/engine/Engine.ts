@@ -174,7 +174,15 @@ export default class Engine {
     return this.app.renderer.plugins.extract.base64(container);
   }
 
-  reset() {
-    document.body.removeChild(this.app.view);
+  show() {
+    try {
+      document.body.appendChild(this.app.view);
+    } catch {}
+  }
+
+  hide() {
+    try {
+      document.body.removeChild(this.app.view);
+    } catch {}
   }
 }

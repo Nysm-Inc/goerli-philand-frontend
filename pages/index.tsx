@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useContext, useEffect } from "react";
 import { chain as chains, useAccount, useEnsName, useNetwork } from "wagmi";
 import { Box, useDisclosure, useBoolean, useBreakpointValue } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
@@ -42,9 +42,19 @@ import {
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
 import { PhiLink } from "~/types";
+import { AppContext } from "~/contexts";
 
 const Index: NextPage = () => {
+  const { game } = useContext(AppContext);
   const isMobile = useBreakpointValue({ base: true, lg: false });
+
+  useEffect(() => {
+    if (isMobile) {
+      game.engine.hide();
+    } else {
+      game.engine.show();
+    }
+  }, [isMobile]);
 
   if (isMobile) {
     return <Mobile />;

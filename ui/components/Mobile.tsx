@@ -1,19 +1,11 @@
-import { Box, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
-import { FC, useContext, useEffect, useRef } from "react";
+import { FC, useContext } from "react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import HeaderMd from "./HeaderMd";
 
 const Mobile: FC = () => {
-  // const _strictRef = useRef(false); // for avoiding react18 strict mode
-  const { game, colorMode } = useContext(AppContext);
-
-  // useEffect(() => {
-  //   if (_strictRef.current) return;
-  //   _strictRef.current = true;
-
-  //   game.engine.reset();
-  // }, []);
+  const { colorMode } = useContext(AppContext);
 
   return (
     <Box position="relative" w="100vw" h="calc(437px + 100vw)" bgColor={colorMode == "light" ? "light.lg_orange40" : "dark.black"}>
