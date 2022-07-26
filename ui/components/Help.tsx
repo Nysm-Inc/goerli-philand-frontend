@@ -4,7 +4,7 @@ import { AppContext } from "~/contexts";
 import Icon from "./Icon";
 import IconButton from "./IconButton";
 import MenuList from "./MenuList";
-import { BUG_REPORT, FEEDBACK_FORM, HIRING } from "~/constants";
+import { BUG_REPORT, FEEDBACK_FORM, HIRING, PARTNERSHIP_APPLICATION } from "~/constants";
 
 const Help: FC<{ onOpenHowItWorks: () => void }> = ({ onOpenHowItWorks }) => {
   const { colorMode } = useContext(AppContext);
@@ -19,11 +19,11 @@ const Help: FC<{ onOpenHowItWorks: () => void }> = ({ onOpenHowItWorks }) => {
               w="180px"
               isOpen={isOpen}
               options={[
-                { label: "How It Works", value: "howitworks", onClick: onOpenHowItWorks },
-                { label: "Feedbacks", value: "feedbacks", onClick: () => window.open(FEEDBACK_FORM, "_blank") },
-                { label: "Bug Reports", value: "bugreports", onClick: () => window.open(BUG_REPORT, "_blank") },
-                { label: "Hiring", value: "hiring", onClick: () => window.open(HIRING, "_blank") },
-                // { label: "Help & Support", value: "help", onClick: () => {} },
+                { label: "How It Works", value: "", onClick: onOpenHowItWorks },
+                { label: "Feedbacks", value: "", onClick: () => window.open(FEEDBACK_FORM, "_blank") },
+                { label: "Bug Reports", value: "", onClick: () => window.open(BUG_REPORT, "_blank") },
+                { label: "Hiring", value: "", onClick: () => window.open(HIRING, "_blank") },
+                { label: "Partnership", value: "", onClick: () => window.open(PARTNERSHIP_APPLICATION, "_blank") },
               ]}
             />
           </>
