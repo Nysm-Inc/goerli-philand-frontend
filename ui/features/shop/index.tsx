@@ -155,6 +155,7 @@ const Shop: FC<{
                     <Cart key={i} contract={tabIdx2Contract[tabIdx]} item={item} plus={() => plus(i)} minus={() => minus(i)} />
                   ))}
                 </SimpleGrid>
+                {items.some((item) => item.select > 0) && <Box h="120px" />}
               </TabPanel>
             ))}
           </TabPanels>

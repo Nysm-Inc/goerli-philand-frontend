@@ -70,45 +70,48 @@ const Collection: FC<{
       <Box h="16px" />
       <ModalBody>
         {items.length > 0 ? (
-          <SimpleGrid columns={3} spacing="8px">
-            {items.map((item, i) => (
-              <VStack key={i} height="288px" p="16px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
-                <Center w="100%" h="144px">
-                  <Box position="relative" w="96px" h="96px">
-                    <Image src={objectMetadataList[item.contract][item.tokenId].image_url} layout="fill" objectFit="contain" />
-                  </Box>
-                </Center>
-                <Text textStyle="label-2" color="grey.500">
-                  OWNED: {item.amount}
-                </Text>
-                <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
-                  {objectMetadataList[item.contract][item.tokenId].name}
-                </Text>
-                <Box h="8px" />
-                {!isEdit && (
-                  <>
-                    {isApproved[item.contract] ? (
-                      <>
-                        {item.contract !== WALLPAPER_CONTRACT_ADDRESS && (
-                          <QuantityInput
-                            defaultText="+ Deposit"
-                            num={item.select}
-                            balance={item.amount}
-                            handleClickMinus={() => minus(i)}
-                            handleClickPlus={() => plus(i)}
-                          />
-                        )}
-                      </>
-                    ) : (
-                      <Text textStyle="label-1" color="primary.500" cursor="pointer" onClick={onOpenPermissions}>
-                        + Deposit
-                      </Text>
-                    )}
-                  </>
-                )}
-              </VStack>
-            ))}
-          </SimpleGrid>
+          <>
+            <SimpleGrid columns={3} spacing="8px">
+              {items.map((item, i) => (
+                <VStack key={i} height="288px" p="16px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
+                  <Center w="100%" h="144px">
+                    <Box position="relative" w="96px" h="96px">
+                      <Image src={objectMetadataList[item.contract][item.tokenId].image_url} layout="fill" objectFit="contain" />
+                    </Box>
+                  </Center>
+                  <Text textStyle="label-2" color="grey.500">
+                    OWNED: {item.amount}
+                  </Text>
+                  <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
+                    {objectMetadataList[item.contract][item.tokenId].name}
+                  </Text>
+                  <Box h="8px" />
+                  {!isEdit && (
+                    <>
+                      {isApproved[item.contract] ? (
+                        <>
+                          {item.contract !== WALLPAPER_CONTRACT_ADDRESS && (
+                            <QuantityInput
+                              defaultText="+ Deposit"
+                              num={item.select}
+                              balance={item.amount}
+                              handleClickMinus={() => minus(i)}
+                              handleClickPlus={() => plus(i)}
+                            />
+                          )}
+                        </>
+                      ) : (
+                        <Text textStyle="label-1" color="primary.500" cursor="pointer" onClick={onOpenPermissions}>
+                          + Deposit
+                        </Text>
+                      )}
+                    </>
+                  )}
+                </VStack>
+              ))}
+            </SimpleGrid>
+            {items.some((item) => item.select > 0) && <Box h="120px" />}
+          </>
         ) : (
           <Center w="100%" h="562px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <VStack spacing="32px">
