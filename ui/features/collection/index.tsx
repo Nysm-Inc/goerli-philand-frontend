@@ -62,7 +62,7 @@ const Collection: FC<{
             key="close"
             ariaLabel="close"
             icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
-            size={32}
+            size="32px"
             onClick={onClose}
           />,
         ]}

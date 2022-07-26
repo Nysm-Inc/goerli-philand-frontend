@@ -17,8 +17,8 @@ const MainMenu: FC<{ isOpenQuest: boolean; isOpenShop: boolean; onOpenQuest: () 
     <HStack position="fixed" left="32px" bottom="30px" spacing="20px">
       <IconButton
         ariaLabel="quest"
-        size={76}
-        borderRadius={20}
+        size="76px"
+        borderRadius="20px"
         icon={
           <VStack p="8px 0" spacing="4px">
             <Image src="/icons/sword.svg" width="40px" height="40px" />
@@ -36,8 +36,8 @@ const MainMenu: FC<{ isOpenQuest: boolean; isOpenShop: boolean; onOpenQuest: () 
       />
       <IconButton
         ariaLabel="shop"
-        size={76}
-        borderRadius={20}
+        size="76px"
+        borderRadius="20px"
         icon={
           <VStack p="8px 0" spacing="4px">
             <Image src="/icons/bag.svg" width="40px" height="40px" />

@@ -34,8 +34,8 @@ const HowItWorks: FC<{ isCreatedPhiland: boolean; isOpen: boolean; onOpen: () =>
             key="close"
             ariaLabel="close"
             icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
-            size={32}
-            borderRadius={8}
+            size="32px"
+            borderRadius="8px"
             boxShadow={false}
             onClick={onClose}
           />,

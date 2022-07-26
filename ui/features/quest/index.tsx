@@ -33,8 +33,8 @@ const Quest: FC<{
             key="refresh"
             ariaLabel="refresh"
             icon={<Icon name="refresh" color={colorMode === "light" ? "grey.900" : "white"} />}
-            size={32}
-            borderRadius={8}
+            size="32px"
+            borderRadius="8px"
             boxShadow={false}
             isLoading={isLoading}
             onClick={() => {
@@ -47,8 +47,8 @@ const Quest: FC<{
             key="close"
             ariaLabel="close"
             icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
-            size={32}
-            borderRadius={8}
+            size="32px"
+            borderRadius="8px"
             boxShadow={false}
             onClick={() => {
               onClose();
@@ -62,8 +62,8 @@ const Quest: FC<{
               key="back"
               ariaLabel="back"
               icon={<Icon name="arrow" transform="rotate(180)" color={colorMode === "light" ? "grey.900" : "white"} />}
-              size={32}
-              borderRadius={8}
+              size="32px"
+              borderRadius="8px"
               boxShadow={false}
               onClick={() => setSelected(undefined)}
             />

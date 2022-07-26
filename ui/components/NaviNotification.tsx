@@ -45,7 +45,7 @@ const NaviNotification: FC<{ text: string; btnText: string; colorMode: ColorMode
       <IconButton
         ariaLabel="close"
         icon={<Icon name="close" color={colorMode === "light" ? "white" : "grey.900"} />}
-        size={32}
+        size="32px"
         flipColor
         onClick={onClose}
       />
