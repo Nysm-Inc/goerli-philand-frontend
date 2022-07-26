@@ -12,9 +12,13 @@ const IconButton: FC<{
   boxShadow?: boolean;
   flipColor?: boolean;
   isLoading?: boolean;
+  isActive?: boolean;
   onClick: () => void;
 }> = forwardRef(
-  ({ ariaLabel, icon, size = "48px", borderRadius = "12px", boxShadow = true, outline = true, flipColor, isLoading, onClick }, ref) => {
+  (
+    { ariaLabel, icon, size = "48px", borderRadius = "12px", boxShadow = true, outline = true, flipColor, isLoading, isActive, onClick },
+    ref
+  ) => {
     const { colorMode } = useContext(AppContext);
     const _colorMode = colorMode === (flipColor ? "dark" : "light");
 
@@ -30,9 +34,9 @@ const IconButton: FC<{
         maxH={size}
         borderRadius={borderRadius}
         boxShadow={boxShadow ? "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);" : ""}
-        //
         ref={ref}
         aria-label={ariaLabel}
+        isActive={isActive}
         onClick={onClick}
         //
         bgColor={_colorMode ? "white" : "grey.900"}
@@ -43,11 +47,19 @@ const IconButton: FC<{
           border: "1px solid",
           borderColor: _colorMode ? "grey.900" : "grey.500",
         }}
-        _active={{
-          bgColor: _colorMode ? "white" : "dark.grey700",
-          border: "1px solid",
-          borderColor: _colorMode ? "grey.900" : "grey.500",
-        }}
+        _active={
+          isActive
+            ? {
+                bgColor: _colorMode ? "light.lg_orange40" : "dark.grey700",
+                border: "1px solid",
+                borderColor: _colorMode ? "light.g_orange" : "dark.grey700",
+              }
+            : {
+                bgColor: _colorMode ? "white" : "dark.grey700",
+                border: "1px solid",
+                borderColor: _colorMode ? "grey.900" : "grey.500",
+              }
+        }
       >
         <Center>{isLoading ? <Spinner /> : <>{icon}</>}</Center>
       </ChakraIconButton>

@@ -27,7 +27,7 @@ const MainMenu: FC<{ isOpenQuest: boolean; isOpenShop: boolean; onOpenQuest: () 
             </Text>
           </VStack>
         }
-        // outline={isOpenQuest}
+        isActive={isOpenQuest}
         boxShadow={false}
         onClick={() => {
           onOpenQuest();
@@ -46,7 +46,7 @@ const MainMenu: FC<{ isOpenQuest: boolean; isOpenShop: boolean; onOpenQuest: () 
             </Text>
           </VStack>
         }
-        // outline={isOpenShop}
+        isActive={isOpenShop}
         boxShadow={false}
         onClick={() => {
           onOpenShop();
