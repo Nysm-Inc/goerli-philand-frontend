@@ -77,6 +77,7 @@ const MenuBar: FC<{
               ariaLabel="inventory"
               icon={<Image src="/icons/inventory.svg" width="48px" height="48px" />}
               outline={isOpen.inventory}
+              isActive={isOpen.inventory}
               boxShadow={false}
               onClick={() => {
                 actionHandler.onOpenInventry();
@@ -87,6 +88,7 @@ const MenuBar: FC<{
               ariaLabel="collection"
               icon={<Image src="/icons/diamond.svg" width="48px" height="48px" />}
               outline={isOpen.collection}
+              isActive={isOpen.collection}
               boxShadow={false}
               onClick={() => {
                 actionHandler.onOpenCollection();
@@ -110,6 +112,7 @@ const MenuBar: FC<{
               ariaLabel="inventory"
               icon={<Image src="/icons/inventory.svg" width="48px" height="48px" />}
               outline={isOpen.inventory}
+              isActive={isOpen.inventory}
               boxShadow={false}
               onClick={() => {
                 actionHandler.onOpenInventry();

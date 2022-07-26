@@ -108,8 +108,8 @@ const Inventory: FC<{
             key="close"
             ariaLabel="close"
             icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
-            size={32}
-            borderRadius={8}
+            size="32px"
+            borderRadius="8px"
             boxShadow={false}
             onClick={onClose}
           />,
@@ -172,7 +172,7 @@ const Inventory: FC<{
         ) : (
           <Center w="100%" h="616px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <VStack spacing="32px">
-              <Image src="/assets/empty-inventory.png" width="360px" height="270px" />
+              <Image src={`/assets/empty-inventory_${colorMode}.png`} width="360px" height="270px" />
               <Text w="300px" h="40px" color="grey.500" textStyle="paragraph-2" textAlign="center">
                 {"To place Objects & Wallpapers in Land, Deposit them from Collection."}
               </Text>

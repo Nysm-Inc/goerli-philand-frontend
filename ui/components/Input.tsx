@@ -20,9 +20,9 @@ const Input: FC<{
       boxShadow="0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);"
       w={w}
       //
-      border={colorMode === "light" ? "1px solid" : "none"}
+      border="1px solid"
       bgColor={colorMode === "light" ? "white" : "grey.900"}
-      borderColor={colorMode === "light" ? "light.g_orange" : "none"}
+      borderColor={colorMode === "light" ? "light.g_orange" : "dark.grey800"}
       _hover={{
         bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
         borderColor: colorMode === "light" ? "grey.900" : "grey.500",

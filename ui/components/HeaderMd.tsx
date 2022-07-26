@@ -52,7 +52,7 @@ const HeaderMd: FC = () => {
       <Box position="absolute" top="89px" right="19px">
         <IconButton
           ariaLabel="color_mode"
-          size={40}
+          size="40px"
           icon={
             <Center h="100%" w="100%">
               {colorMode === "light" ? (

@@ -79,8 +79,8 @@ const Button: FC<{
         : {
             boxShadow: "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);",
             bgColor: colorMode === "light" ? "white" : "grey.900",
-            border: colorMode === "light" ? "1px solid" : "none",
-            borderColor: colorMode === "light" ? "light.g_orange" : "dark.grey700",
+            border: "1px solid",
+            borderColor: colorMode === "light" ? "light.g_orange" : "dark.grey800",
             _hover: {
               "&:not([disabled])": {
                 bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",

@@ -62,7 +62,7 @@ const Collection: FC<{
             key="close"
             ariaLabel="close"
             icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
-            size={32}
+            size="32px"
             onClick={onClose}
           />,
         ]}
@@ -112,7 +112,7 @@ const Collection: FC<{
         ) : (
           <Center w="100%" h="562px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <VStack spacing="32px">
-              <Image src="/assets/empty-collection.png" width="360px" height="240px" />
+              <Image src={`/assets/empty-collection_${colorMode}.png`} width="360px" height="270px" />
               <Text w="300px" h="40px" color="grey.500" textStyle="paragraph-2" textAlign="center">
                 {"Manage Objects & Wallpaper collected from Shops and Quests"}
               </Text>
