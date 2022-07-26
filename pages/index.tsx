@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import { FC } from "react";
 import { chain as chains, useAccount, useEnsName, useNetwork } from "wagmi";
-import { Box, useDisclosure, useBoolean, useBreakpointValue, Text, VStack } from "@chakra-ui/react";
+import { Box, useDisclosure, useBoolean, useBreakpointValue } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
 import Inventory, { useInventory } from "~/ui/features/inventory";
@@ -24,7 +24,7 @@ import {
   Dev,
   MainMenu,
   HowItWorks,
-  HeaderMd,
+  Mobile,
 } from "~/ui/components";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
@@ -50,28 +50,6 @@ const Index: NextPage = () => {
     return <Mobile />;
   }
   return <PC />;
-};
-
-const Mobile: FC = () => {
-  return (
-    <>
-      <HeaderMd />
-      <Box position="fixed" top="161px" left="16px">
-        <Image src="/icons/only_mobile.svg" width="80px" height="80px" />
-      </Box>
-      <VStack position="fixed" top="265px" left="16px" spacing="8px" align="flex-start">
-        <Text textStyle="headline-2" color="dark.black">
-          This webpage is not available on mobile phone.
-        </Text>
-        <Text textStyle="paragraph-2" color="grey.500">
-          For normal use, use in a desktop browser or resize to widescreen.
-        </Text>
-      </VStack>
-      <Box position="fixed" top="437px" w="100vw" h="100vw">
-        <Image src="/assets/sample_land.svg" layout="fill" objectFit="contain" />
-      </Box>
-    </>
-  );
 };
 
 const PC: FC = () => {

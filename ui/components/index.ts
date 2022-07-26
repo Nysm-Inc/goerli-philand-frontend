@@ -27,6 +27,7 @@ import Network from "./Network";
 import Message from "./Message";
 import MainMenu from "./MainMenu";
 import HowItWorks from "./HowItWorks";
+import Mobile from "./Mobile";
 
 export {
   ActionMenu,
@@ -67,4 +68,5 @@ export {
   useNavi,
   MainMenu,
   HowItWorks,
+  Mobile,
 };
