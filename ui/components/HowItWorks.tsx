@@ -51,7 +51,7 @@ const HowItWorks: FC<{ isCreatedPhiland: boolean; isOpen: boolean; onOpen: () =>
           borderRadius="16px"
           bgColor={colorMode === "light" ? "white" : "grey.900"}
         >
-          <Image src="/assets/howItWorks.png" width="768px" height="384px" />
+          <Image src={`/assets/howItWorks_${colorMode}.png`} width="800px" height="400px" />
           <Text w="711px" textStyle="paragraph-1" color="grey.500">
             To place an object on land, you must obtain it from a store or quest and deposit it from your collection into your inventory.
           </Text>
