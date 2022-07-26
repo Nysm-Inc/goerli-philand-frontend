@@ -8,6 +8,7 @@ import Icon from "./Icon";
 const Search: FC<{ w?: LayoutProps["w"] }> = ({ w }) => {
   const { colorMode } = useContext(AppContext);
   const [searchText, setSearchText] = useState("");
+
   return (
     <form
       onSubmit={(e) => {

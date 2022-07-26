@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useContext, useEffect } from "react";
 import { chain as chains, useAccount, useEnsName, useNetwork } from "wagmi";
-import { Box, useDisclosure, useBoolean, Text, Center } from "@chakra-ui/react";
+import { Box, useDisclosure, useBoolean, useBreakpointValue } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
 import Inventory, { useInventory } from "~/ui/features/inventory";
@@ -16,8 +16,6 @@ import {
   ConfirmModal,
   StatusToast,
   Header,
-  Modal,
-  ModalHeader,
   ENSNotFound,
   Help,
   Permissions,
@@ -26,6 +24,7 @@ import {
   Dev,
   MainMenu,
   HowItWorks,
+  Mobile,
 } from "~/ui/components";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
@@ -43,21 +42,27 @@ import {
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
 import { PhiLink } from "~/types";
-
-const Mobile: FC = () => {
-  return (
-    <Modal w="320px" h="400px" isOpen={true} onClose={() => {}}>
-      <ModalHeader buttons={[]} />
-      <Center>
-        <Text textStyle="headline" color="white">
-          Mobile
-        </Text>
-      </Center>
-    </Modal>
-  );
-};
+import { AppContext } from "~/contexts";
 
 const Index: NextPage = () => {
+  const { game } = useContext(AppContext);
+  const isMobile = useBreakpointValue({ base: true, lg: false });
+
+  useEffect(() => {
+    if (isMobile) {
+      game.engine.hide();
+    } else {
+      game.engine.show();
+    }
+  }, [isMobile]);
+
+  if (isMobile) {
+    return <Mobile />;
+  }
+  return <PC />;
+};
+
+const PC: FC = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const { data: dataENS } = useEnsName({ address });
@@ -107,10 +112,6 @@ const Index: NextPage = () => {
     gameUIHandler: { onOpenActionMenu, onChangeLinkMenu: changeLink },
   });
 
-  // todo: use breakpoints
-  if (window.matchMedia("(any-pointer:coarse)").matches) {
-    return <Mobile />;
-  }
   return (
     <>
       <ConfirmModal

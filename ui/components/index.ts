@@ -2,6 +2,7 @@ import ActionMenu, { useActionMenu } from "./ActionMenu";
 import Button from "./Button";
 import Head from "./Head";
 import Header from "./Header";
+import HeaderMd from "./HeaderMd";
 import LinkMenu, { useLinkMenu } from "./LinkMenu";
 import MenuList from "./MenuList";
 import MenuBar from "./MenuBar";
@@ -26,6 +27,7 @@ import Network from "./Network";
 import Message from "./Message";
 import MainMenu from "./MainMenu";
 import HowItWorks from "./HowItWorks";
+import Mobile from "./Mobile";
 
 export {
   ActionMenu,
@@ -40,6 +42,7 @@ export {
   StatusToast,
   Head,
   Header,
+  HeaderMd,
   Help,
   LinkMenu,
   useLinkMenu,
@@ -65,4 +68,5 @@ export {
   useNavi,
   MainMenu,
   HowItWorks,
+  Mobile,
 };

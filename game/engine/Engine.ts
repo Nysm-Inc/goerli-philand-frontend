@@ -50,7 +50,7 @@ export default class Engine {
       antialias: true,
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
-      // resizeTo: window, // todo
+      // resizeTo: window, // todo: clouds
     });
     this.app.stage = new LayerStage();
     this.app.stage.sortableChildren = true;
@@ -174,7 +174,15 @@ export default class Engine {
     return this.app.renderer.plugins.extract.base64(container);
   }
 
-  reset() {
-    document.body.removeChild(this.app.view);
+  show() {
+    try {
+      document.body.appendChild(this.app.view);
+    } catch {}
+  }
+
+  hide() {
+    try {
+      document.body.removeChild(this.app.view);
+    } catch {}
   }
 }
