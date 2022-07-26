@@ -37,7 +37,7 @@ const IconButton: FC<{
         //
         bgColor={_colorMode ? "white" : "grey.900"}
         border={outline ? "1px solid" : "none"}
-        borderColor={_colorMode ? "light.g_orange" : "none"}
+        borderColor={colorMode === "light" ? "light.g_orange" : "dark.grey800"}
         _hover={{
           bgColor: _colorMode ? "light.lg_orange40" : "dark.grey700",
           border: "1px solid",
