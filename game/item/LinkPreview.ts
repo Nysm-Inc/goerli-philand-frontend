@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Container, Graphics, Sprite, Text, Texture } from "pixi.js";
+import { Container, Graphics, SCALE_MODES, Sprite, Text, Texture } from "pixi.js";
 import { PhiLink } from "~/types";
 import GameInstance from "~/game/GameInstance";
 import { postAccess } from "~/utils/access";

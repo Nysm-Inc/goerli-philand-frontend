@@ -1,4 +1,4 @@
-import { Container, Sprite } from "pixi.js";
+import { Container, SCALE_MODES, Sprite } from "pixi.js";
 import { LAND_OFFSET_X, LAND_OFFSET_Y, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import GameInstance from "~/game/GameInstance";
 import { Wallpaper as TWallpaper } from "~/types";
@@ -31,6 +31,7 @@ export default class Wallpaper {
     if (tokenId) {
       const { engine } = GameInstance.get();
       const texture = engine.globalTextures[WALLPAPER_CONTRACT_ADDRESS][tokenId].clone();
+      texture.baseTexture.scaleMode = SCALE_MODES.NEAREST;
       this.sprite.texture = texture;
     } else {
       this.container.removeChildren();
