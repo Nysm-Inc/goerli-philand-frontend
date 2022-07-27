@@ -8,6 +8,7 @@ const Button: FC<{
   w: LayoutProps["w"];
   h?: LayoutProps["h"];
   color?: keyof typeof subColors;
+  shadow?: boolean;
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
   justify?: SystemProps["justifyContent"];
@@ -21,6 +22,7 @@ const Button: FC<{
     w,
     h = "48px",
     color,
+    shadow,
     leftIcon,
     rightIcon,
     justify = "space-evenly",
@@ -47,6 +49,9 @@ const Button: FC<{
       borderRadius={borderRadius}
       disabled={disabled || isLoading}
       onClick={onClick}
+      {...(shadow && {
+        boxShadow: "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);",
+      })}
       {...(color
         ? {
             bgColor: `${color}.250`,

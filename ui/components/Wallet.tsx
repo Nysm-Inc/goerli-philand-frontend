@@ -35,6 +35,7 @@ const Wallet: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
                   <Button
                     w="153px"
                     color="purple"
+                    shadow
                     onClick={() => {
                       openConnectModal();
                       event({ action: "click", category: "wallet", label: "connect" });
@@ -50,7 +51,7 @@ const Wallet: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
 
               if (chain.unsupported) {
                 return (
-                  <Button w="218px" color="red" onClick={openChainModal}>
+                  <Button w="218px" color="red" shadow onClick={openChainModal}>
                     Wrong network
                   </Button>
                 );
@@ -63,6 +64,8 @@ const Wallet: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
                       <MenuButton
                         as={Button}
                         w="218px"
+                        // @ts-ignore
+                        shadow
                         leftIcon={
                           <Avatar
                             w="32px"
