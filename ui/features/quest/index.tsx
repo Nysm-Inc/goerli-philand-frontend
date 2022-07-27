@@ -130,7 +130,7 @@ const Quest: FC<{
         )}
       </ModalBody>
       <Box minH="16px" />
-      <Message color="info" text="All quests are based on your activity on the Ethereum Goerli Testnet." />
+      <Message color="info" text="All quests (except EXP quests) are based on your activity on the Ethereum Goerli Testnet." />
     </Modal>
   );
 };
