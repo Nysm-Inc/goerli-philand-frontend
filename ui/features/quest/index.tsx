@@ -106,6 +106,9 @@ const Quest: FC<{
                     </Box>
                   </Center>
                   <VStack spacing="8px" align="flex-start">
+                    <Text textStyle="label-2" color="grey.500">
+                      Project Name
+                    </Text>
                     <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
                       {metadata.name}
                     </Text>
