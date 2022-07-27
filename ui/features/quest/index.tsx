@@ -106,6 +106,9 @@ const Quest: FC<{
                     </Box>
                   </Center>
                   <VStack spacing="8px" align="flex-start">
+                    <Text textStyle="label-2" color="grey.500">
+                      Project Name
+                    </Text>
                     <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
                       {metadata.name}
                     </Text>
@@ -130,7 +133,7 @@ const Quest: FC<{
         )}
       </ModalBody>
       <Box minH="16px" />
-      <Message color="info" text="All quests are based on your activity on the Ethereum Goerli Testnet." />
+      <Message color="info" text="All quests (except EXP quests) are based on your activity on the Ethereum Goerli Testnet." />
     </Modal>
   );
 };
