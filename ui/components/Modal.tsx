@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Button from "./Button";
+import Icon from "./Icon";
 
 const Line: FC = () => {
   const { colorMode } = useContext(AppContext);
@@ -84,12 +85,12 @@ const ModalFooter: FC<{ children: ReactNode }> = ({ children }) => {
 
 const ModalFooterButton: FC<{
   text: string;
-  buttonText: string;
+  itemNum: number;
   buttonW?: "full" | "512px";
   subText: string;
   isLoading?: boolean;
   onClick: () => void;
-}> = ({ text, buttonText, buttonW = "512px", subText, isLoading, onClick }) => {
+}> = ({ text, itemNum, buttonW = "512px", subText, isLoading, onClick }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -117,9 +118,10 @@ const ModalFooterButton: FC<{
           </Text>
         }
         rightIcon={
-          <Center p="8px 12px" w="90px" h="32px" bgColor="rgba(13, 13, 13, 0.32)" borderRadius="8px">
+          <Center minW="50px" h="32px" p="8px 12px" gap="8px" bgColor="rgba(13, 13, 13, 0.32)" borderRadius="8px">
+            <Icon name="bag" color="white" />
             <Text textStyle="headline-2" color="white">
-              {buttonText}
+              {itemNum}
             </Text>
           </Center>
         }

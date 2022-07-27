@@ -164,7 +164,7 @@ const Shop: FC<{
           <Box w="full" position="absolute" bottom="0" left="0">
             <ModalFooterButton
               text="Purchase"
-              buttonText={`${items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)} ITEMS`}
+              itemNum={items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
               subText="The deposited objects is stored in Inventory"
               isLoading={isLoading}
               onClick={() => {
