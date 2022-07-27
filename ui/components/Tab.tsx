@@ -33,6 +33,7 @@ const TabList: FC<{ children: ReactNode }> = ({ children }) => {
       justifyContent="center"
       border="1px solid"
       borderColor={colorMode === "light" ? "grey.200" : "dark.grey700"}
+      bgColor={colorMode === "light" ? "light.lg_orange40" : "grey.900"}
     >
       {children}
     </ChakraTabList>

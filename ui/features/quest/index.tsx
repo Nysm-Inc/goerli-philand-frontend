@@ -3,7 +3,7 @@ import { FC, useContext, useState } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, HStack, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
-import { ObjectMetadata, objectMetadataList } from "~/types/object";
+import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
 import { ClaimableList } from "~/types/quest";
 import { IconButton, Modal, ModalBody, ModalHeader, Icon, Badge, Network, Message } from "~/ui/components";
 import { AppContext } from "~/contexts";
@@ -107,6 +107,7 @@ const Quest: FC<{
                   </Center>
                   <VStack spacing="8px" align="flex-start">
                     <Text textStyle="label-2" color="grey.500">
+                      {/* {objectTraisList[QUEST_OBJECT_CONTRACT_ADDRESS][metadata.tokenId].attributes[7].value} */}
                       Project Name
                     </Text>
                     <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
