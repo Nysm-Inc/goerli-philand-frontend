@@ -40,6 +40,7 @@ const HeaderMd: FC = () => {
           h="40px"
           justify="space-between"
           disabled
+          shadow
           leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" />}
         >
           <Text textStyle="button-2" color={colorMode === "light" ? "dark.grey300" : "dark.grey600"}>

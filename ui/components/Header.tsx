@@ -23,7 +23,13 @@ const Header: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
       </Box>
 
       <Box zIndex="default" position="fixed" top="24px" left="calc(106px + 336px + 16px)">
-        <Button w="146px" disabled justify="space-between" leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" />}>
+        <Button
+          w="146px"
+          disabled
+          shadow
+          justify="space-between"
+          leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" />}
+        >
           <Text textStyle="button-2" color={colorMode === "light" ? "dark.grey300" : "dark.grey600"}>
             Leaderboard
           </Text>
