@@ -15,7 +15,7 @@ const QuantityInput: FC<{
         <Button variant="unstyled" display="flex" justifyContent="left" onClick={handleClickMinus}>
           <Icon name="minus" color="white" />
         </Button>
-        <Text textStyle="label-1" color="white">
+        <Text textStyle="label-1" fontWeight="bold" color="white">
           {num}
         </Text>
         <Button variant="unstyled" display="flex" justifyContent="right" disabled={balance <= num} onClick={handleClickPlus}>
