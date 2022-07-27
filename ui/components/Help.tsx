@@ -10,7 +10,7 @@ const Help: FC<{ onOpenHowItWorks: () => void }> = ({ onOpenHowItWorks }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
-    <Box position="fixed" bottom="32px" right="24px">
+    <Box zIndex="default" position="fixed" bottom="32px" right="24px">
       <Menu variant="unstyled" autoSelect={false}>
         {({ isOpen }) => (
           <>

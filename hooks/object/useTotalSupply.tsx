@@ -18,7 +18,7 @@ const useTotalSupply = (contract: ObjectContractAddress): { [tokenId: number]: n
     keepPreviousData: true,
   });
 
-  return data ? data.reduce((memo, num, i) => ({ ...memo, [i + 1]: num.toNumber() }), {}) : {};
+  return data && data[0] ? data.reduce((memo, num, i) => ({ ...memo, [i + 1]: num.toNumber() }), {}) : {};
 };
 
 export default useTotalSupply;

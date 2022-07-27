@@ -118,57 +118,60 @@ const Inventory: FC<{
       <Box h="16px" />
       <ModalBody>
         {objects.length > 0 ? (
-          <SimpleGrid columns={2} spacing="8px">
-            {objects.map((object, i) => (
-              <VStack
-                key={i}
-                align="flex-start"
-                height="288px"
-                p="16px"
-                borderRadius="16px"
-                bgColor={colorMode === "light" ? "white" : "grey.900"}
-              >
-                <Center
-                  position="relative"
-                  w="100%"
-                  h="144px"
-                  cursor={isEdit ? "pointer" : ""}
-                  onClick={() => {
-                    if (!isEdit) return;
-
-                    const metadata = objectMetadataList[object.contractAddress][object.tokenId];
-                    onClickObject({
-                      contractAddress: object.contractAddress,
-                      tokenId: object.tokenId,
-                      sizeX: metadata.size[0],
-                      sizeY: metadata.size[1],
-                      link: { title: "", url: "" },
-                    });
-                    onClose();
-                  }}
+          <>
+            <SimpleGrid columns={2} spacing="8px">
+              {objects.map((object, i) => (
+                <VStack
+                  key={i}
+                  align="flex-start"
+                  height="288px"
+                  p="16px"
+                  borderRadius="16px"
+                  bgColor={colorMode === "light" ? "white" : "grey.900"}
                 >
-                  <Box position="relative" w="96px" h="96px">
-                    <Image src={objectMetadataList[object.contractAddress][object.tokenId].image_url} layout="fill" objectFit="contain" />
-                  </Box>
-                </Center>
-                <Text textStyle="label-2" color="grey.500">
-                  OWNED {object.amount - object.used}
-                </Text>
-                <Text h="40px" textStyle="headline-3" color={colorMode === "light" ? "grey.900" : "white"}>
-                  {objectMetadataList[object.contractAddress][object.tokenId].name}
-                </Text>
-                {!isEdit && !object.writed && (
-                  <QuantityInput
-                    defaultText="+ Withdraw"
-                    num={object.select}
-                    balance={object.amount - object.used}
-                    handleClickPlus={() => onClickPlus(i)}
-                    handleClickMinus={() => onClickMinus(i)}
-                  />
-                )}
-              </VStack>
-            ))}
-          </SimpleGrid>
+                  <Center
+                    position="relative"
+                    w="100%"
+                    h="144px"
+                    cursor={isEdit ? "pointer" : ""}
+                    onClick={() => {
+                      if (!isEdit) return;
+
+                      const metadata = objectMetadataList[object.contractAddress][object.tokenId];
+                      onClickObject({
+                        contractAddress: object.contractAddress,
+                        tokenId: object.tokenId,
+                        sizeX: metadata.size[0],
+                        sizeY: metadata.size[1],
+                        link: { title: "", url: "" },
+                      });
+                      onClose();
+                    }}
+                  >
+                    <Box position="relative" w="96px" h="96px">
+                      <Image src={objectMetadataList[object.contractAddress][object.tokenId].image_url} layout="fill" objectFit="contain" />
+                    </Box>
+                  </Center>
+                  <Text textStyle="label-2" color="grey.500">
+                    OWNED {object.amount - object.used}
+                  </Text>
+                  <Text h="40px" textStyle="headline-3" color={colorMode === "light" ? "grey.900" : "white"}>
+                    {objectMetadataList[object.contractAddress][object.tokenId].name}
+                  </Text>
+                  {!isEdit && !object.writed && (
+                    <QuantityInput
+                      defaultText="+ Withdraw"
+                      num={object.select}
+                      balance={object.amount - object.used}
+                      handleClickPlus={() => onClickPlus(i)}
+                      handleClickMinus={() => onClickMinus(i)}
+                    />
+                  )}
+                </VStack>
+              ))}
+            </SimpleGrid>
+            {objects.some((object) => object.select > 0) && <Box h="120px" />}
+          </>
         ) : (
           <Center w="100%" h="616px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <VStack spacing="32px">

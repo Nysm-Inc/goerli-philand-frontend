@@ -25,6 +25,7 @@ import {
   MainMenu,
   HowItWorks,
   Mobile,
+  Clouds,
 } from "~/ui/components";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
@@ -234,6 +235,7 @@ const PC: FC = () => {
       {!isEdit && <Share currentENS={currentENS} />}
       <Help onOpenHowItWorks={onOpenHowItWorks} />
       <Dev />
+      <Clouds />
 
       {isCreatedPhiland ? (
         <MenuBar
@@ -270,7 +272,7 @@ const PC: FC = () => {
           ) : (
             <>
               {address ? (
-                <Box position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
+                <Box zIndex="default" position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
                   {isLoading ? (
                     <>
                       {/* todo */}
@@ -281,7 +283,7 @@ const PC: FC = () => {
                   )}
                 </Box>
               ) : (
-                <Box position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
+                <Box zIndex="default" position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
                   <Image src="https://www.arweave.net/ygPahoFDTsqYyL0Ddvy3xiuS0x1_jYVvB7p_1TSTcyk?ext=png" width="128px" height="128px" />
                 </Box>
               )}
