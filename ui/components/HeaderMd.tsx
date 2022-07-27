@@ -57,11 +57,11 @@ const HeaderMd: FC = () => {
           icon={
             <Center h="100%" w="100%">
               {colorMode === "light" ? (
-                <Center h="28px" w="28px" bgColor="grey.900" borderRadius="8px">
+                <Center h="28px" w="28px" bgColor="grey.900" borderRadius="6px">
                   <Icon name="moon" color="white" />
                 </Center>
               ) : (
-                <Center w="28px" h="28px" bgColor="white" borderRadius="8px">
+                <Center w="28px" h="28px" bgColor="white" borderRadius="6px">
                   <Icon name="sun" />
                 </Center>
               )}

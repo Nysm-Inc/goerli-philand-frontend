@@ -284,7 +284,7 @@ const PC: FC = () => {
                 </Box>
               ) : (
                 <Box zIndex="default" position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
-                  <Image src="https://www.arweave.net/ygPahoFDTsqYyL0Ddvy3xiuS0x1_jYVvB7p_1TSTcyk?ext=png" width="128px" height="128px" />
+                  <Image src="/icons/ENShold.svg" width="96px" height="96px" />
                 </Box>
               )}
             </>

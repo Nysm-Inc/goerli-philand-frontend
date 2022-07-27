@@ -1,5 +1,5 @@
 import { FC, useContext } from "react";
-import { Box, Center, LayoutProps, MenuItem, MenuList as ChakraMenuList, Text } from "@chakra-ui/react";
+import { Box, Center, ColorProps, LayoutProps, MenuItem, MenuList as ChakraMenuList, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Icon from "./Icon";
 
@@ -7,6 +7,7 @@ export type Option = {
   label: string;
   value: string;
   onClick?: () => void;
+  textColor?: ColorProps["textColor"];
 };
 
 const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; options: Option[]; onClick?: (v: string) => void }> = ({
@@ -34,7 +35,7 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
           borderColor="light.g_orange"
           bgColor={colorMode === "light" ? "white" : "grey.900"}
         >
-          {options.map((item, i) => (
+          {options.map((option, i) => (
             <MenuItem
               //
               key={i}
@@ -44,8 +45,8 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
               textAlign="left"
               borderRadius="6px"
               onClick={() => {
-                if (item.onClick) item.onClick();
-                else if (onClick) onClick(item.value);
+                if (option.onClick) option.onClick();
+                else if (onClick) onClick(option.value);
               }}
               //
               bgColor={colorMode === "light" ? "white" : "grey.900"}
@@ -61,16 +62,18 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
             >
               <Text
                 textStyle="button-2"
-                textColor={colorMode === "light" ? "grey.900" : "white"}
                 w="calc(100% - 16px)"
                 whiteSpace="nowrap"
                 overflow="hidden"
                 textOverflow="ellipsis"
+                textColor={option.textColor || (colorMode === "light" ? "grey.900" : "white")}
               >
-                {item.label}
+                {option.label}
               </Text>
               <Box w="8px" />
-              <Center w="24px">{value === item.value && <Icon name="check" color={colorMode === "light" ? "grey.900" : "white"} />}</Center>
+              <Center w="24px">
+                {value === option.value && <Icon name="check" color={colorMode === "light" ? "grey.900" : "white"} />}
+              </Center>
             </MenuItem>
           ))}
         </ChakraMenuList>
