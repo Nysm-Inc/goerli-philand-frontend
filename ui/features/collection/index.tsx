@@ -54,7 +54,7 @@ const Collection: FC<{
   }, [originItems.length]);
 
   return (
-    <Modal w="832px" h="680px" isOpen={isOpen} onClose={() => {}} onCloseComplete={reset}>
+    <Modal w="832px" h="680px" isOpen={isOpen} onClose={onClose} onCloseComplete={reset}>
       <ModalHeader
         title="COLLECTION"
         buttons={[

@@ -25,7 +25,7 @@ const Quest: FC<{
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
   return (
-    <Modal w="832px" h="712px" isOpen={isOpen} onClose={() => {}}>
+    <Modal w="832px" h="712px" isOpen={isOpen} onClose={onClose} onCloseComplete={() => setSelected(undefined)}>
       <ModalHeader
         title="QUEST"
         buttons={[
@@ -50,10 +50,7 @@ const Quest: FC<{
             size="32px"
             borderRadius="8px"
             boxShadow={false}
-            onClick={() => {
-              onClose();
-              setSelected(undefined);
-            }}
+            onClick={onClose}
           />,
         ]}
         back={
