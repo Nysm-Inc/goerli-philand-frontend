@@ -53,7 +53,7 @@ const useClaim = (
         hash: writeData?.hash,
         tmpStatus,
         status,
-        action: "claim quest object",
+        action: "Claiming Quest Object",
       },
     },
   ];

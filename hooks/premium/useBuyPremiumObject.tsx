@@ -41,7 +41,7 @@ const useBuyPremiumObject = (): {
       hash: data?.hash,
       tmpStatus,
       status,
-      action: "purchase premium object",
+      action: "Claiming Premium Objects",
     },
   };
 };

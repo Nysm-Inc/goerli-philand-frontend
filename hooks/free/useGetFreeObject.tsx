@@ -25,7 +25,7 @@ const useGetFreeObject = (): { getFreeObject: (tokenIds: number[]) => Promise<Tr
       hash: data?.hash,
       tmpStatus,
       status,
-      action: "claim free object",
+      action: "Claiming Free Objects",
     },
   };
 };

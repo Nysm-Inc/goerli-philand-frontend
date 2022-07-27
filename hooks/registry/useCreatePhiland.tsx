@@ -52,7 +52,7 @@ const useCreatePhiland = (
         hash: writeData?.hash,
         tmpStatus,
         status,
-        action: "create philand",
+        action: "Creating a Land with Your ENS",
       },
     },
   ];
