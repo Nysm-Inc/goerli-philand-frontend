@@ -20,14 +20,8 @@ import "./pixelPerfectInteraction";
 export default class Engine {
   app: Application;
   viewport: Viewport;
-  clouds: Container;
-  grids: Container;
   globalTextures: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: Texture } };
-  staticAssets: {
-    clouds: Sprite;
-    cloudsBlack: Sprite;
-    grid: TilingSprite;
-  };
+  grids: Container;
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
   onMouseClickHandler: (mouseX: number, mouseY: number) => void;
 
@@ -50,7 +44,7 @@ export default class Engine {
       antialias: true,
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
-      // resizeTo: window, // todo: clouds
+      resizeTo: window,
     });
     this.app.stage = new LayerStage();
     this.app.stage.sortableChildren = true;
@@ -85,32 +79,18 @@ export default class Engine {
         this.onMouseMoveHandler(world.x, world.y);
       })
       .on("zoomed", ({ viewport }: { viewport: Viewport }) => {
-        this.clouds.visible = viewport.scale._x < 2;
+        // todo
+        // viewport.scale._x < 2;
       });
     this.app.stage.addChild(this.viewport);
 
-    this.staticAssets = {
-      grid: new TilingSprite(Texture.from("assets/grid-pattern.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
-      clouds: Sprite.from("assets/clouds.png"),
-      cloudsBlack: Sprite.from("assets/clouds_black.png"),
-    };
     this.grids = new Container();
+    const tilingSprite = new TilingSprite(Texture.from("assets/grid-pattern.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT);
+    tilingSprite.alpha = 0.1;
     this.grids.zIndex = -1;
     this.grids.visible = false;
-    this.staticAssets.grid.alpha = 0.1;
-    this.grids.addChild(this.staticAssets.grid);
+    this.grids.addChild(tilingSprite);
     this.app.stage.addChild(this.grids);
-
-    this.clouds = new Container();
-    this.staticAssets.clouds.width = window.innerWidth;
-    this.staticAssets.clouds.height = window.innerHeight;
-    this.staticAssets.clouds.visible = false;
-    this.clouds.addChild(this.staticAssets.clouds);
-    this.staticAssets.cloudsBlack.width = window.innerWidth;
-    this.staticAssets.cloudsBlack.height = window.innerHeight;
-    this.staticAssets.cloudsBlack.visible = false;
-    this.clouds.addChild(this.staticAssets.cloudsBlack);
-    this.app.stage.addChild(this.clouds);
   }
 
   // todo: cache loaded files
@@ -142,15 +122,7 @@ export default class Engine {
   }
 
   changeColorMode(colorMode: ColorMode) {
-    if (colorMode === "light") {
-      this.app.renderer.backgroundColor = 0xf5f2eb;
-      this.staticAssets.clouds.visible = true;
-      this.staticAssets.cloudsBlack.visible = false;
-    } else {
-      this.app.renderer.backgroundColor = 0x0d0d0d;
-      this.staticAssets.clouds.visible = false;
-      this.staticAssets.cloudsBlack.visible = true;
-    }
+    this.app.renderer.backgroundColor = colorMode === "light" ? 0xf5f2eb : 0x0d0d0d;
   }
 
   exportImage(colorMode: ColorMode) {

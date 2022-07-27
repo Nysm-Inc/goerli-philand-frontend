@@ -14,7 +14,7 @@ const MainMenu: FC<{ isOpenQuest: boolean; isOpenShop: boolean; onOpenQuest: () 
   const { colorMode } = useContext(AppContext);
 
   return (
-    <HStack position="fixed" left="32px" bottom="30px" spacing="20px">
+    <HStack zIndex="default" position="fixed" left="32px" bottom="30px" spacing="20px">
       <IconButton
         ariaLabel="quest"
         size="76px"

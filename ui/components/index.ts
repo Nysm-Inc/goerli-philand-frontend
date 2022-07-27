@@ -28,6 +28,7 @@ import Message from "./Message";
 import MainMenu from "./MainMenu";
 import HowItWorks from "./HowItWorks";
 import Mobile from "./Mobile";
+import Clouds from "./Clouds";
 
 export {
   ActionMenu,
@@ -69,4 +70,5 @@ export {
   MainMenu,
   HowItWorks,
   Mobile,
+  Clouds,
 };

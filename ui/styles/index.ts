@@ -14,6 +14,11 @@ const theme = extendTheme({
     xl: "1280px",
     "2xl": "1536px",
   },
+  zIndices: {
+    canvas: 0,
+    clouds: 1,
+    default: 2,
+  },
 });
 
 export default theme;

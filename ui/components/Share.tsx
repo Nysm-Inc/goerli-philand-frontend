@@ -9,7 +9,7 @@ const Share: FC<{ currentENS: string }> = ({ currentENS }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
-    <Box position="fixed" bottom="32px" right="calc(24px + 48px + 16px)">
+    <Box zIndex="default" position="fixed" bottom="32px" right="calc(24px + 48px + 16px)">
       <IconButton
         ariaLabel="share"
         icon={<Icon name="share" color={colorMode === "light" ? "grey.900" : "white"} />}

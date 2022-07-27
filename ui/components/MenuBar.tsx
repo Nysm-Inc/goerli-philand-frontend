@@ -36,6 +36,7 @@ const MenuBar: FC<{
 
   return (
     <HStack
+      zIndex="default"
       position="fixed"
       bottom="32px"
       left="50%"

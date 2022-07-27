@@ -14,15 +14,15 @@ const Header: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
 
   return (
     <>
-      <Box position="fixed" top="16px" left="24px" cursor="pointer" onClick={() => (window.location.href = "/")}>
+      <Box zIndex="default" position="fixed" top="16px" left="24px" cursor="pointer" onClick={() => (window.location.href = "/")}>
         <Image src="/icons/logo.svg" width="64px" height="64px" />
       </Box>
 
-      <Box position="fixed" top="24px" left="106px">
+      <Box zIndex="default" position="fixed" top="24px" left="106px">
         <Search />
       </Box>
 
-      <Box position="fixed" top="24px" left="calc(106px + 336px + 16px)">
+      <Box zIndex="default" position="fixed" top="24px" left="calc(106px + 336px + 16px)">
         <Button w="146px" disabled justify="space-between" leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" />}>
           <Text textStyle="button-2" color={colorMode === "light" ? "dark.grey300" : "dark.grey600"}>
             Leaderboard
@@ -31,7 +31,7 @@ const Header: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
       </Box>
 
       {/* @ts-ignore */}
-      <Box position="fixed" top="24px" right={`calc(${ref?.current?.offsetWidth || 0}px + 24px + 8px)`}>
+      <Box zIndex="default" position="fixed" top="24px" right={`calc(${ref?.current?.offsetWidth || 0}px + 24px + 8px)`}>
         <IconButton
           ariaLabel="color_mode"
           icon={
@@ -51,7 +51,7 @@ const Header: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
         />
       </Box>
 
-      <Box ref={ref} position="fixed" top="24px" right="24px">
+      <Box ref={ref} zIndex="default" position="fixed" top="24px" right="24px">
         <Wallet onOpenPermissions={onOpenPermissions} />
       </Box>
     </>
