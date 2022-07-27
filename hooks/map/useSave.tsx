@@ -67,7 +67,7 @@ const useSave = (
       tmpStatus,
       status,
 
-      action: "save",
+      action: "Saving Your Land Data",
       msg: "Saving your land data to blockchain and updating OGP image.",
     },
   };

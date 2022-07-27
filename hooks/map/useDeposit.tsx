@@ -85,7 +85,7 @@ const useDeposit = (
         hash: depositData?.hash,
         tmpStatus: depositTmpStatus,
         status: depositStatus,
-        action: "deposit",
+        action: "Depositing Objects to Map contract of PHI",
       },
     },
     {
@@ -94,7 +94,7 @@ const useDeposit = (
         hash: withdrawData?.hash,
         tmpStatus: withdrawTmpStatus,
         status: withdrawStatus,
-        action: "withdraw",
+        action: "Withdrawing Objects to Your Wallet",
       },
     },
   ];

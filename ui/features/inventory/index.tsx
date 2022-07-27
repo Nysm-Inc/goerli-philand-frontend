@@ -187,7 +187,7 @@ const Inventory: FC<{
         <Box w="full" position="absolute" bottom="0" left="0">
           <ModalFooterButton
             text="Withdraw"
-            buttonText={`${objects.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)} ITEMS`}
+            itemNum={objects.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
             buttonW="full"
             subText="The deposited objects is stored in Inventory"
             isLoading={isLoading}

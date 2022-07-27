@@ -4,6 +4,7 @@ import { colors } from "~/ui/styles/color";
 import Alert from "./Alert";
 import Arrow from "./Arrow";
 import Arrows from "./Arrows";
+import Bag from "./Bag";
 import Calendar from "./Calendar";
 import Check from "./Check";
 import CheckCircle from "./CheckCircle";
@@ -34,6 +35,7 @@ const icons = {
   alert: Alert,
   arrow: Arrow,
   arrows: Arrows,
+  bag: Bag,
   calendar: Calendar,
   check: Check,
   checkCircle: CheckCircle,
