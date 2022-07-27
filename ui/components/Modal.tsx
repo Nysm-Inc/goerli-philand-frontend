@@ -45,7 +45,7 @@ const ModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Eleme
 
   return (
     <ChakraModalHeader {...style} p="0">
-      <HStack h={title ? "48px" : "32px"} align="center">
+      <HStack h={title ? "48px" : "32px"} align="center" spacing="16px">
         {title ? (
           <>
             {back}
@@ -53,15 +53,15 @@ const ModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Eleme
             <Text ref={ref} color="white" textStyle="headline">
               {title}
             </Text>
-            <HStack flexGrow={1} h="32px" align="center">
+            <HStack flexGrow={1} h="32px" align="center" spacing="16px">
               <LineStack />
-              {buttons.map((button) => button)}
+              <HStack spacing="8px">{buttons.map((button) => button)}</HStack>
             </HStack>
           </>
         ) : (
           <>
             <LineStack />
-            {buttons.map((button) => button)}
+            <HStack spacing="8px">{buttons.map((button) => button)}</HStack>
           </>
         )}
       </HStack>
