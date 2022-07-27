@@ -43,11 +43,11 @@ const Header: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
           icon={
             <Center h="100%" w="100%">
               {colorMode === "light" ? (
-                <Center h="32px" w="32px" bgColor="grey.900" borderRadius="8px">
+                <Center h="32px" w="32px" bgColor="grey.900" borderRadius="6px">
                   <Icon name="moon" color="white" />
                 </Center>
               ) : (
-                <Center w="32px" h="32px" bgColor="white" borderRadius="8px">
+                <Center w="32px" h="32px" bgColor="white" borderRadius="6px">
                   <Icon name="sun" />
                 </Center>
               )}
