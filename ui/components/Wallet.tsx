@@ -91,7 +91,7 @@ const Wallet: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
                         options={[
                           { label: showAddress(account.address), value: account.address },
                           { label: "Permission settings", value: "Permission settings", onClick: onOpenPermissions },
-                          { label: "disconnect", value: "disconnect", onClick: disconnect },
+                          { label: "disconnect", value: "disconnect", onClick: disconnect, textColor: "danger.default" },
                         ]}
                       />
                     </>
