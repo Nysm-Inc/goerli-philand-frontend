@@ -151,7 +151,7 @@ const Modal: FC<{
         borderRadius="40px"
         boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
         border="1px solid"
-        borderColor={colorMode === "light" ? "light.lg_orange40" : "grey.900"}
+        borderColor={colorMode === "light" ? "light.g_orange" : "grey.900"}
         bgColor={colorMode === "light" ? "light.lg_orange30" : "dark.black"}
         minW={w}
         minH={h}

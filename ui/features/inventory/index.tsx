@@ -96,7 +96,7 @@ const Inventory: FC<{
       h="720px"
       left="24px"
       isOpen={isOpen}
-      onClose={() => {}}
+      onClose={onClose}
       onCloseComplete={() => {
         if (!isEdit) reset();
       }}

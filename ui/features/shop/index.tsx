@@ -124,7 +124,7 @@ const Shop: FC<{
         reset(tabIdx2Contract[idx]);
       }}
     >
-      <Modal w="832px" h="712px" isOpen={isOpen} onClose={() => {}} onCloseComplete={() => reset(tabIdx2Contract[tabIdx])}>
+      <Modal w="832px" h="712px" isOpen={isOpen} onClose={onClose} onCloseComplete={() => reset(tabIdx2Contract[tabIdx])}>
         <ModalHeader
           title="SHOP"
           buttons={[
