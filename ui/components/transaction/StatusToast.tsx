@@ -84,7 +84,7 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
     >
       <HStack spacing="0" p="16px" align="flex-start">
         <Center w="40px" h="40px" borderRadius="40px" bgColor={getColor(status)}>
-          <Icon name={getIconName(status)} />
+          <Icon name={getIconName(status)} color="white" />
         </Center>
         <Box w="16px" />
 
