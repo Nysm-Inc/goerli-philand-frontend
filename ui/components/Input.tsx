@@ -9,15 +9,16 @@ const Input: FC<{
   value: string | number;
   leftIcon?: ReactNode;
   rightIcon?: JSX.Element;
+  shadow?: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
-}> = ({ w, placeholder, value, leftIcon, rightIcon, onChange }) => {
+}> = ({ w, placeholder, value, leftIcon, rightIcon, shadow = true, onChange }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
     <InputGroup
       h="48px"
       borderRadius="12px"
-      boxShadow="0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);"
+      boxShadow={shadow ? "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);" : ""}
       w={w}
       //
       border="1px solid"
