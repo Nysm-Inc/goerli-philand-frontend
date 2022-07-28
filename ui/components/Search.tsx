@@ -5,7 +5,7 @@ import { isValid } from "~/utils/ens";
 import Input from "./Input";
 import Icon from "./Icon";
 
-const Search: FC<{ w?: LayoutProps["w"] }> = ({ w }) => {
+const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = true }) => {
   const { colorMode } = useContext(AppContext);
   const [searchText, setSearchText] = useState("");
 
@@ -26,6 +26,7 @@ const Search: FC<{ w?: LayoutProps["w"] }> = ({ w }) => {
             .eth
           </Text>
         }
+        shadow={shadow}
         onChange={(e) => setSearchText(e.target.value)}
       />
     </form>

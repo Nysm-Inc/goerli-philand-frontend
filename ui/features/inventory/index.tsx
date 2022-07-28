@@ -173,7 +173,7 @@ const Inventory: FC<{
             {objects.some((object) => object.select > 0) && <Box h="120px" />}
           </>
         ) : (
-          <Center w="100%" h="616px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
+          <Center w="100%" h="606px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <VStack spacing="32px">
               <Image src={`/assets/empty-inventory_${colorMode}.png`} width="360px" height="270px" />
               <Text w="300px" h="40px" color="grey.500" textStyle="paragraph-2" textAlign="center">

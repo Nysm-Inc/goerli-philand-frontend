@@ -15,6 +15,15 @@ const GlobalStyle = () => (
         font-display: swap;
         src: url('/fonts/philson_block.otf');
       }
+
+      ::-moz-selection { /* Code for Firefox */
+        color: #8080FF;
+        background: rgba(128, 128, 255, 0.2);
+      }
+      ::selection {
+        color: #8080FF;
+        background: rgba(128, 128, 255, 0.2);
+      }
     `}
   />
 );

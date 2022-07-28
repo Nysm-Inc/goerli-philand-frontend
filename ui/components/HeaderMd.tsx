@@ -31,7 +31,7 @@ const HeaderMd: FC = () => {
         <Center position="relative" w="40px" minW="40px" h="40px" minH="40px" cursor="pointer" onClick={() => (window.location.href = "/")}>
           <Image src="/icons/logo.svg" layout="fill" objectFit="contain" />
         </Center>
-        <Search w="calc(100vw - 12px * 2 - 8px - 12px - 40px - 8px)" />
+        <Search w="calc(100vw - 12px * 2 - 8px - 12px - 40px - 8px)" shadow={false} />
       </Flex>
 
       <Box position="absolute" top="89px" left="12px">
