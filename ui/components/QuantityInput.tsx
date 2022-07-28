@@ -11,15 +11,42 @@ const QuantityInput: FC<{
 }> = ({ defaultText, num, balance, handleClickPlus, handleClickMinus }) => (
   <>
     {num > 0 ? (
-      <Flex w="144px" h="32px" p="8px 16px" justify="space-between" align="center" borderRadius="12px" bgColor="primary.500">
-        <Button variant="unstyled" display="flex" justifyContent="left" onClick={handleClickMinus}>
-          <Icon name="minus" color="white" />
+      <Flex w="144px" h="32px" p="2px" gap="16px" justify="space-between" align="center" borderRadius="12px" bgColor="primary.500">
+        <Button
+          variant="unstyled"
+          minW="28px"
+          maxW="28px"
+          minH="28px"
+          maxH="28px"
+          onClick={handleClickMinus}
+          _hover={{
+            bgColor: "primary.600",
+            borderRadius: "10px",
+          }}
+        >
+          <Center>
+            <Icon name="minus" color="white" />
+          </Center>
         </Button>
-        <Text textStyle="label-1" color="white">
+        <Text textStyle="label-1" fontWeight="bold" color="white">
           {num}
         </Text>
-        <Button variant="unstyled" display="flex" justifyContent="right" disabled={balance <= num} onClick={handleClickPlus}>
-          <Icon name="plus" color="white" />
+        <Button
+          variant="unstyled"
+          minW="28px"
+          maxW="28px"
+          minH="28px"
+          maxH="28px"
+          disabled={balance <= num}
+          onClick={handleClickPlus}
+          _hover={{
+            bgColor: "primary.600",
+            borderRadius: "10px",
+          }}
+        >
+          <Center>
+            <Icon name="plus" color="white" />
+          </Center>
         </Button>
       </Flex>
     ) : (

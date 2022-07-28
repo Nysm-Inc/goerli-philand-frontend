@@ -61,6 +61,7 @@ const Collection: FC<{
           <IconButton
             key="close"
             ariaLabel="close"
+            boxShadow={false}
             icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
             size="32px"
             onClick={onClose}

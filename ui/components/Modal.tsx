@@ -150,7 +150,7 @@ const Modal: FC<{
       {overlay && <ModalOverlay bgColor="rgba(26, 26, 26, 0.32)" />}
       <ChakraModalContent
         p="24px"
-        borderRadius="40px"
+        borderRadius="32px"
         boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
         border="1px solid"
         borderColor={colorMode === "light" ? "light.g_orange" : "grey.900"}
