@@ -22,7 +22,7 @@ const Mobile: FC = () => {
         </Text>
       </VStack>
       <Box position="absolute" bottom="0" w="100vw" h="100vw">
-        <Image src="/assets/sample_land.svg" layout="fill" objectFit="contain" priority />
+        <Image src="/assets/sample_land.svg" layout="fill" objectFit="contain" priority quality={100} />
       </Box>
     </Box>
   );
