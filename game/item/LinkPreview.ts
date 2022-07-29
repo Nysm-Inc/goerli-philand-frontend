@@ -4,6 +4,7 @@ import { PhiLink } from "~/types";
 import GameInstance from "~/game/GameInstance";
 import { postAccess } from "~/utils/access";
 import { isValid } from "~/utils/ens";
+import { ColorMode } from "~/ui/styles";
 
 const PREVIEW_OFFSET = -80;
 
@@ -11,8 +12,10 @@ export default class LinkPreview {
   private link: PhiLink;
   private ogpURL: string;
   container: Container;
-  ogp: Sprite;
+  bgLight: Graphics;
+  bgDark: Graphics;
   defaultOGP: Graphics;
+  ogp: Sprite;
 
   constructor() {
     this.link = { title: "", url: "" };
@@ -25,27 +28,25 @@ export default class LinkPreview {
     this.container.zOrder = 9999;
     this.container.y = PREVIEW_OFFSET;
 
-    const g = new Graphics();
-    g.beginFill(0x000000);
-    g.drawRoundedRect(0, 0, 296, 80, 16);
-    g.endFill();
-    g.interactive = true;
-    g.buttonMode = true;
-    g.on("mousedown", () => {
-      try {
-        const target = new URL(this.link.url);
-        const landENS = new URL(window.location.href).pathname.slice(1);
-        if (isValid(landENS)) {
-          postAccess(landENS, target.toString(), "");
-        }
-        if (isValid(target.pathname.slice(1))) {
-          window.location.href = target.toString();
-        } else {
-          window.open(target, "_blank");
-        }
-      } catch {}
-    });
-    this.container.addChild(g);
+    this.bgLight = new Graphics();
+    this.bgLight.visible = false;
+    this.bgLight.beginFill(0x000000);
+    this.bgLight.drawRoundedRect(0, 0, 296, 64, 16);
+    this.bgLight.endFill();
+    this.bgLight.interactive = true;
+    this.bgLight.buttonMode = true;
+    this.bgLight.on("mousedown", () => this.onMousedown(), this);
+    this.container.addChild(this.bgLight);
+
+    this.bgDark = new Graphics();
+    this.bgDark.visible = false;
+    this.bgDark.beginFill(0xffffff);
+    this.bgDark.drawRoundedRect(0, 0, 296, 64, 16);
+    this.bgDark.endFill();
+    this.bgDark.interactive = true;
+    this.bgDark.buttonMode = true;
+    this.bgDark.on("mousedown", () => this.onMousedown(), this);
+    this.container.addChild(this.bgDark);
 
     const gapArea = new Graphics();
     gapArea.beginFill(0xffffff, 0.001);
@@ -55,36 +56,36 @@ export default class LinkPreview {
 
     this.defaultOGP = new Graphics();
     this.defaultOGP.beginFill(0xcccccc);
-    this.defaultOGP.drawRoundedRect(16, 16, 48, 48, 8);
+    this.defaultOGP.drawRoundedRect(8, 8, 48, 48, 8);
     this.defaultOGP.endFill();
     this.container.addChild(this.defaultOGP);
 
     this.ogp = new Sprite();
-    this.ogp.x = 16;
-    this.ogp.y = 16;
+    this.ogp.x = 8;
+    this.ogp.y = 8;
     this.ogp.width = 48;
     this.ogp.height = 48;
     this.container.addChild(this.ogp);
   }
 
-  draw(link: PhiLink) {
+  draw(colorMode: ColorMode) {
     // memo: paragraph-1
-    const text = new Text(link.title.length > 16 ? `${link.title.substring(0, 16)}...` : link.title, {
+    const text = new Text(this.link.title.length > 16 ? `${this.link.title.substring(0, 12)}...` : this.link.title, {
       fontFamily: "JetBrainsMono",
       fontWeight: "500",
       fontSize: "16px",
       lineHeight: 24,
-      fill: 0xffffff,
+      letterSpacing: -0.02,
+      fill: colorMode === "light" ? 0xffffff : 0x000000,
       align: "center",
     });
-    text.x = 48 + 16 + 16;
-    text.y = (48 + 16) / 2;
+    text.x = 48 + 8 + 8;
+    text.y = 64 / 2 - 8;
     this.container.addChild(text);
   }
 
   update(link: PhiLink) {
     this.link = link;
-    this.draw(link);
 
     (async () => {
       try {
@@ -97,8 +98,8 @@ export default class LinkPreview {
         const icon = Sprite.from("assets/default_ogp.png");
         icon.width = 30;
         icon.height = 30;
-        icon.x = 16 + 9;
-        icon.y = 16 + 9;
+        icon.x = 8 + 9;
+        icon.y = 8 + 9;
         this.container.addChild(icon);
       }
     })();
@@ -107,5 +108,20 @@ export default class LinkPreview {
   updateContainerPlacement(localX: number, localY: number) {
     this.container.x = localX;
     this.container.y = localY;
+  }
+
+  onMousedown() {
+    try {
+      const target = new URL(this.link.url);
+      const landENS = new URL(window.location.href).pathname.slice(1);
+      if (isValid(landENS)) {
+        postAccess(landENS, target.toString(), "");
+      }
+      if (isValid(target.pathname.slice(1))) {
+        window.location.href = target.toString();
+      } else {
+        window.open(target, "_blank");
+      }
+    } catch {}
   }
 }

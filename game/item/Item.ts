@@ -90,9 +90,18 @@ export default class Item {
   }
 
   mouseOver() {
-    const { room } = GameInstance.get();
+    const { room, engine } = GameInstance.get();
     if (room.isEdit) return;
     if (!this.object.link.title && !this.object.link.url) return;
+
+    if (engine.colorMode === "light") {
+      this.preview.bgLight.visible = true;
+      this.preview.bgDark.visible = false;
+    } else {
+      this.preview.bgLight.visible = false;
+      this.preview.bgDark.visible = true;
+    }
+    this.preview.draw(engine.colorMode);
     this.preview.container.visible = true;
   }
 
