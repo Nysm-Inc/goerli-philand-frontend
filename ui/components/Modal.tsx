@@ -4,7 +4,6 @@ import {
   ModalBody as ChakraModalBody,
   ModalContent as ChakraModalContent,
   ModalHeader as ChakraModalHeader,
-  ModalFooter as ChakraModalFooter,
   Text,
   Box,
   VStack,
@@ -79,11 +78,7 @@ const ModalBody: FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-const ModalFooter: FC<{ children: ReactNode }> = ({ children }) => {
-  return <ChakraModalFooter justifyContent="center">{children}</ChakraModalFooter>;
-};
-
-const ModalFooterButton: FC<{
+const ModalFooter: FC<{
   text: string;
   itemNum: number;
   buttonW?: "full" | "512px";
@@ -168,4 +163,4 @@ const Modal: FC<{
   );
 };
 
-export { Modal, ModalBody, ModalHeader, ModalFooter, ModalFooterButton };
+export { Modal, ModalBody, ModalHeader, ModalFooter };

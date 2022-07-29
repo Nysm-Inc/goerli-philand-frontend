@@ -4,7 +4,7 @@ import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject, ObjectContractAddress } from "~/types";
-import { Icon, IconButton, Modal, ModalBody, ModalFooterButton, ModalHeader, QuantityInput, useNavi } from "~/ui/components";
+import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput, useNavi } from "~/ui/components";
 import { AppContext } from "~/contexts";
 
 type InventoryObject = DepositObject & { select: number; writed: boolean };
@@ -191,7 +191,7 @@ const Inventory: FC<{
       </ModalBody>
       {objects.some((object) => object.select > 0) && (
         <Box w="full" position="absolute" bottom="0" left="0">
-          <ModalFooterButton
+          <ModalFooter
             text="Withdraw"
             itemNum={objects.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
             buttonW="full"

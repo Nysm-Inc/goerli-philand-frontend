@@ -4,7 +4,7 @@ import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, HStack, SimpleGrid, TabPanel, TabPanels, Tabs, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
-import { Icon, IconButton, Modal, ModalBody, ModalHeader, ModalFooterButton, QuantityInput, Tab, TabList, useNavi } from "~/ui/components";
+import { Icon, IconButton, Modal, ModalBody, ModalHeader, ModalFooter, QuantityInput, Tab, TabList, useNavi } from "~/ui/components";
 import { AppContext } from "~/contexts";
 import { ShopItemContractAddress } from "~/types";
 
@@ -162,7 +162,7 @@ const Shop: FC<{
         </ModalBody>
         {items.some((item) => item.select > 0) && (
           <Box w="full" position="absolute" bottom="0" left="0">
-            <ModalFooterButton
+            <ModalFooter
               text="Purchase"
               itemNum={items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
               subText="The deposited objects is stored in Inventory"

@@ -12,7 +12,7 @@ import SelectBox from "./SelectBox";
 import { ConfirmModal, StatusToast } from "./transaction";
 import Wallet from "./Wallet";
 import Icon, { IconName } from "./Icon";
-import { Modal, ModalBody, ModalHeader, ModalFooter, ModalFooterButton } from "./Modal";
+import { Modal, ModalBody, ModalHeader, ModalFooter } from "./Modal";
 import IconButton from "./IconButton";
 import { Tab, TabList } from "./Tab";
 import ENSNotFound from "./ENSNotFound";
@@ -52,7 +52,6 @@ export {
   Modal,
   ModalBody,
   ModalHeader,
-  ModalFooter,
   QuantityInput,
   Search,
   SelectBox,
@@ -62,7 +61,7 @@ export {
   IconButton,
   Tab,
   TabList,
-  ModalFooterButton,
+  ModalFooter,
   Permissions,
   CreatePhiland,
   Share,
