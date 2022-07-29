@@ -47,6 +47,7 @@ const NaviNotification: FC<{ text: string; btnText: string; colorMode: ColorMode
         icon={<Icon name="close" color={colorMode === "light" ? "white" : "grey.900"} />}
         size="32px"
         flipColor
+        boxShadow={false}
         onClick={onClose}
       />
     </Flex>
