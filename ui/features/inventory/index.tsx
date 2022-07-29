@@ -149,7 +149,12 @@ const Inventory: FC<{
                     }}
                   >
                     <Box position="relative" w="96px" h="96px">
-                      <Image src={objectMetadataList[object.contractAddress][object.tokenId].image_url} layout="fill" objectFit="contain" />
+                      <Image
+                        src={objectMetadataList[object.contractAddress][object.tokenId].image_url}
+                        layout="fill"
+                        objectFit="contain"
+                        quality={100}
+                      />
                     </Box>
                   </Center>
                   <Text textStyle="label-2" color="grey.500">

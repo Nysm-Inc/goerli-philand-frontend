@@ -4,6 +4,7 @@ export const typographys = {
     fontWeight: 400,
     fontSize: "28px",
     lineHeight: "48px",
+    letterSpacing: "-0.06em",
     WebkitTextStroke: "1.5px #1A1A1A",
     // textShadow: "-2px 4px 8px rgba(13, 13, 13, 0.1)",
   },

@@ -56,7 +56,7 @@ const Cart: FC<{
         <VStack height="320px" p="16px" spacing="16px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
           <Center position="relative" w="100%" h="144px">
             <Box position="relative" w="96px" h="96px">
-              <Image src={item.image_url} layout="fill" objectFit="contain" />
+              <Image src={item.image_url} layout="fill" objectFit="contain" quality={100} />
             </Box>
             <Box position="absolute" top="0" right="0" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
               <Icon name="info" color={colorMode === "light" ? "grey.900" : "white"} />

@@ -102,7 +102,7 @@ const Quest: FC<{
                     onClick={() => setSelected({ ...metadata, claimable, claimed })}
                   >
                     <Box position="relative" w="96px" h="96px">
-                      <Image src={metadata.image_url} layout="fill" objectFit="contain" />
+                      <Image src={metadata.image_url} layout="fill" objectFit="contain" quality={100} />
                     </Box>
                   </Center>
                   <VStack spacing="8px" align="flex-start">
