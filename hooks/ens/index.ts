@@ -35,7 +35,7 @@ const setENS2Storage = (ens: string, account?: string) => {
 const useENS = (
   account?: string,
   ens?: string | null,
-  chainId?: number
+  disabled?: boolean
 ): [{ isLoading: boolean; domains: string[] }, string, (ens: string) => void] => {
   const [isLoading, setIsLoading] = useState(true);
   const [current, setCurrent] = useState("");
@@ -48,7 +48,7 @@ const useENS = (
 
   useEffect(() => {
     setIsLoading(true);
-    if (!account || chainId !== chain.polygonMumbai.id) {
+    if (!account || disabled) {
       setIsLoading(false);
       return;
     }
@@ -58,21 +58,21 @@ const useENS = (
       setDomains(ownedDomains.map((domain) => domain.name));
       setIsLoading(false);
     })();
-  }, [account, chainId]);
+  }, [account, disabled]);
 
   useEffect(() => {
-    if (!account) return;
+    if (!account || disabled) return;
 
     const prev = getENSFromStorage(account);
     switchCurrentENS(prev || ens || "");
   }, [account]);
 
   useEffect(() => {
-    if (chainId !== chain.polygonMumbai.id) {
+    if (disabled) {
       setCurrent("");
       setDomains([]);
     }
-  }, [chainId]);
+  }, [disabled]);
 
   return [{ isLoading, domains }, current, switchCurrentENS];
 };
