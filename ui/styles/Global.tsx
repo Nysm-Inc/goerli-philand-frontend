@@ -24,6 +24,9 @@ const GlobalStyle = () => (
         color: #8080FF;
         background: rgba(128, 128, 255, 0.2);
       }
+
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing: subpixel-antialiased;
     `}
   />
 );
