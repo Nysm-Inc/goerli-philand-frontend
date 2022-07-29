@@ -50,7 +50,7 @@ const ModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Eleme
         {title ? (
           <>
             {back}
-            <LineStack w={`calc(50% - ${titleW / 2}px - 8px - ${back ? "40" : "0"}px)`} />
+            <LineStack w={`calc(50% - ${titleW / 2}px - 16px - ${back ? "48" : "0"}px)`} />
             <Text ref={ref} color="white" textStyle="headline">
               {title}
             </Text>
