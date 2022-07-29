@@ -4,9 +4,7 @@ import {
   ModalBody as ChakraModalBody,
   ModalContent as ChakraModalContent,
   ModalHeader as ChakraModalHeader,
-  ModalFooter as ChakraModalFooter,
   Text,
-  Box,
   VStack,
   LayoutProps,
   HStack,
@@ -19,20 +17,7 @@ import {
 import { AppContext } from "~/contexts";
 import Button from "./Button";
 import Icon from "./Icon";
-
-const Line: FC = () => {
-  const { colorMode } = useContext(AppContext);
-  return (
-    <Box w="full" height="2px" bgColor={colorMode === "light" ? "light.g_orange" : "grey.500"} transform="matrix(1, 0, 0, -1, 0, 0)" />
-  );
-};
-const LineStack: FC<{ w?: LayoutProps["w"] }> = ({ w }) => (
-  <VStack w={w || "full"} spacing="3px">
-    <Line />
-    <Line />
-    <Line />
-  </VStack>
-);
+import LineStack from "./LineStack";
 
 const ModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Element; style?: ModalHeaderProps }> = ({
   title,
@@ -79,11 +64,7 @@ const ModalBody: FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-const ModalFooter: FC<{ children: ReactNode }> = ({ children }) => {
-  return <ChakraModalFooter justifyContent="center">{children}</ChakraModalFooter>;
-};
-
-const ModalFooterButton: FC<{
+const ModalFooter: FC<{
   text: string;
   itemNum: number;
   buttonW?: "full" | "512px";
@@ -147,7 +128,7 @@ const Modal: FC<{
 
   return (
     <ChakraModal isOpen={isOpen} onClose={onClose} isCentered={!!left || true} scrollBehavior="inside" onCloseComplete={onCloseComplete}>
-      {overlay && <ModalOverlay bgColor="rgba(26, 26, 26, 0.32)" />}
+      {overlay && <ModalOverlay bgColor="rgba(26, 26, 26, 0.64)" />}
       <ChakraModalContent
         p="24px"
         borderRadius="32px"
@@ -168,4 +149,4 @@ const Modal: FC<{
   );
 };
 
-export { Modal, ModalBody, ModalHeader, ModalFooter, ModalFooterButton };
+export { Modal, ModalBody, ModalHeader, ModalFooter };
