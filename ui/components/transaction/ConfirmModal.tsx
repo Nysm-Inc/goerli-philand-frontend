@@ -9,16 +9,12 @@ const ConfirmTx: FC<{ txs: Tx[] }> = ({ txs }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
-    <Modal w="528px" h="380px" isOpen={txs.some((tx) => tx.tmpStatus === "loading")} onClose={() => {}} overlay>
+    <Modal w="528px" h="352px" isOpen={txs.some((tx) => tx.tmpStatus === "loading")} onClose={() => {}} overlay>
       <ModalHeader title="CONFIRMATION" buttons={[]} />
-      <VStack spacing="16px">
+      <VStack mt="16px" spacing="32px">
         <Spinner size="112px" />
         <Text textStyle="headline-1" textAlign="center" color={colorMode === "light" ? "grey.900" : "white"}>
           Waiting For Confirmation
-        </Text>
-        <Text color="grey.500" textStyle="paragraph-2" textAlign="center">
-          Description Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts
-          and visual mockups.
         </Text>
         <Message color="warning" text="Comfirm this transaction in your wallet" />
       </VStack>
