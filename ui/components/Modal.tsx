@@ -128,7 +128,7 @@ const Modal: FC<{
 
   return (
     <ChakraModal isOpen={isOpen} onClose={onClose} isCentered={!!left || true} scrollBehavior="inside" onCloseComplete={onCloseComplete}>
-      {overlay && <ModalOverlay bgColor="rgba(26, 26, 26, 0.32)" />}
+      {overlay && <ModalOverlay bgColor="rgba(26, 26, 26, 0.64)" />}
       <ChakraModalContent
         p="24px"
         borderRadius="32px"
