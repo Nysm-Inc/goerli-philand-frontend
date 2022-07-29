@@ -27,11 +27,6 @@ export default class Item {
     this.container.interactive = true;
     this.container.name = uuid;
     this.sprites = [];
-    this.preview = new LinkPreview();
-    this.preview.update(object.link);
-    this.container.on("mouseover", (e) => this.mouseOver(), this);
-    this.container.on("mouseout", (e) => this.mouseOut(), this);
-    this.container.addChild(this.preview.container);
 
     const { engine, room } = GameInstance.get();
     const texture = engine.globalTextures[object.contractAddress][object.tokenId].clone();
@@ -48,6 +43,15 @@ export default class Item {
       this.sprites.push(unit);
       this.container.addChild(unit);
     }
+
+    this.preview = new LinkPreview();
+    this.preview.container.x = texture.width / 2 - this.preview.container.width / 2;
+    this.preview.container.y = -64 - 16;
+    this.preview.update(object.link);
+    this.container.on("mouseover", () => this.mouseOver(), this);
+    this.container.on("mouseout", () => this.mouseOut(), this);
+    this.container.addChild(this.preview.container);
+
     this.tiles = new StatusTiles(this);
     room.landItemContainer.addChild(this.container);
   }

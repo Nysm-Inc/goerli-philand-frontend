@@ -6,14 +6,14 @@ import { postAccess } from "~/utils/access";
 import { isValid } from "~/utils/ens";
 import { ColorMode } from "~/ui/styles";
 
-const PREVIEW_OFFSET = -80;
-
 export default class LinkPreview {
   private link: PhiLink;
   private ogpURL: string;
   container: Container;
+
   bgLight: Graphics;
   bgDark: Graphics;
+  text: Text;
   defaultOGP: Graphics;
   ogp: Sprite;
 
@@ -23,65 +23,69 @@ export default class LinkPreview {
 
     const { room } = GameInstance.get();
     this.container = new Container();
+    this.container.interactive = true;
     this.container.visible = false;
     this.container.parentLayer = room.landItemLayer;
     this.container.zOrder = 9999;
-    this.container.y = PREVIEW_OFFSET;
+
+    const clickableArea = new Container();
+    clickableArea.interactive = true;
+    clickableArea.buttonMode = true;
+    clickableArea.on("mousedown", () => this.onMousedown(), this);
+    this.container.addChild(clickableArea);
+    const hiddenArea = new Container();
+    this.container.addChild(hiddenArea);
 
     this.bgLight = new Graphics();
     this.bgLight.visible = false;
     this.bgLight.beginFill(0x000000);
     this.bgLight.drawRoundedRect(0, 0, 296, 64, 16);
     this.bgLight.endFill();
-    this.bgLight.interactive = true;
-    this.bgLight.buttonMode = true;
-    this.bgLight.on("mousedown", () => this.onMousedown(), this);
-    this.container.addChild(this.bgLight);
+    clickableArea.addChild(this.bgLight);
 
     this.bgDark = new Graphics();
     this.bgDark.visible = false;
     this.bgDark.beginFill(0xffffff);
     this.bgDark.drawRoundedRect(0, 0, 296, 64, 16);
     this.bgDark.endFill();
-    this.bgDark.interactive = true;
-    this.bgDark.buttonMode = true;
-    this.bgDark.on("mousedown", () => this.onMousedown(), this);
-    this.container.addChild(this.bgDark);
+    clickableArea.addChild(this.bgDark);
 
     const gapArea = new Graphics();
     gapArea.beginFill(0xffffff, 0.001);
-    gapArea.drawRoundedRect(0, 80, 296, 80, 0);
+    gapArea.drawRoundedRect(0, 64, 296, 64, 0);
     gapArea.endFill();
-    this.container.addChild(gapArea);
+    hiddenArea.addChild(gapArea);
 
     this.defaultOGP = new Graphics();
     this.defaultOGP.beginFill(0xcccccc);
     this.defaultOGP.drawRoundedRect(8, 8, 48, 48, 8);
     this.defaultOGP.endFill();
-    this.container.addChild(this.defaultOGP);
+    clickableArea.addChild(this.defaultOGP);
 
     this.ogp = new Sprite();
     this.ogp.x = 8;
     this.ogp.y = 8;
     this.ogp.width = 48;
     this.ogp.height = 48;
-    this.container.addChild(this.ogp);
-  }
+    clickableArea.addChild(this.ogp);
 
-  draw(colorMode: ColorMode) {
     // memo: paragraph-1
-    const text = new Text(this.link.title.length > 16 ? `${this.link.title.substring(0, 12)}...` : this.link.title, {
+    this.text = new Text("", {
       fontFamily: "JetBrainsMono",
       fontWeight: "500",
       fontSize: "16px",
       lineHeight: 24,
       letterSpacing: -0.02,
-      fill: colorMode === "light" ? 0xffffff : 0x000000,
       align: "center",
     });
-    text.x = 48 + 8 + 8;
-    text.y = 64 / 2 - 8;
-    this.container.addChild(text);
+    this.text.x = 48 + 8 + 8;
+    this.text.y = 64 / 2 - 8;
+    clickableArea.addChild(this.text);
+  }
+
+  draw(colorMode: ColorMode) {
+    this.text.text = this.link.title.length > 16 ? `${this.link.title.substring(0, 12)}...` : this.link.title;
+    this.text.style.fill = colorMode === "light" ? 0xffffff : 0x000000;
   }
 
   update(link: PhiLink) {
