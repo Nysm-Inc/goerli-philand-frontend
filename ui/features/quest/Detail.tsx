@@ -54,7 +54,7 @@ const Detail: FC<{
           borderColor={colorMode === "light" ? "light.g_orange" : "dark.grey700"}
         >
           <Box minW="144px" maxW="144px" minH="144px" maxH="144px" position="relative">
-            <Image src={selected.image_url} layout="fill" objectFit="contain" quality={100} />
+            <Image src={selected.image_url} layout="fill" objectFit="contain" quality={100} draggable={false} />
           </Box>
         </Center>
         <VStack w="404px" h="100%" spacing="24px" align="flex-start">

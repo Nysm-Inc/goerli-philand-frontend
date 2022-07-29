@@ -154,6 +154,7 @@ const Inventory: FC<{
                         layout="fill"
                         objectFit="contain"
                         quality={100}
+                        draggable={false}
                       />
                     </Box>
                   </Center>
