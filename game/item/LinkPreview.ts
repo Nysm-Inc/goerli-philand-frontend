@@ -1,18 +1,21 @@
 import axios from "axios";
-import { Container, Graphics, SCALE_MODES, Sprite, Text, Texture } from "pixi.js";
+import { Container, Graphics, Sprite, Text, Texture } from "pixi.js";
 import { PhiLink } from "~/types";
 import GameInstance from "~/game/GameInstance";
 import { postAccess } from "~/utils/access";
 import { isValid } from "~/utils/ens";
-
-const PREVIEW_OFFSET = -80;
+import { ColorMode } from "~/ui/styles";
 
 export default class LinkPreview {
   private link: PhiLink;
   private ogpURL: string;
   container: Container;
-  ogp: Sprite;
+
+  bgLight: Graphics;
+  bgDark: Graphics;
+  text: Text;
   defaultOGP: Graphics;
+  ogp: Sprite;
 
   constructor() {
     this.link = { title: "", url: "" };
@@ -20,71 +23,73 @@ export default class LinkPreview {
 
     const { room } = GameInstance.get();
     this.container = new Container();
+    this.container.interactive = true;
     this.container.visible = false;
     this.container.parentLayer = room.landItemLayer;
     this.container.zOrder = 9999;
-    this.container.y = PREVIEW_OFFSET;
 
-    const g = new Graphics();
-    g.beginFill(0x000000);
-    g.drawRoundedRect(0, 0, 296, 80, 16);
-    g.endFill();
-    g.interactive = true;
-    g.buttonMode = true;
-    g.on("mousedown", () => {
-      try {
-        const target = new URL(this.link.url);
-        const landENS = new URL(window.location.href).pathname.slice(1);
-        if (isValid(landENS)) {
-          postAccess(landENS, target.toString(), "");
-        }
-        if (isValid(target.pathname.slice(1))) {
-          window.location.href = target.toString();
-        } else {
-          window.open(target, "_blank");
-        }
-      } catch {}
-    });
-    this.container.addChild(g);
+    const clickableArea = new Container();
+    clickableArea.interactive = true;
+    clickableArea.buttonMode = true;
+    clickableArea.on("mousedown", () => this.onMousedown(), this);
+    this.container.addChild(clickableArea);
+    const hiddenArea = new Container();
+    this.container.addChild(hiddenArea);
+
+    this.bgLight = new Graphics();
+    this.bgLight.visible = false;
+    this.bgLight.beginFill(0x000000);
+    this.bgLight.drawRoundedRect(0, 0, 296, 64, 16);
+    this.bgLight.endFill();
+    clickableArea.addChild(this.bgLight);
+
+    this.bgDark = new Graphics();
+    this.bgDark.visible = false;
+    this.bgDark.beginFill(0xffffff);
+    this.bgDark.drawRoundedRect(0, 0, 296, 64, 16);
+    this.bgDark.endFill();
+    clickableArea.addChild(this.bgDark);
 
     const gapArea = new Graphics();
     gapArea.beginFill(0xffffff, 0.001);
-    gapArea.drawRoundedRect(0, 80, 296, 80, 0);
+    gapArea.drawRoundedRect(0, 64, 296, 64, 0);
     gapArea.endFill();
-    this.container.addChild(gapArea);
+    hiddenArea.addChild(gapArea);
 
     this.defaultOGP = new Graphics();
-    this.defaultOGP.beginFill(0xffffff);
-    this.defaultOGP.drawRoundedRect(16, 16, 48, 48, 4);
+    this.defaultOGP.beginFill(0xcccccc);
+    this.defaultOGP.drawRoundedRect(8, 8, 48, 48, 8);
     this.defaultOGP.endFill();
-    this.container.addChild(this.defaultOGP);
+    clickableArea.addChild(this.defaultOGP);
 
     this.ogp = new Sprite();
-    this.ogp.x = 16;
-    this.ogp.y = 16;
+    this.ogp.x = 8;
+    this.ogp.y = 8;
     this.ogp.width = 48;
     this.ogp.height = 48;
-    this.container.addChild(this.ogp);
-  }
+    clickableArea.addChild(this.ogp);
 
-  draw(link: PhiLink) {
     // memo: paragraph-1
-    const text = new Text(link.title.length > 16 ? `${link.title.substring(0, 16)}...` : link.title, {
+    this.text = new Text("", {
       fontFamily: "JetBrainsMono",
       fontWeight: "500",
       fontSize: "16px",
       lineHeight: 24,
-      fill: 0xffffff,
+      letterSpacing: -0.02,
       align: "center",
     });
-    text.x = 48 + 16 + 16;
-    text.y = (48 + 16) / 2;
-    this.container.addChild(text);
+    this.text.x = 48 + 8 + 8;
+    this.text.y = 64 / 2 - 8;
+    clickableArea.addChild(this.text);
+  }
+
+  draw(colorMode: ColorMode) {
+    this.text.text = this.link.title.length > 16 ? `${this.link.title.substring(0, 12)}...` : this.link.title;
+    this.text.style.fill = colorMode === "light" ? 0xffffff : 0x000000;
   }
 
   update(link: PhiLink) {
     this.link = link;
-    this.draw(link);
 
     (async () => {
       try {
@@ -93,12 +98,34 @@ export default class LinkPreview {
         this.ogpURL = res.data.ogp;
         this.ogp.texture = Texture.from(this.ogpURL);
         this.ogp.mask = this.defaultOGP;
-      } catch {}
+      } catch {
+        const icon = Sprite.from("assets/default_ogp.png");
+        icon.width = 30;
+        icon.height = 30;
+        icon.x = 8 + 9;
+        icon.y = 8 + 9;
+        this.container.addChild(icon);
+      }
     })();
   }
 
   updateContainerPlacement(localX: number, localY: number) {
     this.container.x = localX;
     this.container.y = localY;
+  }
+
+  onMousedown() {
+    try {
+      const target = new URL(this.link.url);
+      const landENS = new URL(window.location.href).pathname.slice(1);
+      if (isValid(landENS)) {
+        postAccess(landENS, target.toString(), "");
+      }
+      if (isValid(target.pathname.slice(1))) {
+        window.location.href = target.toString();
+      } else {
+        window.open(target, "_blank");
+      }
+    } catch {}
   }
 }

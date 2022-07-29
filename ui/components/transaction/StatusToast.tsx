@@ -74,6 +74,9 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
   return (
     <Box
       position="relative"
+      // position="absolute"
+      // top="88px"
+      // right="24px"
       w="348px"
       minH="100px"
       h="auto"

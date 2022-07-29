@@ -22,6 +22,7 @@ export default class Engine {
   viewport: Viewport;
   globalTextures: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: Texture } };
   grids: Container;
+  colorMode: ColorMode;
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
   onMouseClickHandler: (mouseX: number, mouseY: number) => void;
 
@@ -91,6 +92,8 @@ export default class Engine {
     this.grids.visible = false;
     this.grids.addChild(tilingSprite);
     this.app.stage.addChild(this.grids);
+
+    this.colorMode = "light";
   }
 
   // todo: cache loaded files
@@ -122,6 +125,7 @@ export default class Engine {
   }
 
   changeColorMode(colorMode: ColorMode) {
+    this.colorMode = colorMode;
     this.app.renderer.backgroundColor = colorMode === "light" ? 0xf5f2eb : 0x0d0d0d;
   }
 
