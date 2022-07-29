@@ -1,11 +1,11 @@
 import { FC, useContext, useEffect, useState } from "react";
+import { useNetwork } from "wagmi";
 import { Box, Center, HStack, Link, Text, useToast, UseToastOptions, VStack } from "@chakra-ui/react";
 import { Status as TxStatus, Tx } from "~/types/tx";
 import { AppContext } from "~/contexts";
 import { Icon, IconName, IconButton } from "~/ui/components";
 import { ColorMode } from "~/ui/styles";
 import { information } from "~/ui/styles/color";
-import { useNetwork } from "wagmi";
 
 type Status = "submitted" | "pending" | "success" | "failed";
 
