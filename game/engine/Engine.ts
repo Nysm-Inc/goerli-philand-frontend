@@ -87,7 +87,6 @@ export default class Engine {
 
     this.grids = new Container();
     const tilingSprite = new TilingSprite(Texture.from("assets/grid-pattern.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT);
-    tilingSprite.alpha = 0.1;
     this.grids.zIndex = -1;
     this.grids.visible = false;
     this.grids.addChild(tilingSprite);
