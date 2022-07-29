@@ -4,7 +4,7 @@ import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
 import { objectMetadataList } from "~/types/object";
-import { Icon, IconButton, Modal, ModalBody, ModalHeader, QuantityInput, ModalFooterButton, useNavi } from "~/ui/components";
+import { Icon, IconButton, Modal, ModalBody, ModalHeader, QuantityInput, ModalFooter, useNavi } from "~/ui/components";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   QUEST_OBJECT_CONTRACT_ADDRESS,
@@ -132,7 +132,7 @@ const Collection: FC<{
       </ModalBody>
       {items.some((item) => item.select > 0) && (
         <Box w="full" position="absolute" bottom="0" left="0">
-          <ModalFooterButton
+          <ModalFooter
             text="Deposit"
             itemNum={items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
             subText="The deposited objects is stored in Inventory"

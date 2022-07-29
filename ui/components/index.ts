@@ -12,7 +12,7 @@ import SelectBox from "./SelectBox";
 import { ConfirmModal, StatusToast } from "./transaction";
 import Wallet from "./Wallet";
 import Icon, { IconName } from "./Icon";
-import { Modal, ModalBody, ModalHeader, ModalFooter, ModalFooterButton } from "./Modal";
+import { Modal, ModalBody, ModalHeader, ModalFooter } from "./Modal";
 import IconButton from "./IconButton";
 import { Tab, TabList } from "./Tab";
 import ENSNotFound from "./ENSNotFound";
@@ -29,6 +29,7 @@ import MainMenu from "./MainMenu";
 import HowItWorks from "./HowItWorks";
 import Mobile from "./Mobile";
 import Clouds from "./Clouds";
+import LineStack from "./LineStack";
 
 export {
   ActionMenu,
@@ -62,7 +63,6 @@ export {
   IconButton,
   Tab,
   TabList,
-  ModalFooterButton,
   Permissions,
   CreatePhiland,
   Share,
@@ -71,4 +71,5 @@ export {
   HowItWorks,
   Mobile,
   Clouds,
+  LineStack,
 };

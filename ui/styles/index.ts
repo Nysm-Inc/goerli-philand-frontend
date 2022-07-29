@@ -18,6 +18,7 @@ const theme = extendTheme({
     canvas: 0,
     clouds: 1,
     default: 2,
+    modal: 3,
   },
 });
 

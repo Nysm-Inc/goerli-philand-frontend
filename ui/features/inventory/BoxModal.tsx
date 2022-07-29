@@ -1,36 +1,15 @@
 import { FC, ReactNode, useContext, useRef } from "react";
-import {
-  Modal as ChakraModal,
-  ModalBody as ChakraModalBody,
-  ModalContent as ChakraModalContent,
-  ModalHeader as ChakraModalHeader,
-  Text,
-  VStack,
-  LayoutProps,
-  HStack,
-  useDimensions,
-  PositionProps,
-  ModalOverlay,
-  ModalHeaderProps,
-  Center,
-} from "@chakra-ui/react";
+import { Text, Box, VStack, LayoutProps, HStack, useDimensions, PositionProps, Center } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import Button from "./Button";
-import Icon from "./Icon";
-import LineStack from "./LineStack";
+import { Button, Icon, LineStack } from "~/ui/components";
 
-const ModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Element; style?: ModalHeaderProps }> = ({
-  title,
-  buttons,
-  back,
-  style,
-}) => {
+const BoxModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Element }> = ({ title, buttons, back }) => {
   const ref = useRef(null);
   const dimensions = useDimensions(ref);
   const titleW = dimensions?.borderBox.width || 0;
 
   return (
-    <ChakraModalHeader {...style} p="0">
+    <Box>
       <HStack h={title ? "48px" : "32px"} align="center" spacing="16px">
         {title ? (
           <>
@@ -51,20 +30,20 @@ const ModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Eleme
           </>
         )}
       </HStack>
-    </ChakraModalHeader>
+    </Box>
   );
 };
 
-const ModalBody: FC<{ children: ReactNode }> = ({ children }) => {
+const BoxModalBody: FC<{ children: ReactNode }> = ({ children }) => {
   const { colorMode } = useContext(AppContext);
   return (
-    <ChakraModalBody borderRadius="16px" p="0px" bgColor={colorMode === "light" ? "light.lg_orange30" : "dark.black"}>
+    <Box borderRadius="16px" bgColor={colorMode === "light" ? "light.lg_orange30" : "dark.black"}>
       {children}
-    </ChakraModalBody>
+    </Box>
   );
 };
 
-const ModalFooter: FC<{
+const BoxModalFooter: FC<{
   text: string;
   itemNum: number;
   buttonW?: "full" | "512px";
@@ -114,39 +93,38 @@ const ModalFooter: FC<{
   );
 };
 
-const Modal: FC<{
+const BoxModal: FC<{
+  isOpen: boolean;
   w: LayoutProps["w"];
   h: LayoutProps["h"];
   left?: PositionProps["left"];
-  overlay?: boolean;
-  isOpen: boolean;
-  onClose: () => void;
-  onCloseComplete?: () => void;
   children: ReactNode;
-}> = ({ w, h, isOpen, left, overlay, onClose, onCloseComplete, children }) => {
+}> = ({ isOpen, w, h, left, children }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
-    <ChakraModal isOpen={isOpen} onClose={onClose} isCentered={!!left || true} scrollBehavior="inside" onCloseComplete={onCloseComplete}>
-      {overlay && <ModalOverlay bgColor="rgba(26, 26, 26, 0.32)" />}
-      <ChakraModalContent
-        p="24px"
-        borderRadius="32px"
-        boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
-        border="1px solid"
-        borderColor={colorMode === "light" ? "light.g_orange" : "grey.900"}
-        bgColor={colorMode === "light" ? "light.lg_orange30" : "dark.black"}
-        minW={w}
-        minH={h}
-        maxW={w}
-        maxH={h}
-        position={left ? "absolute" : "relative"}
-        left={left}
-      >
-        {children}
-      </ChakraModalContent>
-    </ChakraModal>
+    <>
+      {isOpen && (
+        <Box
+          zIndex="modal"
+          p="24px"
+          borderRadius="32px"
+          boxShadow="0px 25px 50px -12px rgba(0, 0, 0, 0.25)"
+          border="1px solid"
+          borderColor={colorMode === "light" ? "light.g_orange" : "grey.900"}
+          bgColor={colorMode === "light" ? "light.lg_orange30" : "dark.black"}
+          minW={w}
+          minH={h}
+          maxW={w}
+          maxH={h}
+          position={left ? "absolute" : "relative"}
+          left={left}
+        >
+          {children}
+        </Box>
+      )}
+    </>
   );
 };
 
-export { Modal, ModalBody, ModalHeader, ModalFooter };
+export { BoxModal, BoxModalBody, BoxModalHeader, BoxModalFooter };

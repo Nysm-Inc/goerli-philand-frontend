@@ -4,8 +4,9 @@ import { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject, ObjectContractAddress } from "~/types";
-import { Icon, IconButton, Modal, ModalBody, ModalFooterButton, ModalHeader, QuantityInput, useNavi } from "~/ui/components";
+import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput, useNavi } from "~/ui/components";
 import { AppContext } from "~/contexts";
+import { BoxModal, BoxModalBody, BoxModalHeader, BoxModalFooter } from "./BoxModal";
 
 type InventoryObject = DepositObject & { select: number; writed: boolean };
 
@@ -89,9 +90,13 @@ const Inventory: FC<{
   const { colorMode } = useContext(AppContext);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const openNavi = useNavi();
+  const _Modal = isEdit ? BoxModal : Modal;
+  const _ModalHeader = isEdit ? BoxModalHeader : ModalHeader;
+  const _ModalBody = isEdit ? BoxModalBody : ModalBody;
+  const _ModalFooter = isEdit ? BoxModalFooter : ModalFooter;
 
   return (
-    <Modal
+    <_Modal
       w="480px"
       h="720px"
       left="24px"
@@ -101,7 +106,7 @@ const Inventory: FC<{
         if (!isEdit) reset();
       }}
     >
-      <ModalHeader
+      <_ModalHeader
         title="INVENTORY"
         buttons={[
           <IconButton
@@ -116,7 +121,7 @@ const Inventory: FC<{
         ]}
       />
       <Box h="16px" />
-      <ModalBody>
+      <_ModalBody>
         {objects.length > 0 ? (
           <>
             <SimpleGrid columns={2} spacing="8px">
@@ -145,7 +150,6 @@ const Inventory: FC<{
                         sizeY: metadata.size[1],
                         link: { title: "", url: "" },
                       });
-                      onClose();
                     }}
                   >
                     <Box position="relative" w="96px" h="96px">
@@ -188,10 +192,10 @@ const Inventory: FC<{
             </VStack>
           </Center>
         )}
-      </ModalBody>
+      </_ModalBody>
       {objects.some((object) => object.select > 0) && (
         <Box w="full" position="absolute" bottom="0" left="0">
-          <ModalFooterButton
+          <_ModalFooter
             text="Withdraw"
             itemNum={objects.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
             buttonW="full"
@@ -228,7 +232,7 @@ const Inventory: FC<{
           />
         </Box>
       )}
-    </Modal>
+    </_Modal>
   );
 };
 
