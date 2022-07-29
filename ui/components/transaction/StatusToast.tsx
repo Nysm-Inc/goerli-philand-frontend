@@ -1,11 +1,11 @@
 import { FC, useContext, useEffect, useState } from "react";
 import { Box, Center, HStack, Link, Text, useToast, UseToastOptions, VStack } from "@chakra-ui/react";
-import { MUMBAI_BLOCK_EXPLORER } from "~/constants";
 import { Status as TxStatus, Tx } from "~/types/tx";
 import { AppContext } from "~/contexts";
 import { Icon, IconName, IconButton } from "~/ui/components";
 import { ColorMode } from "~/ui/styles";
 import { information } from "~/ui/styles/color";
+import { useNetwork } from "wagmi";
 
 type Status = "submitted" | "pending" | "success" | "failed";
 
@@ -61,6 +61,7 @@ const getColor = (label: Status): string => {
 };
 
 const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }> = ({ colorMode, tx, onClose }) => {
+  const { chain } = useNetwork();
   const [status, setStatus] = useState<Status>(getStatus(tx.status));
 
   useEffect(() => {
@@ -109,7 +110,7 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
                   }[status]}
             </Text>
           </VStack>
-          <Link textStyle="button-2" color="primary.500" href={`${MUMBAI_BLOCK_EXPLORER}/tx/${tx.hash}`} isExternal>
+          <Link textStyle="button-2" color="primary.500" href={`${chain?.blockExplorers?.default.url}/tx/${tx.hash}`} isExternal>
             View on explorer
           </Link>
         </VStack>
