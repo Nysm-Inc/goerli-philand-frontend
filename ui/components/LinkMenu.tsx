@@ -51,12 +51,12 @@ const LinkMenu: FC<{
           }}
         >
           <ModalContent
-            p="16px"
+            p="8px"
             position="absolute"
             w="264px"
-            h="192px"
+            h="176px"
             boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
-            borderRadius="16px"
+            borderRadius="20px"
             bgColor={colorMode === "light" ? "white" : "grey.900"}
             left={state.x}
             top={state.y - 192}
@@ -65,18 +65,20 @@ const LinkMenu: FC<{
               <Input
                 w="full"
                 placeholder="Title"
+                shadow={false}
                 value={input?.title || ""}
                 onChange={(e) => setInput((prev) => ({ ...prev, title: e.target.value }))}
               />
               <Input
                 w="full"
                 placeholder="URL or .eth"
+                shadow={false}
                 value={input?.url || ""}
                 onChange={(e) => setInput((prev) => ({ ...prev, url: e.target.value }))}
               />
               <HStack spacing="8px">
                 <Button
-                  w="112px"
+                  w="120px"
                   color="green"
                   onClick={() => {
                     onChange(state.id, { title: input.title, url: input.url });
@@ -87,7 +89,7 @@ const LinkMenu: FC<{
                   <Icon name="check" />
                 </Button>
                 <Button
-                  w="112px"
+                  w="120px"
                   color="red"
                   onClick={() => {
                     onChange(state.id, defaultLink);

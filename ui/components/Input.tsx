@@ -41,6 +41,7 @@ const Input: FC<{
       <ChakraInput
         variant="unstyled"
         textStyle="paragraph-2"
+        borderRadius="12px"
         style={{ fontSize: typographys["paragraph-2"].fontSize }}
         color={colorMode === "light" ? "grey.900" : "white"}
         _placeholder={{ color: "grey.500", textStyle: "button-2" }}

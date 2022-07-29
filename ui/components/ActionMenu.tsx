@@ -49,6 +49,7 @@ const ActionMenu: FC<{
           <IconButton
             ariaLabel="arrows"
             icon={<Icon name="arrows" color={colorMode === "light" ? "grey.900" : "white"} />}
+            boxShadow={false}
             onClick={() => {
               onClickMove();
               onClose();
@@ -57,6 +58,7 @@ const ActionMenu: FC<{
           <IconButton
             ariaLabel="link"
             icon={<Icon name="link" color={colorMode === "light" ? "grey.900" : "white"} />}
+            boxShadow={false}
             onClick={() => {
               onClickLink();
               onClose();
@@ -65,6 +67,7 @@ const ActionMenu: FC<{
           <IconButton
             ariaLabel="trash"
             icon={<Icon name="trash" color={colorMode === "light" ? "grey.900" : "white"} />}
+            boxShadow={false}
             onClick={() => {
               onClickTrash();
               onClose();
