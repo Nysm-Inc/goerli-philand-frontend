@@ -5,7 +5,6 @@ import {
   ModalContent as ChakraModalContent,
   ModalHeader as ChakraModalHeader,
   Text,
-  Box,
   VStack,
   LayoutProps,
   HStack,
@@ -18,20 +17,7 @@ import {
 import { AppContext } from "~/contexts";
 import Button from "./Button";
 import Icon from "./Icon";
-
-const Line: FC = () => {
-  const { colorMode } = useContext(AppContext);
-  return (
-    <Box w="full" height="2px" bgColor={colorMode === "light" ? "light.g_orange" : "grey.500"} transform="matrix(1, 0, 0, -1, 0, 0)" />
-  );
-};
-const LineStack: FC<{ w?: LayoutProps["w"] }> = ({ w }) => (
-  <VStack w={w || "full"} spacing="3px">
-    <Line />
-    <Line />
-    <Line />
-  </VStack>
-);
+import LineStack from "./LineStack";
 
 const ModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Element; style?: ModalHeaderProps }> = ({
   title,
