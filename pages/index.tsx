@@ -67,7 +67,7 @@ const PC: FC = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const { data: dataENS } = useEnsName({ address });
-  const ens = chain?.id === chains.polygonMumbai.id ? dataENS : "";
+  const ens = !chain?.unsupported ? dataENS : "";
 
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
@@ -79,7 +79,7 @@ const PC: FC = () => {
   const { isOpen: isOpenPermissions, onOpen: onOpenPermissions, onClose: onClosePermissions } = useDisclosure();
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
 
-  const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens, chain?.id);
+  const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens, chain?.unsupported);
   const [isCreated, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(address, currentENS);
   const { changePhilandOwner, tx: txChangePhilandOwner } = useChangePhilandOwner(currentENS);
   const { owner, phiObjects } = useViewPhiland(currentENS);
