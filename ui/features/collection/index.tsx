@@ -77,7 +77,12 @@ const Collection: FC<{
                 <VStack key={i} height="288px" p="16px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
                   <Center w="100%" h="144px">
                     <Box position="relative" w="96px" h="96px">
-                      <Image src={objectMetadataList[item.contract][item.tokenId].image_url} layout="fill" objectFit="contain" />
+                      <Image
+                        src={objectMetadataList[item.contract][item.tokenId].image_url}
+                        layout="fill"
+                        objectFit="contain"
+                        quality={100}
+                      />
                     </Box>
                   </Center>
                   <Text textStyle="label-2" color="grey.500">

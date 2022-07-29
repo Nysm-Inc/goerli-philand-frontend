@@ -284,7 +284,7 @@ const PC: FC = () => {
                 </Box>
               ) : (
                 <Box zIndex="default" position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
-                  <Image src="/icons/ENShold.svg" width="96px" height="96px" />
+                  <Image src="/icons/ENShold.svg" width="96px" height="96px" quality={100} />
                 </Box>
               )}
             </>
