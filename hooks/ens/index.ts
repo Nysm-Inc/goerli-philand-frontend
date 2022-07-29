@@ -64,7 +64,7 @@ const useENS = (
     if (!account || disabled) return;
 
     const prev = getENSFromStorage(account);
-    switchCurrentENS(prev || ens || "");
+    setCurrent(prev || ens || "");
   }, [account]);
 
   useEffect(() => {
