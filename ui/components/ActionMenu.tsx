@@ -37,10 +37,10 @@ const ActionMenu: FC<{
         h="64px"
         position="absolute"
         p="8px"
-        borderRadius="16px"
-        boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
-        borderColor="light.g_orange"
+        borderRadius="20px"
+        boxShadow={colorMode === "light" ? "-2px 4px 8px rgba(13, 13, 13, 0.1)" : "4px 4px 0px rgba(26, 26, 26, 0.15);"}
         border={colorMode === "light" ? "1px solid" : "none"}
+        borderColor="light.g_orange"
         bgColor={colorMode === "light" ? "white" : "grey.900"}
         left={state.x}
         top={state.y - 64 * 2}
