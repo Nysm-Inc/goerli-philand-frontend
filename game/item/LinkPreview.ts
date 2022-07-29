@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Container, Graphics, SCALE_MODES, Sprite, Text, Texture } from "pixi.js";
+import { Container, Graphics, Sprite, Text, Texture } from "pixi.js";
 import { PhiLink } from "~/types";
 import GameInstance from "~/game/GameInstance";
 import { postAccess } from "~/utils/access";
@@ -54,7 +54,7 @@ export default class LinkPreview {
     this.container.addChild(gapArea);
 
     this.defaultOGP = new Graphics();
-    this.defaultOGP.beginFill(0xffffff);
+    this.defaultOGP.beginFill(0xcccccc);
     this.defaultOGP.drawRoundedRect(16, 16, 48, 48, 4);
     this.defaultOGP.endFill();
     this.container.addChild(this.defaultOGP);
@@ -93,7 +93,14 @@ export default class LinkPreview {
         this.ogpURL = res.data.ogp;
         this.ogp.texture = Texture.from(this.ogpURL);
         this.ogp.mask = this.defaultOGP;
-      } catch {}
+      } catch {
+        const icon = Sprite.from("assets/default_ogp.png");
+        icon.width = 30;
+        icon.height = 30;
+        icon.x = 16 + 9;
+        icon.y = 16 + 9;
+        this.container.addChild(icon);
+      }
     })();
   }
 
