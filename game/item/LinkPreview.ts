@@ -55,7 +55,7 @@ export default class LinkPreview {
 
     this.defaultOGP = new Graphics();
     this.defaultOGP.beginFill(0xcccccc);
-    this.defaultOGP.drawRoundedRect(16, 16, 48, 48, 4);
+    this.defaultOGP.drawRoundedRect(16, 16, 48, 48, 8);
     this.defaultOGP.endFill();
     this.container.addChild(this.defaultOGP);
 
