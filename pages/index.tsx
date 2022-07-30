@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { FC, useContext, useEffect } from "react";
-import { chain as chains, useAccount, useEnsName, useNetwork } from "wagmi";
+import { useAccount, useEnsName, useNetwork } from "wagmi";
 import { Box, useDisclosure, useBoolean, useBreakpointValue } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
@@ -25,7 +25,6 @@ import {
   MainMenu,
   HowItWorks,
   Mobile,
-  Clouds,
 } from "~/ui/components";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
@@ -235,7 +234,6 @@ const PC: FC = () => {
       {!isEdit && <Share currentENS={currentENS} />}
       <Help onOpenHowItWorks={onOpenHowItWorks} />
       <Dev />
-      <Clouds />
 
       {isCreatedPhiland ? (
         <MenuBar
