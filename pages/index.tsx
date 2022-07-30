@@ -50,8 +50,10 @@ const Index: NextPage = () => {
 
   useEffect(() => {
     if (isMobile) {
+      game.engine.hideClouds();
       game.engine.hide();
     } else {
+      game.engine.showClouds();
       game.engine.show();
     }
   }, [isMobile]);

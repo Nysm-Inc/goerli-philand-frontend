@@ -7,6 +7,8 @@ import { useWallpaper, useViewPhiland } from "~/hooks/map";
 import { useGame } from "~/hooks/game";
 import { useCreatePhiland } from "~/hooks/registry";
 import { Header, HeaderMd } from "~/ui/components";
+import { useContext, useEffect } from "react";
+import { AppContext } from "~/contexts";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
@@ -20,6 +22,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 };
 
 const Index: NextPage = () => {
+  const { game } = useContext(AppContext);
   const router = useRouter();
   const ens = decodeURI(router.asPath).substring(1);
 
@@ -29,7 +32,15 @@ const Index: NextPage = () => {
   const { phiObjects } = useViewPhiland(ens);
   const wallpaper = useWallpaper(ens);
 
-  useGame({ state: { currentENS: ens, isEdit: false, isCreatedPhiland: isCreated, phiObjects, wallpaper } });
+  useGame({ state: { currentENS: ens, isEdit: false, isCreatedPhiland: isCreated || phiObjects.length > 0, phiObjects, wallpaper } });
+
+  useEffect(() => {
+    if (isMobile) {
+      game.engine.hideClouds();
+    } else {
+      game.engine.showClouds();
+    }
+  }, [isMobile]);
 
   return <>{isMobile ? <HeaderMd /> : <Header />}</>;
 };

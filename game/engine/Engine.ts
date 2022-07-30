@@ -21,6 +21,7 @@ export default class Engine {
   app: Application;
   viewport: Viewport;
   globalTextures: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: Texture } };
+  cloudContainer: Container;
   clouds: { [mode in ColorMode]: Container };
   cloudSprites: { [mode in ColorMode]: { lefttop: Sprite; righttop: Sprite; leftbottom: Sprite; rightbottom: Sprite } };
   grids: Container;
@@ -91,6 +92,7 @@ export default class Engine {
     this.app.stage.addChild(this.viewport);
 
     {
+      this.cloudContainer = new Container();
       this.clouds = { light: new Container(), dark: new Container() };
       this.clouds.light.visible = false;
       this.clouds.dark.visible = false;
@@ -113,12 +115,13 @@ export default class Engine {
       this.clouds.light.addChild(this.cloudSprites.light.righttop);
       this.clouds.light.addChild(this.cloudSprites.light.leftbottom);
       this.clouds.light.addChild(this.cloudSprites.light.rightbottom);
-      this.app.stage.addChild(this.clouds.light);
+      this.cloudContainer.addChild(this.clouds.light);
       this.clouds.dark.addChild(this.cloudSprites.dark.lefttop);
       this.clouds.dark.addChild(this.cloudSprites.dark.righttop);
       this.clouds.dark.addChild(this.cloudSprites.dark.leftbottom);
       this.clouds.dark.addChild(this.cloudSprites.dark.rightbottom);
-      this.app.stage.addChild(this.clouds.dark);
+      this.cloudContainer.addChild(this.clouds.dark);
+      this.app.stage.addChild(this.cloudContainer);
     }
 
     {
@@ -233,6 +236,14 @@ export default class Engine {
     try {
       document.body.removeChild(this.app.view);
     } catch {}
+  }
+
+  showClouds() {
+    this.cloudContainer.visible = true;
+  }
+
+  hideClouds() {
+    this.cloudContainer.visible = false;
   }
 
   initializeCloudsPosition() {
