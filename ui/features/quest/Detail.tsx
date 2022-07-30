@@ -1,7 +1,7 @@
-import { Box, Center, Flex, HStack, Link, Text, VStack } from "@chakra-ui/react";
-import { TransactionResponse } from "@ethersproject/providers";
 import Image from "next/image";
 import { FC, ReactNode, useContext } from "react";
+import { TransactionResponse } from "@ethersproject/providers";
+import { Box, Center, Flex, HStack, Link, Text, VStack } from "@chakra-ui/react";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
 import { ObjectMetadata, objectTraisList } from "~/types/object";
@@ -82,12 +82,6 @@ const Detail: FC<{
               <Icon name="man" color={colorMode === "light" ? "grey.900" : "white"} />
               <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
                 {selected.creator}
-              </Text>
-            </HStack>
-            <HStack spacing="8px">
-              <Icon name="calendar" color={colorMode === "light" ? "grey.900" : "white"} />
-              <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
-                Aug 01, 2022 -
               </Text>
             </HStack>
           </VStack>
