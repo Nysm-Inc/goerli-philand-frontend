@@ -8,13 +8,7 @@ const Mobile: FC = () => {
   const { colorMode } = useContext(AppContext);
 
   return (
-    <Box
-      position="relative"
-      w="100vw"
-      h="calc(437px + 100vw)"
-      bgColor={colorMode == "light" ? "light.lg_orange40" : "dark.black"}
-      overscrollBehaviorY="none"
-    >
+    <Box position="relative" w="100vw" h="calc(437px + 100vw)" bgColor={colorMode == "light" ? "light.lg_orange40" : "dark.black"}>
       <HeaderMd />
       <Box position="absolute" top="161px" left="16px">
         <Image src="/icons/only_mobile.svg" width="80px" height="80px" />
