@@ -23,7 +23,7 @@ export type SaveArgs = {
 const useSave = (
   ens?: string | null
 ): { save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => Promise<TransactionResponse | undefined>; tx: Tx } => {
-  const { game, colorMode } = useContext(AppContext);
+  const { game } = useContext(AppContext);
   const [ogp, setOGP] = useState("");
 
   const {
@@ -40,7 +40,7 @@ const useSave = (
   useEffect(() => {
     switch (status) {
       case "loading": {
-        setOGP(game.engine.exportImage(colorMode));
+        setOGP(game.engine.exportImage());
       }
       case "success": {
         updateOGP(ens, ogp); // todo
