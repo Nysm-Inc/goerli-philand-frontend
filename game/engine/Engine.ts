@@ -22,6 +22,7 @@ export default class Engine {
   viewport: Viewport;
   globalTextures: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: Texture } };
   grids: Container;
+  gridSprites: { [mode in ColorMode]: TilingSprite };
   colorMode: ColorMode;
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
   onMouseClickHandler: (mouseX: number, mouseY: number) => void;
@@ -86,10 +87,16 @@ export default class Engine {
     this.app.stage.addChild(this.viewport);
 
     this.grids = new Container();
-    const tilingSprite = new TilingSprite(Texture.from("assets/grid-pattern.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT);
     this.grids.zIndex = -1;
     this.grids.visible = false;
-    this.grids.addChild(tilingSprite);
+    this.gridSprites = {
+      light: new TilingSprite(Texture.from("assets/grid-pattern-light.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
+      dark: new TilingSprite(Texture.from("assets/grid-pattern-dark.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
+    };
+    this.gridSprites.light.visible = false;
+    this.gridSprites.dark.visible = false;
+    this.grids.addChild(this.gridSprites.light);
+    this.grids.addChild(this.gridSprites.dark);
     this.app.stage.addChild(this.grids);
 
     this.colorMode = "light";
@@ -125,7 +132,16 @@ export default class Engine {
 
   changeColorMode(colorMode: ColorMode) {
     this.colorMode = colorMode;
+
     this.app.renderer.backgroundColor = colorMode === "light" ? 0xf5f2eb : 0x0d0d0d;
+
+    if (colorMode === "light") {
+      this.gridSprites.light.visible = true;
+      this.gridSprites.dark.visible = false;
+    } else {
+      this.gridSprites.dark.visible = true;
+      this.gridSprites.light.visible = false;
+    }
   }
 
   exportImage(colorMode: ColorMode) {
