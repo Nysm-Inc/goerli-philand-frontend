@@ -58,10 +58,12 @@ const Index: NextPage = () => {
     }
   }, [isMobile]);
 
-  if (isMobile) {
-    return <Mobile />;
-  }
-  return <PC />;
+  return (
+    <>
+      <Dev />
+      {isMobile ? <Mobile /> : <PC />}
+    </>
+  );
 };
 
 const PC: FC = () => {
@@ -235,7 +237,6 @@ const PC: FC = () => {
       {!isEdit && <MainMenu isOpenQuest={isOpenQuest} isOpenShop={isOpenShop} onOpenQuest={onOpenQuest} onOpenShop={onOpenShop} />}
       {!isEdit && <Share currentENS={currentENS} />}
       <Help onOpenHowItWorks={onOpenHowItWorks} />
-      <Dev />
 
       {isCreatedPhiland ? (
         <MenuBar

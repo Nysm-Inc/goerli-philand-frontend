@@ -6,7 +6,7 @@ import { UTILS_API_GATEWAY } from "~/constants";
 import { useWallpaper, useViewPhiland } from "~/hooks/map";
 import { useGame } from "~/hooks/game";
 import { useCreatePhiland } from "~/hooks/registry";
-import { Header, HeaderMd } from "~/ui/components";
+import { Dev, Header, HeaderMd } from "~/ui/components";
 import { useContext, useEffect } from "react";
 import { AppContext } from "~/contexts";
 
@@ -42,7 +42,12 @@ const Index: NextPage = () => {
     }
   }, [isMobile]);
 
-  return <>{isMobile ? <HeaderMd /> : <Header />}</>;
+  return (
+    <>
+      <Dev />
+      {isMobile ? <HeaderMd /> : <Header />}
+    </>
+  );
 };
 
 export default Index;
