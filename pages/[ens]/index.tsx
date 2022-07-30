@@ -25,7 +25,6 @@ const Index: NextPage = () => {
   const { game } = useContext(AppContext);
   const router = useRouter();
   const ens = decodeURI(router.asPath).substring(1);
-
   const isMobile = useBreakpointValue({ base: true, lg: false });
 
   const [isCreated] = useCreatePhiland("", ens);
