@@ -50,16 +50,20 @@ const Index: NextPage = () => {
 
   useEffect(() => {
     if (isMobile) {
+      game.engine.hideClouds();
       game.engine.hide();
     } else {
+      game.engine.showClouds();
       game.engine.show();
     }
   }, [isMobile]);
 
-  if (isMobile) {
-    return <Mobile />;
-  }
-  return <PC />;
+  return (
+    <>
+      <Dev />
+      {isMobile ? <Mobile /> : <PC />}
+    </>
+  );
 };
 
 const PC: FC = () => {
@@ -233,7 +237,6 @@ const PC: FC = () => {
       {!isEdit && <MainMenu isOpenQuest={isOpenQuest} isOpenShop={isOpenShop} onOpenQuest={onOpenQuest} onOpenShop={onOpenShop} />}
       {!isEdit && <Share currentENS={currentENS} />}
       <Help onOpenHowItWorks={onOpenHowItWorks} />
-      <Dev />
 
       {isCreatedPhiland ? (
         <MenuBar

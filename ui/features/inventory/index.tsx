@@ -42,12 +42,11 @@ export const useInventory = (
       setObjects(copied.filter((_, i) => i !== idx));
     }
   };
+
   const tryRemove = (contract: ObjectContractAddress, tokenId: number) => {
     let copied = [...objects];
     const idx = copied.findIndex((c) => c.contractAddress === contract && c.tokenId === tokenId);
-    if (idx > 0) {
-      copied[idx].used -= 1;
-    } else {
+    if (idx < 0) {
       copied = [
         ...copied,
         {
@@ -59,6 +58,8 @@ export const useInventory = (
           writed: true,
         },
       ];
+    } else {
+      copied[idx].used -= 1;
     }
     copied.sort((a, b) => a.tokenId - b.tokenId);
     setObjects(copied);
