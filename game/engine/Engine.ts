@@ -21,6 +21,8 @@ export default class Engine {
   app: Application;
   viewport: Viewport;
   globalTextures: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: Texture } };
+  clouds: { [mode in ColorMode]: Container };
+  cloudSprites: { [mode in ColorMode]: { lefttop: Sprite; righttop: Sprite; leftbottom: Sprite; rightbottom: Sprite } };
   grids: Container;
   gridSprites: { [mode in ColorMode]: TilingSprite };
   colorMode: ColorMode;
@@ -30,13 +32,13 @@ export default class Engine {
   constructor(onMouseMove: (mouseX: number, mouseY: number) => void, onMouseClick: (mouseX: number, mouseY: number) => void) {
     this.onMouseMoveHandler = onMouseMove;
     this.onMouseClickHandler = onMouseClick;
-
     this.globalTextures = {
       [QUEST_OBJECT_CONTRACT_ADDRESS]: {},
       [FREE_OBJECT_CONTRACT_ADDRESS]: {},
       [PREMIUM_OBJECT_CONTRACT_ADDRESS]: {},
       [WALLPAPER_CONTRACT_ADDRESS]: {},
     };
+    this.colorMode = "light";
 
     this.app = new Application({
       width: window.innerWidth,
@@ -51,6 +53,9 @@ export default class Engine {
     this.app.stage = new LayerStage();
     this.app.stage.sortableChildren = true;
     this.app.loader.concurrency = 100; // todo
+    this.app.renderer.on("resize", () => {
+      this.initializeCloudsPosition();
+    });
     document.body.appendChild(this.app.view);
 
     this.viewport = new Viewport({
@@ -86,20 +91,51 @@ export default class Engine {
       });
     this.app.stage.addChild(this.viewport);
 
-    this.grids = new Container();
-    this.grids.zIndex = -1;
-    this.grids.visible = false;
-    this.gridSprites = {
-      light: new TilingSprite(Texture.from("assets/grid-pattern-light.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
-      dark: new TilingSprite(Texture.from("assets/grid-pattern-dark.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
-    };
-    this.gridSprites.light.visible = false;
-    this.gridSprites.dark.visible = false;
-    this.grids.addChild(this.gridSprites.light);
-    this.grids.addChild(this.gridSprites.dark);
-    this.app.stage.addChild(this.grids);
+    {
+      this.clouds = { light: new Container(), dark: new Container() };
+      this.clouds.light.visible = false;
+      this.clouds.dark.visible = false;
+      this.cloudSprites = {
+        light: {
+          lefttop: Sprite.from("assets/clouds/cloud_lefttop_light.png"),
+          righttop: Sprite.from("assets/clouds/cloud_righttop_light.png"),
+          leftbottom: Sprite.from("assets/clouds/cloud_leftbottom_light.png"),
+          rightbottom: Sprite.from("assets/clouds/cloud_rightbottom_light.png"),
+        },
+        dark: {
+          lefttop: Sprite.from("assets/clouds/cloud_lefttop_dark.png"),
+          righttop: Sprite.from("assets/clouds/cloud_righttop_dark.png"),
+          leftbottom: Sprite.from("assets/clouds/cloud_leftbottom_dark.png"),
+          rightbottom: Sprite.from("assets/clouds/cloud_rightbottom_dark.png"),
+        },
+      };
+      this.initializeCloudsPosition();
+      this.clouds.light.addChild(this.cloudSprites.light.lefttop);
+      this.clouds.light.addChild(this.cloudSprites.light.righttop);
+      this.clouds.light.addChild(this.cloudSprites.light.leftbottom);
+      this.clouds.light.addChild(this.cloudSprites.light.rightbottom);
+      this.app.stage.addChild(this.clouds.light);
+      this.clouds.dark.addChild(this.cloudSprites.dark.lefttop);
+      this.clouds.dark.addChild(this.cloudSprites.dark.righttop);
+      this.clouds.dark.addChild(this.cloudSprites.dark.leftbottom);
+      this.clouds.dark.addChild(this.cloudSprites.dark.rightbottom);
+      this.app.stage.addChild(this.clouds.dark);
+    }
 
-    this.colorMode = "light";
+    {
+      this.grids = new Container();
+      this.grids.zIndex = -1;
+      this.grids.visible = false;
+      this.gridSprites = {
+        light: new TilingSprite(Texture.from("assets/grid-pattern-light.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
+        dark: new TilingSprite(Texture.from("assets/grid-pattern-dark.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
+      };
+      this.gridSprites.light.visible = false;
+      this.gridSprites.dark.visible = false;
+      this.grids.addChild(this.gridSprites.light);
+      this.grids.addChild(this.gridSprites.dark);
+      this.app.stage.addChild(this.grids);
+    }
   }
 
   // todo: cache loaded files
@@ -133,12 +169,20 @@ export default class Engine {
   changeColorMode(colorMode: ColorMode) {
     this.colorMode = colorMode;
 
-    this.app.renderer.backgroundColor = colorMode === "light" ? 0xf5f2eb : 0x0d0d0d;
-
     if (colorMode === "light") {
+      this.app.renderer.backgroundColor = 0xf5f2eb;
+
+      this.clouds.light.visible = true;
+      this.clouds.dark.visible = false;
+
       this.gridSprites.light.visible = true;
       this.gridSprites.dark.visible = false;
     } else {
+      this.app.renderer.backgroundColor = 0x0d0d0d;
+
+      this.clouds.dark.visible = true;
+      this.clouds.light.visible = false;
+
       this.gridSprites.dark.visible = true;
       this.gridSprites.light.visible = false;
     }
@@ -153,10 +197,11 @@ export default class Engine {
       .endFill();
     container.addChild(background);
 
-    const clouds = Sprite.from(colorMode === "light" ? "assets/clouds.png" : "assets/clouds_black.png");
-    clouds.width = ogpW;
-    clouds.height = ogpH;
-    container.addChild(clouds);
+    // todo
+    // const clouds = Sprite.from(colorMode === "light" ? "assets/clouds/clouds.png" : "assets/clouds/clouds_black.png");
+    // clouds.width = ogpW;
+    // clouds.height = ogpH;
+    // container.addChild(clouds);
 
     const viewport = cloneDeep(this.viewport);
     viewport.resize(ogpW, ogpH, ogpW, ogpH);
@@ -178,5 +223,25 @@ export default class Engine {
     try {
       document.body.removeChild(this.app.view);
     } catch {}
+  }
+
+  initializeCloudsPosition() {
+    this.cloudSprites.light.lefttop.x = 0;
+    this.cloudSprites.light.lefttop.y = 0;
+    this.cloudSprites.light.righttop.x = window.innerWidth - 466;
+    this.cloudSprites.light.righttop.y = 0;
+    this.cloudSprites.light.leftbottom.x = 0;
+    this.cloudSprites.light.leftbottom.y = window.innerHeight - 312;
+    this.cloudSprites.light.rightbottom.x = window.innerWidth - 466;
+    this.cloudSprites.light.rightbottom.y = window.innerHeight - 312;
+
+    this.cloudSprites.dark.lefttop.x = 0;
+    this.cloudSprites.dark.lefttop.y = 0;
+    this.cloudSprites.dark.righttop.x = window.innerWidth - 466;
+    this.cloudSprites.dark.righttop.y = 0;
+    this.cloudSprites.dark.leftbottom.x = 0;
+    this.cloudSprites.dark.leftbottom.y = window.innerHeight - 312;
+    this.cloudSprites.dark.rightbottom.x = window.innerWidth - 466;
+    this.cloudSprites.dark.rightbottom.y = window.innerHeight - 312;
   }
 }

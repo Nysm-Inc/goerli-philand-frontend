@@ -6,7 +6,7 @@ import { UTILS_API_GATEWAY } from "~/constants";
 import { useWallpaper, useViewPhiland } from "~/hooks/map";
 import { useGame } from "~/hooks/game";
 import { useCreatePhiland } from "~/hooks/registry";
-import { Clouds, Header, HeaderMd } from "~/ui/components";
+import { Header, HeaderMd } from "~/ui/components";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
@@ -31,18 +31,7 @@ const Index: NextPage = () => {
 
   useGame({ state: { currentENS: ens, isEdit: false, isCreatedPhiland: isCreated, phiObjects, wallpaper } });
 
-  return (
-    <>
-      {isMobile ? (
-        <HeaderMd />
-      ) : (
-        <>
-          <Header />
-          <Clouds />
-        </>
-      )}
-    </>
-  );
+  return <>{isMobile ? <HeaderMd /> : <Header />}</>;
 };
 
 export default Index;
