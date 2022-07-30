@@ -86,8 +86,7 @@ export default class Engine {
         this.onMouseMoveHandler(world.x, world.y);
       })
       .on("zoomed", ({ viewport }: { viewport: Viewport }) => {
-        // todo
-        // viewport.scale._x < 2;
+        // if (viewport.scaled > 2) {}
       });
     this.app.stage.addChild(this.viewport);
 
@@ -188,20 +187,31 @@ export default class Engine {
     }
   }
 
-  exportImage(colorMode: ColorMode) {
+  exportImage() {
     const [ogpW, ogpH] = [LAND_OGP_W, LAND_OGP_H];
     const container = new Container();
     const background = new Graphics()
-      .beginFill(colorMode === "light" ? 0xf5f2eb : 0x0d0d0d)
+      .beginFill(this.colorMode === "light" ? 0xf5f2eb : 0x0d0d0d)
       .drawRect(0, 0, ogpW, ogpH)
       .endFill();
     container.addChild(background);
 
-    // todo
-    // const clouds = Sprite.from(colorMode === "light" ? "assets/clouds/clouds.png" : "assets/clouds/clouds_black.png");
-    // clouds.width = ogpW;
-    // clouds.height = ogpH;
-    // container.addChild(clouds);
+    // const cloudlefttop = Sprite.from(`assets/clouds/cloud_lefttop_${this.colorMode}.png`);
+    // const cloudrighttop = Sprite.from(`assets/clouds/cloud_righttop_${this.colorMode}.png`);
+    // const cloudleftbottom = Sprite.from(`assets/clouds/cloud_leftbottom_${this.colorMode}.png`);
+    // const cloudrightbottom = Sprite.from(`assets/clouds/cloud_rightbottom_${this.colorMode}.png`);
+    // cloudlefttop.x = 0;
+    // cloudlefttop.y = 0;
+    // cloudrighttop.x = ogpW - 466;
+    // cloudrighttop.y = 0;
+    // cloudleftbottom.x = 0;
+    // cloudleftbottom.y = ogpH - 312;
+    // cloudrightbottom.x = ogpW - 466;
+    // cloudrightbottom.y = ogpH - 312;
+    // container.addChild(cloudlefttop);
+    // container.addChild(cloudrighttop);
+    // container.addChild(cloudleftbottom);
+    // container.addChild(cloudrightbottom);
 
     const viewport = cloneDeep(this.viewport);
     viewport.resize(ogpW, ogpH, ogpW, ogpH);
