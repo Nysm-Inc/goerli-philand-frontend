@@ -1,5 +1,5 @@
-import { FC, useContext, useEffect, useState } from "react";
-import { Box, LayoutProps, Menu, MenuButton, Text } from "@chakra-ui/react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
+import { Box, LayoutProps, Menu, MenuButton, Text, useDisclosure, useOutsideClick } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { isValid } from "~/utils/ens";
 import { search } from "~/utils/search";
@@ -17,14 +17,18 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
   const { colorMode } = useContext(AppContext);
   const [searchText, setSearchText] = useState("");
   const [suggestOptions, setSuggestOptions] = useState<Option[]>([]);
+  const ref = useRef(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // useEffect(() => {
-  //   if (!searchText) return;
+  useOutsideClick({ ref: ref, handler: onClose });
 
-  //   search(searchText).then((res) => {
-  //     setSuggestOptions(res.name.map((name) => ({ label: name.name, value: name.name })));
-  //   });
-  // }, [searchText]);
+  useEffect(() => {
+    if (!searchText) return;
+
+    search(searchText).then((res) => {
+      setSuggestOptions(res.name.map((name) => ({ label: name.name, value: name.name })));
+    });
+  }, [searchText]);
 
   return (
     <form
@@ -34,6 +38,7 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
       }}
     >
       <Input
+        innerRef={ref}
         w={w || "336px"}
         placeholder="visit other lands"
         value={searchText}
@@ -45,20 +50,26 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
           </Text>
         }
         onChange={(e) => setSearchText(e.target.value)}
+        onClick={onOpen}
       />
 
-      {/* <Menu
+      <Menu
+        //
         variant="unstyled"
         placement="bottom"
-        matchWidth
         autoSelect={false}
         closeOnSelect={false}
         closeOnBlur={false}
-        isOpen={focused && !!searchText}
+        isOpen={isOpen && !!searchText}
       >
         <MenuButton as={Box} />
-        <MenuList w={w || "336px"} isOpen options={suggestOptions.length > 0 ? suggestOptions : [{ label: "No Options", value: "" }]} onClick={onSubmit} />
-      </Menu> */}
+        <MenuList
+          w={w || "336px"}
+          maxH="210px"
+          options={suggestOptions.length > 0 ? suggestOptions : [{ label: "No Options", value: "" }]}
+          onClick={onSubmit}
+        />
+      </Menu>
     </form>
   );
 };
