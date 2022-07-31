@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useContractReads } from "wagmi";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { QuestObjectAbi } from "~/abi";
@@ -12,13 +13,14 @@ const totalSupply = (tokenId: number) => ({
 });
 
 const useTotalSupply = (contract: ObjectContractAddress): { [tokenId: number]: number } => {
+  const metadata = useMemo(() => Object.values(objectMetadataList[contract]), [contract]);
   const { data } = useContractReads({
-    contracts: Object.values(objectMetadataList[contract]).map((metadata) => totalSupply(metadata.tokenId)),
+    contracts: metadata.map((meta) => totalSupply(meta.tokenId)),
     watch: true,
     keepPreviousData: true,
   });
 
-  return data && data[0] ? data.reduce((memo, num, i) => ({ ...memo, [i + 1]: num.toNumber() }), {}) : {};
+  return data ? metadata.reduce((memo, meta, i) => ({ ...memo, [meta.tokenId]: data[i].toNumber() }), {}) : {};
 };
 
 export default useTotalSupply;

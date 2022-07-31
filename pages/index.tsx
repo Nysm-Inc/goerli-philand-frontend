@@ -83,7 +83,7 @@ const PC: FC = () => {
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
 
   const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens, chain?.unsupported);
-  const [isCreated, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(address, currentENS);
+  const [{ isCreated }, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(address, currentENS);
   const { changePhilandOwner, tx: txChangePhilandOwner } = useChangePhilandOwner(currentENS);
   const { owner, phiObjects } = useViewPhiland(currentENS);
   const isCreatedPhiland = owner === address && (isCreated || phiObjects.length > 0);
