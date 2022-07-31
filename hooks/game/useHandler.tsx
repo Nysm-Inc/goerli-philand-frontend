@@ -99,11 +99,10 @@ const useHandler = ({
 
     if (removeIdxs.length > 0 || writeArgs.length > 0 || changeWallpaper) {
       return uiHandler?.save({
-        removeArgs: { removeIdxs: removeIdxs, remove_check: removeIdxs.length > 0 },
+        removeArgs: { removeIdxs: removeIdxs },
         writeArgs,
         linkArgs,
         wallpaperArgs: {
-          change_wall_check: changeWallpaper,
           contractAddress: WALLPAPER_CONTRACT_ADDRESS,
           tokenId: newWallpaper?.tokenId || 0,
         },

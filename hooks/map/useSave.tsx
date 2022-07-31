@@ -9,7 +9,7 @@ import { Tx } from "~/types/tx";
 import { PhiLink } from "~/types";
 
 export type SaveArgs = {
-  removeArgs: { removeIdxs: (string | number)[]; remove_check: boolean };
+  removeArgs: { removeIdxs: (string | number)[] };
   writeArgs: {
     contractAddress: string;
     tokenId: number;
@@ -17,7 +17,7 @@ export type SaveArgs = {
     yStart: number;
   }[];
   linkArgs: PhiLink[];
-  wallpaperArgs: { contractAddress: string; tokenId: number; change_wall_check: boolean };
+  wallpaperArgs: { contractAddress: string; tokenId: number };
 };
 
 const useSave = (
@@ -52,14 +52,7 @@ const useSave = (
     save: async ({ removeArgs, writeArgs, linkArgs, wallpaperArgs }: SaveArgs) => {
       if (!ens) return;
 
-      const calldata = [
-        ens.slice(0, -4),
-        removeArgs.removeIdxs,
-        removeArgs.remove_check,
-        writeArgs,
-        linkArgs,
-        ...Object.values(wallpaperArgs),
-      ];
+      const calldata = [ens.slice(0, -4), removeArgs.removeIdxs, writeArgs, linkArgs, ...Object.values(wallpaperArgs)];
       return writeAsync({ args: calldata });
     },
     tx: {

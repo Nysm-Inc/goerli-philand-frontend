@@ -69,7 +69,6 @@ const useDeposit = (
               {
                 contractAddress: object[0],
                 tokenId: BigNumber.from(object[1]).toNumber(),
-                timestamp: BigNumber.from(object[4]).toNumber(),
                 amount: amount,
                 used: used,
               },
