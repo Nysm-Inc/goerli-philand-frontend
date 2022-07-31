@@ -44,9 +44,7 @@ const useCreatePhiland = (
         url.searchParams.append("name", ens.slice(0, -4));
         const res = await axios.get<{ coupon: Coupon }>(url.toString());
 
-        return writeAsync({
-          args: [ens.slice(0, -4), res.data.coupon],
-        });
+        return writeAsync({ args: [ens.slice(0, -4), res.data.coupon] });
       },
       tx: {
         hash: writeData?.hash,
