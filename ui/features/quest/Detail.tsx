@@ -58,9 +58,14 @@ const Detail: FC<{
           </Box>
         </Center>
         <VStack w="404px" h="100%" spacing="24px" align="flex-start">
-          <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
-            {selected.name}
-          </Text>
+          <VStack spacing="8px" align="flex-start">
+            <Text textStyle="label-1" color="grey.500">
+              {selected.relatedProject}
+            </Text>
+            <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
+              {selected.name}
+            </Text>
+          </VStack>
           <VStack spacing="12px" align="flex-start">
             <HStack spacing="8px">
               <Badge text={`EXP ${selected.EXP || 0}`} />
