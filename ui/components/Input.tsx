@@ -11,8 +11,8 @@ const Input: FC<{
   rightIcon?: JSX.Element;
   shadow?: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
-  onFocus: FocusEventHandler<HTMLDivElement>;
-  onBlur: FocusEventHandler<HTMLDivElement>;
+  onFocus?: FocusEventHandler<HTMLDivElement>;
+  onBlur?: FocusEventHandler<HTMLDivElement>;
 }> = ({ w, placeholder, value, leftIcon, rightIcon, shadow = true, onChange, onFocus, onBlur }) => {
   const { colorMode } = useContext(AppContext);
 
