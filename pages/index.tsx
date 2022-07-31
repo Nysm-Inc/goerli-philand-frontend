@@ -84,7 +84,7 @@ const PC: FC = () => {
 
   const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens, chain?.unsupported);
   const [{ isCreated }, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(address, currentENS);
-  const { changePhilandOwner, tx: txChangePhilandOwner } = useChangePhilandOwner(currentENS);
+  const { changePhilandOwner, tx: txChangePhilandOwner } = useChangePhilandOwner(address, currentENS);
   const { owner, phiObjects } = useViewPhiland(currentENS);
   const isCreatedPhiland = owner === address && (isCreated || phiObjects.length > 0);
   const wallpaper = useWallpaper(currentENS);
