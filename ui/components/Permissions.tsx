@@ -69,7 +69,7 @@ const Permissions: FC<{
   const { colorMode } = useContext(AppContext);
 
   return (
-    <Modal w="528px" h="436px" isOpen={isOpen} onClose={() => {}} overlay>
+    <Modal w="528px" h="436px" isOpen={isOpen} onClose={onClose} overlay>
       <ModalHeader
         title="Permissions"
         buttons={[
