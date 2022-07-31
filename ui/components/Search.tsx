@@ -72,7 +72,8 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
         placement="bottom"
         matchWidth
         autoSelect={false}
-        isOpen={focused}
+        isOpen={focused && !!searchText}
+        onClose={offFocus}
       >
         <MenuButton as={Box} />
         <MenuList
