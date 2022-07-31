@@ -9,6 +9,7 @@ import { useCreatePhiland } from "~/hooks/registry";
 import { Dev, Header, HeaderMd } from "~/ui/components";
 import { useContext, useEffect } from "react";
 import { AppContext } from "~/contexts";
+import LandNotFound from "~/ui/components/LandNotFound";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
@@ -27,11 +28,12 @@ const Index: NextPage = () => {
   const ens = decodeURI(router.asPath).substring(1);
   const isMobile = useBreakpointValue({ base: true, lg: false });
 
-  const [isCreated] = useCreatePhiland("", ens);
+  const [{ isCreated, isFetched }] = useCreatePhiland("", ens);
   const { phiObjects } = useViewPhiland(ens);
+  const isPhilandCreated = isCreated || phiObjects.length > 0;
   const wallpaper = useWallpaper(ens);
 
-  useGame({ state: { currentENS: ens, isEdit: false, isCreatedPhiland: isCreated || phiObjects.length > 0, phiObjects, wallpaper } });
+  useGame({ state: { currentENS: ens, isEdit: false, isCreatedPhiland: isPhilandCreated, phiObjects, wallpaper } });
 
   useEffect(() => {
     if (isMobile) {
@@ -44,7 +46,17 @@ const Index: NextPage = () => {
   return (
     <>
       <Dev />
-      {isMobile ? <HeaderMd /> : <Header />}
+      {isMobile ? (
+        <>
+          <HeaderMd />
+          <LandNotFound isOpen={isFetched && !isPhilandCreated} w="320px" h="320px" />
+        </>
+      ) : (
+        <>
+          <Header />
+          <LandNotFound isOpen={isFetched && !isPhilandCreated} />
+        </>
+      )}
     </>
   );
 };

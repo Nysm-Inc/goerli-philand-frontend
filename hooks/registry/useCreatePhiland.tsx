@@ -11,8 +11,8 @@ const useCreatePhiland = (
   account?: string,
   ens?: string,
   disabled?: boolean
-): [boolean, { createPhiland: () => Promise<TransactionResponse | undefined>; tx: Tx }] => {
-  const { data } = useContractRead({
+): [{ isCreated: boolean; isFetched: boolean }, { createPhiland: () => Promise<TransactionResponse | undefined>; tx: Tx }] => {
+  const { data, isFetched } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "ownerOfPhiland",
@@ -34,7 +34,7 @@ const useCreatePhiland = (
 
   return [
     // @ts-ignore
-    data && data !== nullAddress,
+    { isCreated: data && data !== nullAddress, isFetched },
     {
       createPhiland: async () => {
         if (!account || !ens) return;
