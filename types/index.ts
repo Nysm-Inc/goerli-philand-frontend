@@ -43,7 +43,6 @@ export type PhiLink = {
 export type Wallpaper = {
   contractAddress: typeof WALLPAPER_CONTRACT_ADDRESS;
   tokenId: number;
-  timestamp?: number;
 };
 
 export type IObject = {
@@ -59,7 +58,6 @@ export type DepositObject = {
   tokenId: number;
   amount: number;
   used: number;
-  timestamp?: number;
 };
 
 export type BalanceObject = {

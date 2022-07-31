@@ -43,7 +43,7 @@ const SelectBox: FC<{
             </Text>
           </MenuButton>
 
-          <MenuList w={menuW || w} value={selected.value} isOpen={isOpen} options={options} onClick={handleChange} />
+          <MenuList w={menuW || w} value={selected.value} options={options} onClick={handleChange} />
         </>
       )}
     </Menu>
