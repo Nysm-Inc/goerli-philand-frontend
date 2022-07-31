@@ -69,24 +69,6 @@ export default class Room {
     });
   }
 
-  updateScaleMode(scaleMode: SCALE_MODES) {
-    const { room } = GameInstance.get();
-
-    this.land.texture.baseTexture.scaleMode = scaleMode;
-    this.land.texture.baseTexture.update();
-
-    room.wallpaper.sprite.texture.baseTexture.scaleMode = scaleMode;
-    room.wallpaper.sprite.texture.baseTexture.update();
-
-    const items = room.roomItemManager.getItems();
-    Object.values(items).forEach((item) => {
-      item.sprites.forEach((sprite) => {
-        sprite.texture.baseTexture.scaleMode = scaleMode;
-        sprite.texture.baseTexture.update();
-      });
-    });
-  }
-
   enterRoom() {
     this.landContainer.visible = true;
   }
@@ -166,5 +148,23 @@ export default class Room {
     const tileY = Math.floor((xplusy - xminusy) / 2);
 
     return { x: tileX, y: tileY };
+  }
+
+  updateScaleMode(scaleMode: SCALE_MODES) {
+    const { room } = GameInstance.get();
+
+    this.land.texture.baseTexture.scaleMode = scaleMode;
+    this.land.texture.baseTexture.update();
+
+    room.wallpaper.sprite.texture.baseTexture.scaleMode = scaleMode;
+    room.wallpaper.sprite.texture.baseTexture.update();
+
+    const items = room.roomItemManager.getItems();
+    Object.values(items).forEach((item) => {
+      item.sprites.forEach((sprite) => {
+        sprite.texture.baseTexture.scaleMode = scaleMode;
+        sprite.texture.baseTexture.update();
+      });
+    });
   }
 }
