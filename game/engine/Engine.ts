@@ -1,4 +1,4 @@
-import { Application, Container, Graphics, LoaderResource, Sprite, Texture, TilingSprite } from "pixi.js";
+import { Application, Container, Graphics, LoaderResource, SCALE_MODES, Sprite, Texture, TilingSprite } from "pixi.js";
 import { Stage as LayerStage } from "@pixi/layers";
 import { Viewport } from "pixi-viewport";
 import cloneDeep from "lodash.clonedeep"; // todo
@@ -27,6 +27,7 @@ export default class Engine {
   grids: Container;
   gridSprites: { [mode in ColorMode]: TilingSprite };
   colorMode: ColorMode;
+  scaleMode: SCALE_MODES;
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
   onMouseClickHandler: (mouseX: number, mouseY: number) => void;
 
@@ -40,6 +41,7 @@ export default class Engine {
       [WALLPAPER_CONTRACT_ADDRESS]: {},
     };
     this.colorMode = "light";
+    this.scaleMode = SCALE_MODES.LINEAR;
 
     this.app = new Application({
       width: window.innerWidth,

@@ -31,7 +31,6 @@ export default class Wallpaper {
     if (tokenId) {
       const { engine } = GameInstance.get();
       const texture = engine.globalTextures[WALLPAPER_CONTRACT_ADDRESS][tokenId].clone();
-      texture.baseTexture.scaleMode = SCALE_MODES.NEAREST;
       this.sprite.texture = texture;
     } else {
       this.container.removeChildren();
