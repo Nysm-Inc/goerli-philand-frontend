@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC, ReactNode, useContext } from "react";
+import { ChangeEventHandler, FC, FocusEventHandler, MutableRefObject, ReactNode, useContext } from "react";
 import { InputGroup, Input as ChakraInput, InputLeftElement, InputRightElement, LayoutProps } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { typographys } from "~/ui/styles/typography";
@@ -11,7 +11,9 @@ const Input: FC<{
   rightIcon?: JSX.Element;
   shadow?: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
-}> = ({ w, placeholder, value, leftIcon, rightIcon, shadow = true, onChange }) => {
+  onFocus: FocusEventHandler<HTMLDivElement>;
+  onBlur: FocusEventHandler<HTMLDivElement>;
+}> = ({ w, placeholder, value, leftIcon, rightIcon, shadow = true, onChange, onFocus, onBlur }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -32,6 +34,8 @@ const Input: FC<{
         bgColor: colorMode === "light" ? "white" : "dark.grey700",
         borderColor: colorMode === "light" ? "grey.900" : "grey.500",
       }}
+      onFocus={onFocus}
+      onBlur={onBlur}
     >
       {leftIcon && (
         <InputLeftElement inlineSize="48px" h="100%">

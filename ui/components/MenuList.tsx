@@ -1,5 +1,5 @@
-import { FC, useContext } from "react";
-import { Box, Center, ColorProps, LayoutProps, MenuItem, MenuList as ChakraMenuList, Text } from "@chakra-ui/react";
+import { FC, FocusEventHandler, useContext } from "react";
+import { Box, Center, ColorProps, LayoutProps, MenuItem, MenuList as ChakraMenuList, Text, useMenuList } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Icon from "./Icon";
 
@@ -10,13 +10,14 @@ export type Option = {
   textColor?: ColorProps["textColor"];
 };
 
-const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; options: Option[]; onClick?: (v: string) => void }> = ({
-  w,
-  isOpen,
-  value,
-  options,
-  onClick,
-}) => {
+const MenuList: FC<{
+  w: LayoutProps["w"];
+  isOpen: boolean;
+  value?: string;
+  options: Option[];
+  onClick?: (v: string) => void;
+  onFocus?: FocusEventHandler<HTMLDivElement>;
+}> = ({ w, isOpen, value, options, onFocus, onClick }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -34,6 +35,7 @@ const MenuList: FC<{ w: LayoutProps["w"]; isOpen: boolean; value?: string; optio
           border={colorMode === "light" ? "1px solid" : "none"}
           borderColor="light.g_orange"
           bgColor={colorMode === "light" ? "white" : "grey.900"}
+          onFocus={onFocus}
         >
           {options.map((option, i) => (
             <MenuItem
