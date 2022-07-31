@@ -29,7 +29,7 @@ const useDeposit = (
   } = useContractWrite({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
-    functionName: "batchDeposit",
+    functionName: "batchDepositObject",
   });
   const { status: depositStatus } = useWaitForTransaction({ hash: depositData?.hash || "" });
 
@@ -69,7 +69,6 @@ const useDeposit = (
               {
                 contractAddress: object[0],
                 tokenId: BigNumber.from(object[1]).toNumber(),
-                timestamp: BigNumber.from(object[4]).toNumber(),
                 amount: amount,
                 used: used,
               },
