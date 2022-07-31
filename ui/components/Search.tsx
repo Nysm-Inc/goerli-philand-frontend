@@ -78,7 +78,7 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
         <MenuButton as={Box} />
         <MenuList
           //
-          w="218px"
+          w={w || "336px"}
           isOpen
           options={suggestOptions.length > 0 ? suggestOptions : [noOption]}
           onFocus={onFocus}
