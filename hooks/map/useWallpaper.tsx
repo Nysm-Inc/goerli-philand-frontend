@@ -18,7 +18,6 @@ const useWallpaper = (ens?: string | null, disabled?: boolean): Wallpaper | unde
     ? {
         contractAddress: data[0],
         tokenId: BigNumber.from(data[1]).toNumber(),
-        timestamp: BigNumber.from(data[2]).toNumber(),
       }
     : undefined;
 };
