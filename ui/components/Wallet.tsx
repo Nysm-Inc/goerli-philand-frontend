@@ -59,43 +59,38 @@ const Wallet: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
 
               return (
                 <Menu matchWidth variant="unstyled" autoSelect={false}>
-                  {({ isOpen }) => (
-                    <>
-                      <MenuButton
-                        as={Button}
-                        w="218px"
-                        // @ts-ignore
-                        shadow
-                        leftIcon={
-                          <Avatar
-                            w="32px"
-                            h="32px"
-                            bgColor={colorMode === "light" ? "purple.150" : "red.150"}
-                            src={account.ensAvatar}
-                            icon={
-                              <Box position="absolute" top="4px">
-                                <Image width="28px" height="28px" src="/icons/dotty.svg" />
-                              </Box>
-                            }
-                          />
+                  <MenuButton
+                    as={Button}
+                    w="218px"
+                    // @ts-ignore
+                    shadow
+                    leftIcon={
+                      <Avatar
+                        w="32px"
+                        h="32px"
+                        bgColor={colorMode === "light" ? "purple.150" : "red.150"}
+                        src={account.ensAvatar}
+                        icon={
+                          <Box position="absolute" top="4px">
+                            <Image width="28px" height="28px" src="/icons/dotty.svg" />
+                          </Box>
                         }
-                        rightIcon={<Icon name="menu" color={colorMode === "light" ? "grey.900" : "white"} />}
-                      >
-                        <Text textAlign="left" textStyle="button-2" pl="4px" color={colorMode === "light" ? "grey.900" : "white"}>
-                          {showAddress(account.address)}
-                        </Text>
-                      </MenuButton>
-                      <MenuList
-                        w="218px"
-                        isOpen={isOpen}
-                        options={[
-                          { label: showAddress(account.address), value: account.address },
-                          { label: "Permission settings", value: "Permission settings", onClick: onOpenPermissions },
-                          { label: "disconnect", value: "disconnect", onClick: disconnect, textColor: "danger.default" },
-                        ]}
                       />
-                    </>
-                  )}
+                    }
+                    rightIcon={<Icon name="menu" color={colorMode === "light" ? "grey.900" : "white"} />}
+                  >
+                    <Text textAlign="left" textStyle="button-2" pl="4px" color={colorMode === "light" ? "grey.900" : "white"}>
+                      {showAddress(account.address)}
+                    </Text>
+                  </MenuButton>
+                  <MenuList
+                    w="218px"
+                    options={[
+                      { label: showAddress(account.address), value: account.address },
+                      { label: "Permission settings", value: "Permission settings", onClick: onOpenPermissions },
+                      { label: "disconnect", value: "disconnect", onClick: disconnect, textColor: "danger.default" },
+                    ]}
+                  />
                 </Menu>
               );
             })()}

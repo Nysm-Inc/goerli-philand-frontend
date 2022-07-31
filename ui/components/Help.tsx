@@ -12,22 +12,17 @@ const Help: FC<{ onOpenHowItWorks: () => void }> = ({ onOpenHowItWorks }) => {
   return (
     <Box zIndex="default" position="fixed" bottom="32px" right="24px">
       <Menu variant="unstyled" autoSelect={false}>
-        {({ isOpen }) => (
-          <>
-            <MenuButton as={IconButton} ariaLabel="help" icon={<Icon name="help" color={colorMode === "light" ? "grey.900" : "white"} />} />
-            <MenuList
-              w="180px"
-              isOpen={isOpen}
-              options={[
-                { label: "How It Works", value: "", onClick: onOpenHowItWorks },
-                { label: "Feedbacks", value: "", onClick: () => window.open(FEEDBACK_FORM, "_blank") },
-                { label: "Bug Reports", value: "", onClick: () => window.open(BUG_REPORT, "_blank") },
-                { label: "Hiring", value: "", onClick: () => window.open(HIRING, "_blank") },
-                { label: "Partnership", value: "", onClick: () => window.open(PARTNERSHIP_APPLICATION, "_blank") },
-              ]}
-            />
-          </>
-        )}
+        <MenuButton as={IconButton} ariaLabel="help" icon={<Icon name="help" color={colorMode === "light" ? "grey.900" : "white"} />} />
+        <MenuList
+          w="180px"
+          options={[
+            { label: "How It Works", value: "", onClick: onOpenHowItWorks },
+            { label: "Feedbacks", value: "", onClick: () => window.open(FEEDBACK_FORM, "_blank") },
+            { label: "Bug Reports", value: "", onClick: () => window.open(BUG_REPORT, "_blank") },
+            { label: "Hiring", value: "", onClick: () => window.open(HIRING, "_blank") },
+            { label: "Partnership", value: "", onClick: () => window.open(PARTNERSHIP_APPLICATION, "_blank") },
+          ]}
+        />
       </Menu>
     </Box>
   );
