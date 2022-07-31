@@ -63,7 +63,7 @@ const Cart: FC<{
             </Box>
           </Center>
 
-          <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
+          <Text textStyle="headline-2" textAlign="center" color={colorMode === "light" ? "grey.900" : "white"}>
             {item.name}
           </Text>
           <HStack>
