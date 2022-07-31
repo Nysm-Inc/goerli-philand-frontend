@@ -236,6 +236,11 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
         "name": "contractAddress",
         "type": "address"
       },
@@ -248,9 +253,9 @@
     "name": "checkClaimedStatus",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "uint256",
         "name": "",
-        "type": "bool"
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -296,7 +301,7 @@
         "type": "tuple"
       }
     ],
-    "name": "claimPhiObject",
+    "name": "claimQuestObject",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -433,9 +438,9 @@
     "name": "phiClaimedLists",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "uint256",
         "name": "",
-        "type": "bool"
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",

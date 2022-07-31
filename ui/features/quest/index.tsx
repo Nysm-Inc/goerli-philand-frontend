@@ -12,7 +12,7 @@ import Detail from "./Detail";
 
 const Quest: FC<{
   claimableList: ClaimableList;
-  claimedList: boolean[];
+  claimedList: { [tokenId: number]: boolean };
   totalSupply: { [tokenId: number]: number };
   isOpen: boolean;
   onOpenCollection: () => void;
@@ -83,7 +83,7 @@ const Quest: FC<{
           <SimpleGrid columns={3} spacing="8px">
             {Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
               const claimable = Boolean(claimableList.find((v) => v.TokenId === metadata.tokenId.toString()));
-              const claimed = claimedList.length > 0 && claimedList[metadata.tokenId - 1];
+              const claimed = claimedList[metadata.tokenId];
               return (
                 <VStack
                   key={i}
@@ -107,8 +107,7 @@ const Quest: FC<{
                   </Center>
                   <VStack spacing="8px" align="flex-start">
                     <Text textStyle="label-2" color="grey.500">
-                      {/* {objectTraisList[QUEST_OBJECT_CONTRACT_ADDRESS][metadata.tokenId].attributes[7].value} */}
-                      Project Name
+                      {metadata.relatedProject}
                     </Text>
                     <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
                       {metadata.name}
