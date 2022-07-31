@@ -6,6 +6,7 @@ import MovingItemManager from "./item/MovingItemManager";
 import RoomItemManager from "./item/RoomItemManager";
 import Wallpaper from "./wallpaper/Wallpaper";
 import { isItemInLand, isValidTile, itemToLocal } from "./helper";
+import { Viewport } from "pixi-viewport";
 
 export default class Room {
   roomItemManager: RoomItemManager;
@@ -15,6 +16,7 @@ export default class Room {
   landContainer: Container;
   landItemContainer: Container;
   landItemLayer: Layer;
+  land: Sprite;
 
   isEdit: boolean;
 
@@ -30,6 +32,7 @@ export default class Room {
     this.landItemLayer = new Layer();
     this.landItemLayer.zIndex = 3;
     this.landItemLayer.group.enableSort = true;
+    this.land = new Sprite();
 
     this.isEdit = false;
   }
@@ -43,14 +46,27 @@ export default class Room {
     this.landContainer.y = landOffsetY;
     this.landItemContainer.x = landOffsetX;
     this.landItemContainer.y = landOffsetY;
-    const land = Sprite.from("assets/land.png");
-    land.texture.baseTexture.scaleMode = SCALE_MODES.NEAREST;
-    this.landContainer.addChild(land);
+    this.land = Sprite.from("assets/land.png");
+    this.landContainer.addChild(this.land);
     this.landContainer.addChild(this.wallpaper.container);
 
     engine.viewport.addChild(this.landContainer);
     engine.viewport.addChild(this.landItemContainer);
     engine.viewport.addChild(this.landItemLayer);
+
+    engine.viewport.on("zoomed", ({ viewport }: { viewport: Viewport }) => {
+      if (viewport.scaled > 2) {
+        if (engine.scaleMode === SCALE_MODES.NEAREST) return;
+        engine.scaleMode = SCALE_MODES.NEAREST;
+
+        this.updateScaleMode(SCALE_MODES.NEAREST);
+      } else {
+        if (engine.scaleMode === SCALE_MODES.LINEAR) return;
+        engine.scaleMode = SCALE_MODES.LINEAR;
+
+        this.updateScaleMode(SCALE_MODES.LINEAR);
+      }
+    });
   }
 
   enterRoom() {
@@ -132,5 +148,23 @@ export default class Room {
     const tileY = Math.floor((xplusy - xminusy) / 2);
 
     return { x: tileX, y: tileY };
+  }
+
+  updateScaleMode(scaleMode: SCALE_MODES) {
+    const { room } = GameInstance.get();
+
+    this.land.texture.baseTexture.scaleMode = scaleMode;
+    this.land.texture.baseTexture.update();
+
+    room.wallpaper.sprite.texture.baseTexture.scaleMode = scaleMode;
+    room.wallpaper.sprite.texture.baseTexture.update();
+
+    const items = room.roomItemManager.getItems();
+    Object.values(items).forEach((item) => {
+      item.sprites.forEach((sprite) => {
+        sprite.texture.baseTexture.scaleMode = scaleMode;
+        sprite.texture.baseTexture.update();
+      });
+    });
   }
 }
