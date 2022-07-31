@@ -1,9 +1,10 @@
-import { ChangeEventHandler, FC, ReactNode, useContext } from "react";
+import { ChangeEventHandler, FC, MouseEventHandler, ReactNode, Ref, useContext } from "react";
 import { InputGroup, Input as ChakraInput, InputLeftElement, InputRightElement, LayoutProps } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { typographys } from "~/ui/styles/typography";
 
 const Input: FC<{
+  innerRef?: Ref<HTMLInputElement>;
   w: LayoutProps["w"];
   placeholder: string;
   value: string | number;
@@ -11,7 +12,8 @@ const Input: FC<{
   rightIcon?: JSX.Element;
   shadow?: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
-}> = ({ w, placeholder, value, leftIcon, rightIcon, shadow = true, onChange }) => {
+  onClick?: MouseEventHandler<HTMLInputElement>;
+}> = ({ innerRef, w, placeholder, value, leftIcon, rightIcon, shadow = true, onChange, onClick }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -39,6 +41,7 @@ const Input: FC<{
         </InputLeftElement>
       )}
       <ChakraInput
+        ref={innerRef}
         variant="unstyled"
         textStyle="paragraph-2"
         borderRadius="12px"
@@ -50,6 +53,7 @@ const Input: FC<{
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        onClick={onClick}
       />
       {rightIcon && (
         <InputRightElement inlineSize="48px" h="100%" pr="16px">

@@ -10,12 +10,13 @@ export type Option = {
   textColor?: ColorProps["textColor"];
 };
 
-const MenuList: FC<{ w: LayoutProps["w"]; value?: string; options: Option[]; onClick?: (v: string) => void }> = ({
-  w,
-  value,
-  options,
-  onClick,
-}) => {
+const MenuList: FC<{
+  w: LayoutProps["w"];
+  maxH?: LayoutProps["maxH"];
+  value?: string;
+  options: Option[];
+  onClick?: (v: string) => void;
+}> = ({ w, maxH, value, options, onClick }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -28,6 +29,7 @@ const MenuList: FC<{ w: LayoutProps["w"]; value?: string; options: Option[]; onC
         boxShadow="0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);"
         minW="0"
         w={w}
+        maxH={maxH}
         //
         border={colorMode === "light" ? "1px solid" : "none"}
         borderColor="light.g_orange"
