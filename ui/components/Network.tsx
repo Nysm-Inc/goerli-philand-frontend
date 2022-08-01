@@ -5,14 +5,29 @@ import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
 import { objectTraisList } from "~/types/object";
 
+const getLogo = (network: string): string => {
+  switch (network) {
+    case "Goerli": {
+      return "/icons/eth_logo.svg";
+    }
+    case "Mumbai": {
+      return "/icons/polygon_logo.svg";
+    }
+    default: {
+      return "/icons/eth_logo.svg";
+    }
+  }
+};
+
 const Network: FC<{ tokenId: number }> = ({ tokenId }) => {
   const { colorMode } = useContext(AppContext);
+  const networkName = objectTraisList[QUEST_OBJECT_CONTRACT_ADDRESS][tokenId]?.attributes[0]?.value;
 
   return (
     <HStack h="24px" p="2px 8px 2px 4px" borderRadius="16px" spacing="4px" bgColor={colorMode === "light" ? "grey.100" : "dark.grey700"}>
-      <Image src="/icons/eth_logo.svg" width="16px" height="16px" />
+      <Image src={getLogo(networkName)} width="16px" height="16px" />
       <Text textStyle="label-2" color={colorMode === "light" ? "grey.900" : "white"}>
-        {objectTraisList[QUEST_OBJECT_CONTRACT_ADDRESS][tokenId]?.attributes[0]?.value}
+        {networkName}
       </Text>
     </HStack>
   );

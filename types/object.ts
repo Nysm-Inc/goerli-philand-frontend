@@ -990,6 +990,18 @@ export type ObjectTraits = {
   };
 };
 
+// todo: Type
+// export type Attributes = {
+//   network: string;
+//   name: string;
+//   exp: string;
+//   size: string;
+//   world_type: string;
+//   object_type: string;
+//   related_project: string;
+//   creater: string;
+// };
+
 export let objectTraisList: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: ObjectTraits } } = {
   [QUEST_OBJECT_CONTRACT_ADDRESS]: {},
   [FREE_OBJECT_CONTRACT_ADDRESS]: {},

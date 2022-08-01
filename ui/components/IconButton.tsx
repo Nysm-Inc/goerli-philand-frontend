@@ -61,7 +61,7 @@ const IconButton: FC<{
               }
         }
       >
-        <Center>{isLoading ? <Spinner /> : <>{icon}</>}</Center>
+        <Center>{isLoading ? <Spinner mode={colorMode} /> : <>{icon}</>}</Center>
       </ChakraIconButton>
     );
   }
