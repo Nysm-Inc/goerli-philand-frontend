@@ -73,7 +73,7 @@ export default class Item {
 
   getTileBounds(): { leftTop: Point; rightTop: Point; leftBottom: Point; rightBottom: Point } {
     const [sizeX, sizeY] = this.getSize();
-    const baseSize = sizeX > sizeY ? sizeX : sizeY;
+    const baseSize = sizeY;
 
     const leftTop = new Point((TILE_W / 2) * baseSize, 0);
     const rightTop = calcPoint(sizeX, 0, leftTop);
