@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { chain } from "wagmi";
 import { CURRENT_ENS_KEY } from "~/constants";
 import { getOwnedEnsDomains } from "~/utils/ens";
 
@@ -61,18 +60,15 @@ const useENS = (
   }, [account, disabled]);
 
   useEffect(() => {
-    if (!account || disabled) return;
+    if (!account || disabled) {
+      setCurrent("");
+      setDomains([]);
+      return;
+    }
 
     const prev = getENSFromStorage(account);
     setCurrent(prev || ens || "");
-  }, [account]);
-
-  useEffect(() => {
-    if (disabled) {
-      setCurrent("");
-      setDomains([]);
-    }
-  }, [disabled]);
+  }, [account, disabled]);
 
   return [{ isLoading, domains }, current, switchCurrentENS];
 };

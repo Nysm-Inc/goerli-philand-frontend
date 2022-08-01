@@ -39,7 +39,7 @@ const useClaim = (
   const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });
 
   return [
-    data ? metadata.reduce((memo, meta, i) => ({ ...memo, [meta.tokenId]: !!data[i].toNumber() }), {}) : {},
+    data && data[0] ? metadata.reduce((memo, meta, i) => ({ ...memo, [meta.tokenId]: !!data[i]?.toNumber() }), {}) : {},
     {
       claimPhi: async (tokenId: number) => {
         if (!address) return;
