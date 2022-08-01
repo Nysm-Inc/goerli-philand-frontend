@@ -124,8 +124,7 @@ export default class LinkPreview {
         if (window.ethereum) {
           // @ts-ignore
           const provider = new ethers.providers.Web3Provider(window.ethereum);
-          const signer = provider.getSigner();
-          address = await signer.getAddress();
+          address = await provider.getSigner().getAddress();
         }
         postAccess(landENS, target.toString(), address);
       }
