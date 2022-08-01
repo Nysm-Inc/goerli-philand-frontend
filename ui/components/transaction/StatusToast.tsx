@@ -60,6 +60,9 @@ const getColor = (label: Status): string => {
   }
 };
 
+const toastPositon = "top-right";
+const toastManagerId = `chakra-toast-manager-${toastPositon}`;
+
 const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }> = ({ colorMode, tx, onClose }) => {
   const { chain } = useNetwork();
   const [status, setStatus] = useState<Status>(getStatus(tx.status));
@@ -74,9 +77,7 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
 
   return (
     <Box
-      position="absolute"
-      top="96px"
-      right="24px"
+      position="relative"
       w="348px"
       minH="100px"
       h="auto"
@@ -131,7 +132,7 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
 const options = (colorMode: ColorMode, tx: Tx): UseToastOptions => {
   return {
     id: tx.hash,
-    position: "top-right",
+    position: toastPositon,
     duration: null,
     isClosable: true,
     render: (props) => <StatusComponent colorMode={colorMode} tx={tx} onClose={() => props.onClose()} />,
@@ -165,6 +166,13 @@ const StatusTx: FC<{ txs: Tx[] }> = ({ txs }) => {
       }
     });
   }, [txs]);
+
+  // todo
+  useEffect(() => {
+    let toastManagerDomNode = document.getElementById(toastManagerId);
+    if (!toastManagerDomNode) return;
+    toastManagerDomNode.style.padding = "96px 24px 0 0";
+  }, []);
 
   return <></>;
 };
