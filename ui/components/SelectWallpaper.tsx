@@ -1,42 +1,27 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
-import { BalanceObject, Wallpaper } from "~/types";
 import { objectMetadataList } from "~/types/object";
 import SelectBox from "./SelectBox";
 
 const SelectWallpaper: FC<{
-  currentWallpaper?: Wallpaper;
-  balanceWallpapers: BalanceObject[];
+  wallpapers: number[];
+  currentWallpaper?: number;
   disabled?: boolean;
   onChange: (tokenId: number) => void;
-}> = ({ currentWallpaper, balanceWallpapers, disabled, onChange }) => {
-  const [selectedWallpaper, setSelectedWallpaper] = useState(currentWallpaper?.tokenId || 0);
-
-  useEffect(() => {
-    setSelectedWallpaper(currentWallpaper?.tokenId || 0);
-  }, [currentWallpaper?.tokenId]);
+}> = ({ wallpapers, currentWallpaper, disabled, onChange }) => {
+  const [selectedWallpaper, setSelectedWallpaper] = useState(currentWallpaper);
 
   return (
     <SelectBox
       w="136px"
       menuW="160px"
-      options={[
-        ...balanceWallpapers.map((wallpaper) => ({
-          label: objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][wallpaper.tokenId]?.name,
-          value: wallpaper.tokenId.toString(),
-        })),
-        ...(currentWallpaper?.tokenId
-          ? [
-              {
-                label: objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][currentWallpaper.tokenId]?.name,
-                value: currentWallpaper.tokenId.toString(),
-              },
-            ]
-          : []),
-      ]}
+      options={wallpapers.map((tokenId) => ({
+        label: objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][tokenId].name,
+        value: tokenId.toString(),
+      }))}
       selected={{
-        label: selectedWallpaper ? objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][selectedWallpaper]?.name : "",
-        value: selectedWallpaper.toString() || "",
+        label: selectedWallpaper ? objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][selectedWallpaper].name : "",
+        value: selectedWallpaper ? selectedWallpaper.toString() : "",
       }}
       disabled={disabled}
       handleChange={(v) => {

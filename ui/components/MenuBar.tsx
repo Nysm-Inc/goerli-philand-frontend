@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, useContext } from "react";
+import { FC, useContext, useMemo } from "react";
 import { TransactionResponse } from "@ethersproject/providers";
 import { Divider, HStack, Text, useBoolean } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
@@ -33,6 +33,15 @@ const MenuBar: FC<{
 }> = ({ initialized, isEdit, isOpen, currentENS, domains, isApprovedWallpaper, currentWallpaper, balanceWallpapers, actionHandler }) => {
   const { colorMode } = useContext(AppContext);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
+  const uniqueWallpapers = useMemo(() => {
+    return Array.from(
+      new Set(
+        currentWallpaper?.tokenId
+          ? [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId), currentWallpaper?.tokenId]
+          : [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId)]
+      )
+    );
+  }, [currentWallpaper?.tokenId, balanceWallpapers.length]);
 
   return (
     <HStack
@@ -54,9 +63,9 @@ const MenuBar: FC<{
       <>
         {isEdit ? (
           <SelectWallpaper
-            currentWallpaper={currentWallpaper}
-            balanceWallpapers={balanceWallpapers}
-            disabled={!isApprovedWallpaper}
+            currentWallpaper={currentWallpaper?.tokenId}
+            wallpapers={uniqueWallpapers}
+            disabled={!isApprovedWallpaper || uniqueWallpapers.length <= 0}
             onChange={actionHandler.onChangeWallpaper}
           />
         ) : (
