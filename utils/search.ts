@@ -12,7 +12,7 @@ type SearchResponse = {
 
 export const search = async (name: string): Promise<SearchResponse> => {
   const url = new URL(UTILS_API_GATEWAY + "/search");
-  url.searchParams.append("name", name);
+  url.searchParams.append("name", name + "*");
 
   const res = await axios.get<SearchResponse>(url.toString());
   return res.data;
