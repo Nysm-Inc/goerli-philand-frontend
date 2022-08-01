@@ -981,7 +981,7 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
   };
 
 export type ObjectTraits = {
-  attributes: { trait_type: string; value: string }[];
+  attributes: { trait_type: string; value: string }[]; // todo: Type
   name: string;
   description: string;
   collection: {
