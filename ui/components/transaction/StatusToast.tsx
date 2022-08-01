@@ -167,9 +167,8 @@ const StatusTx: FC<{ txs: Tx[] }> = ({ txs }) => {
     });
   }, [txs]);
 
-  // todo
   useEffect(() => {
-    let toastManagerDomNode = document.getElementById(toastManagerId);
+    const toastManagerDomNode = document.getElementById(toastManagerId);
     if (!toastManagerDomNode) return;
     toastManagerDomNode.style.padding = "96px 24px 0 0";
   }, []);
