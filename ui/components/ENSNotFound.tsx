@@ -11,7 +11,7 @@ const ENSNotFound: FC = () => {
   const [isOpen, { off: onClose }] = useBoolean(true);
 
   return (
-    <Modal w="456px" h="400px" isOpen={isOpen} onClose={() => {}}>
+    <Modal w="456px" h="400px" isOpen={isOpen} onClose={onClose}>
       <ModalHeader
         buttons={[
           <IconButton

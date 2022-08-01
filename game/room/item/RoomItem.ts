@@ -52,7 +52,7 @@ export default class RoomItem extends Item {
 
     const [sizeX, sizeY] = this.getSize();
     let [px, py] = [this.tileX, this.tileY + sizeY - 1];
-    const wrapN = sizeX < sizeY ? sizeX - 1 : sizeY - 1;
+    const wrapN = sizeX - 1;
     for (let n = 0; n < sizeX + sizeY; n++) {
       this.sprites[n].parentLayer = room.landItemLayer;
       this.sprites[n].zOrder = px + py;
