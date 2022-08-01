@@ -981,7 +981,7 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
   };
 
 export type ObjectTraits = {
-  attributes: { trait_type: string; value: string }[]; // todo: Type
+  attributes: { trait_type: string; value: string }[];
   name: string;
   description: string;
   collection: {
@@ -989,6 +989,18 @@ export type ObjectTraits = {
     name: string;
   };
 };
+
+// todo: Type
+// export type Attributes = {
+//   network: string;
+//   name: string;
+//   exp: string;
+//   size: string;
+//   world_type: string;
+//   object_type: string;
+//   related_project: string;
+//   creater: string;
+// };
 
 export let objectTraisList: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: ObjectTraits } } = {
   [QUEST_OBJECT_CONTRACT_ADDRESS]: {},
