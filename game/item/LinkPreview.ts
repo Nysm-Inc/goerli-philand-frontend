@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Container, Graphics, Sprite, Text, Texture } from "pixi.js";
+import { ethers } from "ethers";
 import { PhiLink } from "~/types";
 import GameInstance from "~/game/GameInstance";
 import { postAccess } from "~/utils/access";
@@ -114,12 +115,19 @@ export default class LinkPreview {
     this.container.y = localY;
   }
 
-  onMousedown() {
+  async onMousedown() {
     try {
       const target = new URL(this.link.url);
       const landENS = new URL(window.location.href).pathname.slice(1);
       if (isValid(landENS)) {
-        postAccess(landENS, target.toString(), "");
+        let address = "";
+        if (window.ethereum) {
+          // @ts-ignore
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+          address = await signer.getAddress();
+        }
+        postAccess(landENS, target.toString(), address);
       }
       if (isValid(target.pathname.slice(1))) {
         window.location.href = target.toString();
