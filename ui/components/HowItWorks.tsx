@@ -26,7 +26,7 @@ const HowItWorks: FC<{ isCreatedPhiland: boolean; isOpen: boolean; onOpen: () =>
   }, [isCreatedPhiland]);
 
   return (
-    <Modal w="864px" h="712px" isOpen={isOpen} onClose={() => {}}>
+    <Modal w="864px" h="712px" isOpen={isOpen} onClose={onClose}>
       <ModalHeader
         title="How It Works"
         buttons={[
