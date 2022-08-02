@@ -1,15 +1,14 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useBreakpointValue } from "@chakra-ui/react";
+import { useContext, useEffect } from "react";
 import axios from "axios";
+import { useBreakpointValue } from "@chakra-ui/react";
+import { AppContext } from "~/contexts";
 import { UTILS_API_GATEWAY } from "~/constants";
 import { useWallpaper, useViewPhiland } from "~/hooks/map";
 import { useGame } from "~/hooks/game";
 import { useCreatePhiland } from "~/hooks/registry";
-import { Dev, Header, HeaderMd } from "~/ui/components";
-import { useContext, useEffect } from "react";
-import { AppContext } from "~/contexts";
-import LandNotFound from "~/ui/components/LandNotFound";
+import { Dev, Header, HeaderMd, LandNotFound } from "~/ui/components";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
