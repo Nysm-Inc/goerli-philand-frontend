@@ -17,8 +17,8 @@ const Head: FC<{ ogp?: string }> = ({ ogp }) => {
       <meta property="og:description" content={description} />
       <meta property="og:type" content="website" />
       <meta property="og:image" content={ogp ? `https://${ogp}` : "/og.png"} />
-      <meta property="og:image:width" content={String(ogp ? LAND_OGP_W : 1200)} />
-      <meta property="og:image:height" content={String(ogp ? LAND_OGP_H : 630)} />
+      <meta property="og:image:width" content={String(LAND_OGP_W)} />
+      <meta property="og:image:height" content={String(LAND_OGP_H)} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@phi_xyz" />
       <meta name="twitter:creator" content="@phi_xyz" />
