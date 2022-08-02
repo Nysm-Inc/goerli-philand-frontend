@@ -26,23 +26,7 @@ const AppContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
       });
   }, []);
 
-  return (
-    <>
-      {game ? (
-        <AppContext.Provider
-          value={{
-            game,
-            colorMode,
-            toggleColorMode,
-          }}
-        >
-          {children}
-        </AppContext.Provider>
-      ) : (
-        <></>
-      )}
-    </>
-  );
+  return <>{game ? <AppContext.Provider value={{ game, colorMode, toggleColorMode }}>{children}</AppContext.Provider> : <></>}</>;
 };
 
 export default AppContextProvider;

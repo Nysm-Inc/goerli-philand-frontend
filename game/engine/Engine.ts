@@ -61,10 +61,8 @@ export default class Engine {
     });
     this.app.stage = new LayerStage();
     this.app.stage.sortableChildren = true;
-    this.app.loader.concurrency = 100; // todo
-    this.app.renderer.on("resize", () => {
-      this.initializeCloudsPosition();
-    });
+    this.app.loader.concurrency = 100;
+    this.app.renderer.on("resize", () => this.initializeCloudsPosition());
     document.body.appendChild(this.app.view);
 
     this.viewport = new Viewport({
@@ -74,16 +72,12 @@ export default class Engine {
       passiveWheel: false,
       stopPropagation: true,
     });
-    const isMobile = window.matchMedia("(any-pointer:coarse)").matches;
+    const isMobile = window.matchMedia("(any-pointer:coarse)").matches; // todo
     this.viewport
       .moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2)
       .setZoom(isMobile ? 0.25 : 0.6, true)
       .clampZoom({ minScale: 0.1, maxScale: 16 })
-      .drag({
-        clampWheel: false,
-        wheel: true,
-        pressDrag: isMobile, // todo: diff mobile
-      })
+      .drag({ clampWheel: false, wheel: true, pressDrag: isMobile })
       .wheel({ smooth: 3, trackpadPinch: true, wheelZoom: false })
       .pinch()
       .decelerate()
@@ -96,56 +90,51 @@ export default class Engine {
       });
     this.app.stage.addChild(this.viewport);
 
-    {
-      this.cloudContainer = new Container();
-      this.clouds = { light: new Container(), dark: new Container() };
-      this.clouds.light.visible = false;
-      this.clouds.dark.visible = false;
-      this.cloudSprites = {
-        light: {
-          lefttop: Sprite.from("assets/clouds/cloud_lefttop_light.png"),
-          righttop: Sprite.from("assets/clouds/cloud_righttop_light.png"),
-          leftbottom: Sprite.from("assets/clouds/cloud_leftbottom_light.png"),
-          rightbottom: Sprite.from("assets/clouds/cloud_rightbottom_light.png"),
-        },
-        dark: {
-          lefttop: Sprite.from("assets/clouds/cloud_lefttop_dark.png"),
-          righttop: Sprite.from("assets/clouds/cloud_righttop_dark.png"),
-          leftbottom: Sprite.from("assets/clouds/cloud_leftbottom_dark.png"),
-          rightbottom: Sprite.from("assets/clouds/cloud_rightbottom_dark.png"),
-        },
-      };
-      this.initializeCloudsPosition();
-      this.clouds.light.addChild(this.cloudSprites.light.lefttop);
-      this.clouds.light.addChild(this.cloudSprites.light.righttop);
-      this.clouds.light.addChild(this.cloudSprites.light.leftbottom);
-      this.clouds.light.addChild(this.cloudSprites.light.rightbottom);
-      this.cloudContainer.addChild(this.clouds.light);
-      this.clouds.dark.addChild(this.cloudSprites.dark.lefttop);
-      this.clouds.dark.addChild(this.cloudSprites.dark.righttop);
-      this.clouds.dark.addChild(this.cloudSprites.dark.leftbottom);
-      this.clouds.dark.addChild(this.cloudSprites.dark.rightbottom);
-      this.cloudContainer.addChild(this.clouds.dark);
-      this.app.stage.addChild(this.cloudContainer);
-    }
+    this.cloudContainer = new Container();
+    this.clouds = { light: new Container(), dark: new Container() };
+    this.clouds.light.visible = false;
+    this.clouds.dark.visible = false;
+    this.cloudSprites = {
+      light: {
+        lefttop: Sprite.from("assets/clouds/cloud_lefttop_light.png"),
+        righttop: Sprite.from("assets/clouds/cloud_righttop_light.png"),
+        leftbottom: Sprite.from("assets/clouds/cloud_leftbottom_light.png"),
+        rightbottom: Sprite.from("assets/clouds/cloud_rightbottom_light.png"),
+      },
+      dark: {
+        lefttop: Sprite.from("assets/clouds/cloud_lefttop_dark.png"),
+        righttop: Sprite.from("assets/clouds/cloud_righttop_dark.png"),
+        leftbottom: Sprite.from("assets/clouds/cloud_leftbottom_dark.png"),
+        rightbottom: Sprite.from("assets/clouds/cloud_rightbottom_dark.png"),
+      },
+    };
+    this.initializeCloudsPosition();
+    this.clouds.light.addChild(this.cloudSprites.light.lefttop);
+    this.clouds.light.addChild(this.cloudSprites.light.righttop);
+    this.clouds.light.addChild(this.cloudSprites.light.leftbottom);
+    this.clouds.light.addChild(this.cloudSprites.light.rightbottom);
+    this.cloudContainer.addChild(this.clouds.light);
+    this.clouds.dark.addChild(this.cloudSprites.dark.lefttop);
+    this.clouds.dark.addChild(this.cloudSprites.dark.righttop);
+    this.clouds.dark.addChild(this.cloudSprites.dark.leftbottom);
+    this.clouds.dark.addChild(this.cloudSprites.dark.rightbottom);
+    this.cloudContainer.addChild(this.clouds.dark);
+    this.app.stage.addChild(this.cloudContainer);
 
-    {
-      this.grids = new Container();
-      this.grids.zIndex = -1;
-      this.grids.visible = false;
-      this.gridSprites = {
-        light: new TilingSprite(Texture.from("assets/grid-pattern-light.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
-        dark: new TilingSprite(Texture.from("assets/grid-pattern-dark.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
-      };
-      this.gridSprites.light.visible = false;
-      this.gridSprites.dark.visible = false;
-      this.grids.addChild(this.gridSprites.light);
-      this.grids.addChild(this.gridSprites.dark);
-      this.app.stage.addChild(this.grids);
-    }
+    this.grids = new Container();
+    this.grids.zIndex = -1;
+    this.grids.visible = false;
+    this.gridSprites = {
+      light: new TilingSprite(Texture.from("assets/grid-pattern-light.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
+      dark: new TilingSprite(Texture.from("assets/grid-pattern-dark.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
+    };
+    this.gridSprites.light.visible = false;
+    this.gridSprites.dark.visible = false;
+    this.grids.addChild(this.gridSprites.light);
+    this.grids.addChild(this.gridSprites.dark);
+    this.app.stage.addChild(this.grids);
   }
 
-  // todo: cache loaded files
   async loadGlobalTextures() {
     return new Promise((resolve, reject) => {
       for (const [contract, metadataList] of Object.entries(objectMetadataList)) {
@@ -199,10 +188,8 @@ export default class Engine {
     const { room } = GameInstance.get();
     const container = new Container();
 
-    // background
     container.addChild(Sprite.from(this.ogpLayout[this.colorMode]));
 
-    // land
     const roomContainer = cloneDeep(room.container);
     const ogpLandW = LAND_OGP_W - 90 * 2;
     const ogpLandH = LAND_OGP_H * (ogpLandW / LAND_OGP_W);

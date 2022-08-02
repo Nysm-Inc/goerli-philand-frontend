@@ -1,4 +1,5 @@
 import { Container, SCALE_MODES, Sprite } from "pixi.js";
+import { Viewport } from "pixi-viewport";
 import { Layer } from "@pixi/layers";
 import { GAME_APP_HEIGHT, GAME_APP_WIDTH, LAND_H, LAND_OFFSET_Y, LAND_W, TILE_H, TILE_W } from "~/constants";
 import GameInstance from "~/game/GameInstance";
@@ -6,7 +7,6 @@ import MovingItemManager from "./item/MovingItemManager";
 import RoomItemManager from "./item/RoomItemManager";
 import Wallpaper from "./wallpaper/Wallpaper";
 import { isItemInLand, isValidTile, itemToLocal } from "./helper";
-import { Viewport } from "pixi-viewport";
 
 export default class Room {
   roomItemManager: RoomItemManager;

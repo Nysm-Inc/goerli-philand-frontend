@@ -112,7 +112,6 @@ const PC: FC = () => {
   } = useGame({
     state: { currentENS, isEdit, isCreatedPhiland, phiObjects, wallpaper },
     uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
-    // todo: onOpenWallpaperMenu
     gameUIHandler: { onOpenActionMenu, onChangeLinkMenu: changeLink },
   });
 
@@ -163,7 +162,6 @@ const PC: FC = () => {
         onClickUpdate={updateClaimableList}
       />
       <Shop
-        //
         isOpen={isOpenShop}
         onOpenCollection={onOpenCollection}
         onClose={onCloseShop}
@@ -274,14 +272,7 @@ const PC: FC = () => {
             <>
               {address ? (
                 <Box zIndex="default" position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
-                  {isLoading ? (
-                    <>
-                      {/* todo */}
-                      {/* <>Loaindg Splash...</> */}
-                    </>
-                  ) : (
-                    <ENSNotFound />
-                  )}
+                  {isLoading ? <>{!initialized && <>{/* todo: Splash */}</>}</> : <ENSNotFound />}
                 </Box>
               ) : (
                 <Box zIndex="default" position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">

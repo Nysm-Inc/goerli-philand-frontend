@@ -1,7 +1,7 @@
-import { IObject } from "~/types";
 import GameInstance from "~/game/GameInstance";
 import Item from "~/game/item/Item";
 import { isItemInLand, itemToLocal } from "~/game/room/helper";
+import { IObject } from "~/types";
 import RoomItem from "./RoomItem";
 
 export default class MovingItemManager {
