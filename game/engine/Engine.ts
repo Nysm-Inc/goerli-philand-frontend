@@ -12,6 +12,7 @@ import {
   LAND_OGP_W,
   LAND_OGP_H,
 } from "~/constants";
+import GameInstance from "~/game/GameInstance";
 import { ObjectContractAddress, WallpaperContractAddress } from "~/types";
 import { objectMetadataList } from "~/types/object";
 import { ColorMode } from "~/ui/styles";
@@ -195,15 +196,25 @@ export default class Engine {
   }
 
   exportImage() {
+    const { room } = GameInstance.get();
     const container = new Container();
 
+    // background
     container.addChild(Sprite.from(this.ogpLayout[this.colorMode]));
 
-    const viewport = cloneDeep(this.viewport);
-    viewport.resize(LAND_OGP_W, LAND_OGP_H, LAND_OGP_W, LAND_OGP_H);
-    viewport.x -= 128;
-    viewport.y -= 64;
-    container.addChild(viewport);
+    // land
+    const roomContainer = cloneDeep(room.container);
+    const ogpLandW = LAND_OGP_W - 90 * 2;
+    const ogpLandH = LAND_OGP_H * (ogpLandW / LAND_OGP_W);
+    roomContainer.width = ogpLandW;
+    roomContainer.height = ogpLandH;
+    roomContainer.children.forEach((child) => {
+      child.x = 0;
+      child.y = 0;
+    });
+    roomContainer.x = 90;
+    roomContainer.y = LAND_OGP_H - ogpLandH - 16;
+    container.addChild(roomContainer);
 
     return this.app.renderer.plugins.extract.base64(container);
   }
