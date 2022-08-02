@@ -53,7 +53,7 @@ export default class LinkPreview {
 
     const gapArea = new Graphics();
     gapArea.beginFill(0xffffff, 0.001);
-    gapArea.drawRoundedRect(0, 64, 296, 64, 0);
+    gapArea.drawRoundedRect(0, 64, 296, 64 * 2, 0);
     gapArea.endFill();
     hiddenArea.addChild(gapArea);
 
