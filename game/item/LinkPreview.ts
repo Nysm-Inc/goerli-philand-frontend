@@ -59,14 +59,14 @@ export default class LinkPreview {
 
     this.defaultOGP = new Graphics();
     this.defaultOGP.beginFill(0xcccccc);
-    this.defaultOGP.drawRoundedRect(8, 8, 92, 48, 8);
+    this.defaultOGP.drawRoundedRect(8, 8, 48, 48, 8);
     this.defaultOGP.endFill();
     clickableArea.addChild(this.defaultOGP);
 
     this.ogp = new Sprite();
     this.ogp.x = 8;
     this.ogp.y = 8;
-    this.ogp.width = 92;
+    this.ogp.width = 48;
     this.ogp.height = 48;
     clickableArea.addChild(this.ogp);
 
@@ -79,7 +79,7 @@ export default class LinkPreview {
       letterSpacing: -0.02,
       align: "center",
     });
-    this.text.x = 92 + 8 + 8;
+    this.text.x = 48 + 8 + 8;
     this.text.y = 64 / 2 - 8;
     clickableArea.addChild(this.text);
   }
@@ -96,9 +96,23 @@ export default class LinkPreview {
       try {
         const url = new URL(link.url);
         const res = await axios.get<{ ogp: string }>(`/api/fetchOGP?url=${url}`);
-        this.ogpURL = res.data.ogp;
-        this.ogp.texture = Texture.from(this.ogpURL);
-        this.ogp.mask = this.defaultOGP;
+        const img = new Image();
+        img.src = res.data.ogp;
+        img.onload = () => {
+          this.ogpURL = res.data.ogp;
+
+          const w = 48 * (img.width / img.height);
+
+          this.defaultOGP.beginFill(0xcccccc);
+          this.defaultOGP.drawRoundedRect(8, 8, w, 48, 8);
+          this.defaultOGP.endFill();
+
+          this.ogp.width = w;
+          this.ogp.texture = Texture.from(this.ogpURL);
+          this.ogp.mask = this.defaultOGP;
+
+          this.text.x = w + 8 + 8;
+        };
       } catch {
         const icon = Sprite.from("assets/default_ogp.png");
         icon.width = 30;
