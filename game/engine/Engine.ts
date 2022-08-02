@@ -1,11 +1,11 @@
-import { Application, Container, Graphics, LoaderResource, SCALE_MODES, Sprite, Texture, TilingSprite } from "pixi.js";
+import { Application, Container, LoaderResource, SCALE_MODES, Sprite, Texture, TilingSprite } from "pixi.js";
 import { Stage as LayerStage } from "@pixi/layers";
 import { Viewport } from "pixi-viewport";
 import cloneDeep from "lodash.clonedeep"; // todo
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
-  GAME_APP_HEIGHT,
   GAME_APP_WIDTH,
+  GAME_APP_HEIGHT,
   QUEST_OBJECT_CONTRACT_ADDRESS,
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
@@ -26,6 +26,7 @@ export default class Engine {
   cloudSprites: { [mode in ColorMode]: { lefttop: Sprite; righttop: Sprite; leftbottom: Sprite; rightbottom: Sprite } };
   grids: Container;
   gridSprites: { [mode in ColorMode]: TilingSprite };
+  ogpLayout: { [mode in ColorMode]: Texture };
   colorMode: ColorMode;
   scaleMode: SCALE_MODES;
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
@@ -42,6 +43,10 @@ export default class Engine {
     };
     this.colorMode = "light";
     this.scaleMode = SCALE_MODES.LINEAR;
+    this.ogpLayout = {
+      light: Sprite.from("assets/ogp_layout_light.png").texture,
+      dark: Sprite.from("assets/ogp_layout_dark.png").texture,
+    };
 
     this.app = new Application({
       width: window.innerWidth,
@@ -87,9 +92,6 @@ export default class Engine {
       .on("mousemove", (evt) => {
         const world = this.viewport.toWorld(evt.data.global);
         this.onMouseMoveHandler(world.x, world.y);
-      })
-      .on("zoomed", ({ viewport }: { viewport: Viewport }) => {
-        // if (viewport.scaled > 2) {}
       });
     this.app.stage.addChild(this.viewport);
 
@@ -193,36 +195,14 @@ export default class Engine {
   }
 
   exportImage() {
-    const [ogpW, ogpH] = [LAND_OGP_W, LAND_OGP_H];
     const container = new Container();
-    const background = new Graphics()
-      .beginFill(this.colorMode === "light" ? 0xf5f2eb : 0x0d0d0d)
-      .drawRect(0, 0, ogpW, ogpH)
-      .endFill();
-    container.addChild(background);
 
-    // const cloudlefttop = Sprite.from(`assets/clouds/cloud_lefttop_${this.colorMode}.png`);
-    // const cloudrighttop = Sprite.from(`assets/clouds/cloud_righttop_${this.colorMode}.png`);
-    // const cloudleftbottom = Sprite.from(`assets/clouds/cloud_leftbottom_${this.colorMode}.png`);
-    // const cloudrightbottom = Sprite.from(`assets/clouds/cloud_rightbottom_${this.colorMode}.png`);
-    // cloudlefttop.x = 0;
-    // cloudlefttop.y = 0;
-    // cloudrighttop.x = ogpW - 466;
-    // cloudrighttop.y = 0;
-    // cloudleftbottom.x = 0;
-    // cloudleftbottom.y = ogpH - 312;
-    // cloudrightbottom.x = ogpW - 466;
-    // cloudrightbottom.y = ogpH - 312;
-    // container.addChild(cloudlefttop);
-    // container.addChild(cloudrighttop);
-    // container.addChild(cloudleftbottom);
-    // container.addChild(cloudrightbottom);
+    container.addChild(Sprite.from(this.ogpLayout[this.colorMode]));
 
     const viewport = cloneDeep(this.viewport);
-    viewport.resize(ogpW, ogpH, ogpW, ogpH);
-    viewport.setZoom(1, true);
-    viewport.x = -ogpW / 2;
-    viewport.y = -ogpH / 2;
+    viewport.resize(LAND_OGP_W, LAND_OGP_H, LAND_OGP_W, LAND_OGP_H);
+    viewport.x -= 128;
+    viewport.y -= 64;
     container.addChild(viewport);
 
     return this.app.renderer.plugins.extract.base64(container);
