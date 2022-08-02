@@ -14,11 +14,11 @@ const Help: FC<{ onOpenHowItWorks: () => void }> = ({ onOpenHowItWorks }) => {
       <Menu variant="unstyled" autoSelect={false}>
         <MenuButton as={IconButton} ariaLabel="help" icon={<Icon name="help" color={colorMode === "light" ? "grey.900" : "white"} />} />
         <MenuList
-          w="180px"
+          w="308px"
           options={[
             { label: "How It Works", value: "", onClick: onOpenHowItWorks },
             { label: "Feedbacks", value: "", onClick: () => window.open(FEEDBACK_FORM, "_blank") },
-            { label: "Bug Reports", value: "", onClick: () => window.open(BUG_REPORT, "_blank") },
+            { label: "Bug Reports / Feature Requests", value: "", onClick: () => window.open(BUG_REPORT, "_blank") },
             { label: "Hiring", value: "", onClick: () => window.open(HIRING, "_blank") },
             { label: "Partnership", value: "", onClick: () => window.open(PARTNERSHIP_APPLICATION, "_blank") },
           ]}

@@ -39,5 +39,5 @@ export const LAND_H = 820;
 export const LAND_OFFSET_X = 20;
 export const LAND_OFFSET_Y = 10;
 export const ROOM_TILE_N = 16;
-export const LAND_OGP_W = 2000;
-export const LAND_OGP_H = 2000;
+export const LAND_OGP_W = 1200;
+export const LAND_OGP_H = 630;

@@ -13,6 +13,7 @@ export default class Room {
   movingItemManager: MovingItemManager;
   wallpaper: Wallpaper;
 
+  container: Container;
   landContainer: Container;
   landItemContainer: Container;
   landItemLayer: Layer;
@@ -25,6 +26,7 @@ export default class Room {
     this.movingItemManager = new MovingItemManager();
     this.wallpaper = new Wallpaper();
 
+    this.container = new Container();
     this.landContainer = new Container();
     this.landContainer.zIndex = 1;
     this.landItemContainer = new Container();
@@ -50,9 +52,10 @@ export default class Room {
     this.landContainer.addChild(this.land);
     this.landContainer.addChild(this.wallpaper.container);
 
-    engine.viewport.addChild(this.landContainer);
-    engine.viewport.addChild(this.landItemContainer);
-    engine.viewport.addChild(this.landItemLayer);
+    this.container.addChild(this.landContainer);
+    this.container.addChild(this.landItemContainer);
+    this.container.addChild(this.landItemLayer);
+    engine.viewport.addChild(this.container);
 
     engine.viewport.on("zoomed", ({ viewport }: { viewport: Viewport }) => {
       if (viewport.scaled > 2) {

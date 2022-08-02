@@ -7,6 +7,8 @@ type OGP = {
   type: string;
   title: string;
   image: string;
+  // "image:width"?: string;
+  // "image:height"?: string;
   description: string;
   url: string;
   site_name: string;

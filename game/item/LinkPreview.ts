@@ -59,14 +59,14 @@ export default class LinkPreview {
 
     this.defaultOGP = new Graphics();
     this.defaultOGP.beginFill(0xcccccc);
-    this.defaultOGP.drawRoundedRect(8, 8, 48, 48, 8);
+    this.defaultOGP.drawRoundedRect(8, 8, 92, 48, 8);
     this.defaultOGP.endFill();
     clickableArea.addChild(this.defaultOGP);
 
     this.ogp = new Sprite();
     this.ogp.x = 8;
     this.ogp.y = 8;
-    this.ogp.width = 48;
+    this.ogp.width = 92;
     this.ogp.height = 48;
     clickableArea.addChild(this.ogp);
 
@@ -79,7 +79,7 @@ export default class LinkPreview {
       letterSpacing: -0.02,
       align: "center",
     });
-    this.text.x = 48 + 8 + 8;
+    this.text.x = 92 + 8 + 8;
     this.text.y = 64 / 2 - 8;
     clickableArea.addChild(this.text);
   }
