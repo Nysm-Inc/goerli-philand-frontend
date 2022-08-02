@@ -1,4 +1,4 @@
-import { Container, SCALE_MODES, Sprite } from "pixi.js";
+import { Container, Sprite } from "pixi.js";
 import { LAND_OFFSET_X, LAND_OFFSET_Y, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import GameInstance from "~/game/GameInstance";
 import { Wallpaper as TWallpaper } from "~/types";

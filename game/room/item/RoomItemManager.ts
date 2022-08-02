@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
-import { PhiObject, IObject } from "~/types";
 import GameInstance from "~/game/GameInstance";
-import { ROOM_TILE_N } from "~/constants";
 import { isValidTile } from "~/game/room/helper";
+import { ROOM_TILE_N } from "~/constants";
+import { PhiObject, IObject } from "~/types";
 import RoomItem from "./RoomItem";
 
 const emptyTilemap = (): string[][] => [...Array(ROOM_TILE_N)].map(() => Array(ROOM_TILE_N).fill(""));
