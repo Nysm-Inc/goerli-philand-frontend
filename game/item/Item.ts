@@ -1,4 +1,4 @@
-import { Container, Point, Rectangle, SCALE_MODES, Sprite } from "pixi.js";
+import { Container, Point, Rectangle, Sprite } from "pixi.js";
 import { TILE_W } from "~/constants";
 import { IObject, PhiLink } from "~/types";
 import GameInstance from "~/game/GameInstance";

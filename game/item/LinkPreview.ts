@@ -72,7 +72,7 @@ export default class LinkPreview {
 
     // memo: paragraph-1
     this.text = new Text("", {
-      fontFamily: "JetBrainsMono",
+      fontFamily: "JetBrainsMono", // todo
       fontWeight: "500",
       fontSize: "16px",
       lineHeight: 24,
