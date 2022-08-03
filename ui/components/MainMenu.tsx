@@ -28,7 +28,6 @@ const MainMenu: FC<{ isOpenQuest: boolean; isOpenShop: boolean; onOpenQuest: () 
           </VStack>
         }
         isActive={isOpenQuest}
-        boxShadow={false}
         onClick={() => {
           onOpenQuest();
           event({ action: "click", category: "menubar", label: "quest" });
@@ -47,7 +46,6 @@ const MainMenu: FC<{ isOpenQuest: boolean; isOpenShop: boolean; onOpenQuest: () 
           </VStack>
         }
         isActive={isOpenShop}
-        boxShadow={false}
         onClick={() => {
           onOpenShop();
           event({ action: "click", category: "menubar", label: "shop" });
