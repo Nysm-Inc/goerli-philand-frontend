@@ -87,6 +87,13 @@ export default class Engine {
       .on("mousemove", (evt) => {
         const world = this.viewport.toWorld(evt.data.global);
         this.onMouseMoveHandler(world.x, world.y);
+      })
+      .on("zoomed", ({ viewport }: { viewport: Viewport }) => {
+        if (viewport.scaled > 2) {
+          this.hideClouds();
+        } else {
+          this.showClouds();
+        }
       });
     this.app.stage.addChild(this.viewport);
 
