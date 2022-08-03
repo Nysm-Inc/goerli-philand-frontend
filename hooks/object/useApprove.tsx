@@ -1,5 +1,5 @@
 import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { QuestObjectAbi } from "~/abi";
 import { Tx } from "~/types/tx";

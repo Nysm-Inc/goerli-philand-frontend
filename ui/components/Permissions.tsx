@@ -1,5 +1,5 @@
 import { FC, useContext } from "react";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { Center, Flex, Text, useBoolean, VStack } from "@chakra-ui/react";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,

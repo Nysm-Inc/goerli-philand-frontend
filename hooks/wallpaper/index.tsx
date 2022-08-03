@@ -1,5 +1,5 @@
 import { useContractWrite, useWaitForTransaction } from "wagmi";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { WallpaperAbi } from "~/abi";
 import { Tx } from "~/types/tx";

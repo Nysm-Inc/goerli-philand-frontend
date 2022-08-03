@@ -1,5 +1,5 @@
 import { Box, Text, useBoolean, VStack } from "@chakra-ui/react";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import Image from "next/image";
 import { FC } from "react";
 import { nullAddress } from "~/types";

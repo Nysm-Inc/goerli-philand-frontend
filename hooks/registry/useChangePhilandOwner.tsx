@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { REGISTRY_CONTRACT_ADDRESS, UTILS_API_GATEWAY } from "~/constants";
 import { RegistryAbi } from "~/abi";
 import { Tx } from "~/types/tx";

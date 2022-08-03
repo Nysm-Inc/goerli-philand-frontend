@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { AppContext } from "~/contexts";
 import { IObject, ObjectContractAddress, PhiLink, PhiObject, Wallpaper } from "~/types";
 import { SaveArgs } from "~/hooks/map";

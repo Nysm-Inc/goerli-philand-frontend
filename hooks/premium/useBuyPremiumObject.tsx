@@ -1,5 +1,5 @@
 import { useContractWrite, useWaitForTransaction } from "wagmi";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { PremiumObjectAbi } from "~/abi";
 import { BigNumber, ethers } from "ethers";

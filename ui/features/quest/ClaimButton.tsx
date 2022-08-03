@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Text, useBoolean } from "@chakra-ui/react";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { Button, Icon, useNavi } from "~/ui/components";
 
 const ClaimButton: FC<{

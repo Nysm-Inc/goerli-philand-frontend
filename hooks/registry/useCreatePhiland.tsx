@@ -1,5 +1,5 @@
 import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import axios from "axios";
 import { MAP_CONTRACT_ADDRESS, REGISTRY_CONTRACT_ADDRESS, UTILS_API_GATEWAY } from "~/constants";
 import { MapAbi, RegistryAbi } from "~/abi";
