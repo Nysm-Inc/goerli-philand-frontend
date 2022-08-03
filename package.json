@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen:chakra-theme-types": "npx @chakra-ui/cli tokens ui/styles/index.ts"
+    "gen:chakra-theme-types": "npx @chakra-ui/cli tokens ui/styles/index.ts",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.2.1",
@@ -31,6 +32,7 @@
     "wagmi": "^0.5.5"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^12.2.3",
     "@types/gtag.js": "^0.0.10",
     "@types/jsdom": "^16.2.15",
     "@types/lodash.clonedeep": "^4.5.7",
