@@ -47,10 +47,10 @@ const useENS = (
 
   useEffect(() => {
     setIsLoading(true);
+    setCurrent("");
+    setDomains([]);
     if (!account || disabled) {
       setIsLoading(false);
-      setCurrent("");
-      setDomains([]);
       return;
     }
 
