@@ -1,5 +1,5 @@
 import { useContractWrite, useWaitForTransaction } from "wagmi";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { FREE_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { FreeObjectAbi } from "~/abi";
 import { Tx } from "~/types/tx";

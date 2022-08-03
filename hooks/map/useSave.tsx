@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { MapAbi } from "~/abi";
 import { AppContext } from "~/contexts";

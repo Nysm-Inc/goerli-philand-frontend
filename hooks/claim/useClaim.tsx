@@ -1,5 +1,5 @@
 import { useContractReads, useContractWrite, useWaitForTransaction } from "wagmi";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { CLAIM_CONTRACT_ADDRESS, QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { ClaimAbi } from "~/abi";
 import { getCoupon } from "~/utils/coupon";

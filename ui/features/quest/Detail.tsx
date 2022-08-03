@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC, ReactNode, useContext } from "react";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, Flex, HStack, Link, Text, VStack } from "@chakra-ui/react";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";

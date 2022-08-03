@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC, useContext, useMemo } from "react";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { Divider, HStack, Text, useBoolean } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { Button, SelectBox, Icon } from "~/ui/components";

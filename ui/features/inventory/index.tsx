@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC, useContext, useEffect, useState } from "react";
-import { TransactionResponse } from "@ethersproject/providers";
+import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject, ObjectContractAddress } from "~/types";
