@@ -135,7 +135,7 @@ const Collection: FC<{
           <ModalFooter
             text="Deposit"
             itemNum={items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
-            subText="The deposited objects is stored in Inventory"
+            subText="The selected objects will be stored in your inventory"
             isLoading={isLoading}
             onClick={() => {
               startLoading();

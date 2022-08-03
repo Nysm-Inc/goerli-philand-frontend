@@ -165,7 +165,7 @@ const Shop: FC<{
             <ModalFooter
               text="Purchase"
               itemNum={items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
-              subText="The deposited objects is stored in Inventory"
+              subText="The objects you purchase will be sent to your wallet."
               isLoading={isLoading}
               onClick={() => {
                 startLoading();

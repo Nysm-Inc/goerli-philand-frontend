@@ -20,7 +20,7 @@ const HeaderMd: FC = () => {
         gap="8px"
         w="calc(100vw - 12px * 2)"
         h="64px"
-        boxShadow="0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06)"
+        boxShadow="base"
         borderRadius="16px"
         align="center"
         //

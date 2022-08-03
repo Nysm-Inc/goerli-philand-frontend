@@ -196,7 +196,7 @@ const Inventory: FC<{
             text="Withdraw"
             itemNum={objects.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
             buttonW="full"
-            subText="The deposited objects is stored in Inventory"
+            subText="The selected object is withdrawn from the Collection"
             isLoading={isLoading}
             onClick={() => {
               startLoading();
