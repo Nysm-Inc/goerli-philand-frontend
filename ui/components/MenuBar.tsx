@@ -53,8 +53,8 @@ const MenuBar: FC<{
       h="64px"
       pl="8px"
       pr="8px"
-      boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
-      borderRadius="16px"
+      boxShadow="0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);"
+      borderRadius="20px"
       //
       border={colorMode === "light" ? "1px solid" : "none"}
       borderColor={colorMode === "light" ? "light.g_orange" : "none"}
