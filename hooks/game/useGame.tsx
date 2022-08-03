@@ -56,10 +56,9 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
 
   useEffect(() => {
     if (!loadedGame) return;
-    if (!state.isCreatedPhiland) return;
 
     game.room.wallpaper.update(state.wallpaper?.tokenId || 0);
-  }, [state.currentENS, state.wallpaper?.tokenId, loadedGame]);
+  }, [state.wallpaper?.tokenId, loadedGame]);
 
   useEffect(() => {
     game.engine.changeColorMode(colorMode);
