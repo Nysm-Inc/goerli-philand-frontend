@@ -51,8 +51,10 @@ const Wallet: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
 
               if (chain.unsupported) {
                 return (
-                  <Button w="218px" color="red" shadow onClick={openChainModal}>
-                    Wrong network
+                  <Button w="154px" color="red" shadow leftIcon={<Icon name="info" color="grey.900" />} onClick={openChainModal}>
+                    <Text ml="8px" color="grey.900" textStyle="button-2">
+                      Wrong Network
+                    </Text>
                   </Button>
                 );
               }
