@@ -26,7 +26,7 @@ const MenuList: FC<{
         borderRadius="12px"
         p="8px"
         overflowY="scroll"
-        boxShadow="0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);"
+        boxShadow="md"
         minW="0"
         w={w}
         maxH={maxH}

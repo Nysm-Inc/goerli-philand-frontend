@@ -55,7 +55,7 @@ const LinkMenu: FC<{
             position="absolute"
             w="264px"
             h="176px"
-            boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)"
+            boxShadow="-2px 4px 8px rgba(13, 13, 13, 0.1)" // todo
             borderRadius="20px"
             bgColor={colorMode === "light" ? "white" : "grey.900"}
             left={state.x}

@@ -82,7 +82,7 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
       minH="100px"
       h="auto"
       border="1px solid grey.900"
-      boxShadow="0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 10px 10px -5px rgba(0, 0, 0, 0.04);"
+      boxShadow="xl"
       borderRadius="16px"
       bgColor={colorMode === "light" ? "grey.900" : "white"}
     >

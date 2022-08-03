@@ -22,7 +22,7 @@ const NaviNotification: FC<{ text: string; btnText: string; colorMode: ColorMode
       h="64px"
       borderRadius="20px"
       border="1px solid"
-      boxShadow="0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 10px 10px -5px rgba(0, 0, 0, 0.04);"
+      boxShadow="xl"
       borderColor={colorMode === "light" ? "dark.grey800" : "light.lg_orange40"}
       bgColor={colorMode === "light" ? "grey.900" : "white"}
     >

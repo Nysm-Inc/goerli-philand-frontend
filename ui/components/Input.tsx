@@ -20,7 +20,7 @@ const Input: FC<{
     <InputGroup
       h="48px"
       borderRadius="12px"
-      boxShadow={shadow ? "0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);" : ""}
+      boxShadow={shadow ? "md" : "none"}
       w={w}
       //
       border="1px solid"
