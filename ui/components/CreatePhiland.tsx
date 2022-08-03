@@ -24,7 +24,7 @@ const CreatePhiland: FC<{
       <VStack mt="14px" spacing="24px">
         <Image src="/icons/ens.svg" width="128px" height="128px" />
         <Text textAlign="center" textStyle="paragraph-1" color="grey.500">
-          Choose your ENS to create a new land
+          Choose your ENS
         </Text>
         <VStack spacing="8px">
           <SelectBox
