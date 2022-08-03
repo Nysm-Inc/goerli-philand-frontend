@@ -63,7 +63,7 @@ export const typographys = {
   },
   "button-2": {
     fontFamily: "JetBrainsMono",
-    fontWeight: 500,
+    fontWeight: 700,
     fontSize: "14px",
     lineHeight: "16px",
     letterSpacing: "-0.02em",
