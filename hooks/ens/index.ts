@@ -47,6 +47,8 @@ const useENS = (
 
   useEffect(() => {
     setIsLoading(true);
+    setCurrent("");
+    setDomains([]);
     if (!account || disabled) {
       setIsLoading(false);
       return;
@@ -54,20 +56,18 @@ const useENS = (
 
     (async () => {
       const ownedDomains = await getOwnedEnsDomains(account);
-      setDomains(ownedDomains.map((domain) => domain.name));
+      const _domains = ownedDomains.map((domain) => domain.name);
+
+      const prev = getENSFromStorage(account);
+      if (_domains.includes(prev)) {
+        setCurrent(prev || ens || "");
+      } else {
+        setCurrent(ens || "");
+      }
+
+      setDomains(_domains);
       setIsLoading(false);
     })();
-  }, [account, disabled]);
-
-  useEffect(() => {
-    if (!account || disabled) {
-      setCurrent("");
-      setDomains([]);
-      return;
-    }
-
-    const prev = getENSFromStorage(account);
-    setCurrent(prev || ens || "");
   }, [account, disabled]);
 
   return [{ isLoading, domains }, current, switchCurrentENS];
