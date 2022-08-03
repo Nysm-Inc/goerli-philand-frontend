@@ -4,7 +4,7 @@ import { AppContext } from "~/contexts";
 import Icon from "./Icon";
 import IconButton from "./IconButton";
 import MenuList from "./MenuList";
-import { CANNY_URL, SURVEY_FORM_URL, HIRING_URL, PARTNERSHIP_APPLICATION_URL } from "~/constants";
+import { CANNY_URL, SURVEY_URL, HIRING_URL, PARTNERSHIP_APPLICATION_URL } from "~/constants";
 
 const Help: FC<{ onOpenHowItWorks: () => void }> = ({ onOpenHowItWorks }) => {
   const { colorMode } = useContext(AppContext);
@@ -17,7 +17,7 @@ const Help: FC<{ onOpenHowItWorks: () => void }> = ({ onOpenHowItWorks }) => {
           w="200px"
           options={[
             { label: "How It Works", value: "", onClick: onOpenHowItWorks },
-            { label: "Survey", value: "", onClick: () => window.open(SURVEY_FORM_URL, "_blank") },
+            { label: "Survey", value: "", onClick: () => window.open(SURVEY_URL, "_blank") },
             { label: "Bug Reports", value: "", onClick: () => window.open(CANNY_URL + "/bug-reports", "_blank") },
             { label: "Feature Requests", value: "", onClick: () => window.open(CANNY_URL + "/feature-requests", "_blank") },
             { label: "Hiring", value: "", onClick: () => window.open(HIRING_URL, "_blank") },
