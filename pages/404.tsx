@@ -18,6 +18,10 @@ const Custom404: NextPage = () => {
     }
   }, [isMobile]);
 
+  useEffect(() => {
+    game.engine.changeColorMode("light");
+  }, []);
+
   return (
     <>
       <VStack

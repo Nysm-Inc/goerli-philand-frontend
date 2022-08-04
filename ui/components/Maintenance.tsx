@@ -18,6 +18,10 @@ const Maintenance: FC = () => {
     }
   }, [isMobile]);
 
+  useEffect(() => {
+    game.engine.changeColorMode("light");
+  }, []);
+
   return (
     <>
       <VStack
