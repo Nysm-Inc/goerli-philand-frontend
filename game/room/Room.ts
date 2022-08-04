@@ -51,7 +51,7 @@ export default class Room {
     this.land = Sprite.from("assets/land.png");
     this.land.on("mousedown", (e) => {
       if (!this.isEdit) return;
-      if (room.movingItemManager.isMoving) return;
+      if (!!room.movingItemManager.getItem()) return;
       const origin = e.data.originalEvent;
       uiManager.onOpenWallpaperMenu(origin.x, origin.y);
     });
