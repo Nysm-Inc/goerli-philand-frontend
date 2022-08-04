@@ -40,7 +40,7 @@ export default class Room {
   }
 
   initialize() {
-    const { engine, uiManager } = GameInstance.get();
+    const { engine, room, uiManager } = GameInstance.get();
 
     const landOffsetX = GAME_APP_WIDTH / 2 - LAND_W / 2;
     const landOffsetY = GAME_APP_HEIGHT / 2 - LAND_H / 2;
@@ -51,6 +51,7 @@ export default class Room {
     this.land = Sprite.from("assets/land.png");
     this.land.on("mousedown", (e) => {
       if (!this.isEdit) return;
+      if (room.movingItemManager.isMoving) return;
       const origin = e.data.originalEvent;
       uiManager.onOpenWallpaperMenu(origin.x, origin.y);
     });
