@@ -1,9 +1,9 @@
 import { FC, useMemo, useState } from "react";
 import { Menu, Modal, ModalContent } from "@chakra-ui/react";
 import { BalanceObject, Wallpaper } from "~/types";
-import MenuList from "./MenuList";
 import { objectMetadataList } from "~/types/object";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
+import MenuList from "./MenuList";
 
 export type WallpaperMenuState = { x: number; y: number; isShown: boolean };
 export const defaultWallpaperMenuState = { x: 0, y: 0, isShown: false };
