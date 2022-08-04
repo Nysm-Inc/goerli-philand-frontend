@@ -137,6 +137,7 @@ export default class Engine {
         }
       }
       this.app.loader.load();
+      // this.app.loader.onProgress.add(console.log);
       this.app.loader.onComplete.add(() => resolve("loaded"));
       this.app.loader.onError.add(() => reject("failed to load"));
     });
