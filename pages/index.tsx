@@ -1,29 +1,19 @@
 import type { NextPage } from "next";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { FC, useContext, useEffect } from "react";
 import { useAccount, useEnsName, useNetwork } from "wagmi";
 import { Box, useDisclosure, useBoolean, useBreakpointValue } from "@chakra-ui/react";
-import Quest from "~/ui/features/quest";
-import Shop from "~/ui/features/shop";
-import Inventory, { useInventory } from "~/ui/features/inventory";
-import Collection from "~/ui/features/collection";
+import { useInventory } from "~/ui/features/inventory";
 import {
-  ActionMenu,
   useActionMenu,
-  LinkMenu,
   useLinkMenu,
   MenuBar,
-  ConfirmModal,
-  StatusToast,
   Header,
-  ENSNotFound,
   Help,
-  Permissions,
-  CreatePhiland,
   Share,
   Dev,
   MainMenu,
-  HowItWorks,
   Mobile,
   WallpaperMenu,
   useWallpaperMenu,
@@ -45,6 +35,19 @@ import {
 } from "~/constants";
 import { PhiLink } from "~/types";
 import { AppContext } from "~/contexts";
+
+const ActionMenu = dynamic(() => import("~/ui/components/ActionMenu"));
+const LinkMenu = dynamic(() => import("~/ui/components/LinkMenu"));
+const ConfirmModal = dynamic(() => import("~/ui/components/transaction/ConfirmModal"));
+const StatusToast = dynamic(() => import("~/ui/components/transaction/StatusToast"));
+const ENSNotFound = dynamic(() => import("~/ui/components/ENSNotFound"));
+const Permissions = dynamic(() => import("~/ui/components/Permissions"));
+const CreatePhiland = dynamic(() => import("~/ui/components/CreatePhiland"));
+const HowItWorks = dynamic(() => import("~/ui/components/HowItWorks"));
+const Inventory = dynamic(() => import("~/ui/features/inventory"));
+const Collection = dynamic(() => import("~/ui/features/collection"));
+const Quest = dynamic(() => import("~/ui/features/quest"));
+const Shop = dynamic(() => import("~/ui/features/shop"));
 
 const Index: NextPage = () => {
   const { game } = useContext(AppContext);

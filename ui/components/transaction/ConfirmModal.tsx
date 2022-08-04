@@ -5,7 +5,7 @@ import { AppContext } from "~/contexts";
 import { Modal, ModalHeader, Message } from "~/ui/components";
 import { Spinner } from "~/ui/components/Animation";
 
-const ConfirmTx: FC<{ txs: Tx[] }> = ({ txs }) => {
+const ConfirmModal: FC<{ txs: Tx[] }> = ({ txs }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -22,4 +22,4 @@ const ConfirmTx: FC<{ txs: Tx[] }> = ({ txs }) => {
   );
 };
 
-export default ConfirmTx;
+export default ConfirmModal;
