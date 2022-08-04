@@ -1,13 +1,11 @@
 import Image from "next/image";
-import { FC, useContext, useMemo } from "react";
+import { FC, useContext } from "react";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Divider, HStack, Text, useBoolean } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { Button, SelectBox, Icon } from "~/ui/components";
-import { BalanceObject, Wallpaper } from "~/types";
 import { event } from "~/utils/ga/ga";
 import IconButton from "./IconButton";
-import SelectWallpaper from "./SelectWallpaper";
 
 const MenuBar: FC<{
   initialized: boolean;
@@ -18,30 +16,17 @@ const MenuBar: FC<{
   };
   currentENS: string;
   domains: string[];
-  isApprovedWallpaper: boolean;
-  currentWallpaper?: Wallpaper;
-  balanceWallpapers: BalanceObject[];
   actionHandler: {
     onOpenCollection: () => void;
     onOpenInventry: () => void;
     onSwitchCurrentENS: (ens: string) => void;
-    onChangeWallpaper: (tokenId: number) => void;
     onView: () => void;
     onEdit: () => void;
     onSave: () => Promise<TransactionResponse | undefined>;
   };
-}> = ({ initialized, isEdit, isOpen, currentENS, domains, isApprovedWallpaper, currentWallpaper, balanceWallpapers, actionHandler }) => {
+}> = ({ initialized, isEdit, isOpen, currentENS, domains, actionHandler }) => {
   const { colorMode } = useContext(AppContext);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
-  const uniqueWallpapers = useMemo(() => {
-    return Array.from(
-      new Set(
-        currentWallpaper?.tokenId
-          ? [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId), currentWallpaper?.tokenId]
-          : [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId)]
-      )
-    );
-  }, [currentWallpaper?.tokenId, balanceWallpapers.length]);
 
   return (
     <HStack
@@ -61,23 +46,18 @@ const MenuBar: FC<{
       bgColor={colorMode === "light" ? "white" : "grey.900"}
     >
       <>
-        {isEdit ? (
-          <SelectWallpaper
-            currentWallpaper={currentWallpaper?.tokenId}
-            wallpapers={uniqueWallpapers}
-            disabled={!isApprovedWallpaper || uniqueWallpapers.length <= 0}
-            onChange={actionHandler.onChangeWallpaper}
-          />
-        ) : (
-          <SelectBox
-            w="136px"
-            menuW="160px"
-            options={domains.map((domain) => ({ label: domain, value: domain }))}
-            selected={{ label: currentENS, value: currentENS }}
-            handleChange={actionHandler.onSwitchCurrentENS}
-          />
+        {!isEdit && (
+          <>
+            <SelectBox
+              w="136px"
+              menuW="160px"
+              options={domains.map((domain) => ({ label: domain, value: domain }))}
+              selected={{ label: currentENS, value: currentENS }}
+              handleChange={actionHandler.onSwitchCurrentENS}
+            />
+            <Divider orientation="vertical" color={colorMode === "light" ? "light.g_orange" : "dark.grey700"} h="48px" />
+          </>
         )}
-        <Divider orientation="vertical" color={colorMode === "light" ? "light.g_orange" : "dark.grey700"} h="48px" />
       </>
 
       <>
@@ -138,7 +118,7 @@ const MenuBar: FC<{
         {isEdit && (
           <>
             <Button
-              w="104px"
+              w="88px"
               color="yellow"
               leftIcon={<Icon name="undo" />}
               onClick={() => {
@@ -147,7 +127,7 @@ const MenuBar: FC<{
               }}
             >
               <Text textStyle="button-2" color="grey.900">
-                CANCEL
+                BACK
               </Text>
             </Button>
             <Button

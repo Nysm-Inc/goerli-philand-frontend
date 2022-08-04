@@ -25,6 +25,8 @@ import {
   MainMenu,
   HowItWorks,
   Mobile,
+  WallpaperMenu,
+  useWallpaperMenu,
 } from "~/ui/components";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
@@ -75,6 +77,7 @@ const PC: FC = () => {
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
   const [linkState, onOpenLinkMenu, onCloseLinkMenu, changeLink] = useLinkMenu();
+  const [wallpaperMenuState, onOpenWallpaperMenu, onCloseWallpaperMenu] = useWallpaperMenu();
   const { isOpen: isOpenQuest, onOpen: onOpenQuest, onClose: onCloseQuest } = useDisclosure();
   const { isOpen: isOpenShop, onOpen: onOpenShop, onClose: onCloseShop } = useDisclosure();
   const { isOpen: isOpenCollection, onOpen: onOpenCollection, onClose: onCloseCollection } = useDisclosure();
@@ -112,7 +115,7 @@ const PC: FC = () => {
   } = useGame({
     state: { currentENS, isEdit, isCreatedPhiland, phiObjects, wallpaper },
     uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
-    gameUIHandler: { onOpenActionMenu, onChangeLinkMenu: changeLink },
+    gameUIHandler: { onOpenActionMenu, onOpenWallpaperMenu, onChangeLinkMenu: changeLink },
   });
 
   return (
@@ -214,6 +217,14 @@ const PC: FC = () => {
         onBack={onDropObject}
         onChange={(id: string, link: PhiLink) => onChangeLink(id, { title: link.title, url: link.url })}
       />
+      <WallpaperMenu
+        state={wallpaperMenuState}
+        isApprovedWallpaper={isAprvWall}
+        currentWallpaper={wallpaper}
+        balanceWallpapers={balanceWallpapers}
+        onClose={onCloseWallpaperMenu}
+        onChangeWallpaper={onChangeWallpaper}
+      />
       <Permissions
         isApproved={{
           [QUEST_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
@@ -243,14 +254,10 @@ const PC: FC = () => {
           isOpen={{ collection: isOpenCollection, inventory: isOpenInventory }}
           currentENS={currentENS}
           domains={domains}
-          isApprovedWallpaper={isAprvWall}
-          currentWallpaper={wallpaper}
-          balanceWallpapers={balanceWallpapers}
           actionHandler={{
             onOpenCollection,
             onOpenInventry,
             onSwitchCurrentENS: switchCurrentENS,
-            onChangeWallpaper,
             onView,
             onEdit,
             onSave,

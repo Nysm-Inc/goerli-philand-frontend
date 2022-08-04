@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FC, useContext } from "react";
 import { Box, Center, ColorProps, LayoutProps, MenuItem, MenuList as ChakraMenuList, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
@@ -8,6 +9,7 @@ export type Option = {
   value: string;
   onClick?: () => void;
   textColor?: ColorProps["textColor"];
+  image?: string;
 };
 
 const MenuList: FC<{
@@ -40,7 +42,7 @@ const MenuList: FC<{
             //
             key={i}
             w="100%"
-            h="32px"
+            h={option.image ? "48px" : "32px"}
             p="8px"
             textAlign="left"
             borderRadius="6px"
@@ -60,6 +62,11 @@ const MenuList: FC<{
               bgColor: colorMode === "light" ? "white" : "dark.grey700",
             }}
           >
+            {option.image && (
+              <Center mr="16px">
+                <Image src={option.image} width="64px" height="32px" />
+              </Center>
+            )}
             <Text
               textStyle="button-2"
               w="calc(100% - 16px)"

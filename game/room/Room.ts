@@ -40,7 +40,7 @@ export default class Room {
   }
 
   initialize() {
-    const { engine } = GameInstance.get();
+    const { engine, uiManager } = GameInstance.get();
 
     const landOffsetX = GAME_APP_WIDTH / 2 - LAND_W / 2;
     const landOffsetY = GAME_APP_HEIGHT / 2 - LAND_H / 2;
@@ -49,6 +49,11 @@ export default class Room {
     this.landItemContainer.x = landOffsetX;
     this.landItemContainer.y = landOffsetY;
     this.land = Sprite.from("assets/land.png");
+    this.land.on("mousedown", (e) => {
+      if (!this.isEdit) return;
+      const origin = e.data.originalEvent;
+      uiManager.onOpenWallpaperMenu(origin.x, origin.y);
+    });
     this.landContainer.addChild(this.land);
     this.landContainer.addChild(this.wallpaper.container);
 
@@ -86,6 +91,8 @@ export default class Room {
 
     engine.grids.visible = false;
     this.isEdit = false;
+    // this.land.buttonMode = false;
+    this.land.interactive = false;
     this.landItemContainer.children.forEach((child) => {
       child.buttonMode = false;
     });
@@ -96,6 +103,8 @@ export default class Room {
 
     engine.grids.visible = true;
     this.isEdit = true;
+    // this.land.buttonMode = true;
+    this.land.interactive = true;
     this.landItemContainer.children.forEach((child) => {
       child.buttonMode = true;
     });
