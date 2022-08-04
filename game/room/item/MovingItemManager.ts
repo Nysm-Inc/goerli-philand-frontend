@@ -35,14 +35,20 @@ export default class MovingItemManager {
 
   drop() {
     if (!this.item) return;
+    const { engine } = GameInstance.get();
+
     this.item.getTiles().hideTile();
     this.item = null;
+    engine.blurCanvas();
   }
 
   move() {
     if (!this.item) return;
+    const { engine } = GameInstance.get();
+
     this.item.container.alpha = 0.6;
     this.isMoving = true;
+    engine.focusCanvas();
   }
 
   stop() {
