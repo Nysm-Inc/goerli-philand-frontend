@@ -19,8 +19,8 @@ export default class Game {
 
     return Promise.all([engine.loadGlobalTextures()])
       .then(() => {
-        room.initialize();
         if (handler) uiManager.loadUIHandler(handler);
+        room.initialize();
       })
       .catch((err) => {
         console.log(err);
