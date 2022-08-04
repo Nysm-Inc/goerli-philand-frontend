@@ -45,8 +45,8 @@ export default class Engine {
     this.colorMode = "light";
     this.scaleMode = SCALE_MODES.LINEAR;
     this.ogpLayout = {
-      light: Sprite.from("assets/ogp_layout_light.png").texture,
-      dark: Sprite.from("assets/ogp_layout_dark.png").texture,
+      light: Sprite.from("/assets/ogp_layout_light.png").texture,
+      dark: Sprite.from("/assets/ogp_layout_dark.png").texture,
     };
 
     this.app = new Application({
@@ -104,16 +104,16 @@ export default class Engine {
     this.clouds.dark.visible = false;
     this.cloudSprites = {
       light: {
-        lefttop: Sprite.from("assets/clouds/cloud_lefttop_light.png"),
-        righttop: Sprite.from("assets/clouds/cloud_righttop_light.png"),
-        leftbottom: Sprite.from("assets/clouds/cloud_leftbottom_light.png"),
-        rightbottom: Sprite.from("assets/clouds/cloud_rightbottom_light.png"),
+        lefttop: Sprite.from("/assets/clouds/cloud_lefttop_light.png"),
+        righttop: Sprite.from("/assets/clouds/cloud_righttop_light.png"),
+        leftbottom: Sprite.from("/assets/clouds/cloud_leftbottom_light.png"),
+        rightbottom: Sprite.from("/assets/clouds/cloud_rightbottom_light.png"),
       },
       dark: {
-        lefttop: Sprite.from("assets/clouds/cloud_lefttop_dark.png"),
-        righttop: Sprite.from("assets/clouds/cloud_righttop_dark.png"),
-        leftbottom: Sprite.from("assets/clouds/cloud_leftbottom_dark.png"),
-        rightbottom: Sprite.from("assets/clouds/cloud_rightbottom_dark.png"),
+        lefttop: Sprite.from("/assets/clouds/cloud_lefttop_dark.png"),
+        righttop: Sprite.from("/assets/clouds/cloud_righttop_dark.png"),
+        leftbottom: Sprite.from("/assets/clouds/cloud_leftbottom_dark.png"),
+        rightbottom: Sprite.from("/assets/clouds/cloud_rightbottom_dark.png"),
       },
     };
     this.initializeCloudsPosition();
@@ -133,8 +133,8 @@ export default class Engine {
     this.grids.zIndex = -1;
     this.grids.visible = false;
     this.gridSprites = {
-      light: new TilingSprite(Texture.from("assets/grid-pattern-light.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
-      dark: new TilingSprite(Texture.from("assets/grid-pattern-dark.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
+      light: new TilingSprite(Texture.from("/assets/grid-pattern-light.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
+      dark: new TilingSprite(Texture.from("/assets/grid-pattern-dark.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
     };
     this.gridSprites.light.visible = false;
     this.gridSprites.dark.visible = false;

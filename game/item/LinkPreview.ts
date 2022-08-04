@@ -114,7 +114,7 @@ export default class LinkPreview {
           this.text.x = w + 8 + 8;
         };
       } catch {
-        const icon = Sprite.from("assets/default_ogp.png");
+        const icon = Sprite.from("/assets/default_ogp.png");
         icon.width = 30;
         icon.height = 30;
         icon.x = 8 + 9;

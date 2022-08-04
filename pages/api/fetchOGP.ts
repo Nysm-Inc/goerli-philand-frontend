@@ -36,7 +36,11 @@ const fetchOGP = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const raw = await axios.get(ogp.image, { responseType: "arraybuffer" });
     const base64 = Buffer.from(raw.data, "binary").toString("base64");
-    res.status(200).json({ ogp: `data:${raw.headers["content-type"]};base64,${base64}` });
+    res.status(200).json({
+      ogp: `data:${raw.headers["content-type"]};base64,${base64}`,
+      width: ogp["image:height"],
+      height: ogp["image:height"],
+    });
   } catch (err) {
     res.status(400).json({ err });
   }
