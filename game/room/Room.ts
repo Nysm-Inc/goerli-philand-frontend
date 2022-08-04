@@ -27,6 +27,7 @@ export default class Room {
     this.wallpaper = new Wallpaper();
 
     this.container = new Container();
+    this.container.visible = false;
     this.landContainer = new Container();
     this.landContainer.zIndex = 1;
     this.landItemContainer = new Container();
@@ -79,12 +80,12 @@ export default class Room {
   }
 
   enterRoom() {
-    this.landContainer.visible = true;
+    this.container.visible = true;
   }
 
   leaveRoom() {
     this.roomItemManager.reset();
-    this.landContainer.visible = false;
+    this.container.visible = false;
   }
 
   view() {
