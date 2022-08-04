@@ -28,7 +28,6 @@ import Message from "./Message";
 import MainMenu from "./MainMenu";
 import HowItWorks from "./HowItWorks";
 import Mobile from "./Mobile";
-import Clouds from "./Clouds";
 import LineStack from "./LineStack";
 import LandNotFound from "./LandNotFound";
 import WallpaperMenu, { useWallpaperMenu } from "./WallpaperMenu";
@@ -72,7 +71,6 @@ export {
   MainMenu,
   HowItWorks,
   Mobile,
-  Clouds,
   LineStack,
   LandNotFound,
   WallpaperMenu,

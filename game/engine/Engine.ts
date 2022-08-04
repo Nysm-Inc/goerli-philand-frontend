@@ -15,7 +15,7 @@ import {
 import GameInstance from "~/game/GameInstance";
 import { ObjectContractAddress, WallpaperContractAddress } from "~/types";
 import { objectMetadataList } from "~/types/object";
-import { ColorMode } from "~/ui/styles";
+import { ColorMode, zIndices } from "~/ui/styles";
 import "./pixelPerfectInteraction";
 
 export default class Engine {
@@ -64,6 +64,7 @@ export default class Engine {
     this.app.loader.concurrency = 100;
     this.app.renderer.on("resize", () => this.initializeCloudsPosition());
     document.body.appendChild(this.app.view);
+    this.blurCanvas();
 
     this.viewport = new Viewport({
       worldWidth: GAME_APP_WIDTH,
@@ -251,5 +252,21 @@ export default class Engine {
     this.cloudSprites.dark.leftbottom.y = window.innerHeight - 312;
     this.cloudSprites.dark.rightbottom.x = window.innerWidth - 466;
     this.cloudSprites.dark.rightbottom.y = window.innerHeight - 312;
+  }
+
+  focusCanvas() {
+    try {
+      const canvasEl: HTMLCanvasElement | null = document.getElementsByTagName("canvas")?.[0];
+      canvasEl.style.position = "fixed";
+      canvasEl.style.zIndex = zIndices["canvas-focus"].toString();
+    } catch {}
+  }
+
+  blurCanvas() {
+    try {
+      const canvasEl: HTMLCanvasElement | null = document.getElementsByTagName("canvas")?.[0];
+      canvasEl.style.position = "fixed";
+      canvasEl.style.zIndex = zIndices["canvas"].toString();
+    } catch {}
   }
 }

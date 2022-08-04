@@ -4,20 +4,22 @@ import { typographys } from "./typography";
 
 export type ColorMode = "light" | "dark";
 
+export const zIndices = {
+  canvas: 0,
+  default: 1,
+  "canvas-focus": 2,
+};
+
 const theme = extendTheme({
   colors: colors,
   textStyles: typographys,
+  zIndices: zIndices,
   breakpoints: {
     sm: "640px",
     md: "768px",
     lg: "1024px",
     xl: "1280px",
     "2xl": "1536px",
-  },
-  zIndices: {
-    canvas: 0,
-    clouds: 1,
-    default: 2,
   },
   boxShadow: {
     none: "none",
