@@ -1,19 +1,9 @@
 import { Application, Container, LoaderResource, SCALE_MODES, Sprite, Texture, TilingSprite } from "pixi.js";
 import { Stage as LayerStage } from "@pixi/layers";
 import { Viewport } from "pixi-viewport";
-import cloneDeep from "lodash.clonedeep"; // todo
-import {
-  FREE_OBJECT_CONTRACT_ADDRESS,
-  GAME_APP_WIDTH,
-  GAME_APP_HEIGHT,
-  QUEST_OBJECT_CONTRACT_ADDRESS,
-  PREMIUM_OBJECT_CONTRACT_ADDRESS,
-  WALLPAPER_CONTRACT_ADDRESS,
-  LAND_OGP_W,
-  LAND_OGP_H,
-} from "~/constants";
+import cloneDeep from "lodash.clonedeep";
+import { GAME_APP_WIDTH, GAME_APP_HEIGHT, LAND_OGP_W, LAND_OGP_H } from "~/constants";
 import GameInstance from "~/game/GameInstance";
-import { ObjectContractAddress, WallpaperContractAddress } from "~/types";
 import { objectMetadataList } from "~/types/object";
 import { ColorMode, zIndices } from "~/ui/styles";
 import "./pixelPerfectInteraction";
