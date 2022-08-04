@@ -5,11 +5,12 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import AppContextProvider from "~/contexts";
-import theme from "~/ui/styles";
-import Head from "~/ui/components/Head";
-import GlobalStyle from "~/ui/styles/Global";
+import { MAINTENANCE } from "~/constants";
 import usePageview from "~/hooks/ga";
+import theme from "~/ui/styles";
+import GlobalStyle from "~/ui/styles/Global";
 import GoogleAnalytics from "~/ui/components/GA";
+import { Head, Maintenance } from "~/ui/components";
 
 const alchemyId = process.env.ALCHEMY_ID;
 const { chains, provider } = configureChains([chain.polygonMumbai], [alchemyProvider({ alchemyId })]);
@@ -29,7 +30,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <RainbowKitProvider chains={chains}>
           <AppContextProvider>
             <ChakraProvider theme={theme}>
-              <Component {...pageProps} />
+              <>{MAINTENANCE === "true" ? <Maintenance /> : <Component {...pageProps} />}</>
             </ChakraProvider>
           </AppContextProvider>
         </RainbowKitProvider>

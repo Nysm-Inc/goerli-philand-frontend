@@ -31,6 +31,7 @@ import Mobile from "./Mobile";
 import LineStack from "./LineStack";
 import LandNotFound from "./LandNotFound";
 import WallpaperMenu, { useWallpaperMenu } from "./WallpaperMenu";
+import Maintenance from "./Maintenance";
 
 export {
   ActionMenu,
@@ -75,4 +76,5 @@ export {
   LandNotFound,
   WallpaperMenu,
   useWallpaperMenu,
+  Maintenance,
 };
