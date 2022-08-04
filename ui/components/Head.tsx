@@ -22,7 +22,10 @@ const Head: FC<{ ogp?: string }> = ({ ogp }) => {
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@phi_xyz" />
       <meta name="twitter:creator" content="@phi_xyz" />
+
       <link rel="icon" href="/favicon.svg" />
+      <link rel="preload" href="/fonts/JetBrainsMono.ttf" as="font" crossOrigin="" type="font/ttf" />
+      <link rel="preload" href="/fonts/philson_block.otf" as="font" crossOrigin="" type="font/otf" />
     </NextHead>
   );
 };
