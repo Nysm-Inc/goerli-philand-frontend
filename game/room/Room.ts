@@ -91,7 +91,7 @@ export default class Room {
 
     engine.grids.visible = false;
     this.isEdit = false;
-    // this.land.buttonMode = false;
+    this.land.buttonMode = false;
     this.land.interactive = false;
     this.landItemContainer.children.forEach((child) => {
       child.buttonMode = false;
@@ -103,7 +103,7 @@ export default class Room {
 
     engine.grids.visible = true;
     this.isEdit = true;
-    // this.land.buttonMode = true;
+    this.land.buttonMode = true;
     this.land.interactive = true;
     this.landItemContainer.children.forEach((child) => {
       child.buttonMode = true;

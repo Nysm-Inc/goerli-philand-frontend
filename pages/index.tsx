@@ -201,30 +201,34 @@ const PC: FC = () => {
         onSubmit={withdraw}
         reset={reset}
       />
-      <ActionMenu
-        state={actionMenuState}
-        onClose={onCloseActionMenu}
-        onBack={onDropObject}
-        onClickMove={onMoveObject}
-        onClickLink={() => {
-          onOpenLinkMenu({ ...linkState[actionMenuState.id], id: actionMenuState.id, x: actionMenuState.x, y: actionMenuState.y });
-        }}
-        onClickTrash={() => onRemoveObject(actionMenuState.id)}
-      />
-      <LinkMenu
-        state={linkState[actionMenuState.id]}
-        onClose={onCloseLinkMenu}
-        onBack={onDropObject}
-        onChange={(id: string, link: PhiLink) => onChangeLink(id, { title: link.title, url: link.url })}
-      />
-      <WallpaperMenu
-        state={wallpaperMenuState}
-        isApprovedWallpaper={isAprvWall}
-        currentWallpaper={wallpaper}
-        balanceWallpapers={balanceWallpapers}
-        onClose={onCloseWallpaperMenu}
-        onChangeWallpaper={onChangeWallpaper}
-      />
+      {isEdit && (
+        <>
+          <ActionMenu
+            state={actionMenuState}
+            onClose={onCloseActionMenu}
+            onBack={onDropObject}
+            onClickMove={onMoveObject}
+            onClickLink={() => {
+              onOpenLinkMenu({ ...linkState[actionMenuState.id], id: actionMenuState.id, x: actionMenuState.x, y: actionMenuState.y });
+            }}
+            onClickTrash={() => onRemoveObject(actionMenuState.id)}
+          />
+          <LinkMenu
+            state={linkState[actionMenuState.id]}
+            onClose={onCloseLinkMenu}
+            onBack={onDropObject}
+            onChange={(id: string, link: PhiLink) => onChangeLink(id, { title: link.title, url: link.url })}
+          />
+          <WallpaperMenu
+            state={wallpaperMenuState}
+            isApprovedWallpaper={isAprvWall}
+            currentWallpaper={wallpaper}
+            balanceWallpapers={balanceWallpapers}
+            onClose={onCloseWallpaperMenu}
+            onChangeWallpaper={onChangeWallpaper}
+          />
+        </>
+      )}
       <Permissions
         isApproved={{
           [QUEST_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,

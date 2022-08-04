@@ -1,8 +1,7 @@
-import { FC, useContext, useMemo, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { Menu, Modal, ModalContent } from "@chakra-ui/react";
-import { AppContext } from "~/contexts";
 import { BalanceObject, Wallpaper } from "~/types";
-import MenuList, { Option } from "./MenuList";
+import MenuList from "./MenuList";
 import { objectMetadataList } from "~/types/object";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 
@@ -23,8 +22,7 @@ const WallpaperMenu: FC<{
   balanceWallpapers: BalanceObject[];
   onClose: () => void;
   onChangeWallpaper: (tokenId: number) => void;
-}> = ({ state, onClose, onChangeWallpaper, isApprovedWallpaper, currentWallpaper, balanceWallpapers }) => {
-  const { colorMode } = useContext(AppContext);
+}> = ({ isEdit, state, onClose, onChangeWallpaper, isApprovedWallpaper, currentWallpaper, balanceWallpapers }) => {
   const uniqueWallpapers = useMemo(() => {
     return Array.from(
       new Set(
