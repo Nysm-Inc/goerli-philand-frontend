@@ -22,7 +22,7 @@ const WallpaperMenu: FC<{
   balanceWallpapers: BalanceObject[];
   onClose: () => void;
   onChangeWallpaper: (tokenId: number) => void;
-}> = ({ isEdit, state, onClose, onChangeWallpaper, isApprovedWallpaper, currentWallpaper, balanceWallpapers }) => {
+}> = ({ state, onClose, onChangeWallpaper, isApprovedWallpaper, currentWallpaper, balanceWallpapers }) => {
   const uniqueWallpapers = useMemo(() => {
     return Array.from(
       new Set(
