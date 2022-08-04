@@ -32,7 +32,9 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
     _strictRef.current = true;
 
     (async () => {
+      console.time("loadgame");
       await game.loadGame(gameUIHandler);
+      console.timeEnd("loadgame");
       setLoadedGame(true);
     })();
   }, [state.isCreatedPhiland]);

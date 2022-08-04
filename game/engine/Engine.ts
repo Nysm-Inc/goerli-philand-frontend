@@ -21,7 +21,6 @@ import "./pixelPerfectInteraction";
 export default class Engine {
   app: Application;
   viewport: Viewport;
-  globalTextures: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: Texture } };
   cloudContainer: Container;
   clouds: { [mode in ColorMode]: Container };
   cloudSprites: { [mode in ColorMode]: { lefttop: Sprite; righttop: Sprite; leftbottom: Sprite; rightbottom: Sprite } };
@@ -36,12 +35,6 @@ export default class Engine {
   constructor(onMouseMove: (mouseX: number, mouseY: number) => void, onMouseClick: (mouseX: number, mouseY: number) => void) {
     this.onMouseMoveHandler = onMouseMove;
     this.onMouseClickHandler = onMouseClick;
-    this.globalTextures = {
-      [QUEST_OBJECT_CONTRACT_ADDRESS]: {},
-      [FREE_OBJECT_CONTRACT_ADDRESS]: {},
-      [PREMIUM_OBJECT_CONTRACT_ADDRESS]: {},
-      [WALLPAPER_CONTRACT_ADDRESS]: {},
-    };
     this.colorMode = "light";
     this.scaleMode = SCALE_MODES.LINEAR;
     this.ogpLayout = {
@@ -153,18 +146,7 @@ export default class Engine {
           });
         }
       }
-
-      this.app.loader.load((_, resources) => {
-        for (let resourceId in resources) {
-          const res = resources[resourceId];
-          if (res?.texture) {
-            const contract_tokenId = resourceId.split("_");
-            // @ts-ignore
-            this.globalTextures[contract_tokenId[0]][contract_tokenId[1]] = res.texture;
-          }
-        }
-      });
-
+      this.app.loader.load();
       this.app.loader.onComplete.add(() => resolve("loaded"));
       this.app.loader.onError.add(() => reject("failed to load"));
     });

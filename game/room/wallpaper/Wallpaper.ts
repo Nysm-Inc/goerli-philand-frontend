@@ -1,4 +1,4 @@
-import { Container, Sprite } from "pixi.js";
+import { Container, Sprite, Texture } from "pixi.js";
 import { LAND_OFFSET_X, LAND_OFFSET_Y, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import GameInstance from "~/game/GameInstance";
 import { Wallpaper as TWallpaper } from "~/types";
@@ -26,12 +26,11 @@ export default class Wallpaper {
   }
 
   update(tokenId: number) {
+    const { engine } = GameInstance.get();
     this.tokenId = tokenId;
 
     if (tokenId) {
-      const { engine } = GameInstance.get();
-      const texture = engine.globalTextures[WALLPAPER_CONTRACT_ADDRESS][tokenId].clone();
-      this.sprite.texture = texture;
+      this.sprite.texture = engine.app.loader.resources[WALLPAPER_CONTRACT_ADDRESS + "_" + tokenId].texture as Texture;
     } else {
       this.container.removeChildren();
       this.sprite = new Sprite();
