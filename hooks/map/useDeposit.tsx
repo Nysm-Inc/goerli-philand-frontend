@@ -12,8 +12,10 @@ const useDeposit = (
   disabled?: boolean
 ): [
   DepositObject[],
-  { deposit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined> },
-  { withdraw: (args: BalanceObject[]) => Promise<TransactionResponse | undefined> }
+  {
+    deposit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
+    withdraw: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
+  }
 ] => {
   const { addTx } = useContext(AppContext);
   const { data, isFetching } = useContractRead({
@@ -100,8 +102,6 @@ const useDeposit = (
       : [],
     {
       deposit: onDeposit,
-    },
-    {
       withdraw: onWithdraw,
     },
   ];

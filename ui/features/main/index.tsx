@@ -79,7 +79,7 @@ const Main: FC = () => {
   const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
   const balanceWallpapers = useBalances(WALLPAPER_CONTRACT_ADDRESS, address);
-  const [depositObjects, { deposit }, { withdraw }] = useDeposit(currentENS);
+  const [depositObjects, { deposit, withdraw }] = useDeposit(currentENS);
   const { save } = useSave(currentENS);
   const [claimableList, updateClaimableList] = useClaimableList(address);
   const [inventoryObjects, plus, minus, tryWrite, tryRemove, reset] = useInventory(depositObjects, isEdit);
