@@ -7,21 +7,24 @@ export default class Game {
   engine: Engine;
   room: Room;
   uiManager: UIManager;
+  loaded: boolean;
 
   constructor() {
     this.engine = new Engine(this.onMouseMove, this.onMouseClick);
     this.room = new Room();
     this.uiManager = new UIManager();
+    this.loaded = false;
   }
 
   async loadGame(handler?: UIManagerHandler) {
+    if (this.loaded) return;
     const { engine, room, uiManager } = GameInstance.get();
 
     if (handler) {
       uiManager.loadUIHandler(handler);
     }
     room.initialize();
-    return engine.loadGlobalTextures();
+    return engine.loadGlobalTextures().then(() => (this.loaded = true));
   }
 
   onMouseMove = (x: number, y: number) => {

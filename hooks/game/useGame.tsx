@@ -8,7 +8,6 @@ type UseGame = {
   state: {
     currentENS: string;
     isEdit: boolean;
-    isCreatedPhiland: boolean;
     phiObjects: (PhiObject & { removeIdx: number })[];
     wallpaper?: Wallpaper;
   };
@@ -27,7 +26,6 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
   };
 
   useEffect(() => {
-    if (!state.isCreatedPhiland) return;
     if (_strictRef.current) return;
     _strictRef.current = true;
 
@@ -35,17 +33,16 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
       await game.loadGame(gameUIHandler);
       setLoadedGame(true);
     })();
-  }, [state.isCreatedPhiland]);
+  }, []);
 
   useEffect(() => {
     if (!loadedGame) return;
 
-    if (state.isCreatedPhiland) {
-      game.room.enterRoom();
-    } else {
+    game.room.enterRoom();
+    return () => {
       game.room.leaveRoom();
-    }
-  }, [state.currentENS, state.isCreatedPhiland, loadedGame]);
+    };
+  }, [state.currentENS, loadedGame]);
 
   useEffect(() => {
     if (!loadedGame) return;
