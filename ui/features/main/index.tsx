@@ -1,12 +1,16 @@
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { FC } from "react";
 import { useAccount, useEnsName, useNetwork } from "wagmi";
 import { Box, useDisclosure } from "@chakra-ui/react";
-import { ConfirmModal, StatusToast, Header, ENSNotFound, Help, CreatePhiland, HowItWorks } from "~/ui/components";
+import { Header, ENSNotFound, Help, CreatePhiland, HowItWorks } from "~/ui/components";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
 import { useViewPhiland } from "~/hooks/map";
-import Philand from "./Philand";
+
+const ConfirmModal = dynamic(() => import("~/ui/components/transaction/ConfirmModal"));
+const StatusToast = dynamic(() => import("~/ui/components/transaction/StatusToast"));
+const Philand = dynamic(() => import("./Philand"));
 
 const Main: FC = () => {
   const { chain } = useNetwork();
