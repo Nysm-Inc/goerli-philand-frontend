@@ -1,15 +1,17 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useMemo } from "react";
 import { Text, VStack } from "@chakra-ui/react";
-import { Tx } from "~/types/tx";
 import { AppContext } from "~/contexts";
 import { Modal, ModalHeader, Message } from "~/ui/components";
 import { Spinner } from "~/ui/components/Animation";
 
-const ConfirmModal: FC<{ txs: Tx[] }> = ({ txs }) => {
-  const { colorMode } = useContext(AppContext);
+const ConfirmModal: FC = () => {
+  const { txs, colorMode } = useContext(AppContext);
+  const isOpen = useMemo(() => {
+    return Object.values(txs).some((tx) => tx.tmpStatus === "loading");
+  }, [txs]);
 
   return (
-    <Modal w="528px" h="352px" isOpen={txs.some((tx) => tx.tmpStatus === "loading")} onClose={() => {}} overlay>
+    <Modal w="528px" h="352px" isOpen={isOpen} onClose={() => {}} overlay>
       <ModalHeader title="CONFIRMATION" buttons={[]} />
       <VStack mt="16px" spacing="32px">
         <Spinner size="112px" mode={colorMode} />

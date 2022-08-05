@@ -5,7 +5,6 @@ import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { MapAbi } from "~/abi";
 import { AppContext } from "~/contexts";
 import { updateOGP } from "~/utils/ogp";
-import { Tx } from "~/types/tx";
 import { PhiLink } from "~/types";
 
 export type SaveArgs = {
@@ -22,8 +21,8 @@ export type SaveArgs = {
 
 const useSave = (
   ens?: string | null
-): { save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => Promise<TransactionResponse | undefined>; tx: Tx } => {
-  const { game } = useContext(AppContext);
+): { save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => Promise<TransactionResponse | undefined> } => {
+  const { game, addTx } = useContext(AppContext);
   const [ogp, setOGP] = useState("");
 
   const {
@@ -48,20 +47,22 @@ const useSave = (
     }
   }, [status]);
 
+  useEffect(() => {
+    addTx({
+      hash: data?.hash,
+      tmpStatus,
+      status,
+      action: "Saving Your Land Data",
+      msg: "Saving your land data to blockchain and updating OGP image.",
+    });
+  }, [tmpStatus, status]);
+
   return {
     save: async ({ removeArgs, writeArgs, linkArgs, wallpaperArgs }: SaveArgs) => {
       if (!ens) return;
 
       const calldata = [ens.slice(0, -4), removeArgs.removeIdxs, writeArgs, linkArgs, ...Object.values(wallpaperArgs)];
       return writeAsync({ args: calldata });
-    },
-    tx: {
-      hash: data?.hash,
-      tmpStatus,
-      status,
-
-      action: "Saving Your Land Data",
-      msg: "Saving your land data to blockchain and updating OGP image.",
     },
   };
 };

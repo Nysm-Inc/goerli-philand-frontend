@@ -1,19 +1,21 @@
+import { useContext, useEffect } from "react";
 import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
 import { BigNumber } from "ethers";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { MapAbi } from "~/abi";
 import { BalanceObject, DepositObject } from "~/types";
-import { Tx } from "~/types/tx";
+import { AppContext } from "~/contexts";
 
 const useDeposit = (
   ens?: string | null,
   disabled?: boolean
 ): [
   DepositObject[],
-  { deposit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>; tx: Tx },
-  { withdraw: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>; tx: Tx }
+  { deposit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined> },
+  { withdraw: (args: BalanceObject[]) => Promise<TransactionResponse | undefined> }
 ] => {
+  const { addTx } = useContext(AppContext);
   const { data, isFetching } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
@@ -58,6 +60,24 @@ const useDeposit = (
     return withdraw({ args: calldata });
   };
 
+  useEffect(() => {
+    addTx({
+      hash: depositData?.hash,
+      tmpStatus: depositTmpStatus,
+      status: depositStatus,
+      action: "Depositing Objects to Map contract of PHI",
+    });
+  }, [depositTmpStatus, depositStatus]);
+
+  useEffect(() => {
+    addTx({
+      hash: withdrawData?.hash,
+      tmpStatus: withdrawTmpStatus,
+      status: withdrawStatus,
+      action: "Withdrawing Objects to Your Wallet",
+    });
+  }, [withdrawTmpStatus, withdrawStatus]);
+
   return [
     !isFetching && data
       ? data.reduce((memo, object) => {
@@ -80,21 +100,9 @@ const useDeposit = (
       : [],
     {
       deposit: onDeposit,
-      tx: {
-        hash: depositData?.hash,
-        tmpStatus: depositTmpStatus,
-        status: depositStatus,
-        action: "Depositing Objects to Map contract of PHI",
-      },
     },
     {
       withdraw: onWithdraw,
-      tx: {
-        hash: withdrawData?.hash,
-        tmpStatus: withdrawTmpStatus,
-        status: withdrawStatus,
-        action: "Withdrawing Objects to Your Wallet",
-      },
     },
   ];
 };

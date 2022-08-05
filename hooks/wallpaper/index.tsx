@@ -1,10 +1,12 @@
+import { useContext, useEffect } from "react";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { WallpaperAbi } from "~/abi";
-import { Tx } from "~/types/tx";
+import { AppContext } from "~/contexts";
 
-const useGetWallpaper = (): { batchWallPaper: (tokenIds: number[]) => Promise<TransactionResponse | undefined>; tx: Tx } => {
+const useGetWallpaper = (): { batchWallPaper: (tokenIds: number[]) => Promise<TransactionResponse | undefined> } => {
+  const { addTx } = useContext(AppContext);
   const {
     data,
     writeAsync,
@@ -16,16 +18,19 @@ const useGetWallpaper = (): { batchWallPaper: (tokenIds: number[]) => Promise<Tr
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
-  return {
-    batchWallPaper: async (tokenIds: number[]) => {
-      const calldata = [tokenIds];
-      return writeAsync({ args: calldata });
-    },
-    tx: {
+  useEffect(() => {
+    addTx({
       hash: data?.hash,
       tmpStatus,
       status,
       action: "get wallpaper",
+    });
+  }, [tmpStatus, status]);
+
+  return {
+    batchWallPaper: async (tokenIds: number[]) => {
+      const calldata = [tokenIds];
+      return writeAsync({ args: calldata });
     },
   };
 };

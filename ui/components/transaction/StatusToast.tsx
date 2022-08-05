@@ -135,18 +135,18 @@ const options = (colorMode: ColorMode, tx: Tx): UseToastOptions => {
     position: toastPositon,
     duration: null,
     isClosable: true,
-    containerStyle: { margin: "0" },
+    containerStyle: { margin: "8px 0 0 0" },
     render: (props) => <StatusComponent colorMode={colorMode} tx={tx} onClose={() => props.onClose()} />,
   };
 };
 
-const StatusTx: FC<{ txs: Tx[] }> = ({ txs }) => {
-  const { colorMode } = useContext(AppContext);
+const StatusTx: FC = () => {
+  const { txs, colorMode } = useContext(AppContext);
   const toast = useToast();
   const [unique, setUnique] = useState<string[]>([]);
 
   useEffect(() => {
-    txs.forEach((tx) => {
+    Object.values(txs).forEach((tx) => {
       if (!tx.hash) return;
 
       if (!toast.isActive(tx.hash)) {
