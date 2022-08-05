@@ -221,26 +221,28 @@ const Main: FC = () => {
       />
       <HowItWorks isCreatedPhiland={isCreatedPhiland} isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
       <Header onOpenPermissions={onOpenPermissions} />
-      {!isEdit && <MainMenu isOpenQuest={isOpenQuest} isOpenShop={isOpenShop} onOpenQuest={onOpenQuest} onOpenShop={onOpenShop} />}
-      {!isEdit && <Share currentENS={currentENS} />}
       <Help onOpenHowItWorks={onOpenHowItWorks} />
 
       {isCreatedPhiland ? (
-        <MenuBar
-          initialized={initialized}
-          isEdit={isEdit}
-          isOpen={{ collection: isOpenCollection, inventory: isOpenInventory }}
-          currentENS={currentENS}
-          domains={domains}
-          actionHandler={{
-            onOpenCollection,
-            onOpenInventry,
-            onSwitchCurrentENS: switchCurrentENS,
-            onView,
-            onEdit,
-            onSave,
-          }}
-        />
+        <>
+          <MenuBar
+            initialized={initialized}
+            isEdit={isEdit}
+            isOpen={{ collection: isOpenCollection, inventory: isOpenInventory }}
+            currentENS={currentENS}
+            domains={domains}
+            actionHandler={{
+              onOpenCollection,
+              onOpenInventry,
+              onSwitchCurrentENS: switchCurrentENS,
+              onView,
+              onEdit,
+              onSave,
+            }}
+          />
+          {!isEdit && <MainMenu isOpenQuest={isOpenQuest} isOpenShop={isOpenShop} onOpenQuest={onOpenQuest} onOpenShop={onOpenShop} />}
+          {!isEdit && <Share currentENS={currentENS} />}
+        </>
       ) : (
         <>
           {domains.length > 0 ? (
