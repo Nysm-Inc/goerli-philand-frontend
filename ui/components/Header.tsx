@@ -3,10 +3,10 @@ import { FC, useContext, useRef } from "react";
 import { Box, Center, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Search from "./Search";
-import Wallet from "./Wallet";
 import IconButton from "./IconButton";
 import Icon from "./Icon";
 import Button from "./Button";
+import Wallet from "./Wallet";
 
 const Header: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) => {
   const { colorMode, toggleColorMode } = useContext(AppContext);

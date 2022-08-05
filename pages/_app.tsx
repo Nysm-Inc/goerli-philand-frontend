@@ -1,9 +1,8 @@
 import type { AppProps } from "next/app";
-import { WagmiConfig, createClient, configureChains, chain } from "wagmi";
-import { alchemyProvider } from "wagmi/providers/alchemy";
+import { WagmiConfig } from "wagmi";
 import { ChakraProvider } from "@chakra-ui/react";
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import "@rainbow-me/rainbowkit/styles.css";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { chains, client } from "~/connectors";
 import AppContextProvider from "~/contexts";
 import { MAINTENANCE } from "~/constants";
 import usePageview from "~/hooks/ga";
@@ -11,11 +10,6 @@ import theme from "~/ui/styles";
 import GlobalStyle from "~/ui/styles/Global";
 import GoogleAnalytics from "~/ui/components/GA";
 import { Head, Maintenance } from "~/ui/components";
-
-const alchemyId = process.env.ALCHEMY_ID;
-const { chains, provider } = configureChains([chain.polygonMumbai], [alchemyProvider({ alchemyId })]);
-const { connectors } = getDefaultWallets({ appName: "Phi", chains });
-const client = createClient({ autoConnect: true, connectors: connectors, provider });
 
 const App = ({ Component, pageProps }: AppProps) => {
   usePageview();
