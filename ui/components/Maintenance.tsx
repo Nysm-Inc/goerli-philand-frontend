@@ -8,7 +8,7 @@ import { useGame } from "~/hooks/game";
 const Maintenance: FC = () => {
   const { game } = useContext(AppContext);
   const isMobile = useBreakpointValue({ base: true, lg: false });
-  useGame({ state: { currentENS: "", isEdit: false, isCreatedPhiland: false, phiObjects: [], wallpaper: undefined } });
+  useGame({ state: { currentENS: "", isEdit: false, phiObjects: [], wallpaper: undefined } });
 
   useEffect(() => {
     if (isMobile) {

@@ -32,7 +32,7 @@ const Index: NextPage = () => {
   const isPhilandCreated = isCreated || phiObjects.length > 0;
   const wallpaper = useWallpaper(ens);
 
-  useGame({ state: { currentENS: ens, isEdit: false, isCreatedPhiland: isPhilandCreated, phiObjects, wallpaper } });
+  useGame({ state: { currentENS: ens, isEdit: false, phiObjects, wallpaper } });
 
   useEffect(() => {
     if (isMobile) {
