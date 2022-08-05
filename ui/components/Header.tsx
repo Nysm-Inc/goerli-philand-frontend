@@ -37,7 +37,7 @@ const Header: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
       </Box>
 
       {/* @ts-ignore */}
-      <Box zIndex="default" position="fixed" top="24px" right={`calc(${ref?.current?.offsetWidth || 0}px + 24px + 8px)`}>
+      <Box zIndex="default" position="fixed" top="24px" right={`calc(${ref?.current?.offsetWidth || 153}px + 24px + 8px)`}>
         <IconButton
           ariaLabel="color_mode"
           icon={
