@@ -1,17 +1,19 @@
+import { useContext, useEffect } from "react";
 import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import axios from "axios";
 import { MAP_CONTRACT_ADDRESS, REGISTRY_CONTRACT_ADDRESS, UTILS_API_GATEWAY } from "~/constants";
 import { MapAbi, RegistryAbi } from "~/abi";
 import { nullAddress } from "~/types";
-import { Tx } from "~/types/tx";
 import { Coupon } from "~/types/quest";
+import { AppContext } from "~/contexts";
 
 const useCreatePhiland = (
   account?: string,
   ens?: string,
   disabled?: boolean
-): [{ isCreated: boolean; isFetched: boolean }, { createPhiland: () => Promise<TransactionResponse | undefined>; tx: Tx }] => {
+): [{ isCreated: boolean; isFetched: boolean }, { createPhiland: () => Promise<TransactionResponse | undefined> }] => {
+  const { addTx } = useContext(AppContext);
   const { data, isFetched } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
@@ -32,6 +34,15 @@ const useCreatePhiland = (
   });
   const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });
 
+  useEffect(() => {
+    addTx({
+      hash: writeData?.hash,
+      tmpStatus,
+      status,
+      action: "Creating a Land with Your ENS",
+    });
+  }, [tmpStatus, status]);
+
   return [
     // @ts-ignore
     { isCreated: data && data !== nullAddress, isFetched },
@@ -45,12 +56,6 @@ const useCreatePhiland = (
         const res = await axios.get<{ coupon: Coupon }>(url.toString());
 
         return writeAsync({ args: [ens.slice(0, -4), res.data.coupon] });
-      },
-      tx: {
-        hash: writeData?.hash,
-        tmpStatus,
-        status,
-        action: "Creating a Land with Your ENS",
       },
     },
   ];

@@ -1,10 +1,12 @@
+import { useContext, useEffect } from "react";
 import { useContractWrite, useWaitForTransaction } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { FREE_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { FreeObjectAbi } from "~/abi";
-import { Tx } from "~/types/tx";
+import { AppContext } from "~/contexts";
 
-const useGetFreeObject = (): { getFreeObject: (tokenIds: number[]) => Promise<TransactionResponse | undefined>; tx: Tx } => {
+const useGetFreeObject = (): { getFreeObject: (tokenIds: number[]) => Promise<TransactionResponse | undefined> } => {
+  const { addTx } = useContext(AppContext);
   const {
     data,
     writeAsync,
@@ -16,16 +18,19 @@ const useGetFreeObject = (): { getFreeObject: (tokenIds: number[]) => Promise<Tr
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
-  return {
-    getFreeObject: async (tokenIds: number[]) => {
-      const calldata = [tokenIds];
-      return writeAsync({ args: calldata });
-    },
-    tx: {
+  useEffect(() => {
+    addTx({
       hash: data?.hash,
       tmpStatus,
       status,
       action: "Claiming Free Objects",
+    });
+  }, [tmpStatus, status]);
+
+  return {
+    getFreeObject: async (tokenIds: number[]) => {
+      const calldata = [tokenIds];
+      return writeAsync({ args: calldata });
     },
   };
 };

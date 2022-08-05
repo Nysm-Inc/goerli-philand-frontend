@@ -60,26 +60,27 @@ const Main: FC = () => {
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
 
   const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens, chain?.unsupported);
-  const [{ isCreated }, { createPhiland, tx: txCreatePhiland }] = useCreatePhiland(address, currentENS);
-  const { changePhilandOwner, tx: txChangePhilandOwner } = useChangePhilandOwner(address, currentENS);
+  const [{ isCreated }, { createPhiland }] = useCreatePhiland(address, currentENS);
+  const { changePhilandOwner } = useChangePhilandOwner(address, currentENS);
   const { owner, phiObjects } = useViewPhiland(currentENS);
   const isCreatedPhiland = owner === address && (isCreated || phiObjects.length > 0);
+
   const wallpaper = useWallpaper(currentENS);
-  const [isAprvPhi, { approve: aprvPhi, tx: txAprvPhi }] = useApprove(QUEST_OBJECT_CONTRACT_ADDRESS, address);
-  const [isAprvFree, { approve: aprvFree, tx: txAprvFree }] = useApprove(FREE_OBJECT_CONTRACT_ADDRESS, address);
-  const [isAprvPre, { approve: aprvPre, tx: txAprvPre }] = useApprove(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
-  const [isAprvWall, { approve: aprvWall, tx: txAprvWall }] = useApprove(WALLPAPER_CONTRACT_ADDRESS, address);
-  const [claimedList, { claimPhi, tx: txClaimPhi }] = useClaim(address);
+  const [isAprvPhi, { approve: aprvPhi }] = useApprove(QUEST_OBJECT_CONTRACT_ADDRESS, address);
+  const [isAprvFree, { approve: aprvFree }] = useApprove(FREE_OBJECT_CONTRACT_ADDRESS, address);
+  const [isAprvPre, { approve: aprvPre }] = useApprove(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
+  const [isAprvWall, { approve: aprvWall }] = useApprove(WALLPAPER_CONTRACT_ADDRESS, address);
+  const [claimedList, { claimPhi }] = useClaim(address);
   const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS);
-  const { getFreeObject, tx: txGetFreeObject } = useGetFreeObject();
-  const { buyPremiumObject, tx: txBuyPremiumObject } = useBuyPremiumObject();
-  const { batchWallPaper, tx: txGetFreeWallpaper } = useGetWallpaper();
+  const { getFreeObject } = useGetFreeObject();
+  const { buyPremiumObject } = useBuyPremiumObject();
+  const { batchWallPaper } = useGetWallpaper();
   const balancePhiObjects = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address);
   const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
   const balanceWallpapers = useBalances(WALLPAPER_CONTRACT_ADDRESS, address);
-  const [depositObjects, { deposit, tx: txDeposit }, { withdraw, tx: txUndeposit }] = useDeposit(currentENS);
-  const { save, tx: txSave } = useSave(currentENS);
+  const [depositObjects, { deposit, withdraw }] = useDeposit(currentENS);
+  const { save } = useSave(currentENS);
   const [claimableList, updateClaimableList] = useClaimableList(address);
   const [inventoryObjects, plus, minus, tryWrite, tryRemove, reset] = useInventory(depositObjects, isEdit);
 
@@ -94,43 +95,16 @@ const Main: FC = () => {
 
   return (
     <>
-      <ConfirmModal
-        txs={[
-          txCreatePhiland,
-          txChangePhilandOwner,
-          txAprvPhi,
-          txAprvFree,
-          txAprvPre,
-          txAprvWall,
-          txClaimPhi,
-          txBuyPremiumObject,
-          txGetFreeObject,
-          txGetFreeWallpaper,
-          txDeposit,
-          txUndeposit,
-          txSave,
-        ]}
-      />
-      <StatusToast
-        txs={[
-          txCreatePhiland,
-          txChangePhilandOwner,
-          txAprvPhi,
-          txAprvFree,
-          txAprvPre,
-          txAprvWall,
-          txClaimPhi,
-          txBuyPremiumObject,
-          txGetFreeObject,
-          txGetFreeWallpaper,
-          txDeposit,
-          txUndeposit,
-          txSave,
-        ]}
-      />
-      <HowItWorks isCreatedPhiland={isCreatedPhiland} isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
       <Header onOpenPermissions={onOpenPermissions} />
       <Help onOpenHowItWorks={onOpenHowItWorks} />
+      <HowItWorks isCreatedPhiland={isCreatedPhiland} isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
+
+      {currentENS && (
+        <>
+          <ConfirmModal />
+          <StatusToast />
+        </>
+      )}
 
       {isCreatedPhiland ? (
         <>

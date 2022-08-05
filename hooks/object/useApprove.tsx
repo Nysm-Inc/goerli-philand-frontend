@@ -1,15 +1,17 @@
+import { useContext, useEffect } from "react";
 import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { QuestObjectAbi } from "~/abi";
-import { Tx } from "~/types/tx";
 import { ContractAbis, ObjectContractAddress, WallpaperContractAddress } from "~/types";
+import { AppContext } from "~/contexts";
 
 const useApprove = (
   contract: ObjectContractAddress | WallpaperContractAddress,
   account?: string,
   disabled?: boolean
-): [boolean, { approve: () => Promise<TransactionResponse | undefined>; tx: Tx }] => {
+): [boolean, { approve: () => Promise<TransactionResponse | undefined> }] => {
+  const { addTx } = useContext(AppContext);
   const { data } = useContractRead({
     addressOrName: contract,
     contractInterface: ContractAbis[contract],
@@ -30,6 +32,15 @@ const useApprove = (
   });
   const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });
 
+  useEffect(() => {
+    addTx({
+      hash: writeData?.hash,
+      tmpStatus,
+      status,
+      action: "Approving Object Transfer Permission",
+    });
+  }, [tmpStatus, status]);
+
   return [
     // @ts-ignore
     data,
@@ -38,12 +49,6 @@ const useApprove = (
         return writeAsync({
           args: [MAP_CONTRACT_ADDRESS, 1],
         });
-      },
-      tx: {
-        hash: writeData?.hash,
-        tmpStatus,
-        status,
-        action: "Approving Object Transfer Permission",
       },
     },
   ];
