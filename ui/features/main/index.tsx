@@ -128,119 +128,125 @@ const Main: FC = () => {
           txSave,
         ]}
       />
-      <Quest
-        claimableList={claimableList}
-        claimedList={claimedList}
-        totalSupply={totalSupply}
-        isOpen={isOpenQuest}
-        onOpenCollection={onOpenCollection}
-        onClose={onCloseQuest}
-        onClickItem={claimPhi}
-        onClickUpdate={updateClaimableList}
-      />
-      <Shop
-        isOpen={isOpenShop}
-        onOpenCollection={onOpenCollection}
-        onClose={onCloseShop}
-        onSubmit={{
-          [FREE_OBJECT_CONTRACT_ADDRESS]: getFreeObject,
-          [PREMIUM_OBJECT_CONTRACT_ADDRESS]: buyPremiumObject,
-          [WALLPAPER_CONTRACT_ADDRESS]: batchWallPaper,
-        }}
-      />
-      <Collection
-        items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
-        isApproved={{
-          [QUEST_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
-          [FREE_OBJECT_CONTRACT_ADDRESS]: isAprvFree,
-          [PREMIUM_OBJECT_CONTRACT_ADDRESS]: isAprvPre,
-          [WALLPAPER_CONTRACT_ADDRESS]: isAprvWall,
-        }}
-        isEdit={isEdit}
-        isOpen={isOpenCollection}
-        onOpenInventory={onOpenInventry}
-        onOpenPermissions={onOpenPermissions}
-        onClose={onCloseCollection}
-        onSubmit={deposit}
-      />
-      <Inventory
-        objects={inventoryObjects}
-        isEdit={isEdit}
-        isOpen={isOpenInventory}
-        onOpenCollection={onOpenCollection}
-        onClose={onCloseInventory}
-        onClickPlus={plus}
-        onClickMinus={minus}
-        onClickObject={onPickInventoryObject}
-        onSubmit={withdraw}
-        reset={reset}
-      />
-      {isEdit && (
-        <>
-          <ActionMenu
-            state={actionMenuState}
-            onClose={onCloseActionMenu}
-            onBack={onDropObject}
-            onClickMove={onMoveObject}
-            onClickLink={() => {
-              onOpenLinkMenu({ ...linkState[actionMenuState.id], id: actionMenuState.id, x: actionMenuState.x, y: actionMenuState.y });
-            }}
-            onClickTrash={() => onRemoveObject(actionMenuState.id)}
-          />
-          <LinkMenu
-            state={linkState[actionMenuState.id]}
-            onClose={onCloseLinkMenu}
-            onBack={onDropObject}
-            onChange={(id: string, link: PhiLink) => onChangeLink(id, { title: link.title, url: link.url })}
-          />
-          <WallpaperMenu
-            state={wallpaperMenuState}
-            isApprovedWallpaper={isAprvWall}
-            currentWallpaper={wallpaper}
-            balanceWallpapers={balanceWallpapers}
-            onClose={onCloseWallpaperMenu}
-            onChangeWallpaper={onChangeWallpaper}
-          />
-        </>
-      )}
-      <Permissions
-        isApproved={{
-          [QUEST_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
-          [FREE_OBJECT_CONTRACT_ADDRESS]: isAprvFree,
-          [PREMIUM_OBJECT_CONTRACT_ADDRESS]: isAprvPre,
-          [WALLPAPER_CONTRACT_ADDRESS]: isAprvWall,
-        }}
-        onApprove={{
-          [QUEST_OBJECT_CONTRACT_ADDRESS]: aprvPhi,
-          [FREE_OBJECT_CONTRACT_ADDRESS]: aprvFree,
-          [PREMIUM_OBJECT_CONTRACT_ADDRESS]: aprvPre,
-          [WALLPAPER_CONTRACT_ADDRESS]: aprvWall,
-        }}
-        isOpen={isOpenPermissions}
-        onClose={onClosePermissions}
-      />
       <HowItWorks isCreatedPhiland={isCreatedPhiland} isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
       <Header onOpenPermissions={onOpenPermissions} />
-      {!isEdit && <MainMenu isOpenQuest={isOpenQuest} isOpenShop={isOpenShop} onOpenQuest={onOpenQuest} onOpenShop={onOpenShop} />}
-      {!isEdit && <Share currentENS={currentENS} />}
       <Help onOpenHowItWorks={onOpenHowItWorks} />
 
       {isCreatedPhiland ? (
-        <MenuBar
-          initialized={initialized}
-          isEdit={isEdit}
-          isOpen={{ collection: isOpenCollection, inventory: isOpenInventory }}
-          currentENS={currentENS}
-          domains={domains}
-          actionHandler={{
-            onOpenCollection,
-            onOpenInventry,
-            onSwitchCurrentENS: switchCurrentENS,
-            onView,
-            onEdit,
-            onSave,
-          }}
-        />
+        <>
+          <MenuBar
+            initialized={initialized}
+            isEdit={isEdit}
+            isOpen={{ collection: isOpenCollection, inventory: isOpenInventory }}
+            currentENS={currentENS}
+            domains={domains}
+            actionHandler={{
+              onOpenCollection,
+              onOpenInventry,
+              onSwitchCurrentENS: switchCurrentENS,
+              onView,
+              onEdit,
+              onSave,
+            }}
+          />
+          <Quest
+            claimableList={claimableList}
+            claimedList={claimedList}
+            totalSupply={totalSupply}
+            isOpen={isOpenQuest}
+            onOpenCollection={onOpenCollection}
+            onClose={onCloseQuest}
+            onClickItem={claimPhi}
+            onClickUpdate={updateClaimableList}
+          />
+          <Shop
+            isOpen={isOpenShop}
+            onOpenCollection={onOpenCollection}
+            onClose={onCloseShop}
+            onSubmit={{
+              [FREE_OBJECT_CONTRACT_ADDRESS]: getFreeObject,
+              [PREMIUM_OBJECT_CONTRACT_ADDRESS]: buyPremiumObject,
+              [WALLPAPER_CONTRACT_ADDRESS]: batchWallPaper,
+            }}
+          />
+          <Collection
+            items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
+            isApproved={{
+              [QUEST_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
+              [FREE_OBJECT_CONTRACT_ADDRESS]: isAprvFree,
+              [PREMIUM_OBJECT_CONTRACT_ADDRESS]: isAprvPre,
+              [WALLPAPER_CONTRACT_ADDRESS]: isAprvWall,
+            }}
+            isEdit={isEdit}
+            isOpen={isOpenCollection}
+            onOpenInventory={onOpenInventry}
+            onOpenPermissions={onOpenPermissions}
+            onClose={onCloseCollection}
+            onSubmit={deposit}
+          />
+          <Inventory
+            objects={inventoryObjects}
+            isEdit={isEdit}
+            isOpen={isOpenInventory}
+            onOpenCollection={onOpenCollection}
+            onClose={onCloseInventory}
+            onClickPlus={plus}
+            onClickMinus={minus}
+            onClickObject={onPickInventoryObject}
+            onSubmit={withdraw}
+            reset={reset}
+          />
+          <Permissions
+            isApproved={{
+              [QUEST_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
+              [FREE_OBJECT_CONTRACT_ADDRESS]: isAprvFree,
+              [PREMIUM_OBJECT_CONTRACT_ADDRESS]: isAprvPre,
+              [WALLPAPER_CONTRACT_ADDRESS]: isAprvWall,
+            }}
+            onApprove={{
+              [QUEST_OBJECT_CONTRACT_ADDRESS]: aprvPhi,
+              [FREE_OBJECT_CONTRACT_ADDRESS]: aprvFree,
+              [PREMIUM_OBJECT_CONTRACT_ADDRESS]: aprvPre,
+              [WALLPAPER_CONTRACT_ADDRESS]: aprvWall,
+            }}
+            isOpen={isOpenPermissions}
+            onClose={onClosePermissions}
+          />
+
+          {isEdit ? (
+            <>
+              <ActionMenu
+                state={actionMenuState}
+                onClose={onCloseActionMenu}
+                onBack={onDropObject}
+                onClickMove={onMoveObject}
+                onClickLink={() => {
+                  onOpenLinkMenu({ ...linkState[actionMenuState.id], id: actionMenuState.id, x: actionMenuState.x, y: actionMenuState.y });
+                }}
+                onClickTrash={() => onRemoveObject(actionMenuState.id)}
+              />
+              <LinkMenu
+                state={linkState[actionMenuState.id]}
+                onClose={onCloseLinkMenu}
+                onBack={onDropObject}
+                onChange={(id: string, link: PhiLink) => onChangeLink(id, { title: link.title, url: link.url })}
+              />
+              <WallpaperMenu
+                state={wallpaperMenuState}
+                isApprovedWallpaper={isAprvWall}
+                currentWallpaper={wallpaper}
+                balanceWallpapers={balanceWallpapers}
+                onClose={onCloseWallpaperMenu}
+                onChangeWallpaper={onChangeWallpaper}
+              />
+            </>
+          ) : (
+            <>
+              <MainMenu isOpenQuest={isOpenQuest} isOpenShop={isOpenShop} onOpenQuest={onOpenQuest} onOpenShop={onOpenShop} />
+              <Share currentENS={currentENS} />
+            </>
+          )}
+        </>
       ) : (
         <>
           {domains.length > 0 ? (
