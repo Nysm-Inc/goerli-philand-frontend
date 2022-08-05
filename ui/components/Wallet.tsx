@@ -8,6 +8,7 @@ import Button from "./Button";
 import MenuList from "./MenuList";
 import Icon from "./Icon";
 import { event } from "~/utils/ga/ga";
+import "@rainbow-me/rainbowkit/styles.css";
 
 const showAddress = (address: string) => `${address.substring(0, 6)}...${address.substring(address.length - 6)}`;
 
