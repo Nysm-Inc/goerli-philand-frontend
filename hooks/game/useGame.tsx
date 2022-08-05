@@ -62,10 +62,6 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
   }, [state.wallpaper?.tokenId, loadedGame]);
 
   useEffect(() => {
-    game.engine.changeColorMode(colorMode);
-  }, [colorMode]);
-
-  useEffect(() => {
     if (!loadedGame) return;
     if (state.isEdit) {
       controller.handler.onView();

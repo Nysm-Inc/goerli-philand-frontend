@@ -26,6 +26,10 @@ const AppContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
       });
   }, []);
 
+  useEffect(() => {
+    game?.engine.changeColorMode(colorMode);
+  }, [colorMode]);
+
   return <>{game ? <AppContext.Provider value={{ game, colorMode, toggleColorMode }}>{children}</AppContext.Provider> : <></>}</>;
 };
 
