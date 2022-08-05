@@ -27,6 +27,7 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
   };
 
   useEffect(() => {
+    if (!state.isCreatedPhiland) return;
     if (_strictRef.current) return;
     _strictRef.current = true;
 
@@ -34,7 +35,7 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
       await game.loadGame(gameUIHandler);
       setLoadedGame(true);
     })();
-  }, []);
+  }, [state.isCreatedPhiland]);
 
   useEffect(() => {
     if (!loadedGame) return;
@@ -59,10 +60,6 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
 
     game.room.wallpaper.update(state.wallpaper?.tokenId || 0);
   }, [state.wallpaper?.tokenId, loadedGame]);
-
-  useEffect(() => {
-    game.engine.changeColorMode(colorMode);
-  }, [colorMode]);
 
   useEffect(() => {
     if (!loadedGame) return;
