@@ -9,8 +9,7 @@ import { MAINTENANCE } from "~/constants";
 import usePageview from "~/hooks/ga";
 import theme from "~/ui/styles";
 import GlobalStyle from "~/ui/styles/Global";
-import GoogleAnalytics from "~/ui/components/GA";
-import { Head, Maintenance } from "~/ui/components";
+import { Head, Maintenance, GoogleAnalytics } from "~/ui/components";
 
 const alchemyId = process.env.ALCHEMY_ID;
 const { chains, provider } = configureChains([chain.polygonMumbai], [alchemyProvider({ alchemyId })]);

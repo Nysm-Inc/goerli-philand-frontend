@@ -32,6 +32,7 @@ import LineStack from "./LineStack";
 import LandNotFound from "./LandNotFound";
 import WallpaperMenu, { useWallpaperMenu } from "./WallpaperMenu";
 import Maintenance from "./Maintenance";
+import GoogleAnalytics from "./GA";
 
 export {
   ActionMenu,
@@ -77,4 +78,5 @@ export {
   WallpaperMenu,
   useWallpaperMenu,
   Maintenance,
+  GoogleAnalytics,
 };
