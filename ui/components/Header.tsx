@@ -15,7 +15,7 @@ const Header: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
   return (
     <>
       <Box zIndex="default" position="fixed" top="16px" left="24px" cursor="pointer" onClick={() => (window.location.href = "/")}>
-        <Image src="/icons/logo.svg" width="64px" height="64px" />
+        {/* <Image src="/icons/logo.svg" width="64px" height="64px" /> */}
       </Box>
 
       <Box zIndex="default" position="fixed" top="24px" left="106px">

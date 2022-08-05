@@ -1,28 +1,6 @@
+import dynamic from "next/dynamic";
 import { FC } from "react";
 import { useDisclosure, useBoolean } from "@chakra-ui/react";
-import Quest from "~/ui/features/quest";
-import Shop from "~/ui/features/shop";
-import Inventory, { useInventory } from "~/ui/features/inventory";
-import Collection from "~/ui/features/collection";
-import {
-  ActionMenu,
-  useActionMenu,
-  LinkMenu,
-  useLinkMenu,
-  Permissions,
-  Share,
-  MainMenu,
-  WallpaperMenu,
-  useWallpaperMenu,
-  MenuBar,
-} from "~/ui/components";
-import { useWallpaper, useDeposit, useSave } from "~/hooks/map";
-import { useApprove, useBalances, useTotalSupply } from "~/hooks/object";
-import { useClaim, useClaimableList } from "~/hooks/claim";
-import { useGame } from "~/hooks/game";
-import { useGetFreeObject } from "~/hooks/free";
-import { useBuyPremiumObject } from "~/hooks/premium";
-import useGetWallpaper from "~/hooks/wallpaper";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   QUEST_OBJECT_CONTRACT_ADDRESS,
@@ -30,6 +8,28 @@ import {
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
 import { PhiLink, PhiObject } from "~/types";
+import { useWallpaper, useDeposit, useSave } from "~/hooks/map";
+import { useApprove, useBalances, useTotalSupply } from "~/hooks/object";
+import { useClaim, useClaimableList } from "~/hooks/claim";
+import { useGame } from "~/hooks/game";
+import { useGetFreeObject } from "~/hooks/free";
+import { useBuyPremiumObject } from "~/hooks/premium";
+import useGetWallpaper from "~/hooks/wallpaper";
+import Quest from "~/ui/features/quest";
+import Shop from "~/ui/features/shop";
+import Inventory, { useInventory } from "~/ui/features/inventory";
+import Collection from "~/ui/features/collection";
+import { useActionMenu } from "~/ui/components/ActionMenu";
+import { useLinkMenu } from "~/ui/components/LinkMenu";
+import { useWallpaperMenu } from "~/ui/components/WallpaperMenu";
+
+const ActionMenu = dynamic(() => import("~/ui/components/ActionMenu"));
+const LinkMenu = dynamic(() => import("~/ui/components/LinkMenu"));
+const Permissions = dynamic(() => import("~/ui/components/Permissions"));
+const Share = dynamic(() => import("~/ui/components/Share"));
+const MainMenu = dynamic(() => import("~/ui/components/MainMenu"));
+const WallpaperMenu = dynamic(() => import("~/ui/components/WallpaperMenu"));
+const MenuBar = dynamic(() => import("~/ui/components/MenuBar"));
 
 const Philand: FC<{
   address: string;
