@@ -20,7 +20,7 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
   const _strictRef = useRef(false); // for avoiding react18 strict mode
   const [loadedGame, setLoadedGame] = useState(false);
   const [initialized, setInitialized] = useState(false);
-  const { game, colorMode } = useContext(AppContext);
+  const { game } = useContext(AppContext);
   const controller = {
     state: { initialized },
     handler: useHandler({ phiObjects: state.phiObjects, wallpaper: state.wallpaper, uiHandler }),
