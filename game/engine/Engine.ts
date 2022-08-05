@@ -2,18 +2,8 @@ import { Application, Container, LoaderResource, SCALE_MODES, Sprite, Texture, T
 import { Stage as LayerStage } from "@pixi/layers";
 import { Viewport } from "pixi-viewport";
 import cloneDeep from "lodash.clonedeep"; // todo
-import {
-  FREE_OBJECT_CONTRACT_ADDRESS,
-  GAME_APP_WIDTH,
-  GAME_APP_HEIGHT,
-  QUEST_OBJECT_CONTRACT_ADDRESS,
-  PREMIUM_OBJECT_CONTRACT_ADDRESS,
-  WALLPAPER_CONTRACT_ADDRESS,
-  LAND_OGP_W,
-  LAND_OGP_H,
-} from "~/constants";
+import { GAME_APP_WIDTH, GAME_APP_HEIGHT, LAND_OGP_W, LAND_OGP_H } from "~/constants";
 import GameInstance from "~/game/GameInstance";
-import { ObjectContractAddress, WallpaperContractAddress } from "~/types";
 import { objectMetadataList } from "~/types/object";
 import { ColorMode, zIndices } from "~/ui/styles";
 import "./pixelPerfectInteraction";
@@ -21,7 +11,6 @@ import "./pixelPerfectInteraction";
 export default class Engine {
   app: Application;
   viewport: Viewport;
-  globalTextures: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: Texture } };
   cloudContainer: Container;
   clouds: { [mode in ColorMode]: Container };
   cloudSprites: { [mode in ColorMode]: { lefttop: Sprite; righttop: Sprite; leftbottom: Sprite; rightbottom: Sprite } };
@@ -36,12 +25,6 @@ export default class Engine {
   constructor(onMouseMove: (mouseX: number, mouseY: number) => void, onMouseClick: (mouseX: number, mouseY: number) => void) {
     this.onMouseMoveHandler = onMouseMove;
     this.onMouseClickHandler = onMouseClick;
-    this.globalTextures = {
-      [QUEST_OBJECT_CONTRACT_ADDRESS]: {},
-      [FREE_OBJECT_CONTRACT_ADDRESS]: {},
-      [PREMIUM_OBJECT_CONTRACT_ADDRESS]: {},
-      [WALLPAPER_CONTRACT_ADDRESS]: {},
-    };
     this.colorMode = "light";
     this.scaleMode = SCALE_MODES.LINEAR;
     this.ogpLayout = {
@@ -153,18 +136,8 @@ export default class Engine {
           });
         }
       }
-
-      this.app.loader.load((_, resources) => {
-        for (let resourceId in resources) {
-          const res = resources[resourceId];
-          if (res?.texture) {
-            const contract_tokenId = resourceId.split("_");
-            // @ts-ignore
-            this.globalTextures[contract_tokenId[0]][contract_tokenId[1]] = res.texture;
-          }
-        }
-      });
-
+      this.app.loader.load();
+      // this.app.loader.onProgress.add(console.log);
       this.app.loader.onComplete.add(() => resolve("loaded"));
       this.app.loader.onError.add(() => reject("failed to load"));
     });
