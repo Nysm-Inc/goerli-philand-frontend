@@ -135,6 +135,7 @@ const options = (colorMode: ColorMode, tx: Tx): UseToastOptions => {
     position: toastPositon,
     duration: null,
     isClosable: true,
+    containerStyle: { margin: "0" },
     render: (props) => <StatusComponent colorMode={colorMode} tx={tx} onClose={() => props.onClose()} />,
   };
 };

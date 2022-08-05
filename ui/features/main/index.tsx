@@ -94,43 +94,48 @@ const Main: FC = () => {
 
   return (
     <>
-      <ConfirmModal
-        txs={[
-          txCreatePhiland,
-          txChangePhilandOwner,
-          txAprvPhi,
-          txAprvFree,
-          txAprvPre,
-          txAprvWall,
-          txClaimPhi,
-          txBuyPremiumObject,
-          txGetFreeObject,
-          txGetFreeWallpaper,
-          txDeposit,
-          txUndeposit,
-          txSave,
-        ]}
-      />
-      <StatusToast
-        txs={[
-          txCreatePhiland,
-          txChangePhilandOwner,
-          txAprvPhi,
-          txAprvFree,
-          txAprvPre,
-          txAprvWall,
-          txClaimPhi,
-          txBuyPremiumObject,
-          txGetFreeObject,
-          txGetFreeWallpaper,
-          txDeposit,
-          txUndeposit,
-          txSave,
-        ]}
-      />
-      <HowItWorks isCreatedPhiland={isCreatedPhiland} isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
       <Header onOpenPermissions={onOpenPermissions} />
       <Help onOpenHowItWorks={onOpenHowItWorks} />
+      <HowItWorks isCreatedPhiland={isCreatedPhiland} isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
+
+      {currentENS && (
+        <>
+          <ConfirmModal
+            txs={[
+              txCreatePhiland,
+              txChangePhilandOwner,
+              txAprvPhi,
+              txAprvFree,
+              txAprvPre,
+              txAprvWall,
+              txClaimPhi,
+              txBuyPremiumObject,
+              txGetFreeObject,
+              txGetFreeWallpaper,
+              txDeposit,
+              txUndeposit,
+              txSave,
+            ]}
+          />
+          <StatusToast
+            txs={[
+              txCreatePhiland,
+              txChangePhilandOwner,
+              txAprvPhi,
+              txAprvFree,
+              txAprvPre,
+              txAprvWall,
+              txClaimPhi,
+              txBuyPremiumObject,
+              txGetFreeObject,
+              txGetFreeWallpaper,
+              txDeposit,
+              txUndeposit,
+              txSave,
+            ]}
+          />
+        </>
+      )}
 
       {isCreatedPhiland ? (
         <>
