@@ -171,7 +171,7 @@ const StatusTx: FC = () => {
   useEffect(() => {
     const toastManagerDomNode = document.getElementById(toastManagerId);
     if (!toastManagerDomNode) return;
-    toastManagerDomNode.style.padding = "96px 24px 0 0";
+    toastManagerDomNode.style.padding = "88px 24px 0 0";
   }, []);
 
   return <></>;

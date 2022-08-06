@@ -1,42 +1,47 @@
 import Image from "next/image";
-import { FC, useContext, useEffect } from "react";
-import { Text, LayoutProps, useDisclosure, VStack } from "@chakra-ui/react";
+import { FC, useContext } from "react";
+import { Text, LayoutProps, VStack, Center, Box } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import Icon from "./Icon";
-import IconButton from "./IconButton";
-import { Modal, ModalHeader } from "./Modal";
+import Badge from "./Badge";
 
-const LandNotFound: FC<{ isOpen: boolean; w?: LayoutProps["w"]; h?: LayoutProps["h"] }> = ({ isOpen: originIsOpen, w, h }) => {
+const LandNotFound: FC<{ ens?: string; w?: LayoutProps["w"]; h?: LayoutProps["h"] }> = ({ ens, w, h }) => {
   const { colorMode } = useContext(AppContext);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  useEffect(() => {
-    if (originIsOpen) onOpen();
-  }, [originIsOpen]);
 
   return (
-    <Modal w={w || "400px"} h={h || "320px"} isOpen={isOpen} onClose={onClose}>
-      <ModalHeader
-        buttons={[
-          <IconButton
-            key="close"
-            ariaLabel="close"
-            icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
-            size="32px"
-            borderRadius="8px"
-            boxShadow={false}
-            onClick={onClose}
-          />,
-        ]}
-      />
-      <VStack mt="24px" spacing="32px">
-        <Image src="/icons/ens.svg" width="128px" height="128px" />
-
+    <VStack
+      position="fixed"
+      top="0"
+      bottom="0"
+      left="0"
+      right="0"
+      margin="auto"
+      zIndex="default"
+      p="32px"
+      spacing="24px"
+      w={w || "512px"}
+      h={h || "368px"}
+      bgColor="white"
+      border="1px solid"
+      borderColor="light.g_orange"
+      borderRadius="32px"
+    >
+      <Center w="192px" h="192px" position="relative">
+        <Image src="/icons/ENShold.png" width="96px" height="96px" />
+        {ens && (
+          <Box position="absolute" bottom="0">
+            <Badge text={ens} />
+          </Box>
+        )}
+      </Center>
+      <VStack spacing="8px">
         <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
-          Land Not Found
+          No land yet
+        </Text>
+        <Text textStyle="paragraph-1" color="grey.500" textAlign="center">
+          The land is not yet ready in this ENS.
         </Text>
       </VStack>
-    </Modal>
+    </VStack>
   );
 };
 
