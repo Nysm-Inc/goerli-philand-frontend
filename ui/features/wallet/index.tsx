@@ -59,7 +59,7 @@ const Wallet: FC<{
           />,
         ]}
       />
-      <HStack h="36px" m="24px 0" align="center" spacing="8px">
+      <HStack h="36px" m="16px 0 24px 0" align="center" spacing="8px">
         <Checkbox
           checked={checked}
           onCheck={() => {
