@@ -77,7 +77,7 @@ const Main: FC = () => {
   const [depositObjects, { deposit, withdraw }] = useDeposit(currentENS);
   const { save } = useSave(currentENS);
   const [claimableList, updateClaimableList] = useClaimableList(address);
-  const [landObjects, plus, minus, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
+  const [landObjects, plus, minus, setLandObjects, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
 
   const {
     state: { initialized },
@@ -153,6 +153,7 @@ const Main: FC = () => {
             isOpen={isOpenLand}
             onOpenWallet={onOpenWallet}
             onClose={onCloseLand}
+            setObjects={setLandObjects}
             onClickPlus={plus}
             onClickMinus={minus}
             onClickObject={onPickLandObject}

@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { FC, useContext, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useMemo, useState } from "react";
 import type { TransactionResponse } from "@ethersproject/providers";
-import { Box, Center, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
+import { Box, Center, HStack, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
 import { objectMetadataList } from "~/types/object";
-import { Icon, IconButton, Modal, ModalBody, ModalHeader, QuantityInput, ModalFooter, useNavi } from "~/ui/components";
+import { Icon, IconButton, Modal, ModalBody, ModalHeader, QuantityInput, ModalFooter, useNavi, Checkbox } from "~/ui/components";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
 
@@ -22,6 +22,9 @@ const Wallet: FC<{
   const [items, setItems] = useState<WalletObject[]>([]);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const openNavi = useNavi();
+  const checked = useMemo(() => {
+    return items.reduce((memo, item) => (item.contract === WALLPAPER_CONTRACT_ADDRESS ? memo : memo + item.amount - item.select), 0) === 0;
+  }, [items]);
 
   const plus = (idx: number) => {
     const copied = [...items];
@@ -56,7 +59,21 @@ const Wallet: FC<{
           />,
         ]}
       />
-      <Box h="16px" />
+      <HStack h="36px" m="24px 0" align="center" spacing="8px">
+        <Checkbox
+          checked={checked}
+          onCheck={() => {
+            setItems((prev) =>
+              prev.reduce((memo, p) => {
+                return [...memo, p.contract === WALLPAPER_CONTRACT_ADDRESS ? p : { ...p, select: checked ? 0 : p.amount }];
+              }, [] as WalletObject[])
+            );
+          }}
+        />
+        <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "grey.100"}>
+          Select All
+        </Text>
+      </HStack>
       <ModalBody>
         {items.length > 0 ? (
           <>
