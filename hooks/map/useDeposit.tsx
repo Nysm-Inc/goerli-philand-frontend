@@ -44,7 +44,7 @@ const useDeposit = (
   } = useContractWrite({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
-    functionName: "batchWithdraw",
+    functionName: "batchWithdrawObject",
   });
   const { status: withdrawStatus } = useWaitForTransaction({ hash: withdrawData?.hash || "" });
 
