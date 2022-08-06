@@ -25,7 +25,7 @@ const ClaimButton: FC<{
               .then(async (res) => {
                 await res?.wait();
                 stopLoading();
-                openNavi("Claimed Objects into Collection.", "Open Collection", onClickAfterTx);
+                openNavi("Claimed Objects into Wallet.", "Open Wallet", onClickAfterTx);
               })
               .catch(stopLoading);
           }}

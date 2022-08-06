@@ -8,23 +8,24 @@ import { event } from "~/utils/ga/ga";
 import IconButton from "./IconButton";
 
 const MenuBar: FC<{
-  disableEditMode: boolean;
+  initialized: boolean;
+  noObjectsInLand: boolean;
   isEdit: boolean;
   isOpen: {
-    collection: boolean;
-    inventory: boolean;
+    wallet: boolean;
+    land: boolean;
   };
   currentENS: string;
   domains: string[];
   actionHandler: {
-    onOpenCollection: () => void;
-    onOpenInventry: () => void;
+    onOpenWallet: () => void;
+    onOpenLand: () => void;
     onSwitchCurrentENS: (ens: string) => void;
     onView: () => void;
     onEdit: () => void;
     onSave: () => Promise<TransactionResponse | undefined>;
   };
-}> = ({ disableEditMode, isEdit, isOpen, currentENS, domains, actionHandler }) => {
+}> = ({ initialized, noObjectsInLand, isEdit, isOpen, currentENS, domains, actionHandler }) => {
   const { colorMode } = useContext(AppContext);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
@@ -64,25 +65,27 @@ const MenuBar: FC<{
         {!isEdit ? (
           <>
             <IconButton
-              ariaLabel="inventory"
-              icon={<Image src="/icons/inventory.svg" width="48px" height="48px" />}
-              outline={isOpen.inventory}
-              isActive={isOpen.inventory}
+              ariaLabel="wallet"
+              icon={<Image src="/icons/wallet.svg" width="32px" height="32px" />}
+              outline={isOpen.wallet}
+              isActive={isOpen.wallet}
               boxShadow={false}
               onClick={() => {
-                actionHandler.onOpenInventry();
-                event({ action: "click", category: "menubar", label: "inventory" });
+                actionHandler.onOpenWallet();
+                event({ action: "click", category: "menubar", label: "wallet" });
               }}
             />
+            {noObjectsInLand ? <Icon name="arrow" /> : <Icon name="arrowTwoWay" />}
+
             <IconButton
-              ariaLabel="collection"
-              icon={<Image src="/icons/diamond.svg" width="48px" height="48px" />}
-              outline={isOpen.collection}
-              isActive={isOpen.collection}
+              ariaLabel="land"
+              icon={<Image src="/icons/land.svg" width="32px" height="32px" />}
+              outline={isOpen.land}
+              isActive={isOpen.land}
               boxShadow={false}
               onClick={() => {
-                actionHandler.onOpenCollection();
-                event({ action: "click", category: "menubar", label: "collection" });
+                actionHandler.onOpenLand();
+                event({ action: "click", category: "menubar", label: "land" });
               }}
             />
           </>
@@ -99,14 +102,14 @@ const MenuBar: FC<{
               onClick={() => {}}
             /> */}
             <IconButton
-              ariaLabel="inventory"
-              icon={<Image src="/icons/inventory.svg" width="48px" height="48px" />}
-              outline={isOpen.inventory}
-              isActive={isOpen.inventory}
+              ariaLabel="land"
+              icon={<Image src="/icons/land.svg" width="32px" height="32px" />}
+              outline={isOpen.land}
+              isActive={isOpen.land}
               boxShadow={false}
               onClick={() => {
-                actionHandler.onOpenInventry();
-                event({ action: "click", category: "menubar", label: "inventory" });
+                actionHandler.onOpenLand();
+                event({ action: "click", category: "menubar", label: "land" });
               }}
             />
           </>
@@ -158,7 +161,7 @@ const MenuBar: FC<{
             w="88px"
             color="purple"
             leftIcon={<Icon name="edit" />}
-            disabled={disableEditMode}
+            disabled={!initialized || noObjectsInLand}
             onClick={() => {
               actionHandler.onEdit();
               event({ action: "click", category: "menubar", label: "edit" });

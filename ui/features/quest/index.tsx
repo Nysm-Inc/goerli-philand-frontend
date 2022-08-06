@@ -15,11 +15,11 @@ const Quest: FC<{
   claimedList: { [tokenId: number]: boolean };
   totalSupply: { [tokenId: number]: number };
   isOpen: boolean;
-  onOpenCollection: () => void;
+  onOpenWallet: () => void;
   onClose: () => void;
   onClickItem: (tokenId: number) => Promise<TransactionResponse | undefined>;
   onClickUpdate: () => Promise<void>;
-}> = ({ claimableList, claimedList, totalSupply, isOpen, onOpenCollection, onClose, onClickItem, onClickUpdate }) => {
+}> = ({ claimableList, claimedList, totalSupply, isOpen, onOpenWallet, onClose, onClickItem, onClickUpdate }) => {
   const { colorMode } = useContext(AppContext);
   const [selected, setSelected] = useState<(ObjectMetadata & { claimable: boolean; claimed: boolean }) | undefined>(undefined);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
@@ -76,7 +76,7 @@ const Quest: FC<{
             onClick={() => onClickItem(selected.tokenId)}
             onClickAfterTx={() => {
               onClose();
-              onOpenCollection();
+              onOpenWallet();
             }}
           />
         ) : (
@@ -123,7 +123,7 @@ const Quest: FC<{
                     onClick={() => onClickItem(metadata.tokenId)}
                     onClickAfterTx={() => {
                       onClose();
-                      onOpenCollection();
+                      onOpenWallet();
                     }}
                   />
                 </VStack>

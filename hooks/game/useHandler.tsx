@@ -20,7 +20,7 @@ export type Handler = {
   onView: () => void;
   onMoveObject: () => void;
   onDropObject: () => void;
-  onPickInventoryObject: (object: IObject) => void;
+  onPickLandObject: (object: IObject) => void;
   onRemoveObject: (uuid: string) => void;
   onChangeLink: (id: string, link: PhiLink) => void;
   onChangeWallpaper: (tokenId: number) => void;
@@ -63,8 +63,8 @@ const useHandler = ({
     const object = item.getObject();
     uiHandler?.tryRemove(object.contractAddress, object.tokenId);
   };
-  const onPickInventoryObject = (object: IObject) => {
-    game.room.movingItemManager.pickFromInventory(object);
+  const onPickLandObject = (object: IObject) => {
+    game.room.movingItemManager.pickFromLand(object);
     uiHandler?.tryWrite(object.contractAddress, object.tokenId);
   };
   const onChangeLink = (uuid: string, link: PhiLink) => {
@@ -117,7 +117,7 @@ const useHandler = ({
     onView,
     onMoveObject,
     onDropObject,
-    onPickInventoryObject,
+    onPickLandObject,
     onRemoveObject,
     onChangeLink,
     onChangeWallpaper,

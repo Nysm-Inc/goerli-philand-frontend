@@ -4,8 +4,8 @@ import { useAccount, useEnsName, useNetwork } from "wagmi";
 import { Box, useDisclosure, useBoolean } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
-import Inventory, { useInventory } from "~/ui/features/inventory";
-import Collection from "~/ui/features/collection";
+import Land, { useLand } from "~/ui/features/land";
+import Wallet from "~/ui/features/wallet";
 import {
   ActionMenu,
   useActionMenu,
@@ -53,8 +53,8 @@ const Main: FC = () => {
   const [wallpaperMenuState, onOpenWallpaperMenu, onCloseWallpaperMenu] = useWallpaperMenu();
   const { isOpen: isOpenQuest, onOpen: onOpenQuest, onClose: onCloseQuest } = useDisclosure();
   const { isOpen: isOpenShop, onOpen: onOpenShop, onClose: onCloseShop } = useDisclosure();
-  const { isOpen: isOpenCollection, onOpen: onOpenCollection, onClose: onCloseCollection } = useDisclosure();
-  const { isOpen: isOpenInventory, onOpen: onOpenInventry, onClose: onCloseInventory } = useDisclosure();
+  const { isOpen: isOpenWallet, onOpen: onOpenWallet, onClose: onCloseWallet } = useDisclosure();
+  const { isOpen: isOpenLand, onOpen: onOpenLand, onClose: onCloseLand } = useDisclosure();
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
 
   const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens, chain?.unsupported);
@@ -77,11 +77,11 @@ const Main: FC = () => {
   const [depositObjects, { deposit, withdraw }] = useDeposit(currentENS);
   const { save } = useSave(currentENS);
   const [claimableList, updateClaimableList] = useClaimableList(address);
-  const [inventoryObjects, plus, minus, tryWrite, tryRemove, reset] = useInventory(depositObjects, isEdit);
+  const [landObjects, plus, minus, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
 
   const {
     state: { initialized },
-    handler: { onEdit, onView, onDropObject, onMoveObject, onPickInventoryObject, onRemoveObject, onChangeLink, onChangeWallpaper, onSave },
+    handler: { onEdit, onView, onDropObject, onMoveObject, onPickLandObject, onRemoveObject, onChangeLink, onChangeWallpaper, onSave },
   } = useGame({
     state: { currentENS, isEdit, isCreatedPhiland, phiObjects, wallpaper },
     uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
@@ -104,14 +104,15 @@ const Main: FC = () => {
       {isCreatedPhiland ? (
         <>
           <MenuBar
-            disableEditMode={!initialized || (balances.length === 0 && phiObjects.length === 0)}
+            initialized={initialized}
+            noObjectsInLand={balances.length === 0 && phiObjects.length === 0}
             isEdit={isEdit}
-            isOpen={{ collection: isOpenCollection, inventory: isOpenInventory }}
+            isOpen={{ wallet: isOpenWallet, land: isOpenLand }}
             currentENS={currentENS}
             domains={domains}
             actionHandler={{
-              onOpenCollection,
-              onOpenInventry,
+              onOpenWallet,
+              onOpenLand,
               onSwitchCurrentENS: switchCurrentENS,
               onView,
               onEdit,
@@ -123,14 +124,14 @@ const Main: FC = () => {
             claimedList={claimedList}
             totalSupply={totalSupply}
             isOpen={isOpenQuest}
-            onOpenCollection={onOpenCollection}
+            onOpenWallet={onOpenWallet}
             onClose={onCloseQuest}
             onClickItem={claimPhi}
             onClickUpdate={updateClaimableList}
           />
           <Shop
             isOpen={isOpenShop}
-            onOpenCollection={onOpenCollection}
+            onOpenWallet={onOpenWallet}
             onClose={onCloseShop}
             onSubmit={{
               [FREE_OBJECT_CONTRACT_ADDRESS]: getFreeObject,
@@ -138,23 +139,23 @@ const Main: FC = () => {
               [WALLPAPER_CONTRACT_ADDRESS]: batchWallPaper,
             }}
           />
-          <Collection
+          <Wallet
             items={balances}
             isEdit={isEdit}
-            isOpen={isOpenCollection}
-            onOpenInventory={onOpenInventry}
-            onClose={onCloseCollection}
+            isOpen={isOpenWallet}
+            onOpenLand={onOpenLand}
+            onClose={onCloseWallet}
             onSubmit={deposit}
           />
-          <Inventory
-            objects={inventoryObjects}
+          <Land
+            objects={landObjects}
             isEdit={isEdit}
-            isOpen={isOpenInventory}
-            onOpenCollection={onOpenCollection}
-            onClose={onCloseInventory}
+            isOpen={isOpenLand}
+            onOpenWallet={onOpenWallet}
+            onClose={onCloseLand}
             onClickPlus={plus}
             onClickMinus={minus}
-            onClickObject={onPickInventoryObject}
+            onClickObject={onPickLandObject}
             onSubmit={withdraw}
             reset={reset}
           />

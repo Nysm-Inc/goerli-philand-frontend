@@ -88,14 +88,14 @@ const Cart: FC<{
 
 const Shop: FC<{
   isOpen: boolean;
-  onOpenCollection: () => void;
+  onOpenWallet: () => void;
   onClose: () => void;
   onSubmit: {
     [FREE_OBJECT_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
     [PREMIUM_OBJECT_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
     [WALLPAPER_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
   };
-}> = ({ isOpen, onOpenCollection, onClose, onSubmit }) => {
+}> = ({ isOpen, onOpenWallet, onClose, onSubmit }) => {
   const { colorMode } = useContext(AppContext);
   const [items, setItems] = useState<Item[]>(defaultItems(FREE_OBJECT_CONTRACT_ADDRESS));
   const [tabIdx, setTabIdx] = useState(0);
@@ -177,9 +177,9 @@ const Shop: FC<{
                     reset(tabIdx2Contract[tabIdx]);
                     await res?.wait();
                     stopLoading();
-                    openNavi("Purchased Objects into Collection.", "Open Collection", () => {
+                    openNavi("Purchased Objects into Wallet.", "Open Wallet", () => {
                       onClose();
-                      onOpenCollection();
+                      onOpenWallet();
                     });
                   })
                   .catch(stopLoading);
