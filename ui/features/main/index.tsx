@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, useMemo } from "react";
+import { FC } from "react";
 import { useAccount, useEnsName, useNetwork } from "wagmi";
 import { Box, useDisclosure, useBoolean } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
