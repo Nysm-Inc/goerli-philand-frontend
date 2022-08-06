@@ -5,6 +5,11 @@
         "internalType": "address payable",
         "name": "_treasuryAddress",
         "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_phiMapAddress",
+        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
@@ -82,6 +87,79 @@
       }
     ],
     "name": "ChangeTokenPrice",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "uri",
+        "type": "string"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint8",
+            "name": "x",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint8",
+            "name": "y",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint8",
+            "name": "z",
+            "type": "uint8"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct BaseObject.Size",
+        "name": "size",
+        "type": "tuple"
+      },
+      {
+        "indexed": false,
+        "internalType": "address payable",
+        "name": "creator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      }
+    ],
+    "name": "CreateFreeObject",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "LogGetObject",
     "type": "event"
   },
   {
@@ -938,51 +1016,6 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "tokenUri",
-        "type": "string"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint8",
-            "name": "x",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
-            "name": "y",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
-            "name": "z",
-            "type": "uint8"
-          }
-        ],
-        "internalType": "struct BaseObject.Size",
-        "name": "size",
-        "type": "tuple"
-      },
-      {
-        "internalType": "address payable",
-        "name": "creator",
-        "type": "address"
-      }
-    ],
-    "name": "initObject",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "account",
         "type": "address"
@@ -1044,6 +1077,19 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "phiMapAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
