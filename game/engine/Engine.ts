@@ -73,6 +73,8 @@ export default class Engine {
         this.onMouseMoveHandler(world.x, world.y);
       })
       .on("zoomed", ({ viewport }: { viewport: Viewport }) => {
+        if (isMobile) return;
+
         if (viewport.scaled > 2) {
           this.hideClouds();
         } else {
