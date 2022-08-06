@@ -13,7 +13,8 @@ const HeaderMd: FC = () => {
   return (
     <>
       <Flex
-        position="absolute"
+        zIndex="default"
+        position="fixed"
         left="12px"
         top="13px"
         p="8px 8px 8px 12px"
@@ -34,7 +35,7 @@ const HeaderMd: FC = () => {
         <Search w="calc(100vw - 12px * 2 - 8px - 12px - 40px - 8px)" shadow={false} />
       </Flex>
 
-      <Box position="absolute" top="89px" left="12px">
+      <Box zIndex="default" position="fixed" top="89px" left="12px">
         <Button
           w="154px"
           h="40px"
@@ -50,7 +51,7 @@ const HeaderMd: FC = () => {
       </Box>
 
       {/* @ts-ignore */}
-      <Box position="absolute" top="89px" right="19px">
+      <Box zIndex="default" position="fixed" top="89px" right="19px">
         <IconButton
           ariaLabel="color_mode"
           size="40px"
