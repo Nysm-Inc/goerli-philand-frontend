@@ -8,7 +8,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ["www.arweave.net"],
-    minimumCacheTTL: 60 * 60,
+    minimumCacheTTL: 86400,
   },
 };
 

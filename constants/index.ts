@@ -12,8 +12,8 @@ export const ENS_GRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/ensdo
 export const REGISTRY_GRAPH_ENDPOINT = "https://api.thegraph.com/subgraphs/name/zak3939/goerliphiregistry";
 
 // api
-export const COUPON_API_GATEWAY = "https://object-api-mumbai.phi.blue/v1";
-export const UTILS_API_GATEWAY = "https://utils-api-mumbai.phi.blue/v1/philand";
+export const COUPON_API_GATEWAY = process.env.NEXT_PUBLIC_COUPON_API_GATEWAY || "";
+export const UTILS_API_GATEWAY = process.env.NEXT_PUBLIC_UTILS_API_GATEWAY || "";
 
 // app
 export const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL || "";
