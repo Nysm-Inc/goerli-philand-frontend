@@ -5,6 +5,11 @@
         "internalType": "address payable",
         "name": "_treasuryAddress",
         "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_phiMapAddress",
+        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
@@ -148,66 +153,6 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "tokenUri",
-        "type": "string"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint8",
-            "name": "x",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
-            "name": "y",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
-            "name": "z",
-            "type": "uint8"
-          }
-        ],
-        "indexed": false,
-        "internalType": "struct BaseObject.Size",
-        "name": "size",
-        "type": "tuple"
-      },
-      {
-        "indexed": false,
-        "internalType": "address payable",
-        "name": "creator",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "maxClaimed",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
-      }
-    ],
-    "name": "InitWallPaper",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
         "indexed": true,
         "internalType": "address",
         "name": "sender",
@@ -226,7 +171,26 @@
         "type": "uint256"
       }
     ],
-    "name": "LogbuyWallPaper",
+    "name": "LogBuyWallPaper",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "phiMapAddress",
+        "type": "address"
+      }
+    ],
+    "name": "LogChangePhilandAddress",
     "type": "event"
   },
   {
@@ -710,19 +674,6 @@
         "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
-      }
-    ],
-    "name": "buyWallPaper",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
       },
       {
         "internalType": "uint256",
@@ -1106,61 +1057,6 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "tokenUri",
-        "type": "string"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint8",
-            "name": "x",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
-            "name": "y",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
-            "name": "z",
-            "type": "uint8"
-          }
-        ],
-        "internalType": "struct BaseObject.Size",
-        "name": "size",
-        "type": "tuple"
-      },
-      {
-        "internalType": "address payable",
-        "name": "creator",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "maxClaimed",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
-      }
-    ],
-    "name": "initWallPaper",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "account",
         "type": "address"
@@ -1222,6 +1118,19 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "phiMapAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
