@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { useAccount, useEnsName, useNetwork } from "wagmi";
 import { Box, useDisclosure, useBoolean } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
@@ -73,6 +73,7 @@ const Main: FC = () => {
   const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
   const balanceWallpapers = useBalances(WALLPAPER_CONTRACT_ADDRESS, address);
+  const balances = [...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers];
   const [depositObjects, { deposit, withdraw }] = useDeposit(currentENS);
   const { save } = useSave(currentENS);
   const [claimableList, updateClaimableList] = useClaimableList(address);
@@ -103,7 +104,7 @@ const Main: FC = () => {
       {isCreatedPhiland ? (
         <>
           <MenuBar
-            initialized={initialized}
+            disableEditMode={!initialized || (balances.length === 0 && phiObjects.length === 0)}
             isEdit={isEdit}
             isOpen={{ collection: isOpenCollection, inventory: isOpenInventory }}
             currentENS={currentENS}
@@ -138,7 +139,7 @@ const Main: FC = () => {
             }}
           />
           <Collection
-            items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
+            items={balances}
             isEdit={isEdit}
             isOpen={isOpenCollection}
             onOpenInventory={onOpenInventry}

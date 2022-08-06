@@ -8,7 +8,7 @@ import { event } from "~/utils/ga/ga";
 import IconButton from "./IconButton";
 
 const MenuBar: FC<{
-  initialized: boolean;
+  disableEditMode: boolean;
   isEdit: boolean;
   isOpen: {
     collection: boolean;
@@ -24,7 +24,7 @@ const MenuBar: FC<{
     onEdit: () => void;
     onSave: () => Promise<TransactionResponse | undefined>;
   };
-}> = ({ initialized, isEdit, isOpen, currentENS, domains, actionHandler }) => {
+}> = ({ disableEditMode, isEdit, isOpen, currentENS, domains, actionHandler }) => {
   const { colorMode } = useContext(AppContext);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
@@ -158,7 +158,7 @@ const MenuBar: FC<{
             w="88px"
             color="purple"
             leftIcon={<Icon name="edit" />}
-            disabled={!initialized}
+            disabled={disableEditMode}
             onClick={() => {
               actionHandler.onEdit();
               event({ action: "click", category: "menubar", label: "edit" });
