@@ -17,7 +17,6 @@ import {
   Header,
   ENSNotFound,
   Help,
-  Permissions,
   CreatePhiland,
   Share,
   MainMenu,
@@ -28,7 +27,7 @@ import {
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
 import { useWallpaper, useDeposit, useSave, useViewPhiland } from "~/hooks/map";
-import { useApprove, useBalances, useTotalSupply } from "~/hooks/object";
+import { useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList } from "~/hooks/claim";
 import { useGame } from "~/hooks/game";
 import { useGetFreeObject } from "~/hooks/free";
@@ -56,7 +55,6 @@ const Main: FC = () => {
   const { isOpen: isOpenShop, onOpen: onOpenShop, onClose: onCloseShop } = useDisclosure();
   const { isOpen: isOpenCollection, onOpen: onOpenCollection, onClose: onCloseCollection } = useDisclosure();
   const { isOpen: isOpenInventory, onOpen: onOpenInventry, onClose: onCloseInventory } = useDisclosure();
-  const { isOpen: isOpenPermissions, onOpen: onOpenPermissions, onClose: onClosePermissions } = useDisclosure();
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
 
   const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens, chain?.unsupported);
@@ -66,10 +64,6 @@ const Main: FC = () => {
   const isCreatedPhiland = owner === address && (isCreated || phiObjects.length > 0);
 
   const wallpaper = useWallpaper(currentENS);
-  const [isAprvPhi, { approve: aprvPhi }] = useApprove(QUEST_OBJECT_CONTRACT_ADDRESS, address);
-  const [isAprvFree, { approve: aprvFree }] = useApprove(FREE_OBJECT_CONTRACT_ADDRESS, address);
-  const [isAprvPre, { approve: aprvPre }] = useApprove(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
-  const [isAprvWall, { approve: aprvWall }] = useApprove(WALLPAPER_CONTRACT_ADDRESS, address);
   const [claimedList, { claimPhi }] = useClaim(address);
   const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS);
   const { getFreeObject } = useGetFreeObject();
@@ -95,7 +89,7 @@ const Main: FC = () => {
 
   return (
     <>
-      <Header onOpenPermissions={onOpenPermissions} />
+      <Header />
       <Help onOpenHowItWorks={onOpenHowItWorks} />
       <HowItWorks isCreatedPhiland={isCreatedPhiland} isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
 
@@ -145,16 +139,9 @@ const Main: FC = () => {
           />
           <Collection
             items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
-            isApproved={{
-              [QUEST_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
-              [FREE_OBJECT_CONTRACT_ADDRESS]: isAprvFree,
-              [PREMIUM_OBJECT_CONTRACT_ADDRESS]: isAprvPre,
-              [WALLPAPER_CONTRACT_ADDRESS]: isAprvWall,
-            }}
             isEdit={isEdit}
             isOpen={isOpenCollection}
             onOpenInventory={onOpenInventry}
-            onOpenPermissions={onOpenPermissions}
             onClose={onCloseCollection}
             onSubmit={deposit}
           />
@@ -169,22 +156,6 @@ const Main: FC = () => {
             onClickObject={onPickInventoryObject}
             onSubmit={withdraw}
             reset={reset}
-          />
-          <Permissions
-            isApproved={{
-              [QUEST_OBJECT_CONTRACT_ADDRESS]: isAprvPhi,
-              [FREE_OBJECT_CONTRACT_ADDRESS]: isAprvFree,
-              [PREMIUM_OBJECT_CONTRACT_ADDRESS]: isAprvPre,
-              [WALLPAPER_CONTRACT_ADDRESS]: isAprvWall,
-            }}
-            onApprove={{
-              [QUEST_OBJECT_CONTRACT_ADDRESS]: aprvPhi,
-              [FREE_OBJECT_CONTRACT_ADDRESS]: aprvFree,
-              [PREMIUM_OBJECT_CONTRACT_ADDRESS]: aprvPre,
-              [WALLPAPER_CONTRACT_ADDRESS]: aprvWall,
-            }}
-            isOpen={isOpenPermissions}
-            onClose={onClosePermissions}
           />
 
           {isEdit ? (
@@ -207,7 +178,6 @@ const Main: FC = () => {
               />
               <WallpaperMenu
                 state={wallpaperMenuState}
-                isApprovedWallpaper={isAprvWall}
                 currentWallpaper={wallpaper}
                 balanceWallpapers={balanceWallpapers}
                 onClose={onCloseWallpaperMenu}

@@ -17,12 +17,11 @@ export const useWallpaperMenu = (): [WallpaperMenuState, (x: number, y: number) 
 
 const WallpaperMenu: FC<{
   state: WallpaperMenuState;
-  isApprovedWallpaper: boolean;
   currentWallpaper?: Wallpaper;
   balanceWallpapers: BalanceObject[];
   onClose: () => void;
   onChangeWallpaper: (tokenId: number) => void;
-}> = ({ state, onClose, onChangeWallpaper, isApprovedWallpaper, currentWallpaper, balanceWallpapers }) => {
+}> = ({ state, onClose, onChangeWallpaper, currentWallpaper, balanceWallpapers }) => {
   const uniqueWallpapers = useMemo(() => {
     return Array.from(
       new Set(
@@ -33,7 +32,7 @@ const WallpaperMenu: FC<{
     );
   }, [currentWallpaper?.tokenId, balanceWallpapers.length]);
 
-  if (!isApprovedWallpaper || uniqueWallpapers.length <= 0) {
+  if (uniqueWallpapers.length <= 0) {
     return <></>;
   }
   return (

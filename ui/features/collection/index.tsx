@@ -5,31 +5,19 @@ import { Box, Center, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/re
 import { BalanceObject } from "~/types";
 import { objectMetadataList } from "~/types/object";
 import { Icon, IconButton, Modal, ModalBody, ModalHeader, QuantityInput, ModalFooter, useNavi } from "~/ui/components";
-import {
-  FREE_OBJECT_CONTRACT_ADDRESS,
-  QUEST_OBJECT_CONTRACT_ADDRESS,
-  PREMIUM_OBJECT_CONTRACT_ADDRESS,
-  WALLPAPER_CONTRACT_ADDRESS,
-} from "~/constants";
+import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
 
 type CollectionObject = BalanceObject & { select: number };
 
 const Collection: FC<{
   items: BalanceObject[];
-  isApproved: {
-    [QUEST_OBJECT_CONTRACT_ADDRESS]: boolean;
-    [FREE_OBJECT_CONTRACT_ADDRESS]: boolean;
-    [PREMIUM_OBJECT_CONTRACT_ADDRESS]: boolean;
-    [WALLPAPER_CONTRACT_ADDRESS]: boolean;
-  };
   isEdit: boolean;
   isOpen: boolean;
-  onOpenPermissions: () => void;
   onOpenInventory: () => void;
   onClose: () => void;
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
-}> = ({ items: originItems, isApproved, isEdit, isOpen, onOpenPermissions, onOpenInventory, onClose, onSubmit }) => {
+}> = ({ items: originItems, isEdit, isOpen, onOpenInventory, onClose, onSubmit }) => {
   const { colorMode } = useContext(AppContext);
   const [items, setItems] = useState<CollectionObject[]>([]);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
@@ -95,22 +83,14 @@ const Collection: FC<{
                   <Box h="8px" />
                   {!isEdit && (
                     <>
-                      {isApproved[item.contract] ? (
-                        <>
-                          {item.contract !== WALLPAPER_CONTRACT_ADDRESS && (
-                            <QuantityInput
-                              defaultText="+ Deposit"
-                              num={item.select}
-                              balance={item.amount}
-                              handleClickMinus={() => minus(i)}
-                              handleClickPlus={() => plus(i)}
-                            />
-                          )}
-                        </>
-                      ) : (
-                        <Text textStyle="label-1" color="primary.500" cursor="pointer" onClick={onOpenPermissions}>
-                          + Deposit
-                        </Text>
+                      {item.contract !== WALLPAPER_CONTRACT_ADDRESS && (
+                        <QuantityInput
+                          defaultText="+ Deposit"
+                          num={item.select}
+                          balance={item.amount}
+                          handleClickMinus={() => minus(i)}
+                          handleClickPlus={() => plus(i)}
+                        />
                       )}
                     </>
                   )}

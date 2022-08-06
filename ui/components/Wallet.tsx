@@ -12,7 +12,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 
 const showAddress = (address: string) => `${address.substring(0, 6)}...${address.substring(address.length - 6)}`;
 
-const Wallet: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) => {
+const Wallet: FC = () => {
   const { colorMode } = useContext(AppContext);
   const { disconnect } = useDisconnect();
 
@@ -90,7 +90,6 @@ const Wallet: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
                     w="218px"
                     options={[
                       { label: showAddress(account.address), value: account.address },
-                      { label: "Permission settings", value: "Permission settings", onClick: onOpenPermissions },
                       { label: "disconnect", value: "disconnect", onClick: disconnect, textColor: "danger.default" },
                     ]}
                   />
