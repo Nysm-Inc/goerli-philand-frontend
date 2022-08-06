@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { FC, useContext, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useContext, useEffect, useMemo, useState } from "react";
 import type { TransactionResponse } from "@ethersproject/providers";
-import { Box, Center, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
+import { Box, Center, HStack, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject, ObjectContractAddress } from "~/types";
-import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput, useNavi } from "~/ui/components";
+import { Checkbox, Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput, useNavi } from "~/ui/components";
 import { AppContext } from "~/contexts";
 
 type LandObject = DepositObject & { select: number; writed: boolean };
@@ -16,6 +16,7 @@ export const useLand = (
   LandObject[],
   (idx: number) => void,
   (idx: number) => void,
+  Dispatch<SetStateAction<LandObject[]>>,
   (contract: ObjectContractAddress, tokenId: number) => void,
   (contract: ObjectContractAddress, tokenId: number) => void,
   () => void
@@ -72,7 +73,7 @@ export const useLand = (
     reset();
   }, [originObjects.length, isEdit]);
 
-  return [objects, plus, minus, tryWrite, tryRemove, reset];
+  return [objects, plus, minus, setObjects, tryWrite, tryRemove, reset];
 };
 
 const Land: FC<{
@@ -83,13 +84,17 @@ const Land: FC<{
   onClose: () => void;
   onClickPlus: (idx: number) => void;
   onClickMinus: (idx: number) => void;
+  setObjects: Dispatch<SetStateAction<LandObject[]>>;
   onClickObject: (object: IObject) => void;
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
   reset: () => void;
-}> = ({ objects, isEdit, isOpen, onOpenWallet, onClose, onClickPlus, onClickMinus, onClickObject, onSubmit, reset }) => {
+}> = ({ objects, isEdit, isOpen, onOpenWallet, onClose, onClickPlus, onClickMinus, setObjects, onClickObject, onSubmit, reset }) => {
   const { colorMode } = useContext(AppContext);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const openNavi = useNavi();
+  const checked = useMemo(() => {
+    return objects.reduce((memo, object) => memo + object.amount - object.used - object.select, 0) === 0;
+  }, [objects]);
 
   return (
     <Modal
@@ -116,7 +121,25 @@ const Land: FC<{
           />,
         ]}
       />
-      <Box h="16px" />
+      {isEdit ? (
+        <Box h="16px" />
+      ) : (
+        <HStack h="36px" m="16px 0 24px 0" align="center" spacing="8px">
+          <Checkbox
+            checked={checked}
+            onCheck={() => {
+              setObjects((prev) =>
+                prev.reduce((memo, p) => {
+                  return [...memo, { ...p, select: checked ? 0 : p.amount - p.used }];
+                }, [] as LandObject[])
+              );
+            }}
+          />
+          <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "grey.100"}>
+            Select All
+          </Text>
+        </HStack>
+      )}
       <ModalBody>
         {objects.length > 0 ? (
           <>
