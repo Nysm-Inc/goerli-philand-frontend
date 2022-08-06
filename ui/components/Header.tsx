@@ -8,7 +8,7 @@ import Icon from "./Icon";
 import Button from "./Button";
 import Wallet from "./Wallet";
 
-const Header: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) => {
+const Header: FC = () => {
   const { colorMode, toggleColorMode } = useContext(AppContext);
   const ref = useRef(null);
 
@@ -58,7 +58,7 @@ const Header: FC<{ onOpenPermissions?: () => void }> = ({ onOpenPermissions }) =
       </Box>
 
       <Box ref={ref} zIndex="default" position="fixed" top="24px" right="24px">
-        <Wallet onOpenPermissions={onOpenPermissions} />
+        <Wallet />
       </Box>
     </>
   );

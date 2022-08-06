@@ -17,7 +17,6 @@ import IconButton from "./IconButton";
 import { Tab, TabList } from "./Tab";
 import ENSNotFound from "./ENSNotFound";
 import Help from "./Help";
-import Permissions from "./Permissions";
 import CreatePhiland from "./CreatePhiland";
 import Share from "./Share";
 import useNavi from "./NaviNotification";
@@ -65,7 +64,6 @@ export {
   Tab,
   TabList,
   ModalFooter,
-  Permissions,
   CreatePhiland,
   Share,
   useNavi,
