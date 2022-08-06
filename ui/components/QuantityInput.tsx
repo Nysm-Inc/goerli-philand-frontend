@@ -1,17 +1,18 @@
 import { FC } from "react";
-import { Button, Center, Flex, Text } from "@chakra-ui/react";
+import { Button, Center, Flex, LayoutProps, Text } from "@chakra-ui/react";
 import Icon from "./Icon";
 
 const QuantityInput: FC<{
+  w?: LayoutProps["w"];
   defaultText: string;
   num: number;
   balance: number;
   handleClickPlus: () => void;
   handleClickMinus: () => void;
-}> = ({ defaultText, num, balance, handleClickPlus, handleClickMinus }) => (
+}> = ({ w, defaultText, num, balance, handleClickPlus, handleClickMinus }) => (
   <>
     {num > 0 ? (
-      <Flex w="144px" h="32px" p="2px" gap="16px" justify="space-between" align="center" borderRadius="12px" bgColor="primary.500">
+      <Flex w={w || "144px"} h="32px" p="2px" gap="16px" justify="space-between" align="center" borderRadius="12px" bgColor="primary.500">
         <Button
           variant="unstyled"
           minW="28px"

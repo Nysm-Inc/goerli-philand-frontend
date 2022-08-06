@@ -48,12 +48,12 @@ const Index: NextPage = () => {
       {isMobile ? (
         <>
           <HeaderMd />
-          <LandNotFound isOpen={isFetched && !isPhilandCreated} w="320px" h="320px" />
+          {isFetched && !isPhilandCreated && <LandNotFound ens={ens} w="360px" />}
         </>
       ) : (
         <>
           <Header />
-          <LandNotFound isOpen={isFetched && !isPhilandCreated} />
+          {isFetched && !isPhilandCreated && <LandNotFound ens={ens} />}
         </>
       )}
     </>
