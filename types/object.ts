@@ -913,16 +913,16 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
         maxClaimed: 999999999,
         price: 1,
       },
-      41: {
-        tokenId: 41,
-        name: "PHI Snowman Boxy",
-        image_url: "https://www.arweave.net/mTOyxskR3bcqUzKfuSg2yYuVDIEkJ8axqcUs9SrwIHc?ext=png",
-        json_url: "https://www.arweave.net/4wFflBWwLYsTGnHNZnqo8B1Q83V0gwEQPzjfwpBDqgs",
-        size: [1, 1, 2],
-        creator: "eBoy",
-        maxClaimed: 999999999,
-        price: 2,
-      },
+      // 41: {
+      //   tokenId: 41,
+      //   name: "PHI Snowman Boxy",
+      //   image_url: "https://www.arweave.net/mTOyxskR3bcqUzKfuSg2yYuVDIEkJ8axqcUs9SrwIHc?ext=png",
+      //   json_url: "https://www.arweave.net/4wFflBWwLYsTGnHNZnqo8B1Q83V0gwEQPzjfwpBDqgs",
+      //   size: [1, 1, 2],
+      //   creator: "eBoy",
+      //   maxClaimed: 999999999,
+      //   price: 2,
+      // },
     },
     [WALLPAPER_CONTRACT_ADDRESS]: {
       1: {
