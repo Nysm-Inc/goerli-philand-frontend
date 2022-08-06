@@ -8,18 +8,18 @@ import { Icon, IconButton, Modal, ModalBody, ModalHeader, QuantityInput, ModalFo
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
 
-type CollectionObject = BalanceObject & { select: number };
+type WalletObject = BalanceObject & { select: number };
 
-const Collection: FC<{
+const Wallet: FC<{
   items: BalanceObject[];
   isEdit: boolean;
   isOpen: boolean;
-  onOpenInventory: () => void;
+  onOpenLand: () => void;
   onClose: () => void;
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
-}> = ({ items: originItems, isEdit, isOpen, onOpenInventory, onClose, onSubmit }) => {
+}> = ({ items: originItems, isEdit, isOpen, onOpenLand, onClose, onSubmit }) => {
   const { colorMode } = useContext(AppContext);
-  const [items, setItems] = useState<CollectionObject[]>([]);
+  const [items, setItems] = useState<WalletObject[]>([]);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const openNavi = useNavi();
 
@@ -44,7 +44,7 @@ const Collection: FC<{
   return (
     <Modal w="832px" h="680px" isOpen={isOpen} onClose={onClose} onCloseComplete={reset}>
       <ModalHeader
-        title="COLLECTION"
+        title="WALLET"
         buttons={[
           <IconButton
             key="close"
@@ -102,7 +102,7 @@ const Collection: FC<{
         ) : (
           <Center w="100%" h="562px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <VStack spacing="32px">
-              <Image src={`/assets/empty-collection_${colorMode}.png`} width="360px" height="270px" />
+              <Image src={`/assets/empty-wallet_${colorMode}.png`} width="360px" height="270px" />
               <Text w="300px" h="40px" color="grey.500" textStyle="paragraph-2" textAlign="center">
                 {"Manage Objects & Wallpaper collected from Shops and Quests"}
               </Text>
@@ -115,7 +115,7 @@ const Collection: FC<{
           <ModalFooter
             text="Deposit"
             itemNum={items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
-            subText="The selected objects will be stored in your inventory"
+            subText="The selected objects will be stored in your land"
             isLoading={isLoading}
             onClick={() => {
               startLoading();
@@ -138,9 +138,9 @@ const Collection: FC<{
                   reset();
                   await res?.wait();
                   stopLoading();
-                  openNavi("Deposited Objects into Inventory.", "Open Inventory", () => {
+                  openNavi("Deposited Objects into Land.", "Open Land", () => {
                     onClose();
-                    onOpenInventory();
+                    onOpenLand();
                   });
                 })
                 .catch(stopLoading);
@@ -152,4 +152,4 @@ const Collection: FC<{
   );
 };
 
-export default Collection;
+export default Wallet;

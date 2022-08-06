@@ -11,14 +11,14 @@ const MenuBar: FC<{
   disableEditMode: boolean;
   isEdit: boolean;
   isOpen: {
-    collection: boolean;
-    inventory: boolean;
+    wallet: boolean;
+    land: boolean;
   };
   currentENS: string;
   domains: string[];
   actionHandler: {
-    onOpenCollection: () => void;
-    onOpenInventry: () => void;
+    onOpenWallet: () => void;
+    onOpenLand: () => void;
     onSwitchCurrentENS: (ens: string) => void;
     onView: () => void;
     onEdit: () => void;
@@ -64,25 +64,25 @@ const MenuBar: FC<{
         {!isEdit ? (
           <>
             <IconButton
-              ariaLabel="inventory"
-              icon={<Image src="/icons/inventory.svg" width="48px" height="48px" />}
-              outline={isOpen.inventory}
-              isActive={isOpen.inventory}
+              ariaLabel="wallet"
+              icon={<Image src="/icons/wallet.svg" width="32px" height="32px" />}
+              outline={isOpen.wallet}
+              isActive={isOpen.wallet}
               boxShadow={false}
               onClick={() => {
-                actionHandler.onOpenInventry();
-                event({ action: "click", category: "menubar", label: "inventory" });
+                actionHandler.onOpenWallet();
+                event({ action: "click", category: "menubar", label: "wallet" });
               }}
             />
             <IconButton
-              ariaLabel="collection"
-              icon={<Image src="/icons/diamond.svg" width="48px" height="48px" />}
-              outline={isOpen.collection}
-              isActive={isOpen.collection}
+              ariaLabel="land"
+              icon={<Image src="/icons/land.svg" width="32px" height="32px" />}
+              outline={isOpen.land}
+              isActive={isOpen.land}
               boxShadow={false}
               onClick={() => {
-                actionHandler.onOpenCollection();
-                event({ action: "click", category: "menubar", label: "collection" });
+                actionHandler.onOpenLand();
+                event({ action: "click", category: "menubar", label: "land" });
               }}
             />
           </>
@@ -99,14 +99,14 @@ const MenuBar: FC<{
               onClick={() => {}}
             /> */}
             <IconButton
-              ariaLabel="inventory"
-              icon={<Image src="/icons/inventory.svg" width="48px" height="48px" />}
-              outline={isOpen.inventory}
-              isActive={isOpen.inventory}
+              ariaLabel="land"
+              icon={<Image src="/icons/land.svg" width="32px" height="32px" />}
+              outline={isOpen.land}
+              isActive={isOpen.land}
               boxShadow={false}
               onClick={() => {
-                actionHandler.onOpenInventry();
-                event({ action: "click", category: "menubar", label: "inventory" });
+                actionHandler.onOpenLand();
+                event({ action: "click", category: "menubar", label: "land" });
               }}
             />
           </>

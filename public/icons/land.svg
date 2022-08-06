@@ -1,0 +1,20 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M18 9H14V11H10V13H6V15H2V17H6V19H10V21H14V23H18V21H22V19H26V17H30V15H26V13H22V11H18V9Z" fill="#70DBB8"/>
+<rect width="4" height="2" transform="matrix(1 0 0 -1 14 25)" fill="#14B881"/>
+<rect width="4" height="2" transform="matrix(1 0 0 -1 18 23)" fill="#14B881"/>
+<rect width="4" height="2" transform="matrix(1 0 0 -1 22 21)" fill="#14B881"/>
+<rect width="4" height="2" transform="matrix(1 0 0 -1 26 19)" fill="#14B881"/>
+<rect width="4" height="2" transform="matrix(1 0 0 -1 10 23)" fill="#14B881"/>
+<rect width="4" height="2" transform="matrix(1 0 0 -1 6 21)" fill="#14B881"/>
+<rect width="4" height="2" transform="matrix(1 0 0 -1 2 19)" fill="#14B881"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M18 7H14V9H10V11H6V13H2V15H0V19H2V21H6V23H10V25H14V27H18V25H22V23H26V21H30V19H32V15H30V13H26V11H22V9H18V7ZM18 9V11H22V13H26V15H30V19H26V21H22V23H18V25H14V23H10V21H6V19H2V15H6V13H10V11H14V9H18Z" fill="black"/>
+<rect x="10" y="13" width="4" height="2" fill="#33CC99"/>
+<rect x="10" y="17" width="4" height="2" fill="#33CC99"/>
+<rect x="6" y="15" width="4" height="2" fill="#33CC99"/>
+<rect x="14" y="15" width="4" height="2" fill="#33CC99"/>
+<rect x="14" y="11" width="4" height="2" fill="#33CC99"/>
+<rect x="14" y="19" width="4" height="2" fill="#33CC99"/>
+<rect x="18" y="17" width="4" height="2" fill="#33CC99"/>
+<rect x="18" y="13" width="4" height="2" fill="#33CC99"/>
+<rect x="22" y="15" width="4" height="2" fill="#33CC99"/>
+</svg>

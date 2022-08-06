@@ -18,7 +18,7 @@ export default class MovingItemManager {
     this.item.getTiles().showSelectTile();
   }
 
-  pickFromInventory(object: IObject) {
+  pickFromLand(object: IObject) {
     const { engine, room } = GameInstance.get();
 
     const uuid = room.roomItemManager.randomUUID();

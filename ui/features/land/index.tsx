@@ -7,20 +7,20 @@ import { BalanceObject, DepositObject, IObject, ObjectContractAddress } from "~/
 import { Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput, useNavi } from "~/ui/components";
 import { AppContext } from "~/contexts";
 
-type InventoryObject = DepositObject & { select: number; writed: boolean };
+type LandObject = DepositObject & { select: number; writed: boolean };
 
-export const useInventory = (
+export const useLand = (
   originObjects: DepositObject[],
   isEdit: boolean
 ): [
-  InventoryObject[],
+  LandObject[],
   (idx: number) => void,
   (idx: number) => void,
   (contract: ObjectContractAddress, tokenId: number) => void,
   (contract: ObjectContractAddress, tokenId: number) => void,
   () => void
 ] => {
-  const [objects, setObjects] = useState<InventoryObject[]>([]);
+  const [objects, setObjects] = useState<LandObject[]>([]);
 
   const plus = (idx: number) => {
     const copied = [...objects];
@@ -75,18 +75,18 @@ export const useInventory = (
   return [objects, plus, minus, tryWrite, tryRemove, reset];
 };
 
-const Inventory: FC<{
-  objects: InventoryObject[];
+const Land: FC<{
+  objects: LandObject[];
   isEdit: boolean;
   isOpen: boolean;
-  onOpenCollection: () => void;
+  onOpenWallet: () => void;
   onClose: () => void;
   onClickPlus: (idx: number) => void;
   onClickMinus: (idx: number) => void;
   onClickObject: (object: IObject) => void;
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
   reset: () => void;
-}> = ({ objects, isEdit, isOpen, onOpenCollection, onClose, onClickPlus, onClickMinus, onClickObject, onSubmit, reset }) => {
+}> = ({ objects, isEdit, isOpen, onOpenWallet, onClose, onClickPlus, onClickMinus, onClickObject, onSubmit, reset }) => {
   const { colorMode } = useContext(AppContext);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const openNavi = useNavi();
@@ -103,7 +103,7 @@ const Inventory: FC<{
       }}
     >
       <ModalHeader
-        title="INVENTORY"
+        title="LAND"
         buttons={[
           <IconButton
             key="close"
@@ -182,9 +182,9 @@ const Inventory: FC<{
         ) : (
           <Center w="100%" h="606px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <VStack spacing="32px">
-              <Image src={`/assets/empty-inventory_${colorMode}.png`} width="360px" height="270px" />
+              <Image src={`/assets/empty-land_${colorMode}.png`} width="360px" height="270px" />
               <Text w="300px" h="40px" color="grey.500" textStyle="paragraph-2" textAlign="center">
-                {"To place Objects & Wallpapers in Land, Deposit them from Collection."}
+                {"To place Objects & Wallpapers in Land, Deposit them from Wallet."}
               </Text>
             </VStack>
           </Center>
@@ -196,7 +196,7 @@ const Inventory: FC<{
             text="Withdraw"
             itemNum={objects.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
             buttonW="full"
-            subText="The selected object is withdrawn from the Collection"
+            subText="The selected object is withdrawn from the Wallet"
             isLoading={isLoading}
             onClick={() => {
               startLoading();
@@ -219,9 +219,9 @@ const Inventory: FC<{
                   reset();
                   await res?.wait();
                   stopLoading();
-                  openNavi("Withdrew Objects into Collection.", "Open Collection", () => {
+                  openNavi("Withdrew Objects into Wallet.", "Open Wallet", () => {
                     onClose();
-                    onOpenCollection();
+                    onOpenWallet();
                   });
                 })
                 .catch(stopLoading);
@@ -233,4 +233,4 @@ const Inventory: FC<{
   );
 };
 
-export default Inventory;
+export default Land;
