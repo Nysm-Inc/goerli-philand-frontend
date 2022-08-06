@@ -1,10 +1,13 @@
-import { FC, useCallback, useContext } from "react";
+import { FC, useCallback, useContext, useEffect } from "react";
 import { Flex, Text, useToast, UseToastOptions } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { ColorMode } from "~/ui/styles";
 import Button from "./Button";
 import IconButton from "./IconButton";
 import Icon from "./Icon";
+
+const toastPositon = "top";
+const toastManagerId = `chakra-toast-manager-${toastPositon}`;
 
 const NaviNotification: FC<{ text: string; btnText: string; colorMode: ColorMode; onClick: () => void; onClose: () => void }> = ({
   text,
@@ -55,9 +58,10 @@ const NaviNotification: FC<{ text: string; btnText: string; colorMode: ColorMode
 };
 
 const options = (text: string, btnText: string, onClick: () => void, colorMode: ColorMode): UseToastOptions => ({
-  position: "top",
+  position: toastPositon,
   duration: 5000,
   isClosable: true,
+  containerStyle: { margin: "8px 0 0 0" },
   render: (props) => (
     <NaviNotification text={text} btnText={btnText} colorMode={colorMode} onClick={onClick} onClose={() => props.onClose()} />
   ),
@@ -66,6 +70,12 @@ const options = (text: string, btnText: string, onClick: () => void, colorMode: 
 const useNavi = () => {
   const { colorMode } = useContext(AppContext);
   const toast = useToast();
+
+  useEffect(() => {
+    const toastManagerDomNode = document.getElementById(toastManagerId);
+    if (!toastManagerDomNode) return;
+    toastManagerDomNode.style.padding = "72px 0 0 0";
+  }, []);
 
   return useCallback(
     (text: string, btnText: string, onClick: () => void) => {
