@@ -8,7 +8,8 @@ import { event } from "~/utils/ga/ga";
 import IconButton from "./IconButton";
 
 const MenuBar: FC<{
-  disableEditMode: boolean;
+  initialized: boolean;
+  noObjectsInLand: boolean;
   isEdit: boolean;
   isOpen: {
     wallet: boolean;
@@ -24,7 +25,7 @@ const MenuBar: FC<{
     onEdit: () => void;
     onSave: () => Promise<TransactionResponse | undefined>;
   };
-}> = ({ disableEditMode, isEdit, isOpen, currentENS, domains, actionHandler }) => {
+}> = ({ initialized, noObjectsInLand, isEdit, isOpen, currentENS, domains, actionHandler }) => {
   const { colorMode } = useContext(AppContext);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
@@ -74,6 +75,8 @@ const MenuBar: FC<{
                 event({ action: "click", category: "menubar", label: "wallet" });
               }}
             />
+            {noObjectsInLand ? <Icon name="arrow" /> : <Icon name="arrowTwoWay" />}
+
             <IconButton
               ariaLabel="land"
               icon={<Image src="/icons/land.svg" width="32px" height="32px" />}
@@ -158,7 +161,7 @@ const MenuBar: FC<{
             w="88px"
             color="purple"
             leftIcon={<Icon name="edit" />}
-            disabled={disableEditMode}
+            disabled={!initialized || noObjectsInLand}
             onClick={() => {
               actionHandler.onEdit();
               event({ action: "click", category: "menubar", label: "edit" });

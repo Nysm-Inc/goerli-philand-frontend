@@ -104,7 +104,8 @@ const Main: FC = () => {
       {isCreatedPhiland ? (
         <>
           <MenuBar
-            disableEditMode={!initialized || (balances.length === 0 && phiObjects.length === 0)}
+            initialized={initialized}
+            noObjectsInLand={balances.length === 0 && phiObjects.length === 0}
             isEdit={isEdit}
             isOpen={{ wallet: isOpenWallet, land: isOpenLand }}
             currentENS={currentENS}
