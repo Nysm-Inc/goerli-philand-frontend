@@ -7,23 +7,16 @@ import Icon from "./Icon";
 import IconButton from "./IconButton";
 import { Modal, ModalHeader, ModalBody } from "./Modal";
 
-const HowItWorks: FC<{ isCreatedPhiland: boolean; isOpen: boolean; onOpen: () => void; onClose: () => void }> = ({
-  isCreatedPhiland,
-  isOpen,
-  onOpen,
-  onClose,
-}) => {
+const HowItWorks: FC<{ isOpen: boolean; onOpen: () => void; onClose: () => void }> = ({ isOpen, onOpen, onClose }) => {
   const { colorMode } = useContext(AppContext);
 
   useEffect(() => {
-    if (!isCreatedPhiland) return;
-
     const onlyOnce = localStorage.getItem(HOW_IT_WORKS_KEY);
     if (!onlyOnce) {
       onOpen();
       localStorage.setItem(HOW_IT_WORKS_KEY, "true");
     }
-  }, [isCreatedPhiland]);
+  }, []);
 
   return (
     <Modal w="864px" h="712px" isOpen={isOpen} onClose={onClose}>

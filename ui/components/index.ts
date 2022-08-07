@@ -32,6 +32,8 @@ import LandNotFound from "./LandNotFound";
 import WallpaperMenu, { useWallpaperMenu } from "./WallpaperMenu";
 import Maintenance from "./Maintenance";
 import Checkbox from "./Checkbox";
+import QuickTour from "./QuickTour";
+import Tooltip from "./Tooltip";
 
 export {
   ActionMenu,
@@ -77,4 +79,6 @@ export {
   useWallpaperMenu,
   Maintenance,
   Checkbox,
+  QuickTour,
+  Tooltip,
 };
