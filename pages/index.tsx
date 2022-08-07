@@ -1,9 +1,10 @@
 import type { NextPage } from "next";
 import { useContext, useEffect } from "react";
 import { useBreakpointValue } from "@chakra-ui/react";
-import { Dev, Mobile } from "~/ui/components";
 import { AppContext } from "~/contexts";
 import Main from "~/ui/features/main";
+import Dev from "~/ui/components/Dev";
+import Mobile from "~/ui/components/Mobile";
 
 const Index: NextPage = () => {
   const { game } = useContext(AppContext);

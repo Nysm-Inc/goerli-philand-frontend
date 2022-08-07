@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Button, Center, Flex, LayoutProps, Text } from "@chakra-ui/react";
-import Icon from "./Icon";
+import Icon from "~/ui/components/Icon";
 
 const QuantityInput: FC<{
   w?: LayoutProps["w"];

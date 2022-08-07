@@ -3,12 +3,10 @@ import Image from "next/image";
 import { useContext, useEffect } from "react";
 import { Link, Text, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import { useGame } from "~/hooks/game";
 
 const Custom404: NextPage = () => {
   const { game } = useContext(AppContext);
   const isMobile = useBreakpointValue({ base: true, lg: false });
-  useGame({ state: { currentENS: "", isEdit: false, isCreatedPhiland: false, phiObjects: [], wallpaper: undefined } });
 
   useEffect(() => {
     if (isMobile) {

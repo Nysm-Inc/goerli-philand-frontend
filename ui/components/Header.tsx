@@ -1,16 +1,17 @@
+import dynamic from "next/dynamic";
 import Image from "next/image";
-import { FC, useContext, useRef } from "react";
-import { Box, Center, Text } from "@chakra-ui/react";
+import { FC, useContext } from "react";
+import { Box, Center, HStack, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import Button from "./common/Button";
+import IconButton from "./common/IconButton";
 import Search from "./Search";
-import IconButton from "./IconButton";
 import Icon from "./Icon";
-import Button from "./Button";
-import Wallet from "./Wallet";
+
+const Wallet = dynamic(() => import("./Wallet"));
 
 const Header: FC = () => {
   const { colorMode, toggleColorMode } = useContext(AppContext);
-  const ref = useRef(null);
 
   return (
     <>
@@ -36,8 +37,7 @@ const Header: FC = () => {
         </Button>
       </Box>
 
-      {/* @ts-ignore */}
-      <Box zIndex="default" position="fixed" top="24px" right={`calc(${ref?.current?.offsetWidth || 153}px + 24px + 8px)`}>
+      <HStack zIndex="default" position="fixed" top="24px" right="24px" spacing="8px">
         <IconButton
           ariaLabel="color_mode"
           icon={
@@ -55,11 +55,8 @@ const Header: FC = () => {
           }
           onClick={toggleColorMode}
         />
-      </Box>
-
-      <Box ref={ref} zIndex="default" position="fixed" top="24px" right="24px">
         <Wallet />
-      </Box>
+      </HStack>
     </>
   );
 };

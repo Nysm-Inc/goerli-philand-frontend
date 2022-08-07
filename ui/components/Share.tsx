@@ -3,7 +3,7 @@ import { FC, useContext } from "react";
 import { FRONTEND_URL } from "~/constants";
 import { AppContext } from "~/contexts";
 import Icon from "./Icon";
-import IconButton from "./IconButton";
+import IconButton from "./common/IconButton";
 
 const Share: FC<{ currentENS: string }> = ({ currentENS }) => {
   const { colorMode } = useContext(AppContext);

@@ -4,8 +4,8 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { HOW_IT_WORKS_KEY } from "~/constants";
 import Icon from "./Icon";
-import IconButton from "./IconButton";
-import { Modal, ModalHeader, ModalBody } from "./Modal";
+import IconButton from "./common/IconButton";
+import { Modal, ModalHeader, ModalBody } from "./common/Modal";
 
 const HowItWorks: FC<{ isOpen: boolean; onOpen: () => void; onClose: () => void }> = ({ isOpen, onOpen, onClose }) => {
   const { colorMode } = useContext(AppContext);

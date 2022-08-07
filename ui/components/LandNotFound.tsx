@@ -2,7 +2,7 @@ import Image from "next/image";
 import { FC, useContext } from "react";
 import { Text, LayoutProps, VStack, Center, Box } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import Badge from "./Badge";
+import Badge from "./common/Badge";
 
 const LandNotFound: FC<{ ens?: string; w?: LayoutProps["w"]; h?: LayoutProps["h"] }> = ({ ens, w, h }) => {
   const { colorMode } = useContext(AppContext);

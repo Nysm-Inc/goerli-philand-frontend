@@ -9,7 +9,8 @@ import usePageview from "~/hooks/ga";
 import theme from "~/ui/styles";
 import GlobalStyle from "~/ui/styles/Global";
 import GoogleAnalytics from "~/ui/components/GA";
-import { Head, Maintenance } from "~/ui/components";
+import Head from "~/ui/components/Head";
+import Maintenance from "~/ui/components/Maintenance";
 
 const App = ({ Component, pageProps }: AppProps) => {
   usePageview();

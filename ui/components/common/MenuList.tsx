@@ -2,7 +2,7 @@ import Image from "next/image";
 import { FC, useContext } from "react";
 import { Box, Center, ColorProps, LayoutProps, MenuItem, MenuList as ChakraMenuList, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import Icon from "./Icon";
+import Icon from "~/ui/components/Icon";
 
 export type Option = {
   label: string;

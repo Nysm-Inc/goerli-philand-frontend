@@ -4,9 +4,14 @@ import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, HStack, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
 import { objectMetadataList } from "~/types/object";
-import { Icon, IconButton, Modal, ModalBody, ModalHeader, QuantityInput, ModalFooter, useNavi, Checkbox } from "~/ui/components";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
+import Icon from "~/ui/components/Icon";
+import useNavi from "~/ui/components/NaviNotification";
+import QuantityInput from "~/ui/components/common/QuantityInput";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "~/ui/components/common/Modal";
+import IconButton from "~/ui/components/common/IconButton";
+import Checkbox from "~/ui/components/common/Checkbox";
 
 type WalletObject = BalanceObject & { select: number };
 

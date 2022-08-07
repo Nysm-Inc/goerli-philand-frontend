@@ -3,8 +3,8 @@ import { FC, useContext } from "react";
 import { Link, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Icon from "./Icon";
-import IconButton from "./IconButton";
-import { Modal, ModalHeader } from "./Modal";
+import IconButton from "./common/IconButton";
+import { Modal, ModalHeader } from "./common/Modal";
 
 const ENSNotFound: FC = () => {
   const { colorMode } = useContext(AppContext);

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FC, useContext } from "react";
 import { AppContext } from "~/contexts";
 import { event } from "~/utils/ga/ga";
-import IconButton from "./IconButton";
+import IconButton from "./common/IconButton";
 
 const MainMenu: FC<{ isOpenQuest: boolean; isOpenShop: boolean; onOpenQuest: () => void; onOpenShop: () => void }> = ({
   isOpenQuest,

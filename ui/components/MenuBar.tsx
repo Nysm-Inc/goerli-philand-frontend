@@ -3,9 +3,11 @@ import { FC, useContext } from "react";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Divider, HStack, Text, useBoolean } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import { Button, SelectBox, Icon } from "~/ui/components";
 import { event } from "~/utils/ga/ga";
-import IconButton from "./IconButton";
+import Icon from "~/ui/components/Icon";
+import IconButton from "./common/IconButton";
+import SelectBox from "./common/SelectBox";
+import Button from "./common/Button";
 
 const MenuBar: FC<{
   initialized: boolean;
