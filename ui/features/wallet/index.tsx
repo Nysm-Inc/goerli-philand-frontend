@@ -79,7 +79,16 @@ const Wallet: FC<{
           <>
             <SimpleGrid columns={3} spacing="8px">
               {items.map((item, i) => (
-                <VStack key={i} height="288px" p="16px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
+                <VStack
+                  key={i}
+                  height="288px"
+                  p="16px"
+                  borderRadius="16px"
+                  bgColor={colorMode === "light" ? "white" : "grey.900"}
+                  _hover={{
+                    bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
+                  }}
+                >
                   <Center w="100%" h="144px">
                     <Box position="relative" w="96px" h="96px">
                       <Image
@@ -93,10 +102,9 @@ const Wallet: FC<{
                   <Text textStyle="label-2" color="grey.500">
                     OWNED: {item.amount}
                   </Text>
-                  <Text textStyle="headline-2" textAlign="center" color={colorMode === "light" ? "grey.900" : "white"}>
+                  <Text h="40px" textStyle="headline-2" textAlign="center" color={colorMode === "light" ? "grey.900" : "white"}>
                     {objectMetadataList[item.contract][item.tokenId].name}
                   </Text>
-                  <Box h="8px" />
                   {!isEdit && (
                     <>
                       {item.contract !== WALLPAPER_CONTRACT_ADDRESS && (
