@@ -81,7 +81,7 @@ const useDeposit = (
   }, [withdrawTmpStatus, withdrawStatus]);
 
   return [
-    !isFetching && data
+    data
       ? data.reduce((memo, object) => {
           const amount = BigNumber.from(object[2]).toNumber();
           const used = BigNumber.from(object[3]).toNumber();
