@@ -33,7 +33,7 @@ const Cart: FC<{
     <>
       {selected ? (
         <VStack
-          height="320px"
+          height="322px"
           p="16px"
           spacing="8px"
           borderRadius="16px"
@@ -53,7 +53,16 @@ const Cart: FC<{
           </Text>
         </VStack>
       ) : (
-        <VStack height="320px" p="16px" spacing="16px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
+        <VStack
+          height="322px"
+          p="16px"
+          spacing="16px"
+          borderRadius="16px"
+          bgColor={colorMode === "light" ? "white" : "grey.900"}
+          _hover={{
+            bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
+          }}
+        >
           <Center position="relative" w="100%" h="144px">
             <Box position="relative" w="96px" h="96px">
               <Image src={item.image_url} layout="fill" objectFit="contain" draggable={false} />
