@@ -27,9 +27,12 @@ export const HIRING_URL = "https://phi-xyz.notion.site/Phi-is-hiring-d60930cfdfd
 export const PARTNERSHIP_APPLICATION_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSesnViXpjx2fufQrDI26yBbvcyNxWU-DVm3DEUn5WhKAn4XBQ/viewform?usp=sf_link";
 export const TWITTER_URL = "https://twitter.com/phi_xyz";
+
+// localstorage
 export const COLOR_MODE_KEY = "color_mode_key";
 export const CURRENT_ENS_KEY = "current_ens_key";
 export const HOW_IT_WORKS_KEY = "how_it_works_key";
+export const QUICK_TOUR_KEY = "quick_tour_key";
 
 // game
 export const GAME_APP_WIDTH = 4000;

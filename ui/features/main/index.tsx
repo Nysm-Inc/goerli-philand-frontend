@@ -23,6 +23,7 @@ import {
   HowItWorks,
   WallpaperMenu,
   useWallpaperMenu,
+  QuickTour,
 } from "~/ui/components";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import useENS from "~/hooks/ens";
@@ -73,7 +74,6 @@ const Main: FC = () => {
   const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
   const balanceWallpapers = useBalances(WALLPAPER_CONTRACT_ADDRESS, address);
-  const balances = [...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers];
   const [depositObjects, { deposit, withdraw }] = useDeposit(currentENS);
   const { save } = useSave(currentENS);
   const [claimableList, updateClaimableList] = useClaimableList(address);
@@ -92,7 +92,6 @@ const Main: FC = () => {
     <>
       <Header />
       <Help onOpenHowItWorks={onOpenHowItWorks} />
-      <HowItWorks isCreatedPhiland={isCreatedPhiland} isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
 
       {currentENS && (
         <>
@@ -103,9 +102,12 @@ const Main: FC = () => {
 
       {isCreatedPhiland ? (
         <>
+          <HowItWorks isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
+          <QuickTour />
+
           <MenuBar
             initialized={initialized}
-            noObjectsInLand={balances.length === 0 && phiObjects.length === 0}
+            noObjectsInLand={depositObjects.length === 0 && phiObjects.length === 0}
             isEdit={isEdit}
             isOpen={{ wallet: isOpenWallet, land: isOpenLand }}
             currentENS={currentENS}
@@ -140,7 +142,7 @@ const Main: FC = () => {
             }}
           />
           <Wallet
-            items={balances}
+            items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
             isEdit={isEdit}
             isOpen={isOpenWallet}
             onOpenLand={onOpenLand}
