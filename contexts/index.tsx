@@ -21,10 +21,12 @@ const AppContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [txs, setTxs] = useState<{ [hash: string]: Tx }>({});
 
   const addTx = useCallback((tx: Tx) => {
-    if (!tx.hash) return;
-
-    // @ts-ignore
-    setTxs((prev) => ({ ...prev, [tx.hash]: tx }));
+    if (tx.hash) {
+      // @ts-ignore
+      setTxs((prev) => ({ ...prev, [tx.hash]: tx, "": {} }));
+    } else {
+      setTxs((prev) => ({ ...prev, "": tx }));
+    }
   }, []);
 
   useEffect(() => {
