@@ -93,6 +93,9 @@ const Quest: FC<{
                   borderRadius="16px"
                   align="flex-start"
                   bgColor={colorMode === "light" ? "white" : "grey.900"}
+                  _hover={{
+                    bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
+                  }}
                 >
                   <Center
                     w="100%"
