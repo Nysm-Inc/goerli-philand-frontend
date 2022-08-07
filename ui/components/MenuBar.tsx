@@ -75,8 +75,11 @@ const MenuBar: FC<{
                 event({ action: "click", category: "menubar", label: "wallet" });
               }}
             />
-            {noObjectsInLand ? <Icon name="arrow" /> : <Icon name="arrowTwoWay" />}
-
+            {noObjectsInLand ? (
+              <Icon name="arrow" color={colorMode === "light" ? "grey.900" : "white"} />
+            ) : (
+              <Icon name="arrowTwoWay" color={colorMode === "light" ? "grey.900" : "white"} />
+            )}
             <IconButton
               ariaLabel="land"
               icon={<Image src="/icons/land.svg" width="32px" height="32px" />}
