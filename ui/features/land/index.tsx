@@ -152,6 +152,9 @@ const Land: FC<{
                   p="16px"
                   borderRadius="16px"
                   bgColor={colorMode === "light" ? "white" : "grey.900"}
+                  _hover={{
+                    bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
+                  }}
                 >
                   <Center
                     position="relative"

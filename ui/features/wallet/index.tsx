@@ -79,7 +79,16 @@ const Wallet: FC<{
           <>
             <SimpleGrid columns={3} spacing="8px">
               {items.map((item, i) => (
-                <VStack key={i} height="288px" p="16px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
+                <VStack
+                  key={i}
+                  height="288px"
+                  p="16px"
+                  borderRadius="16px"
+                  bgColor={colorMode === "light" ? "white" : "grey.900"}
+                  _hover={{
+                    bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
+                  }}
+                >
                   <Center w="100%" h="144px">
                     <Box position="relative" w="96px" h="96px">
                       <Image
