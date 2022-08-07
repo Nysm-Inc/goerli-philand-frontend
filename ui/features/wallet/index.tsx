@@ -86,7 +86,6 @@ const Wallet: FC<{
                         src={objectMetadataList[item.contract][item.tokenId].image_url}
                         layout="fill"
                         objectFit="contain"
-                        quality={100}
                         draggable={false}
                       />
                     </Box>
@@ -94,7 +93,7 @@ const Wallet: FC<{
                   <Text textStyle="label-2" color="grey.500">
                     OWNED: {item.amount}
                   </Text>
-                  <Text textStyle="headline-2" color={colorMode === "light" ? "grey.900" : "white"}>
+                  <Text textStyle="headline-2" textAlign="center" color={colorMode === "light" ? "grey.900" : "white"}>
                     {objectMetadataList[item.contract][item.tokenId].name}
                   </Text>
                   <Box h="8px" />
