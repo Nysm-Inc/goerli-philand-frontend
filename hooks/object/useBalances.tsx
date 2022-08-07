@@ -4,7 +4,7 @@ import { objectMetadataList } from "~/types/object";
 import { BalanceObject, ContractAbis, ObjectContractAddress, WallpaperContractAddress } from "~/types";
 
 const useBalances = (contract: ObjectContractAddress | WallpaperContractAddress, account?: string, disabled?: boolean): BalanceObject[] => {
-  const { data, isFetching } = useContractRead({
+  const { data } = useContractRead({
     addressOrName: contract,
     contractInterface: ContractAbis[contract],
     functionName: "balanceOfBatch",
@@ -18,7 +18,7 @@ const useBalances = (contract: ObjectContractAddress | WallpaperContractAddress,
     enabled: !!account && !disabled,
   });
 
-  return !isFetching && data
+  return data
     ? data.reduce((memo, balance, i) => {
         const amount = BigNumber.from(balance).toNumber();
         if (amount > 0) {
