@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import type { TransactionResponse } from "@ethersproject/providers";
-import { Box, Center, HStack, SimpleGrid, TabPanel, TabPanels, Tabs, Text, useBoolean, VStack } from "@chakra-ui/react";
+import { Box, Center, Flex, HStack, SimpleGrid, TabPanel, TabPanels, Tabs, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
 import { Icon, IconButton, Modal, ModalBody, ModalHeader, ModalFooter, QuantityInput, Tab, TabList, useNavi } from "~/ui/components";
@@ -33,15 +33,16 @@ const Cart: FC<{
     <>
       {selected ? (
         <VStack
+          position="relative"
           height="322px"
-          p="16px"
+          p="32px 16px 16px"
           spacing="8px"
           borderRadius="16px"
           align="flex-start"
           bgColor={colorMode === "light" ? "light.lg_orange40" : "dark.grey700"}
         >
-          <Box position="relative" w="100%">
-            <Box position="absolute" right="0" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
+          <Box w="100%">
+            <Box position="absolute" top="16px" right="16px" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
               <Icon name="infoActive" color={colorMode === "light" ? "grey.900" : "white"} />
             </Box>
           </Box>
@@ -54,41 +55,48 @@ const Cart: FC<{
         </VStack>
       ) : (
         <VStack
+          position="relative"
           height="322px"
-          p="16px"
-          spacing="16px"
+          p="32px 16px 16px"
+          spacing="4px"
           borderRadius="16px"
           bgColor={colorMode === "light" ? "white" : "grey.900"}
           _hover={{
             bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
           }}
         >
-          <Center position="relative" w="100%" h="144px">
+          <Center w="100%" h="144px" minH="144px">
             <Box position="relative" w="96px" h="96px">
               <Image src={item.image_url} layout="fill" objectFit="contain" draggable={false} />
             </Box>
-            <Box position="absolute" top="0" right="0" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
+            <Box position="absolute" top="16px" right="16px" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
               <Icon name="info" color={colorMode === "light" ? "grey.900" : "white"} />
             </Box>
           </Center>
 
-          <Text textStyle="headline-2" textAlign="center" color={colorMode === "light" ? "grey.900" : "white"}>
-            {item.name}
-          </Text>
-          <HStack>
-            <Image src="/icons/polygon_logo.svg" width="16px" height="16px" />
-            <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
-              {item.price}
-            </Text>
-          </HStack>
+          <VStack spacing="16px">
+            <VStack spacing="6px">
+              <Flex h="48px" flexDirection="column" justify="flex-end">
+                <Text textStyle="headline-2" textAlign="center" color={colorMode === "light" ? "grey.900" : "white"}>
+                  {item.name}
+                </Text>
+              </Flex>
+              <HStack>
+                <Image src="/icons/polygon_logo.svg" width="16px" height="16px" />
+                <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
+                  {item.price}
+                </Text>
+              </HStack>
+            </VStack>
 
-          <QuantityInput
-            defaultText="+ Add to Cart"
-            num={item.select}
-            balance={contract === WALLPAPER_CONTRACT_ADDRESS ? 1 : 10}
-            handleClickMinus={minus}
-            handleClickPlus={plus}
-          />
+            <QuantityInput
+              defaultText="+ Add to Cart"
+              num={item.select}
+              balance={contract === WALLPAPER_CONTRACT_ADDRESS ? 1 : 10}
+              handleClickMinus={minus}
+              handleClickPlus={plus}
+            />
+          </VStack>
         </VStack>
       )}
     </>
