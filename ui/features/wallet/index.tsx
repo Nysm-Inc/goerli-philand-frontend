@@ -86,7 +86,6 @@ const Wallet: FC<{
                         src={objectMetadataList[item.contract][item.tokenId].image_url}
                         layout="fill"
                         objectFit="contain"
-                        quality={100}
                         draggable={false}
                       />
                     </Box>
