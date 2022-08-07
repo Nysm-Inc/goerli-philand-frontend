@@ -7,7 +7,6 @@ import Tooltip from "./Tooltip";
 
 const Tour: FC<{
   w: LayoutProps["w"];
-  h: LayoutProps["h"];
   bottom: PositionProps["bottom"];
   left: PositionProps["left"];
   transform?: TransformProps["transform"];
@@ -17,13 +16,13 @@ const Tour: FC<{
   description: string;
   onClickBack?: () => void;
   onClickNext?: () => void;
-}> = ({ w, h, bottom, left, transform, rectLeft, rectTransform, title, description, onClickBack, onClickNext }) => {
+}> = ({ w, bottom, left, transform, rectLeft, rectTransform, title, description, onClickBack, onClickNext }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
     <Box zIndex="default" position="fixed" bottom={bottom} left={left} transform={transform}>
       <Tooltip rectLeft={rectLeft} rectTransform={rectTransform}>
-        <VStack w={w} h={h} p="16px" spacing="16px" position="relative">
+        <VStack w={w} p="16px" spacing="16px">
           <VStack spacing="8px" align="flex-start">
             <Text textStyle="headline-2" color={colorMode === "light" ? "white" : "grey.900"}>
               {title}
@@ -32,7 +31,7 @@ const Tour: FC<{
               {description}
             </Text>
           </VStack>
-          <HStack position="absolute" bottom="16px" right="16px">
+          <HStack marginLeft="auto !important">
             {onClickBack && (
               <Button w="64px" h="32px" borderRadius="8px" onClick={onClickBack}>
                 <Text textStyle="button-2" color={colorMode === "light" ? "grey.900" : "white"}>
@@ -54,11 +53,10 @@ const Tour: FC<{
 
 const Tour1: FC<{ onClickNext: () => void }> = ({ onClickNext }) => (
   <Tour
-    bottom="calc(30px + 76px + 16px)"
+    bottom="calc(106px + 16px)"
     left="24px"
     rectLeft="46px"
     w="295px"
-    h="152px"
     title="1/3 Get objects"
     description="First of all, Get Objects with Shop or Quest"
     onClickNext={onClickNext}
@@ -67,11 +65,10 @@ const Tour1: FC<{ onClickNext: () => void }> = ({ onClickNext }) => (
 
 const Tour2: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onClickBack, onClickNext }) => (
   <Tour
-    bottom="calc(30px + 76px + 8px)"
+    bottom="calc(95px + 16px)"
     left="calc(50% - 16px)"
     transform="translateX(-50%)"
     w="312px"
-    h="164px"
     title="2/3 Check and deposit objects"
     description="Check the objects you got on this modal. Then, please deposit objects you want to place on your land."
     onClickBack={onClickBack}
@@ -81,11 +78,10 @@ const Tour2: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onCli
 
 const Tour3: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onClickBack, onClickNext }) => (
   <Tour
-    bottom="calc(30px + 76px + 8px)"
+    bottom="calc(95px + 16px)"
     left="calc(50% + 148px)"
     transform="translateX(-50%)"
     w="294px"
-    h="184px"
     title="3/3 Edit and save your land"
     description="Press Edit to switch to Edit Mode, where you can place objects. And press Save to save your land."
     onClickBack={onClickBack}
@@ -95,11 +91,10 @@ const Tour3: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onCli
 
 const Tour4: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onClickBack, onClickNext }) => (
   <Tour
-    bottom="calc(30px + 64px)"
+    bottom="calc(80px + 16px)"
     left="calc(100% - 320px)"
     rectLeft="208px"
     w="294px"
-    h="144px"
     title="Share your land on Twitter!"
     description="Finally, please share your land to the world!"
     onClickBack={onClickBack}
