@@ -31,7 +31,7 @@ const Tour: FC<{
               {description}
             </Text>
           </VStack>
-          <HStack margin="16px 0 0 auto !important">
+          <HStack marginLeft="auto !important">
             {onClickBack && (
               <Button w="64px" h="32px" borderRadius="8px" onClick={onClickBack}>
                 <Text textStyle="button-2" color={colorMode === "light" ? "grey.900" : "white"}>
