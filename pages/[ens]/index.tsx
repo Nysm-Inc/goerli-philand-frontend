@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
+import { FC, useContext, useEffect } from "react";
 import axios from "axios";
 import { useBreakpointValue } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
@@ -12,6 +12,7 @@ import Dev from "~/ui/components/Dev";
 import Header from "~/ui/components/Header";
 import HeaderMd from "~/ui/components/HeaderMd";
 import LandNotFound from "~/ui/components/LandNotFound";
+import { PhiObject, Wallpaper } from "~/types";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
@@ -22,6 +23,15 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   } catch {
     return { props: { ogp: "", title: "", query } };
   }
+};
+
+const Philand: FC<{
+  ens: string;
+  phiObjects: (PhiObject & { removeIdx: number })[];
+  wallpaper?: Wallpaper;
+}> = ({ ens, phiObjects, wallpaper }) => {
+  useGame({ state: { currentENS: ens, isEdit: false, phiObjects, wallpaper } });
+  return <></>;
 };
 
 const Index: NextPage = () => {
@@ -35,8 +45,6 @@ const Index: NextPage = () => {
   const isPhilandCreated = isCreated || phiObjects.length > 0;
   const wallpaper = useWallpaper(ens);
 
-  useGame({ state: { currentENS: ens, isEdit: false, phiObjects, wallpaper } });
-
   useEffect(() => {
     if (isMobile) {
       game.engine.hideClouds();
@@ -48,6 +56,7 @@ const Index: NextPage = () => {
   return (
     <>
       <Dev />
+      {isPhilandCreated && <Philand ens={ens} phiObjects={phiObjects} wallpaper={wallpaper} />}
       {isMobile ? (
         <>
           <HeaderMd />
