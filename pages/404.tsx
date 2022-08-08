@@ -1,11 +1,11 @@
-import { GetServerSideProps, NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import { useContext, useEffect } from "react";
 import { Link, Text, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  return { props: { title: "404 | Phi", query } };
+export const getStaticProps: GetStaticProps = async () => {
+  return { props: { title: "404 | Phi" } };
 };
 
 const Custom404: NextPage = () => {
