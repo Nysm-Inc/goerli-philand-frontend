@@ -4,9 +4,14 @@ import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, Flex, HStack, SimpleGrid, TabPanel, TabPanels, Tabs, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
-import { Icon, IconButton, Modal, ModalBody, ModalHeader, ModalFooter, QuantityInput, Tab, TabList, useNavi } from "~/ui/components";
 import { AppContext } from "~/contexts";
 import { ShopItemContractAddress } from "~/types";
+import Icon from "~/ui/components/Icon";
+import useNavi from "~/ui/components/NaviNotification";
+import QuantityInput from "~/ui/components/common/QuantityInput";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "~/ui/components/common/Modal";
+import IconButton from "~/ui/components/common/IconButton";
+import { Tab, TabList } from "~/ui/components/common/Tab";
 
 type Item = ObjectMetadata & { select: number };
 

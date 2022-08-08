@@ -1,11 +1,11 @@
-import { Box, Text, useBoolean, VStack } from "@chakra-ui/react";
+import { Text, useBoolean, VStack } from "@chakra-ui/react";
 import type { TransactionResponse } from "@ethersproject/providers";
 import Image from "next/image";
 import { FC } from "react";
 import { nullAddress } from "~/types";
-import Button from "./Button";
-import { Modal, ModalHeader } from "./Modal";
-import SelectBox from "./SelectBox";
+import { Modal, ModalHeader } from "./common/Modal";
+import Button from "./common/Button";
+import SelectBox from "./common/SelectBox";
 
 const CreatePhiland: FC<{
   owner: string;

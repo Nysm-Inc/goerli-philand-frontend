@@ -1,7 +1,7 @@
 import { FC, useContext } from "react";
 import { Center } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import Icon from "./Icon";
+import Icon from "~/ui/components/Icon";
 
 const Checkbox: FC<{ checked: boolean; disabled?: boolean; onCheck: () => void }> = ({ checked, disabled, onCheck }) => {
   const { colorMode } = useContext(AppContext);

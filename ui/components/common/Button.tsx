@@ -2,7 +2,7 @@ import { FC, ReactNode, useContext } from "react";
 import { Button as ChakraButton, LayoutProps, Flex, forwardRef, Center, SystemProps } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { subColors } from "~/ui/styles/color";
-import { Spinner } from "./Animation";
+import { Spinner } from "~/ui/components/Animation";
 
 const Button: FC<{
   w: LayoutProps["w"];

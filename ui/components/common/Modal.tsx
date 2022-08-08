@@ -15,8 +15,8 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import Icon from "~/ui/components/Icon";
 import Button from "./Button";
-import Icon from "./Icon";
 import LineStack from "./LineStack";
 
 const ModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Element; style?: ModalHeaderProps }> = ({

@@ -5,8 +5,8 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Avatar, Box, Menu, MenuButton, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { event } from "~/utils/ga/ga";
-import Button from "./Button";
-import MenuList from "./MenuList";
+import Button from "./common/Button";
+import MenuList from "./common/MenuList";
 import Icon from "./Icon";
 import "@rainbow-me/rainbowkit/styles.css";
 

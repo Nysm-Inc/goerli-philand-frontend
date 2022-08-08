@@ -1,9 +1,9 @@
 import { FC, useContext } from "react";
 import { Menu, MenuButton, LayoutProps, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import Icon from "~/ui/components/Icon";
 import MenuList, { Option } from "./MenuList";
 import Button from "./Button";
-import Icon from "./Icon";
 
 const SelectBox: FC<{
   w: LayoutProps["w"];

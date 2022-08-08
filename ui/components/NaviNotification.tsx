@@ -2,8 +2,8 @@ import { FC, useCallback, useContext, useEffect } from "react";
 import { Flex, Text, useToast, UseToastOptions } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { ColorMode } from "~/ui/styles";
-import Button from "./Button";
-import IconButton from "./IconButton";
+import Button from "./common/Button";
+import IconButton from "./common/IconButton";
 import Icon from "./Icon";
 
 const toastPositon = "top";

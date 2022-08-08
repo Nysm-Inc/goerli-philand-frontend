@@ -1,8 +1,9 @@
 import { FC, useContext, useMemo } from "react";
 import { Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import { Modal, ModalHeader, Message } from "~/ui/components";
+import Message from "~/ui/components/Message";
 import { Spinner } from "~/ui/components/Animation";
+import { Modal, ModalHeader } from "~/ui/components/common/Modal";
 
 const ConfirmModal: FC = () => {
   const { txs, colorMode } = useContext(AppContext);

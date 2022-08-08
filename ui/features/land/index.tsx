@@ -4,8 +4,13 @@ import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, HStack, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { objectMetadataList } from "~/types/object";
 import { BalanceObject, DepositObject, IObject, ObjectContractAddress } from "~/types";
-import { Checkbox, Icon, IconButton, Modal, ModalBody, ModalFooter, ModalHeader, QuantityInput, useNavi } from "~/ui/components";
 import { AppContext } from "~/contexts";
+import Icon from "~/ui/components/Icon";
+import useNavi from "~/ui/components/NaviNotification";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "~/ui/components/common/Modal";
+import IconButton from "~/ui/components/common/IconButton";
+import Checkbox from "~/ui/components/common/Checkbox";
+import QuantityInput from "~/ui/components/common/QuantityInput";
 
 type LandObject = DepositObject & { select: number; writed: boolean };
 
