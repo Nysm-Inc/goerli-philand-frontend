@@ -59,13 +59,6 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
     game.room.wallpaper.update(state.wallpaper?.tokenId || 0);
   }, [state.wallpaper?.tokenId, loadedGame]);
 
-  useEffect(() => {
-    if (!loadedGame) return;
-    if (state.isEdit) {
-      controller.handler.onView();
-    }
-  }, [state.currentENS]);
-
   return controller;
 };
 

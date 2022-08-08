@@ -81,12 +81,6 @@ const useHandler = ({
     const prevPhiObjects = phiObjects;
     const newPhiObjects = Object.values(roomItems).map((item) => item.getPhiObject());
 
-    //
-    // const removeIdxs = prevPhiObjects.map((prevObject) => prevObject.removeIdx);
-    // const writeArgs = newPhiObjects;
-    // const linkArgs = newPhiObjects.map((newPhiObject) => newPhiObject.link);
-
-    // diff
     const diffRemove = diff(prevPhiObjects, newPhiObjects) as (PhiObject & { removeIdx: number })[];
     const diffWrite = diff(newPhiObjects, prevPhiObjects);
     const removeIdxs = diffRemove.map((prevPhiObject) => prevPhiObject.removeIdx);

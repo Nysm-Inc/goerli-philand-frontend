@@ -17,7 +17,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <>
-      <Head ogp={pageProps.ogp} />
+      <Head ogp={pageProps.ogp} title={pageProps.title} />
       <GoogleAnalytics />
       <GlobalStyle />
 
