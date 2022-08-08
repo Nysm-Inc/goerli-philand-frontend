@@ -21,6 +21,7 @@ export const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV || "";
 export const GA_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || "";
 export const MAINTENANCE = process.env.NEXT_PUBLIC_MAINTENANCE || "";
 export const LP_URL = "https://philand.xyz";
+export const FAQ_URL = "https://phi-xyz.notion.site/FAQs-4251e3ef2d8048faa2e06410622a0c4a";
 export const SURVEY_URL = "https://forms.gle/mCcnbT2nGp3Hwaxu6";
 export const CANNY_URL = "https://philand.canny.io";
 export const HIRING_URL = "https://phi-xyz.notion.site/Phi-is-hiring-d60930cfdfde405cb0767b77165da632";

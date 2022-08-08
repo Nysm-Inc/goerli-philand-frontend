@@ -1,12 +1,13 @@
 import { FC, useContext } from "react";
 import { Box, Menu, MenuButton } from "@chakra-ui/react";
-import { CANNY_URL, SURVEY_URL, HIRING_URL, PARTNERSHIP_APPLICATION_URL } from "~/constants";
+import { CANNY_URL, SURVEY_URL, HIRING_URL, PARTNERSHIP_APPLICATION_URL, FAQ_URL } from "~/constants";
 import { AppContext } from "~/contexts";
 import Icon from "./Icon";
 import IconButton from "./common/IconButton";
 import MenuList from "./common/MenuList";
 
 const options = [
+  { label: "FAQs", value: "", onClick: () => window.open(FAQ_URL, "_blank") },
   { label: "Survey", value: "", onClick: () => window.open(SURVEY_URL, "_blank") },
   { label: "Bug Reports", value: "", onClick: () => window.open(CANNY_URL + "/bug-reports", "_blank") },
   { label: "Feature Requests", value: "", onClick: () => window.open(CANNY_URL + "/feature-requests", "_blank") },
