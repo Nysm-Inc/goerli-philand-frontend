@@ -1,8 +1,12 @@
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import Image from "next/image";
 import { useContext, useEffect } from "react";
 import { Link, Text, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  return { props: { title: "404 | Phi", query } };
+};
 
 const Custom404: NextPage = () => {
   const { game } = useContext(AppContext);

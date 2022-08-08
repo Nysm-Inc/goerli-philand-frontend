@@ -18,9 +18,9 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     const res = await axios.get<{ images: string[] }>(`${UTILS_API_GATEWAY}/images/list?name=${query.ens}`);
     const images = res.data.images;
     const ogp = images.length > 0 ? images[images.length - 1] : "";
-    return { props: { ogp, query } };
+    return { props: { ogp, title: `${query.ens} | Phi`, query } };
   } catch {
-    return { props: { ogp: "", query } };
+    return { props: { ogp: "", title: "", query } };
   }
 };
 
