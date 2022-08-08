@@ -6,6 +6,7 @@ import GameInstance from "~/game/GameInstance";
 import { postAccess } from "~/utils/access";
 import { isValid } from "~/utils/ens";
 import { ColorMode } from "~/ui/styles";
+import { FRONTEND_URL } from "~/constants";
 
 export default class LinkPreview {
   private link: PhiLink;
@@ -142,7 +143,8 @@ export default class LinkPreview {
         }
         postAccess(landENS, target.toString(), address);
       }
-      if (isValid(target.pathname.slice(1))) {
+
+      if (target.host === new URL(FRONTEND_URL).host && isValid(target.pathname.slice(1))) {
         window.location.href = target.toString();
       } else {
         window.open(target, "_blank");
