@@ -7,7 +7,8 @@ export type ColorMode = "light" | "dark";
 export const zIndices = {
   canvas: 0,
   default: 1,
-  "canvas-focus": 2,
+  "search-menulist": 2,
+  "canvas-focus": 3,
 };
 
 const theme = extendTheme({
