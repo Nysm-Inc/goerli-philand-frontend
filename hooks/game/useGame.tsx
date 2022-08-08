@@ -41,6 +41,7 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
     game.room.enterRoom();
     return () => {
       game.room.leaveRoom();
+      game.room.view();
     };
   }, [state.currentENS, loadedGame]);
 

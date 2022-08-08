@@ -2,8 +2,8 @@ import { default as NextHead } from "next/head";
 import { FC } from "react";
 import { FRONTEND_URL, LAND_OGP_H, LAND_OGP_W } from "~/constants";
 
-const Head: FC<{ ogp?: string }> = ({ ogp }) => {
-  const title = "Phi";
+const Head: FC<{ title?: string; ogp?: string }> = ({ title: _title, ogp }) => {
+  const title = _title || "Phi";
   const description = "Phi visualizes the Ethereum as Metaverse";
 
   return (
