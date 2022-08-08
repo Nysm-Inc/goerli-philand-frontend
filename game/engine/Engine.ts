@@ -171,11 +171,13 @@ export default class Engine {
     const { room } = GameInstance.get();
     const container = new Container();
 
+    // background
     container.addChild(Sprite.from(this.ogpLayout[this.colorMode]));
 
+    // land
     const roomContainer = cloneDeep(room.container);
     const ogpLandW = LAND_OGP_W - 90 * 2;
-    const ogpLandH = LAND_OGP_H * (ogpLandW / LAND_OGP_W);
+    const ogpLandH = roomContainer.height * (ogpLandW / roomContainer.width);
     roomContainer.width = ogpLandW;
     roomContainer.height = ogpLandH;
     roomContainer.children.forEach((child) => {
@@ -183,8 +185,12 @@ export default class Engine {
       child.y = 0;
     });
     roomContainer.x = 90;
-    roomContainer.y = LAND_OGP_H - ogpLandH - 16;
     container.addChild(roomContainer);
+
+    // margin
+    const baseOGPLandH = LAND_OGP_H * (ogpLandW / LAND_OGP_W);
+    const marginBottom = ogpLandH - baseOGPLandH - 16;
+    roomContainer.y = LAND_OGP_H - ogpLandH + marginBottom;
 
     return this.app.renderer.plugins.extract.base64(container);
   }
