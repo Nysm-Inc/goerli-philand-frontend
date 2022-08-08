@@ -2,8 +2,8 @@ import { Box, HStack, LayoutProps, PositionProps, Text, TransformProps, VStack }
 import { FC, useContext, useEffect, useState } from "react";
 import { QUICK_TOUR_KEY } from "~/constants";
 import { AppContext } from "~/contexts";
-import Button from "./Button";
-import Tooltip from "./Tooltip";
+import Button from "./common/Button";
+import Tooltip from "./common/Tooltip";
 
 const Tour: FC<{
   w: LayoutProps["w"];

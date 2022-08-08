@@ -1,7 +1,9 @@
 import { FC } from "react";
 import { Text, useBoolean } from "@chakra-ui/react";
 import type { TransactionResponse } from "@ethersproject/providers";
-import { Button, Icon, useNavi } from "~/ui/components";
+import Icon from "~/ui/components/Icon";
+import useNavi from "~/ui/components/NaviNotification";
+import Button from "~/ui/components/common/Button";
 
 const ClaimButton: FC<{
   claimable: boolean;

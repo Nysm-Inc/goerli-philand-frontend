@@ -3,9 +3,9 @@ import { Box, LayoutProps, Menu, MenuButton, Text, useDisclosure, useOutsideClic
 import { AppContext } from "~/contexts";
 import { isValid } from "~/utils/ens";
 import { search } from "~/utils/search";
-import Input from "./Input";
+import Input from "./common/Input";
 import Icon from "./Icon";
-import MenuList, { Option } from "./MenuList";
+import MenuList, { Option } from "./common/MenuList";
 
 const onSubmit = (text: string) => {
   if (!text) return;

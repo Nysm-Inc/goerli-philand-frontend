@@ -1,8 +1,8 @@
 import { FC, useContext, useState } from "react";
 import { HStack, Modal, ModalContent } from "@chakra-ui/react";
-import Icon from "./Icon";
-import IconButton from "./IconButton";
 import { AppContext } from "~/contexts";
+import Icon from "./Icon";
+import IconButton from "./common/IconButton";
 
 export type ActionMenuState = { id: string; x: number; y: number; isShown: boolean };
 export const defaultActionMenuState = { id: "", x: 0, y: 0, isShown: false };

@@ -3,8 +3,8 @@ import { HStack, Modal, ModalContent, VStack } from "@chakra-ui/react";
 import { PhiLink } from "~/types";
 import { AppContext } from "~/contexts";
 import { ActionMenuState } from "./ActionMenu";
-import Input from "./Input";
-import Button from "./Button";
+import Input from "./common/Input";
+import Button from "./common/Button";
 import Icon from "./Icon";
 
 export type LinkMenuState = ActionMenuState & PhiLink;

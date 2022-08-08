@@ -1,7 +1,7 @@
 import { FC, useContext } from "react";
 import { Center, LayoutProps, forwardRef, IconButton as ChakraIconButton, SystemProps } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import { Spinner } from "./Animation";
+import { Spinner } from "~/ui/components/Animation";
 
 const IconButton: FC<{
   ariaLabel: string;

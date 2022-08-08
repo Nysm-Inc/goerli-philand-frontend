@@ -6,7 +6,9 @@ import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
 import { ObjectMetadata, objectTraisList } from "~/types/object";
 import { conditionList } from "~/types/quest";
-import { Badge, Icon, Network } from "~/ui/components";
+import Icon from "~/ui/components/Icon";
+import Network from "~/ui/components/Network";
+import Badge from "~/ui/components/common/Badge";
 import ClaimButton from "./ClaimButton";
 
 const Row: FC<{ idx: number; length: number; children?: ReactNode }> = ({ idx, length, children }) => {

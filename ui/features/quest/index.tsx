@@ -3,10 +3,15 @@ import { FC, useContext, useState } from "react";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, HStack, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
-import { ObjectMetadata, objectMetadataList, objectTraisList } from "~/types/object";
+import { ObjectMetadata, objectMetadataList } from "~/types/object";
 import { ClaimableList } from "~/types/quest";
-import { IconButton, Modal, ModalBody, ModalHeader, Icon, Badge, Network, Message } from "~/ui/components";
 import { AppContext } from "~/contexts";
+import Icon from "~/ui/components/Icon";
+import Network from "~/ui/components/Network";
+import Message from "~/ui/components/Message";
+import { Modal, ModalBody, ModalHeader } from "~/ui/components/common/Modal";
+import IconButton from "~/ui/components/common/IconButton";
+import Badge from "~/ui/components/common/Badge";
 import ClaimButton from "./ClaimButton";
 import Detail from "./Detail";
 

@@ -8,7 +8,10 @@ import { UTILS_API_GATEWAY } from "~/constants";
 import { useWallpaper, useViewPhiland } from "~/hooks/map";
 import { useGame } from "~/hooks/game";
 import { useCreatePhiland } from "~/hooks/registry";
-import { Dev, Header, HeaderMd, LandNotFound } from "~/ui/components";
+import Dev from "~/ui/components/Dev";
+import Header from "~/ui/components/Header";
+import HeaderMd from "~/ui/components/HeaderMd";
+import LandNotFound from "~/ui/components/LandNotFound";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
@@ -32,7 +35,7 @@ const Index: NextPage = () => {
   const isPhilandCreated = isCreated || phiObjects.length > 0;
   const wallpaper = useWallpaper(ens);
 
-  useGame({ state: { currentENS: ens, isEdit: false, isCreatedPhiland: isPhilandCreated, phiObjects, wallpaper } });
+  useGame({ state: { currentENS: ens, isEdit: false, phiObjects, wallpaper } });
 
   useEffect(() => {
     if (isMobile) {

@@ -3,9 +3,9 @@ import { FC, useContext } from "react";
 import { Box, Center, Flex, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Search from "./Search";
-import IconButton from "./IconButton";
 import Icon from "./Icon";
-import Button from "./Button";
+import IconButton from "./common/IconButton";
+import Button from "./common/Button";
 
 const HeaderMd: FC = () => {
   const { colorMode, toggleColorMode } = useContext(AppContext);
