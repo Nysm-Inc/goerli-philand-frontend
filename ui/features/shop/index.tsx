@@ -89,7 +89,7 @@ const Cart: FC<{
               <HStack>
                 <Image src="/icons/polygon_logo.svg" width="16px" height="16px" />
                 <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
-                  {item.price}
+                  {item.price + " MATIC"}
                 </Text>
               </HStack>
             </VStack>
@@ -187,6 +187,7 @@ const Shop: FC<{
             <ModalFooter
               text="Purchase"
               itemNum={items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
+              itemPrice={items.reduce((sum, item) => (item.select > 0 ? sum + item.select * item.price : sum), 0)}
               subText="The objects you purchase will be sent to your wallet."
               isLoading={isLoading}
               onClick={() => {

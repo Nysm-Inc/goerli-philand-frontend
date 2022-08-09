@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FC, ReactNode, useContext, useRef } from "react";
 import {
   Modal as ChakraModal,
@@ -13,6 +14,7 @@ import {
   ModalOverlay,
   ModalHeaderProps,
   Center,
+  Box,
 } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
@@ -67,11 +69,12 @@ const ModalBody: FC<{ children: ReactNode }> = ({ children }) => {
 const ModalFooter: FC<{
   text: string;
   itemNum: number;
+  itemPrice?: number;
   buttonW?: "full" | "512px";
   subText: string;
   isLoading?: boolean;
   onClick: () => void;
-}> = ({ text, itemNum, buttonW = "512px", subText, isLoading, onClick }) => {
+}> = ({ text, itemNum, itemPrice, buttonW = "512px", subText, isLoading, onClick }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -99,11 +102,22 @@ const ModalFooter: FC<{
           </Text>
         }
         rightIcon={
-          <Center minW="50px" h="32px" p="8px 12px" gap="8px" bgColor="rgba(13, 13, 13, 0.32)" borderRadius="8px">
+          <Center minW="50px" h="32px" p="8px 12px" gap="4px" bgColor="rgba(13, 13, 13, 0.32)" borderRadius="8px">
             <Icon name="bag" color="white" />
             <Text textStyle="headline-2" color="white">
               {itemNum}
             </Text>
+            {itemPrice ? (
+              <>
+                <Box w="2px" h="16px" m="0px 4px" bgColor="primary.500" />
+                <Image src="/icons/polygon_logo.svg" width="24px" height="24px" />
+                <Text textStyle="headline-2" color="white">
+                  {itemPrice + " MATIC"}
+                </Text>
+              </>
+            ) : (
+              <></>
+            )}
           </Center>
         }
       />
