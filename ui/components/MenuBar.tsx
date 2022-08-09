@@ -43,6 +43,7 @@ const MenuBar: FC<{
       pr="8px"
       boxShadow="md"
       borderRadius="20px"
+      spacing="16px"
       //
       border={colorMode === "light" ? "1px solid" : "none"}
       borderColor={colorMode === "light" ? "light.g_orange" : "none"}
@@ -65,7 +66,7 @@ const MenuBar: FC<{
 
       <>
         {!isEdit ? (
-          <>
+          <HStack spacing="0">
             <IconButton
               ariaLabel="wallet"
               icon={<Image src="/icons/wallet.svg" width="32px" height="32px" />}
@@ -93,19 +94,23 @@ const MenuBar: FC<{
                 event({ action: "click", category: "menubar", label: "land" });
               }}
             />
-          </>
+          </HStack>
         ) : (
           <>
-            {/* <IconButton
-              ariaLabel="undo"
-              icon={<Icon name="undo" color={colorMode === "light" ? "grey.900" : "white"} />}
-              onClick={() => {}}
-            />
-            <IconButton
-              ariaLabel="redo"
-              icon={<Icon name="redo" color={colorMode === "light" ? "grey.900" : "white"} />}
-              onClick={() => {}}
-            /> */}
+            <Button
+              w="88px"
+              color="yellow"
+              leftIcon={<Icon name="undo" />}
+              onClick={() => {
+                actionHandler.onView();
+                event({ action: "click", category: "menubar", label: "cancel" });
+              }}
+            >
+              <Text textStyle="button-2" color="grey.900">
+                BACK
+              </Text>
+            </Button>
+            <Divider orientation="vertical" color={colorMode === "light" ? "light.g_orange" : "dark.grey700"} h="48px" />
             <IconButton
               ariaLabel="land"
               icon={<Image src="/icons/land.svg" width="32px" height="32px" />}
@@ -125,19 +130,6 @@ const MenuBar: FC<{
       <>
         {isEdit && (
           <>
-            <Button
-              w="88px"
-              color="yellow"
-              leftIcon={<Icon name="undo" />}
-              onClick={() => {
-                actionHandler.onView();
-                event({ action: "click", category: "menubar", label: "cancel" });
-              }}
-            >
-              <Text textStyle="button-2" color="grey.900">
-                BACK
-              </Text>
-            </Button>
             <Button
               w="88px"
               color="green"
