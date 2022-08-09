@@ -49,7 +49,7 @@ export default class Room {
     this.landContainer.y = landOffsetY;
     this.landItemContainer.x = landOffsetX;
     this.landItemContainer.y = landOffsetY;
-    this.land = Sprite.from("/assets/land.png");
+    this.land = Sprite.from("/assets/baseplate.png");
     this.land.on("mousedown", (e) => {
       if (!this.isEdit) return;
       if (!!room.movingItemManager.getItem()) return;
