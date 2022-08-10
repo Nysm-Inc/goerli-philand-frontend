@@ -43,13 +43,13 @@ const ModalHeader: FC<{ title?: string; buttons: JSX.Element[]; back?: JSX.Eleme
             </Text>
             <HStack flexGrow={1} h="32px" align="center" spacing="16px">
               <LineStack />
-              <HStack spacing="8px">{buttons.map((button) => button)}</HStack>
+              {buttons.length > 0 && <HStack spacing="8px">{buttons.map((button) => button)}</HStack>}
             </HStack>
           </>
         ) : (
           <>
             <LineStack />
-            <HStack spacing="8px">{buttons.map((button) => button)}</HStack>
+            {buttons.length > 0 && <HStack spacing="8px">{buttons.map((button) => button)}</HStack>}
           </>
         )}
       </HStack>
@@ -133,15 +133,23 @@ const Modal: FC<{
   h: LayoutProps["h"];
   left?: PositionProps["left"];
   overlay?: boolean;
+  clickThrough?: boolean;
   isOpen: boolean;
   onClose: () => void;
   onCloseComplete?: () => void;
   children: ReactNode;
-}> = ({ w, h, isOpen, left, overlay, onClose, onCloseComplete, children }) => {
+}> = ({ w, h, isOpen, clickThrough, left, overlay, onClose, onCloseComplete, children }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
-    <ChakraModal isOpen={isOpen} onClose={onClose} isCentered={!!left || true} scrollBehavior="inside" onCloseComplete={onCloseComplete}>
+    <ChakraModal
+      isOpen={isOpen}
+      onClose={onClose}
+      isCentered={!!left || true}
+      scrollBehavior="inside"
+      onCloseComplete={onCloseComplete}
+      {...(clickThrough && { variant: "clickThrough" })}
+    >
       {overlay && <ModalOverlay bgColor="rgba(26, 26, 26, 0.64)" />}
       <ChakraModalContent
         p="24px"

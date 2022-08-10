@@ -35,20 +35,18 @@ export default class MovingItemManager {
 
   drop() {
     if (!this.item) return;
-    const { engine } = GameInstance.get();
 
     this.item.getTiles().hideTile();
     this.item = null;
-    engine.blurCanvas();
+    this.blur();
   }
 
   move() {
     if (!this.item) return;
-    const { engine } = GameInstance.get();
 
     this.item.container.alpha = 0.6;
     this.isMoving = true;
-    engine.focusCanvas();
+    this.focus();
   }
 
   stop() {
@@ -93,5 +91,27 @@ export default class MovingItemManager {
       room.landItemContainer.removeChild(this.item.container);
     }
     this.stop();
+  }
+
+  // todo
+  blur() {
+    const { engine } = GameInstance.get();
+
+    engine.blurCanvas();
+    const portals = document.getElementsByClassName("chakra-portal");
+    for (var i = 0; i < portals.length; i++) {
+      // @ts-ignore
+      portals.item(i).hidden = false;
+    }
+  }
+  focus() {
+    const { engine } = GameInstance.get();
+
+    engine.focusCanvas();
+    const portals = document.getElementsByClassName("chakra-portal");
+    for (var i = 0; i < portals.length; i++) {
+      // @ts-ignore
+      portals.item(i).hidden = true;
+    }
   }
 }

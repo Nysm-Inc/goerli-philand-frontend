@@ -30,6 +30,17 @@ const theme = extendTheme({
     xl: "0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 10px 10px -5px rgba(0, 0, 0, 0.04);",
     "2xl": "0px 25px 50px -12px rgba(0, 0, 0, 0.25);",
   },
+  components: {
+    Modal: {
+      variants: {
+        clickThrough: {
+          parts: ["dialog, dialogContainer"],
+          dialog: { pointerEvents: "auto" },
+          dialogContainer: { pointerEvents: "none" },
+        },
+      },
+    },
+  },
 });
 
 export default theme;
