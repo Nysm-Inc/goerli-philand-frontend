@@ -1021,6 +1021,7 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
   };
 
 export type ObjectTraits = {
+  // todo: should be converted to a usable object
   attributes: { trait_type: string; value: string }[];
   name: string;
   description: string;
@@ -1029,18 +1030,6 @@ export type ObjectTraits = {
     name: string;
   };
 };
-
-// todo: Type
-// export type Attributes = {
-//   network: string;
-//   name: string;
-//   exp: string;
-//   size: string;
-//   world_type: string;
-//   object_type: string;
-//   related_project: string;
-//   creater: string;
-// };
 
 export let objectTraisList: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: ObjectTraits } } = {
   [QUEST_OBJECT_CONTRACT_ADDRESS]: {},

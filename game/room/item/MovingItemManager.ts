@@ -94,6 +94,8 @@ export default class MovingItemManager {
   }
 
   // todo
+  // 1. should not use tagName
+  // 2. should not use @ts-ignore
   blur() {
     const { engine } = GameInstance.get();
 
