@@ -184,10 +184,10 @@ export default class Engine {
       child.x = 0;
       child.y = 0;
     });
-    roomContainer.x = LAND_OGP_PADDING_RL;
     container.addChild(roomContainer);
 
     // margin
+    roomContainer.x = LAND_OGP_PADDING_RL;
     const baseOGPLandH = LAND_OGP_H * (ogpLandW / LAND_OGP_W);
     const marginBottom = ogpLandH - baseOGPLandH - LAND_OGP_PADDING_B;
     roomContainer.y = LAND_OGP_H - ogpLandH + marginBottom;
