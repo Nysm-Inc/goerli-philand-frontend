@@ -49,4 +49,4 @@ export const ROOM_TILE_N = 8;
 export const LAND_OGP_W = 1200;
 export const LAND_OGP_H = 630;
 export const LAND_OGP_PADDING_RL = 120; // 90
-export const LAND_OGP_PADDING_B = 16;
+export const LAND_OGP_PADDING_B = 32; // 16
