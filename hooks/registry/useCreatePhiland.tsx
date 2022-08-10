@@ -20,7 +20,6 @@ const useCreatePhiland = (
     functionName: "ownerOfPhiland",
     args: ens ? [ens.slice(0, -4)] : null,
     watch: true,
-    enabled: !!ens && !disabled,
   });
 
   const {

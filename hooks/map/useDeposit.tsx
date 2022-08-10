@@ -18,13 +18,12 @@ const useDeposit = (
   }
 ] => {
   const { addTx } = useContext(AppContext);
-  const { data, isFetching } = useContractRead({
+  const { data } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "checkAllDepositStatus",
     args: ens ? [ens.slice(0, -4)] : null,
     watch: true,
-    enabled: !!ens && !disabled,
   });
   const {
     data: depositData,

@@ -11,7 +11,6 @@ const useViewPhiland = (ens?: string | null, disabled?: boolean): { owner: strin
     functionName: "viewPhiland",
     args: ens ? [ens.slice(0, -4)] : null,
     watch: true,
-    enabled: !!ens && !disabled,
   });
   const { data: links } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
@@ -19,7 +18,6 @@ const useViewPhiland = (ens?: string | null, disabled?: boolean): { owner: strin
     functionName: "viewLinks",
     args: ens ? [ens.slice(0, -4)] : null,
     watch: true,
-    enabled: !!ens && !disabled,
   });
   const { data: owner } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
@@ -27,7 +25,6 @@ const useViewPhiland = (ens?: string | null, disabled?: boolean): { owner: strin
     functionName: "ownerOfPhiland",
     args: ens ? [ens.slice(0, -4)] : null,
     watch: true,
-    enabled: !!ens && !disabled,
   });
 
   return {

@@ -22,7 +22,7 @@ const CreatePhiland: FC<{
     <Modal w="456px" h="398px" isOpen overlay onClose={() => {}}>
       <ModalHeader buttons={[]} />
       <VStack mt="14px" spacing="24px">
-        <Image src="/icons/ens.svg" width="128px" height="128px" />
+        <Image src="/icons/ens.png" width="128px" height="128px" quality={100} />
         <Text textAlign="center" textStyle="paragraph-1" color="grey.500">
           Choose your ENS
         </Text>
