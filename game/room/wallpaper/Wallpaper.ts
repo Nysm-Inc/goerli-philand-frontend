@@ -30,7 +30,9 @@ export default class Wallpaper {
 
     if (tokenId) {
       const { engine } = GameInstance.get();
-      this.sprite.texture = engine.app.loader.resources[WALLPAPER_CONTRACT_ADDRESS + "_" + tokenId].texture as Texture;
+      const texture = engine.app.loader.resources[WALLPAPER_CONTRACT_ADDRESS + "_" + tokenId].texture as Texture;
+      texture.baseTexture.scaleMode = engine.scaleMode;
+      this.sprite.texture = texture;
     } else {
       this.container.removeChildren();
       this.sprite = new Sprite();
