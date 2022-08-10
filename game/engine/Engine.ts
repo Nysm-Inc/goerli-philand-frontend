@@ -184,7 +184,7 @@ export default class Engine {
       child.x = 0;
       child.y = 0;
     });
-    roomContainer.x = 90;
+    roomContainer.x = LAND_OGP_PADDING_RL;
     container.addChild(roomContainer);
 
     // margin
