@@ -12,7 +12,6 @@ const useBalances = (contract: ObjectContractAddress | WallpaperContractAddress,
     functionName: "balanceOfBatch",
     args: account ? [metadata.map(() => account), metadata.map((meta) => meta.tokenId)] : null,
     watch: true,
-    enabled: !!account && !disabled,
   });
 
   return data

@@ -25,7 +25,6 @@ const useClaim = (
   const { data } = useContractReads({
     contracts: metadata.map((meta) => checkClaimedStatus(address || "", meta.tokenId)),
     watch: true,
-    enabled: !!address && !disabled,
     keepPreviousData: true,
   });
 

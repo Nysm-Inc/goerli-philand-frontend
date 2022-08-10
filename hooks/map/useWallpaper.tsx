@@ -11,7 +11,6 @@ const useWallpaper = (ens?: string | null, disabled?: boolean): Wallpaper | unde
     functionName: "checkWallPaper",
     args: ens ? [ens.slice(0, -4)] : null,
     watch: true,
-    enabled: !!ens && !disabled,
   });
 
   return data && data[0] !== nullAddress
