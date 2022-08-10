@@ -1,8 +1,8 @@
+import { useMemo } from "react";
 import { BigNumber } from "ethers";
 import { useContractRead } from "wagmi";
 import { objectMetadataList } from "~/types/object";
 import { BalanceObject, ContractAbis, ObjectContractAddress, WallpaperContractAddress } from "~/types";
-import { useMemo } from "react";
 
 const useBalances = (contract: ObjectContractAddress | WallpaperContractAddress, account?: string, disabled?: boolean): BalanceObject[] => {
   const metadata = useMemo(() => Object.values(objectMetadataList[contract]), [contract]);
