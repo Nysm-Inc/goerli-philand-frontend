@@ -15,6 +15,7 @@ import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, QUEST_OB
 
 type LandObject = DepositObject & { select: number; writed: boolean };
 
+// todo
 const priority: { [contract in ObjectContractAddress]: number } = {
   [QUEST_OBJECT_CONTRACT_ADDRESS]: 1,
   [FREE_OBJECT_CONTRACT_ADDRESS]: 1 * 1000,
