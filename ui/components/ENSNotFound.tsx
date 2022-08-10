@@ -2,29 +2,14 @@ import Image from "next/image";
 import { FC, useContext } from "react";
 import { Link, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import Icon from "./Icon";
-import IconButton from "./common/IconButton";
 import { Modal, ModalHeader } from "./common/Modal";
 
 const ENSNotFound: FC = () => {
   const { colorMode } = useContext(AppContext);
-  const [isOpen, { off: onClose }] = useBoolean(true);
 
   return (
-    <Modal w="456px" h="400px" isOpen={isOpen} onClose={onClose}>
-      <ModalHeader
-        buttons={[
-          <IconButton
-            key="close"
-            ariaLabel="close"
-            icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
-            size="32px"
-            borderRadius="8px"
-            boxShadow={false}
-            onClick={onClose}
-          />,
-        ]}
-      />
+    <Modal w="456px" h="400px" isOpen clickThrough onClose={() => {}}>
+      <ModalHeader buttons={[]} />
       <VStack mt="24px" spacing="32px">
         <Image src="/icons/ens.png" width="128px" height="128px" quality={100} />
         <VStack spacing="8px">
