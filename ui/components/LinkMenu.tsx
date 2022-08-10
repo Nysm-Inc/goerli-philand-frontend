@@ -71,7 +71,7 @@ const LinkMenu: FC<{
               />
               <Input
                 w="full"
-                placeholder="URL or .eth"
+                placeholder="URL"
                 shadow={false}
                 value={input?.url || ""}
                 onChange={(e) => setInput((prev) => ({ ...prev, url: e.target.value }))}

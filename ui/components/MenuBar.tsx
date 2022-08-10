@@ -25,6 +25,7 @@ const MenuBar: FC<{
     onSwitchCurrentENS: (ens: string) => void;
     onView: () => void;
     onEdit: () => void;
+    onCheckDiff: () => boolean;
     onSave: () => Promise<TransactionResponse | undefined>;
   };
 }> = ({ initialized, noObjectsInLand, isEdit, isOpen, currentENS, domains, actionHandler }) => {
@@ -102,6 +103,8 @@ const MenuBar: FC<{
               color="yellow"
               leftIcon={<Icon name="undo" />}
               onClick={() => {
+                if (actionHandler.onCheckDiff() && !confirm("Do you really want to leave?")) return;
+
                 actionHandler.onView();
                 event({ action: "click", category: "menubar", label: "cancel" });
               }}
@@ -161,6 +164,7 @@ const MenuBar: FC<{
             disabled={!initialized || noObjectsInLand}
             onClick={() => {
               actionHandler.onEdit();
+              actionHandler.onOpenLand();
               event({ action: "click", category: "menubar", label: "edit" });
             }}
           >

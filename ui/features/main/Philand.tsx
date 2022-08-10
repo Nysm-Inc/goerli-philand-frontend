@@ -64,7 +64,18 @@ const Philand: FC<{
 
   const {
     state: { initialized },
-    handler: { onEdit, onView, onDropObject, onMoveObject, onPickLandObject, onRemoveObject, onChangeLink, onChangeWallpaper, onSave },
+    handler: {
+      onEdit,
+      onView,
+      onDropObject,
+      onMoveObject,
+      onPickLandObject,
+      onRemoveObject,
+      onChangeLink,
+      onChangeWallpaper,
+      onCheckDiff,
+      onSave,
+    },
   } = useGame({
     state: { currentENS, isEdit, phiObjects, wallpaper },
     uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
@@ -90,6 +101,7 @@ const Philand: FC<{
           onSwitchCurrentENS: switchCurrentENS,
           onView,
           onEdit,
+          onCheckDiff: () => onCheckDiff().isDiff,
           onSave,
         }}
       />
