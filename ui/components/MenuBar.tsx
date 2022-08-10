@@ -161,6 +161,7 @@ const MenuBar: FC<{
             disabled={!initialized || noObjectsInLand}
             onClick={() => {
               actionHandler.onEdit();
+              actionHandler.onOpenLand();
               event({ action: "click", category: "menubar", label: "edit" });
             }}
           >
