@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "~/contexts";
-import { UIManagerHandler } from "~/game/ui/UIManager";
+import type { UIManagerHandler } from "~/game/ui/UIManager";
 import { PhiObject, Wallpaper } from "~/types";
 import useHandler, { UIHandlerProps, Handler } from "./useHandler";
 

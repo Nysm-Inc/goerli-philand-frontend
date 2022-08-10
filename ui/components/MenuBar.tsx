@@ -22,6 +22,7 @@ const MenuBar: FC<{
   actionHandler: {
     onOpenWallet: () => void;
     onOpenLand: () => void;
+    onCloseLand: () => void;
     onSwitchCurrentENS: (ens: string) => void;
     onView: () => void;
     onEdit: () => void;
@@ -106,6 +107,7 @@ const MenuBar: FC<{
                 if (actionHandler.onCheckDiff() && !confirm("Do you really want to leave?")) return;
 
                 actionHandler.onView();
+                actionHandler.onCloseLand();
                 event({ action: "click", category: "menubar", label: "cancel" });
               }}
             >

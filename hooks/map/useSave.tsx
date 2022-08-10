@@ -42,7 +42,7 @@ const useSave = (
         setOGP(game.engine.exportImage());
       }
       case "success": {
-        updateOGP(ens, ogp); // todo
+        updateOGP(ens, ogp);
       }
     }
   }, [status]);

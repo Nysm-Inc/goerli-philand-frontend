@@ -1,7 +1,7 @@
 import { Application, Container, LoaderResource, SCALE_MODES, Sprite, Texture, TilingSprite } from "pixi.js";
 import { Stage as LayerStage } from "@pixi/layers";
 import { Viewport } from "pixi-viewport";
-import cloneDeep from "lodash.clonedeep"; // todo
+import cloneDeep from "lodash.clonedeep";
 import { GAME_APP_WIDTH, GAME_APP_HEIGHT, LAND_OGP_W, LAND_OGP_H } from "~/constants";
 import GameInstance from "~/game/GameInstance";
 import { objectMetadataList } from "~/types/object";
@@ -56,7 +56,7 @@ export default class Engine {
       passiveWheel: false,
       stopPropagation: true,
     });
-    const isMobile = window.matchMedia("(any-pointer:coarse)").matches; // todo
+    const isMobile = window.matchMedia("(any-pointer:coarse)").matches;
     this.viewport
       .moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2)
       .setZoom(isMobile ? 0.4 : 1, true)
