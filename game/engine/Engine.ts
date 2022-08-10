@@ -2,7 +2,7 @@ import { Application, Container, LoaderResource, SCALE_MODES, Sprite, Texture, T
 import { Stage as LayerStage } from "@pixi/layers";
 import { Viewport } from "pixi-viewport";
 import cloneDeep from "lodash.clonedeep";
-import { GAME_APP_WIDTH, GAME_APP_HEIGHT, LAND_OGP_W, LAND_OGP_H } from "~/constants";
+import { GAME_APP_WIDTH, GAME_APP_HEIGHT, LAND_OGP_W, LAND_OGP_H, LAND_OGP_PADDING_RL, LAND_OGP_PADDING_B } from "~/constants";
 import GameInstance from "~/game/GameInstance";
 import { objectMetadataList } from "~/types/object";
 import { ColorMode, zIndices } from "~/ui/styles";
@@ -176,7 +176,7 @@ export default class Engine {
 
     // land
     const roomContainer = cloneDeep(room.container);
-    const ogpLandW = LAND_OGP_W - 90 * 2;
+    const ogpLandW = LAND_OGP_W - LAND_OGP_PADDING_RL * 2;
     const ogpLandH = roomContainer.height * (ogpLandW / roomContainer.width);
     roomContainer.width = ogpLandW;
     roomContainer.height = ogpLandH;
@@ -189,7 +189,7 @@ export default class Engine {
 
     // margin
     const baseOGPLandH = LAND_OGP_H * (ogpLandW / LAND_OGP_W);
-    const marginBottom = ogpLandH - baseOGPLandH - 16;
+    const marginBottom = ogpLandH - baseOGPLandH - LAND_OGP_PADDING_B;
     roomContainer.y = LAND_OGP_H - ogpLandH + marginBottom;
 
     return this.app.renderer.plugins.extract.base64(container);
