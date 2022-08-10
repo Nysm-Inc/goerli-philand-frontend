@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
-import { useBlockNumber } from "wagmi";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { AppContext } from "~/contexts";
 import { ClaimableList } from "~/types/quest";
 import { getClaimableList, postClaimableList } from "~/utils/condition";
 
 const useClaimableList = (address?: string): [ClaimableList, () => Promise<void>] => {
-  const { data: blockNumber } = useBlockNumber();
+  const { blockNumber } = useContext(AppContext);
   const [claimableList, setClaimableList] = useState<ClaimableList>([]);
 
   const updateClaimableList = useCallback(async () => {

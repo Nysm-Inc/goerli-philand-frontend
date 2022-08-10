@@ -1,31 +1,37 @@
+import { useContext, useEffect } from "react";
 import { useContractRead } from "wagmi";
 import { BigNumber } from "ethers";
 import { MapAbi } from "~/abi";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { nullAddress, PhiObject } from "~/types";
+import { AppContext } from "~/contexts";
 
-const useViewPhiland = (ens?: string | null, disabled?: boolean): { owner: string; phiObjects: (PhiObject & { removeIdx: number })[] } => {
-  const { data: objects } = useContractRead({
+const useViewPhiland = (ens?: string | null): { owner: string; phiObjects: (PhiObject & { removeIdx: number })[] } => {
+  const { blockNumber } = useContext(AppContext);
+  const { data: objects, refetch: refetchViewPhiland } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "viewPhiland",
     args: ens ? [ens.slice(0, -4)] : null,
-    watch: true,
   });
-  const { data: links } = useContractRead({
+  const { data: links, refetch: refetchViewLinks } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "viewLinks",
     args: ens ? [ens.slice(0, -4)] : null,
-    watch: true,
   });
-  const { data: owner } = useContractRead({
+  const { data: owner, refetch: refetchOwnerOfPhiland } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "ownerOfPhiland",
     args: ens ? [ens.slice(0, -4)] : null,
-    watch: true,
   });
+
+  useEffect(() => {
+    refetchViewPhiland();
+    refetchViewLinks();
+    refetchOwnerOfPhiland();
+  }, [blockNumber]);
 
   return {
     // @ts-ignore

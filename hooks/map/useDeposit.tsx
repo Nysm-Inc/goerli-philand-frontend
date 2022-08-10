@@ -8,8 +8,7 @@ import { BalanceObject, DepositObject } from "~/types";
 import { AppContext } from "~/contexts";
 
 const useDeposit = (
-  ens?: string | null,
-  disabled?: boolean
+  ens?: string | null
 ): [
   DepositObject[],
   {
@@ -17,13 +16,12 @@ const useDeposit = (
     withdraw: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
   }
 ] => {
-  const { addTx } = useContext(AppContext);
-  const { data } = useContractRead({
+  const { blockNumber, addTx } = useContext(AppContext);
+  const { data, refetch } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "checkAllDepositStatus",
     args: ens ? [ens.slice(0, -4)] : null,
-    watch: true,
   });
   const {
     data: depositData,
@@ -78,6 +76,10 @@ const useDeposit = (
       action: "Withdrawing Objects to Your Wallet",
     });
   }, [withdrawTmpStatus, withdrawStatus]);
+
+  useEffect(() => {
+    refetch();
+  }, [blockNumber]);
 
   return [
     data

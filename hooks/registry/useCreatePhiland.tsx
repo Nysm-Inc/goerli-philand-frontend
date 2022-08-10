@@ -10,16 +10,14 @@ import { AppContext } from "~/contexts";
 
 const useCreatePhiland = (
   account?: string,
-  ens?: string,
-  disabled?: boolean
+  ens?: string
 ): [{ isCreated: boolean; isFetched: boolean }, { createPhiland: () => Promise<TransactionResponse | undefined> }] => {
-  const { addTx } = useContext(AppContext);
-  const { data, isFetched } = useContractRead({
+  const { blockNumber, addTx } = useContext(AppContext);
+  const { data, isFetched, refetch } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "ownerOfPhiland",
     args: ens ? [ens.slice(0, -4)] : null,
-    watch: true,
   });
 
   const {
@@ -41,6 +39,10 @@ const useCreatePhiland = (
       action: "Creating a Land with Your ENS",
     });
   }, [tmpStatus, status]);
+
+  useEffect(() => {
+    refetch();
+  }, [blockNumber]);
 
   return [
     // @ts-ignore

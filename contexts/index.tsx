@@ -1,4 +1,5 @@
 import { createContext, FC, ReactNode, useCallback, useEffect, useState } from "react";
+import { useBlockNumber } from "wagmi";
 import type Game from "~/game/Game";
 import { Tx } from "~/types/tx";
 import useColorMode from "~/hooks/color";
@@ -7,6 +8,7 @@ import { ColorMode } from "~/ui/styles";
 type AppContext = {
   game: Game;
   txs: { [hash: string]: Tx };
+  blockNumber: number | undefined;
   addTx: (tx: Tx) => void;
   colorMode: ColorMode;
   toggleColorMode: () => void;
@@ -19,6 +21,7 @@ const AppContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [game, setGame] = useState<Game>();
   const [colorMode, toggleColorMode] = useColorMode();
   const [txs, setTxs] = useState<{ [hash: string]: Tx }>({});
+  const { data: blockNumber } = useBlockNumber({ watch: true });
 
   const addTx = useCallback((tx: Tx) => {
     if (tx.hash) {
@@ -44,7 +47,13 @@ const AppContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, [colorMode, game]);
 
   return (
-    <>{game ? <AppContext.Provider value={{ game, txs, addTx, colorMode, toggleColorMode }}>{children}</AppContext.Provider> : <></>}</>
+    <>
+      {game ? (
+        <AppContext.Provider value={{ game, txs, blockNumber, addTx, colorMode, toggleColorMode }}>{children}</AppContext.Provider>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 
