@@ -50,6 +50,7 @@ export default class Room {
     this.landItemContainer.x = landOffsetX;
     this.landItemContainer.y = landOffsetY;
     this.land = Sprite.from("/assets/baseplate.png");
+    this.land.texture.baseTexture.scaleMode = engine.scaleMode;
     this.land.on("mousedown", (e) => {
       if (!this.isEdit) return;
       if (!!room.movingItemManager.getItem()) return;

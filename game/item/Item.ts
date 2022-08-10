@@ -30,6 +30,7 @@ export default class Item {
 
     const { engine, room } = GameInstance.get();
     const texture = engine.app.loader.resources[object.contractAddress + "_" + object.tokenId].texture as Texture;
+    texture.baseTexture.scaleMode = engine.scaleMode;
     const sprite = Sprite.from(texture);
 
     for (let n = 0; n < object.sizeX + object.sizeY; n++) {
