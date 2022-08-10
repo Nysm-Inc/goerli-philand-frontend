@@ -24,6 +24,7 @@ export type Handler = {
   onRemoveObject: (uuid: string) => void;
   onChangeLink: (id: string, link: PhiLink) => void;
   onChangeWallpaper: (tokenId: number) => void;
+  onCheckDiff: () => { isDiff: boolean; diff: SaveArgs };
   onSave: () => Promise<TransactionResponse | undefined>;
 };
 
@@ -76,7 +77,7 @@ const useHandler = ({
   const onChangeWallpaper = (tokenId: number) => {
     game.room.wallpaper.update(tokenId);
   };
-  const onSave = () => {
+  const onCheckDiff = () => {
     const roomItems = game.room.roomItemManager.getItems();
     const prevPhiObjects = phiObjects;
     const newPhiObjects = Object.values(roomItems).map((item) => item.getPhiObject());
@@ -91,8 +92,9 @@ const useHandler = ({
     const newWallpaper = game.room.wallpaper.get();
     const changeWallpaper = prevWallpaper?.tokenId !== newWallpaper?.tokenId;
 
-    if (removeIdxs.length > 0 || writeArgs.length > 0 || changeWallpaper) {
-      return uiHandler?.save({
+    return {
+      isDiff: removeIdxs.length > 0 || writeArgs.length > 0 || changeWallpaper,
+      diff: {
         removeArgs: { removeIdxs: removeIdxs },
         writeArgs,
         linkArgs,
@@ -100,10 +102,15 @@ const useHandler = ({
           contractAddress: WALLPAPER_CONTRACT_ADDRESS,
           tokenId: newWallpaper?.tokenId || 0,
         },
-      });
-    } else {
-      return Promise.resolve();
+      },
+    };
+  };
+  const onSave = () => {
+    const check = onCheckDiff();
+    if (check.isDiff && uiHandler) {
+      return uiHandler.save(check.diff);
     }
+    return Promise.resolve(undefined);
   };
 
   return {
@@ -115,7 +122,7 @@ const useHandler = ({
     onRemoveObject,
     onChangeLink,
     onChangeWallpaper,
-    // @ts-ignore
+    onCheckDiff,
     onSave,
   };
 };
