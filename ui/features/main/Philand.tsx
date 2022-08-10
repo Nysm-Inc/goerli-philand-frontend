@@ -100,6 +100,7 @@ const Philand: FC<{
         actionHandler={{
           onOpenWallet,
           onOpenLand,
+          onCloseLand,
           onSwitchCurrentENS: switchCurrentENS,
           onView,
           onEdit,
