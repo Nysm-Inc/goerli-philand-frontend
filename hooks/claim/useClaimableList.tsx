@@ -1,16 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import { useBlockNumber } from "wagmi";
 import { ClaimableList } from "~/types/quest";
 import { getClaimableList, postClaimableList } from "~/utils/condition";
 
 const useClaimableList = (address?: string): [ClaimableList, () => Promise<void>] => {
-  const { data: blockNumber } = useBlockNumber();
   const [claimableList, setClaimableList] = useState<ClaimableList>([]);
+  const [refetch, setRefetch] = useState(false);
 
   const updateClaimableList = useCallback(async () => {
     if (!address) return;
 
-    return postClaimableList(address);
+    return postClaimableList(address).then(() => {
+      setTimeout(() => setRefetch((prev) => !prev), 10000);
+    });
   }, [address]);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const useClaimableList = (address?: string): [ClaimableList, () => Promise<void>
       const list = await getClaimableList(address);
       setClaimableList(list);
     })();
-  }, [address, blockNumber]);
+  }, [address, refetch]);
 
   return [claimableList, updateClaimableList];
 };

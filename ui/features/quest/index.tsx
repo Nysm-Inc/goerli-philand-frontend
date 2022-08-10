@@ -45,7 +45,7 @@ const Quest: FC<{
             onClick={() => {
               startLoading();
               onClickUpdate();
-              setTimeout(() => stopLoading(), 8000);
+              setTimeout(() => stopLoading(), 10000);
             }}
           />,
           <IconButton
