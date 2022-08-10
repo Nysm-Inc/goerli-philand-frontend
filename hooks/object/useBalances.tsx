@@ -18,18 +18,7 @@ const useBalances = (contract: ObjectContractAddress | WallpaperContractAddress,
   return data
     ? metadata.reduce((memo, meta, i) => {
         const amount = BigNumber.from(data[i]).toNumber();
-        if (amount > 0) {
-          return [
-            ...memo,
-            {
-              contract: contract,
-              tokenId: meta.tokenId,
-              amount: amount,
-            },
-          ];
-        } else {
-          return memo;
-        }
+        return amount > 0 ? [...memo, { contract: contract, tokenId: meta.tokenId, amount: amount }] : memo;
       }, [] as BalanceObject[])
     : [];
 };
