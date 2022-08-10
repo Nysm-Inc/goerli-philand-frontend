@@ -11,8 +11,20 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from "~/ui/components/comm
 import IconButton from "~/ui/components/common/IconButton";
 import Checkbox from "~/ui/components/common/Checkbox";
 import QuantityInput from "~/ui/components/common/QuantityInput";
+import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 
 type LandObject = DepositObject & { select: number; writed: boolean };
+
+// todo
+const priority: { [contract in ObjectContractAddress]: number } = {
+  [QUEST_OBJECT_CONTRACT_ADDRESS]: 1,
+  [FREE_OBJECT_CONTRACT_ADDRESS]: 1 * 1000,
+  [PREMIUM_OBJECT_CONTRACT_ADDRESS]: 1000 * 1000,
+};
+
+const sort = (objects: LandObject[]): LandObject[] => {
+  return [...objects].sort((a, b) => priority[a.contractAddress] * a.tokenId - priority[b.contractAddress] * b.tokenId);
+};
 
 export const useLand = (
   originObjects: DepositObject[],
@@ -67,11 +79,10 @@ export const useLand = (
     } else {
       copied[idx].used -= 1;
     }
-    copied.sort((a, b) => a.tokenId - b.tokenId);
-    setObjects(copied);
+    setObjects(sort(copied));
   };
   const reset = () => {
-    setObjects(originObjects.map((object) => ({ ...object, select: 0, writed: false })));
+    setObjects(sort(originObjects.map((object) => ({ ...object, select: 0, writed: false }))));
   };
 
   useEffect(() => {
