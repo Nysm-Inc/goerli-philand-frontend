@@ -93,6 +93,7 @@ export default class MovingItemManager {
     this.stop();
   }
 
+  // todo
   blur() {
     const { engine } = GameInstance.get();
 
@@ -103,7 +104,6 @@ export default class MovingItemManager {
       portals.item(i).hidden = false;
     }
   }
-
   focus() {
     const { engine } = GameInstance.get();
 
