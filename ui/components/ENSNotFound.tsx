@@ -26,7 +26,7 @@ const ENSNotFound: FC = () => {
         ]}
       />
       <VStack mt="24px" spacing="32px">
-        <Image src="/icons/ens.svg" width="128px" height="128px" priority />
+        <Image src="/icons/ens.png" width="128px" height="128px" priority quality={100} />
         <VStack spacing="8px">
           <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
             ENS Not Found
