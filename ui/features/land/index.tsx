@@ -111,6 +111,7 @@ const Land: FC<{
       onCloseComplete={() => {
         if (!isEdit) reset();
       }}
+      clickThrough={isEdit}
     >
       <ModalHeader
         title="LAND"
@@ -177,7 +178,6 @@ const Land: FC<{
                         sizeY: metadata.size[1],
                         link: { title: "", url: "" },
                       });
-                      onClose();
                     }}
                   >
                     <Box position="relative" w="96px" h="96px">
