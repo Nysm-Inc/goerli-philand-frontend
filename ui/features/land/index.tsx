@@ -225,7 +225,7 @@ const Land: FC<{
         ) : (
           <Center w="100%" h="606px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <VStack spacing="32px">
-              <Image src={`/assets/empty-land_${colorMode}.png`} width="360px" height="270px" />
+              <Image src={`/assets/empty-land_${colorMode}.png`} width="360px" height="270px" alt="" />
               <Text w="300px" h="40px" color="grey.500" textStyle="paragraph-2" textAlign="center">
                 {"To place Objects & Wallpapers in Land, Deposit them from Wallet."}
               </Text>

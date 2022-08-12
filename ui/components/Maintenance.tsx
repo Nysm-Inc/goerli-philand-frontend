@@ -1,24 +1,12 @@
-import { Link, Text, useBreakpointValue, VStack } from "@chakra-ui/react";
 import Image from "next/image";
-import { FC, useContext, useEffect } from "react";
+import { FC } from "react";
+import { Link, Text, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { TWITTER_URL } from "~/constants";
-import { AppContext } from "~/contexts";
+import useClouds from "~/hooks/game/useClouds";
 
 const Maintenance: FC = () => {
-  const { game } = useContext(AppContext);
-  const isMobile = useBreakpointValue({ base: true, lg: false });
-
-  useEffect(() => {
-    if (isMobile) {
-      game.engine.hideClouds();
-    } else {
-      game.engine.showClouds();
-    }
-  }, [isMobile]);
-
-  useEffect(() => {
-    game.engine.changeColorMode("light");
-  }, []);
+  const isMobile = useBreakpointValue({ base: true, lg: false }, { ssr: false });
+  useClouds(isMobile);
 
   return (
     <>
@@ -39,7 +27,7 @@ const Maintenance: FC = () => {
         borderColor="light.g_orange"
         borderRadius="32px"
       >
-        <Image src="/assets/maintenance.png" width="338px" height="192px" />
+        <Image src="/assets/maintenance.png" width="338px" height="192px" alt="" />
         <VStack spacing="16px">
           <Text textStyle="headline-1" color="grey.900">
             Maintenance

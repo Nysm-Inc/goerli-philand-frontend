@@ -72,7 +72,7 @@ const Cart: FC<{
         >
           <Center w="100%" h="144px" minH="144px">
             <Box position="relative" w="96px" h="96px">
-              <Image src={item.image_url} layout="fill" objectFit="contain" draggable={false} />
+              <Image src={item.image_url} layout="fill" objectFit="contain" draggable={false} alt="" />
             </Box>
             <Box position="absolute" top="16px" right="16px" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
               <Icon name="info" color={colorMode === "light" ? "grey.900" : "white"} />
@@ -87,7 +87,7 @@ const Cart: FC<{
                 </Text>
               </Flex>
               <HStack>
-                <Image src="/icons/polygon_logo.svg" width="16px" height="16px" />
+                <Image src="/icons/polygon_logo.svg" width="16px" height="16px" alt="" />
                 <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
                   {item.price + " MATIC"}
                 </Text>

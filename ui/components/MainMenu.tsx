@@ -21,7 +21,7 @@ const MainMenu: FC<{ isOpenQuest: boolean; isOpenShop: boolean; onOpenQuest: () 
         borderRadius="20px"
         icon={
           <VStack p="8px 0" spacing="4px">
-            <Image src="/icons/sword.svg" width="40px" height="40px" />
+            <Image src="/icons/sword.svg" width="40px" height="40px" alt="" />
             <Text textStyle="label-2" color={colorMode === "light" ? "grey.900" : "white"}>
               Quest
             </Text>
@@ -39,7 +39,7 @@ const MainMenu: FC<{ isOpenQuest: boolean; isOpenShop: boolean; onOpenQuest: () 
         borderRadius="20px"
         icon={
           <VStack p="8px 0" spacing="4px">
-            <Image src="/icons/bag.svg" width="40px" height="40px" />
+            <Image src="/icons/bag.svg" width="40px" height="40px" alt="" />
             <Text textStyle="label-2" color={colorMode === "light" ? "grey.900" : "white"}>
               Shop
             </Text>

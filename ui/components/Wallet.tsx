@@ -41,7 +41,7 @@ const Wallet: FC = () => {
                       openConnectModal();
                       event({ action: "click", category: "wallet", label: "connect" });
                     }}
-                    rightIcon={<Image src="/icons/wallet.svg" width="24px" height="24px" />}
+                    rightIcon={<Image src="/icons/wallet.svg" width="24px" height="24px" alt="" />}
                   >
                     <Text color="white" textStyle="button-1">
                       Connect
@@ -75,7 +75,7 @@ const Wallet: FC = () => {
                         src={account.ensAvatar}
                         icon={
                           <Box position="absolute" top="4px">
-                            <Image width="28px" height="28px" src="/icons/dotty.svg" />
+                            <Image width="28px" height="28px" src="/icons/dotty.svg" alt="" />
                           </Box>
                         }
                       />

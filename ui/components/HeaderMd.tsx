@@ -30,7 +30,7 @@ const HeaderMd: FC = () => {
         borderColor={colorMode === "light" ? "light.g_orange" : "none"}
       >
         <Center position="relative" w="40px" minW="40px" h="40px" minH="40px" cursor="pointer" onClick={() => (window.location.href = "/")}>
-          <Image src="/icons/logo.svg" layout="fill" objectFit="contain" />
+          <Image src="/icons/logo.svg" layout="fill" objectFit="contain" alt="" />
         </Center>
         <Search w="calc(100vw - 12px * 2 - 8px - 12px - 40px - 8px)" shadow={false} />
       </Flex>
@@ -42,7 +42,7 @@ const HeaderMd: FC = () => {
           justify="space-between"
           disabled
           shadow
-          leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" />}
+          leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" alt="" />}
         >
           <Text textStyle="button-2" color={colorMode === "light" ? "dark.grey300" : "dark.grey600"}>
             Leaderboard

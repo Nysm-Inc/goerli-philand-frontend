@@ -14,7 +14,7 @@ const Header: FC = () => {
   return (
     <>
       <Box zIndex="default" position="fixed" top="16px" left="24px" cursor="pointer" onClick={() => (window.location.href = "/")}>
-        <Image src="/icons/logo.svg" width="64px" height="64px" />
+        <Image src="/icons/logo.svg" width="64px" height="64px" alt="" />
       </Box>
 
       <Box zIndex="default" position="fixed" top="24px" left="106px">
@@ -27,7 +27,7 @@ const Header: FC = () => {
           disabled
           shadow
           justify="space-between"
-          leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" />}
+          leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" alt="" />}
         >
           <Text textStyle="button-2" color={colorMode === "light" ? "dark.grey300" : "dark.grey600"}>
             Leaderboard

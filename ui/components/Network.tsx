@@ -25,7 +25,7 @@ const Network: FC<{ tokenId: number }> = ({ tokenId }) => {
 
   return (
     <HStack h="24px" p="2px 8px 2px 4px" borderRadius="16px" spacing="4px" bgColor={colorMode === "light" ? "grey.100" : "dark.grey700"}>
-      <Image src={getLogo(networkName)} width="16px" height="16px" />
+      <Image src={getLogo(networkName)} width="16px" height="16px" alt="" />
       <Text textStyle="label-2" color={colorMode === "light" ? "grey.900" : "white"}>
         {networkName}
       </Text>
