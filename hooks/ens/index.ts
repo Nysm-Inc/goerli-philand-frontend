@@ -38,9 +38,7 @@ const useENS = (
         if (domain.labelName) {
           return [...memo, domain.name];
         } else {
-          console.log(domain.labelhash);
           const label = getPhiSubdomain(domain.labelhash);
-          console.log(label);
           return label ? [...memo, label] : memo;
         }
       }, [] as string[]);
