@@ -1,5 +1,5 @@
 import { FC, useContext, useEffect, useState } from "react";
-import { useNetwork } from "wagmi";
+import { chain, useNetwork } from "wagmi";
 import { Box, Center, HStack, Link, Text, useToast, UseToastOptions, VStack } from "@chakra-ui/react";
 import { Status as TxStatus, Tx } from "~/types/tx";
 import { AppContext } from "~/contexts";
@@ -110,7 +110,12 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
                   }[status]}
             </Text>
           </VStack>
-          <Link textStyle="button-2" color="primary.500" href={`${tx.chain?.blockExplorers?.default.url}/tx/${tx.hash}`} isExternal>
+          <Link
+            textStyle="button-2"
+            color="primary.500"
+            href={`${(tx.chain ? tx.chain : chain.polygonMumbai).blockExplorers?.default.url}/tx/${tx.hash}`}
+            isExternal
+          >
             View on explorer
           </Link>
         </VStack>
