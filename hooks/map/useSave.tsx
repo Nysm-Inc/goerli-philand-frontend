@@ -6,6 +6,7 @@ import { MapAbi } from "~/abi";
 import { AppContext } from "~/contexts";
 import { updateOGP } from "~/utils/ogp";
 import { PhiLink } from "~/types";
+import { Tx } from "~/types/tx";
 
 export type SaveArgs = {
   removeArgs: { removeIdxs: (string | number)[] };
@@ -21,7 +22,7 @@ export type SaveArgs = {
 
 const useSave = (
   ens?: string | null
-): { save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => Promise<TransactionResponse | undefined> } => {
+): { save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => Promise<TransactionResponse | undefined>; tx: Tx } => {
   const { game, addTx } = useContext(AppContext);
   const [ogp, setOGP] = useState("");
 
@@ -63,6 +64,13 @@ const useSave = (
 
       const calldata = [ens.slice(0, -4), removeArgs.removeIdxs, writeArgs, linkArgs, ...Object.values(wallpaperArgs)];
       return writeAsync({ args: calldata });
+    },
+    tx: {
+      hash: data?.hash,
+      tmpStatus,
+      status,
+      action: "Saving Your Land Data",
+      msg: "Saving your land data to blockchain and updating OGP image.",
     },
   };
 };

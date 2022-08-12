@@ -4,7 +4,7 @@ import { ClaimableList } from "~/types/quest";
 import { getClaimableList, postClaimableList } from "~/utils/condition";
 
 const useClaimableList = (address?: string): [ClaimableList, () => Promise<void>] => {
-  const { data: blockNumber } = useBlockNumber();
+  const { data: blockNumber } = useBlockNumber({ watch: true });
   const [claimableList, setClaimableList] = useState<ClaimableList>([]);
 
   const updateClaimableList = useCallback(async () => {

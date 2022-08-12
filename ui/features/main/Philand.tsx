@@ -27,6 +27,7 @@ import ActionMenu, { useActionMenu } from "~/ui/components/ActionMenu";
 import LinkMenu, { useLinkMenu } from "~/ui/components/LinkMenu";
 import WallpaperMenu, { useWallpaperMenu } from "~/ui/components/WallpaperMenu";
 import Help from "~/ui/components/Help";
+import EditStatus from "~/ui/components/EditStatus";
 
 const Philand: FC<{
   address: string;
@@ -58,24 +59,13 @@ const Philand: FC<{
   const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
   const balanceWallpapers = useBalances(WALLPAPER_CONTRACT_ADDRESS, address);
   const [depositObjects, { deposit, withdraw }] = useDeposit(currentENS);
-  const { save } = useSave(currentENS);
+  const { save, tx: txSave } = useSave(currentENS);
   const [claimableList, updateClaimableList] = useClaimableList(address);
   const [landObjects, plus, minus, setLandObjects, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
 
   const {
-    state: { initialized },
-    handler: {
-      onEdit,
-      onView,
-      onDropObject,
-      onMoveObject,
-      onPickLandObject,
-      onRemoveObject,
-      onChangeLink,
-      onChangeWallpaper,
-      onCheckDiff,
-      onSave,
-    },
+    state: { initialized, isDiff },
+    handler: { onEdit, onView, onDropObject, onMoveObject, onPickLandObject, onRemoveObject, onChangeLink, onChangeWallpaper, onSave },
   } = useGame({
     state: { currentENS, isEdit, phiObjects, wallpaper },
     uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
@@ -92,6 +82,7 @@ const Philand: FC<{
 
       <MenuBar
         initialized={initialized}
+        isDiff={isDiff}
         noObjectsInLand={depositObjects.length === 0 && phiObjects.length === 0}
         isEdit={isEdit}
         isOpen={{ wallet: isOpenWallet, land: isOpenLand }}
@@ -104,7 +95,6 @@ const Philand: FC<{
           onSwitchCurrentENS: switchCurrentENS,
           onView,
           onEdit,
-          onCheckDiff: () => onCheckDiff().isDiff,
           onSave,
         }}
       />
@@ -175,6 +165,7 @@ const Philand: FC<{
             onClose={onCloseWallpaperMenu}
             onChangeWallpaper={onChangeWallpaper}
           />
+          <EditStatus isDiff={isDiff} saveTx={txSave} />
         </>
       ) : (
         <>

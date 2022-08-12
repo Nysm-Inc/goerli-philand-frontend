@@ -7,6 +7,7 @@ import { MapAbi, RegistryAbi } from "~/abi";
 import { nullAddress } from "~/types";
 import { Coupon } from "~/types/quest";
 import { AppContext } from "~/contexts";
+import { getFastestGasWei } from "~/utils/gas";
 
 const useCreatePhiland = (
   account?: string,
@@ -14,6 +15,7 @@ const useCreatePhiland = (
   disabled?: boolean
 ): [{ isCreated: boolean; isFetched: boolean }, { createPhiland: () => Promise<TransactionResponse | undefined> }] => {
   const { addTx } = useContext(AppContext);
+
   const { data, isFetched } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
@@ -54,7 +56,8 @@ const useCreatePhiland = (
         url.searchParams.append("name", ens.slice(0, -4));
         const res = await axios.get<{ coupon: Coupon }>(url.toString());
 
-        return writeAsync({ args: [ens.slice(0, -4), res.data.coupon] });
+        const overrides = await getFastestGasWei();
+        return writeAsync({ args: [ens.slice(0, -4), res.data.coupon], overrides });
       },
     },
   ];

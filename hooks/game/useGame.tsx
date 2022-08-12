@@ -3,6 +3,7 @@ import { AppContext } from "~/contexts";
 import type { UIManagerHandler } from "~/game/ui/UIManager";
 import { PhiObject, Wallpaper } from "~/types";
 import useHandler, { UIHandlerProps, Handler } from "./useHandler";
+import { useInterval } from "./helper";
 
 type UseGame = {
   state: {
@@ -15,13 +16,14 @@ type UseGame = {
   gameUIHandler?: UIManagerHandler;
 };
 
-const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initialized: boolean }; handler: Handler } => {
+const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initialized: boolean; isDiff: boolean }; handler: Handler } => {
   const _strictRef = useRef(false); // for avoiding react18 strict mode
   const [loadedGame, setLoadedGame] = useState(false);
   const [initialized, setInitialized] = useState(false);
+  const [isDiff, setIsDiff] = useState(false);
   const { game } = useContext(AppContext);
   const controller = {
-    state: { initialized },
+    state: { initialized, isDiff },
     handler: useHandler({ phiObjects: state.phiObjects, wallpaper: state.wallpaper, uiHandler }),
   };
 
@@ -58,6 +60,14 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
 
     game.room.wallpaper.update(state.wallpaper?.tokenId || 0);
   }, [state.wallpaper?.tokenId, loadedGame]);
+
+  useInterval(() => {
+    if (!state.isEdit) {
+      setIsDiff(false);
+      return;
+    }
+    setIsDiff(controller.handler.onCheckDiff().isDiff);
+  }, 1000);
 
   return controller;
 };
