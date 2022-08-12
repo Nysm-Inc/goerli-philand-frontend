@@ -5,7 +5,7 @@ import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit";
 
 const alchemyId = process.env.ALCHEMY_ID;
 const defaultProvider = alchemyProvider({ apiKey: alchemyId });
-const { chains, provider } = configureChains([chain.polygonMumbai], [alchemyProvider({ apiKey: alchemyId }), publicProvider()]);
+const { chains, provider } = configureChains([chain.polygonMumbai], [defaultProvider, publicProvider()]);
 const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
@@ -14,4 +14,6 @@ const connectors = connectorsForWallets([
 ]);
 const client = createClient({ autoConnect: true, connectors: connectors, provider });
 
-export { client, defaultProvider, chains };
+const goerliProvider = defaultProvider(chain.goerli)?.provider();
+
+export { client, goerliProvider, chains };

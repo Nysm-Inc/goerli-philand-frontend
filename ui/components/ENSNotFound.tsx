@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { FC, useContext, useEffect, useState } from "react";
 import { utils } from "ethers";
-import { chain, useAccount, useTransaction } from "wagmi";
+import { chain, useAccount } from "wagmi";
 import { Link, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { HOWTOPLAY_URL } from "~/constants";
-import { defaultProvider } from "~/connectors";
+import { goerliProvider } from "~/connectors";
+import { Status } from "~/types/tx";
 import { createPhiSubdomain } from "~/utils/ens";
 import { setPhiSubdomain } from "~/hooks/ens/subdomain";
 import { Modal, ModalHeader } from "./common/Modal";
@@ -15,7 +16,7 @@ const ENSNotFound: FC<{ refetch: () => void }> = ({ refetch }) => {
   const { colorMode, addTx } = useContext(AppContext);
   const { address } = useAccount();
   const [hash, setHash] = useState<`0x${string}` | undefined>();
-  const { status } = useTransaction({ chainId: chain.goerli.id, hash });
+  const [status, setStatus] = useState<Status>("idle");
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
   useEffect(() => {
@@ -86,18 +87,21 @@ const ENSNotFound: FC<{ refetch: () => void }> = ({ refetch }) => {
                 createPhiSubdomain(address, unix)
                   .then((res) => {
                     const txHash = res.data.hash as `0x${string}`;
-                    setHash(txHash);
-                    defaultProvider(chain.goerli)
-                      ?.provider()
-                      .getTransaction(txHash)
-                      .then((tx) => {
-                        const inputs = utils.defaultAbiCoder.decode(
-                          ["bytes32", "bytes32", "address", "address", "uint64"],
-                          utils.hexDataSlice(tx.data, 4)
-                        );
-                        const labelhash = inputs[1];
-                        setPhiSubdomain(labelhash, unix.toString() + ".phidemo.eth");
-                      });
+
+                    goerliProvider?.getTransaction(txHash).then(async (tx) => {
+                      const inputs = utils.defaultAbiCoder.decode(
+                        ["bytes32", "bytes32", "address", "address", "uint64"],
+                        utils.hexDataSlice(tx.data, 4)
+                      );
+                      const labelhash = inputs[1];
+                      setPhiSubdomain(labelhash, unix.toString() + ".phidemo.eth");
+
+                      setHash(txHash);
+                      setStatus("loading");
+                      const receipt = await tx.wait();
+                      if (receipt.status === 0) setStatus("error");
+                      if (receipt.status === 1) setStatus("success");
+                    });
                   })
                   .catch(stopLoading);
               }}
