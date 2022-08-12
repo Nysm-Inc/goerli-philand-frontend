@@ -11,6 +11,7 @@ import Button from "./common/Button";
 
 const MenuBar: FC<{
   initialized: boolean;
+  isDiff: boolean;
   noObjectsInLand: boolean;
   isEdit: boolean;
   isOpen: {
@@ -26,10 +27,9 @@ const MenuBar: FC<{
     onSwitchCurrentENS: (ens: string) => void;
     onView: () => void;
     onEdit: () => void;
-    onCheckDiff: () => boolean;
     onSave: () => Promise<TransactionResponse | undefined>;
   };
-}> = ({ initialized, noObjectsInLand, isEdit, isOpen, currentENS, domains, actionHandler }) => {
+}> = ({ initialized, isDiff, noObjectsInLand, isEdit, isOpen, currentENS, domains, actionHandler }) => {
   const { colorMode } = useContext(AppContext);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
@@ -104,7 +104,7 @@ const MenuBar: FC<{
               color="yellow"
               leftIcon={<Icon name="undo" />}
               onClick={() => {
-                if (actionHandler.onCheckDiff() && !confirm("Do you really want to leave?")) return;
+                if (isDiff && !confirm("Do you really want to leave?")) return;
 
                 actionHandler.onView();
                 actionHandler.onCloseLand();
@@ -140,6 +140,7 @@ const MenuBar: FC<{
               color="green"
               leftIcon={<Icon name="save" />}
               isLoading={isLoading}
+              disabled={!isDiff}
               onClick={() => {
                 event({ action: "click", category: "menubar", label: "save" });
                 startLoading();
