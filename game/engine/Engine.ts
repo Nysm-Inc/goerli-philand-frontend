@@ -16,7 +16,6 @@ export default class Engine {
   cloudSprites: { [mode in ColorMode]: { lefttop: Sprite; righttop: Sprite; leftbottom: Sprite; rightbottom: Sprite } };
   grids: Container;
   gridSprites: { [mode in ColorMode]: TilingSprite };
-  ogpLayout: { [mode in ColorMode]: Texture };
   colorMode: ColorMode;
   scaleMode: SCALE_MODES;
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
@@ -27,10 +26,6 @@ export default class Engine {
     this.onMouseClickHandler = onMouseClick;
     this.colorMode = "light";
     this.scaleMode = SCALE_MODES.LINEAR;
-    this.ogpLayout = {
-      light: Sprite.from("/assets/ogp_layout_light.png").texture,
-      dark: Sprite.from("/assets/ogp_layout_dark.png").texture,
-    };
 
     this.app = new Application({
       width: window.innerWidth,
@@ -172,7 +167,7 @@ export default class Engine {
     const container = new Container();
 
     // background
-    container.addChild(Sprite.from(this.ogpLayout[this.colorMode]));
+    container.addChild(Sprite.from(`/assets/ogp_layout_${this.colorMode}.png`));
 
     // land
     const roomContainer = cloneDeep(room.container);
