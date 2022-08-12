@@ -110,7 +110,7 @@ const ModalFooter: FC<{
             {itemPrice ? (
               <>
                 <Box w="2px" h="16px" m="0px 4px" bgColor="primary.500" />
-                <Image src="/icons/polygon_logo.svg" width="24px" height="24px" />
+                <Image src="/icons/polygon_logo.svg" width="24px" height="24px" alt="" />
                 <Text textStyle="headline-2" color="white">
                   {itemPrice + " MATIC"}
                 </Text>

@@ -36,7 +36,7 @@ const ENSNotFound: FC = () => {
     <Modal w="456px" h="520px" isOpen clickThrough onClose={() => {}}>
       <ModalHeader buttons={[]} />
       <VStack mt="24px" spacing="24px">
-        <Image src="/icons/ens.png" width="128px" height="128px" quality={100} />
+        <Image src="/icons/ens.png" width="128px" height="128px" quality={100} alt="" />
         <VStack spacing="8px">
           <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
             ENS not found

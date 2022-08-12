@@ -7,7 +7,7 @@ import Wallet from "~/ui/features/wallet";
 import { useWallpaper, useDeposit, useSave } from "~/hooks/map";
 import { useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList } from "~/hooks/claim";
-import { useGame } from "~/hooks/game";
+import useGame from "~/hooks/game/useGame";
 import { useGetFreeObject } from "~/hooks/free";
 import { useBuyPremiumObject } from "~/hooks/premium";
 import useGetWallpaper from "~/hooks/wallpaper";

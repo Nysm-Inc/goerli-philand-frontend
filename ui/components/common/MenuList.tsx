@@ -64,7 +64,7 @@ const MenuList: FC<{
           >
             {option.image && (
               <Center mr="16px">
-                <Image src={option.image} width="64px" height="32px" />
+                <Image src={option.image} width="64px" height="32px" alt="" />
               </Center>
             )}
             <Text

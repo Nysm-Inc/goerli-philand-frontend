@@ -6,7 +6,8 @@ import { useBreakpointValue } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { UTILS_API_GATEWAY } from "~/constants";
 import { useWallpaper, useViewPhiland } from "~/hooks/map";
-import { useGame } from "~/hooks/game";
+import useGame from "~/hooks/game/useGame";
+import useClouds from "~/hooks/game/useClouds";
 import { useCreatePhiland } from "~/hooks/registry";
 import Dev from "~/ui/components/Dev";
 import Header from "~/ui/components/Header";
@@ -38,20 +39,13 @@ const Index: NextPage = () => {
   const { game } = useContext(AppContext);
   const router = useRouter();
   const ens = decodeURI(router.asPath).substring(1);
-  const isMobile = useBreakpointValue({ base: true, lg: false });
+  const isMobile = useBreakpointValue({ base: true, lg: false }, { ssr: false });
 
   const [{ isCreated, isFetched }] = useCreatePhiland("", ens);
   const { phiObjects } = useViewPhiland(ens);
   const isPhilandCreated = isCreated || phiObjects.length > 0;
   const wallpaper = useWallpaper(ens);
-
-  useEffect(() => {
-    if (isMobile) {
-      game.engine.hideClouds();
-    } else {
-      game.engine.showClouds();
-    }
-  }, [isMobile]);
+  useClouds(isMobile);
 
   return (
     <>

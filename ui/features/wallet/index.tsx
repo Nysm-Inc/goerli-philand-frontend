@@ -131,7 +131,7 @@ const Wallet: FC<{
         ) : (
           <Center w="100%" h="562px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
             <VStack spacing="32px">
-              <Image src={`/assets/empty-wallet_${colorMode}.png`} width="360px" height="270px" />
+              <Image src={`/assets/empty-wallet_${colorMode}.png`} width="360px" height="270px" alt="" />
               <Text w="300px" h="40px" color="grey.500" textStyle="paragraph-2" textAlign="center">
                 {"Manage Objects & Wallpaper collected from Shops and Quests"}
               </Text>

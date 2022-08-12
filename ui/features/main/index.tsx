@@ -22,7 +22,7 @@ const Main: FC = () => {
         <>{chain?.unsupported ? <WrongNetwork /> : <Authed address={address} />}</>
       ) : (
         <Box zIndex="default" position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
-          <Image src="/icons/ENShold.png" width="96px" height="96px" priority quality={100} />
+          <Image src="/icons/ENShold.png" width="96px" height="96px" priority quality={100} alt="" />
         </Box>
       )}
     </>

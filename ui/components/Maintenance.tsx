@@ -6,7 +6,7 @@ import { AppContext } from "~/contexts";
 
 const Maintenance: FC = () => {
   const { game } = useContext(AppContext);
-  const isMobile = useBreakpointValue({ base: true, lg: false });
+  const isMobile = useBreakpointValue({ base: true, lg: false }, { ssr: false });
 
   useEffect(() => {
     if (isMobile) {
@@ -15,10 +15,6 @@ const Maintenance: FC = () => {
       game.engine.showClouds();
     }
   }, [isMobile]);
-
-  useEffect(() => {
-    game.engine.changeColorMode("light");
-  }, []);
 
   return (
     <>
@@ -39,7 +35,7 @@ const Maintenance: FC = () => {
         borderColor="light.g_orange"
         borderRadius="32px"
       >
-        <Image src="/assets/maintenance.png" width="338px" height="192px" />
+        <Image src="/assets/maintenance.png" width="338px" height="192px" alt="" />
         <VStack spacing="16px">
           <Text textStyle="headline-1" color="grey.900">
             Maintenance

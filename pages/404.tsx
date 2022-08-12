@@ -3,26 +3,15 @@ import Image from "next/image";
 import { useContext, useEffect } from "react";
 import { Link, Text, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import useClouds from "~/hooks/game/useClouds";
 
 export const getStaticProps: GetStaticProps = async () => {
   return { props: { title: "404 | Phi" } };
 };
 
 const Custom404: NextPage = () => {
-  const { game } = useContext(AppContext);
-  const isMobile = useBreakpointValue({ base: true, lg: false });
-
-  useEffect(() => {
-    if (isMobile) {
-      game.engine.hideClouds();
-    } else {
-      game.engine.showClouds();
-    }
-  }, [isMobile]);
-
-  useEffect(() => {
-    game.engine.changeColorMode("light");
-  }, []);
+  const isMobile = useBreakpointValue({ base: true, lg: false }, { ssr: false });
+  useClouds(isMobile);
 
   return (
     <>
@@ -43,7 +32,7 @@ const Custom404: NextPage = () => {
         borderColor="light.g_orange"
         borderRadius="32px"
       >
-        <Image src="/assets/phi404.png" width="192px" height="216px" />
+        <Image src="/assets/phi404.png" width="192px" height="216px" alt="" />
         <VStack spacing="16px">
           <Text textStyle="headline-1" color="grey.900">
             Page Not found

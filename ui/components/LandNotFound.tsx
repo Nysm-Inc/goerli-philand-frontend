@@ -26,7 +26,7 @@ const LandNotFound: FC<{ ens?: string; w?: LayoutProps["w"]; h?: LayoutProps["h"
       borderRadius="32px"
     >
       <Center w="192px" h="192px" position="relative">
-        <Image src="/icons/ENShold.png" width="96px" height="96px" />
+        <Image src="/icons/ENShold.png" width="96px" height="96px" alt="" />
         {ens && (
           <Box position="absolute" bottom="0">
             <Badge text={ens} />
