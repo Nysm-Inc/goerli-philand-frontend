@@ -69,9 +69,7 @@ export type IconName = keyof typeof icons;
 const Icon: FC<SVGProps<SVGSVGElement> & { name: IconName; color?: ColorProps["color"] }> = ({ name, color = "grey.900", ...rest }) => {
   const token = useToken("colors", [color]);
   const IconComponent = icons[name];
-  // todo
-  // @ts-ignore
-  return <IconComponent color={token} {...rest} />;
+  return <IconComponent color={token.toString()} {...rest} />;
 };
 
 export default Icon;
