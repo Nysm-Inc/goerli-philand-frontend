@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react";
-import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { useDeprecatedContractWrite, useWaitForTransaction } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
-import { PremiumObjectAbi } from "~/abi";
+import PremiumObjectAbi from "~/abi/premiumobject.json";
 import { BigNumber, ethers } from "ethers";
 import { objectMetadataList } from "~/types/object";
 import { AppContext } from "~/contexts";
@@ -15,7 +15,7 @@ const useBuyPremiumObject = (): {
     data,
     writeAsync,
     status: tmpStatus,
-  } = useContractWrite({
+  } = useDeprecatedContractWrite({
     addressOrName: PREMIUM_OBJECT_CONTRACT_ADDRESS,
     contractInterface: PremiumObjectAbi,
     functionName: "batchBuyObject",

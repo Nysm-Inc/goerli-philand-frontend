@@ -1,64 +1,49 @@
-import { useEffect, useState } from "react";
-import { CURRENT_ENS_KEY } from "~/constants";
+import { useCallback, useEffect, useState } from "react";
 import { getOwnedEnsDomains } from "~/utils/ens";
-
-type CacheENS = {
-  [address: string]: string;
-};
-
-const getENSFromStorage = (account?: string): string => {
-  if (!account) return "";
-
-  try {
-    // @ts-ignore
-    const prev: CacheENS = JSON.parse(localStorage.getItem(CURRENT_ENS_KEY));
-    return prev[account];
-  } catch (err) {
-    console.error(err);
-    return "";
-  }
-};
-
-const setENS2Storage = (ens: string, account?: string) => {
-  if (!account) return;
-
-  try {
-    // @ts-ignore
-    const prev: CacheENS = JSON.parse(localStorage.getItem(CURRENT_ENS_KEY));
-    localStorage.setItem(CURRENT_ENS_KEY, JSON.stringify({ ...prev, [account]: ens }));
-  } catch (err) {
-    console.error(err);
-  }
-};
+import { getCurrentENS, setCurrentENS } from "./current";
+import { getPhiSubdomain } from "./subdomain";
 
 const useENS = (
   account?: string,
-  ens?: string | null,
-  disabled?: boolean
-): [{ isLoading: boolean; domains: string[] }, string, (ens: string) => void] => {
+  ens?: string | null
+): [{ isLoading: boolean; domains: string[] }, string, (ens: string) => void, () => void] => {
   const [isLoading, setIsLoading] = useState(true);
   const [current, setCurrent] = useState("");
   const [domains, setDomains] = useState<string[]>([]);
+  const [_refetch, setRefetch] = useState(false);
 
-  const switchCurrentENS = (ens: string) => {
-    setCurrent(ens);
-    setENS2Storage(ens, account);
-  };
+  const switchCurrentENS = useCallback(
+    (ownedENS: string) => {
+      setCurrent(ownedENS);
+      setCurrentENS(ownedENS, account);
+    },
+    [account]
+  );
+  const refetch = useCallback(() => setRefetch((prev) => !prev), []);
 
   useEffect(() => {
     setIsLoading(true);
     setCurrent("");
     setDomains([]);
-    if (!account || disabled) {
+    if (!account) {
       setIsLoading(false);
       return;
     }
 
+    // memo
+    // https://github.com/ensdomains/ens-app/issues/963
     (async () => {
       const ownedDomains = await getOwnedEnsDomains(account);
-      const _domains = ownedDomains.map((domain) => domain.name);
+      const _domains = ownedDomains.reduce((memo, domain) => {
+        if (domain.labelName) {
+          return [...memo, domain.name];
+        } else {
+          const label = getPhiSubdomain(domain.labelhash);
+          return label ? [...memo, label] : memo;
+        }
+      }, [] as string[]);
 
-      const prev = getENSFromStorage(account);
+      const prev = getCurrentENS(account);
       if (_domains.includes(prev)) {
         setCurrent(prev || ens || "");
       } else {
@@ -68,9 +53,9 @@ const useENS = (
       setDomains(_domains);
       setIsLoading(false);
     })();
-  }, [account, disabled]);
+  }, [account, _refetch]);
 
-  return [{ isLoading, domains }, current, switchCurrentENS];
+  return [{ isLoading, domains }, current, switchCurrentENS, refetch];
 };
 
 export default useENS;

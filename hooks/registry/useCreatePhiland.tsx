@@ -1,9 +1,10 @@
 import { useContext, useEffect } from "react";
-import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
+import { useContractRead, useDeprecatedContractWrite, useWaitForTransaction } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import axios from "axios";
 import { MAP_CONTRACT_ADDRESS, REGISTRY_CONTRACT_ADDRESS, UTILS_API_GATEWAY } from "~/constants";
-import { MapAbi, RegistryAbi } from "~/abi";
+import MapAbi from "~/abi/map.json";
+import RegistryAbi from "~/abi/registry.json";
 import { nullAddress } from "~/types";
 import { Coupon } from "~/types/quest";
 import { AppContext } from "~/contexts";
@@ -28,7 +29,7 @@ const useCreatePhiland = (
     data: writeData,
     writeAsync,
     status: tmpStatus,
-  } = useContractWrite({
+  } = useDeprecatedContractWrite({
     addressOrName: REGISTRY_CONTRACT_ADDRESS,
     contractInterface: RegistryAbi,
     functionName: "createPhiland",

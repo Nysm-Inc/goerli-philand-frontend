@@ -8,7 +8,7 @@ import Mobile from "~/ui/components/Mobile";
 
 const Index: NextPage = () => {
   const { game } = useContext(AppContext);
-  const isMobile = useBreakpointValue({ base: true, lg: false });
+  const isMobile = useBreakpointValue({ base: true, lg: false }, { ssr: false });
 
   useEffect(() => {
     if (isMobile) {

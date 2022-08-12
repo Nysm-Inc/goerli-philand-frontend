@@ -1,5 +1,5 @@
 import { FC, ReactNode, useContext } from "react";
-import { Button as ChakraButton, LayoutProps, Flex, forwardRef, Center, SystemProps } from "@chakra-ui/react";
+import { Button as ChakraButton, LayoutProps, Flex, forwardRef, Center, SystemProps, SpaceProps } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { subColors } from "~/ui/styles/color";
 import { Spinner } from "~/ui/components/Animation";
@@ -7,6 +7,7 @@ import { Spinner } from "~/ui/components/Animation";
 const Button: FC<{
   w: LayoutProps["w"];
   h?: LayoutProps["h"];
+  p?: SpaceProps["p"];
   color?: keyof typeof subColors;
   shadow?: boolean;
   leftIcon?: JSX.Element;
@@ -21,6 +22,7 @@ const Button: FC<{
   const {
     w,
     h = "48px",
+    p = "8px 12px",
     color,
     shadow,
     leftIcon,
@@ -37,7 +39,6 @@ const Button: FC<{
     <ChakraButton
       variant="unstyled"
       _focusVisible={{ outline: "none" }}
-      p="8px 12px"
       whiteSpace="nowrap"
       overflow="hidden"
       textOverflow="ellipsis"
@@ -46,6 +47,7 @@ const Button: FC<{
       w={w}
       minH={h}
       maxH={h}
+      p={p}
       borderRadius={borderRadius}
       disabled={disabled || isLoading}
       onClick={onClick}

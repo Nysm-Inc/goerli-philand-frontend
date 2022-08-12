@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { useDeprecatedContractWrite, useWaitForTransaction } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
-import { MapAbi } from "~/abi";
+import MapAbi from "~/abi/map.json";
 import { AppContext } from "~/contexts";
 import { updateOGP } from "~/utils/ogp";
 import { PhiLink } from "~/types";
@@ -30,7 +30,7 @@ const useSave = (
     data,
     writeAsync,
     status: tmpStatus,
-  } = useContractWrite({
+  } = useDeprecatedContractWrite({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "save",

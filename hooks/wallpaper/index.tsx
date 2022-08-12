@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react";
-import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { useDeprecatedContractWrite, useWaitForTransaction } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
-import { WallpaperAbi } from "~/abi";
+import WallpaperAbi from "~/abi/wallpaper.json";
 import { AppContext } from "~/contexts";
 
 const useGetWallpaper = (): { batchWallPaper: (tokenIds: number[]) => Promise<TransactionResponse | undefined> } => {
@@ -11,7 +11,7 @@ const useGetWallpaper = (): { batchWallPaper: (tokenIds: number[]) => Promise<Tr
     data,
     writeAsync,
     status: tmpStatus,
-  } = useContractWrite({
+  } = useDeprecatedContractWrite({
     addressOrName: WALLPAPER_CONTRACT_ADDRESS,
     contractInterface: WallpaperAbi,
     functionName: "batchWallPaper",

@@ -172,6 +172,7 @@ const Land: FC<{
                   _hover={{
                     bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
                   }}
+                  {...(isEdit && { cursor: "pointer" })}
                 >
                   <Center
                     position="relative"

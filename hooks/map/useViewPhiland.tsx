@@ -1,6 +1,6 @@
 import { useContractRead } from "wagmi";
 import { BigNumber } from "ethers";
-import { MapAbi } from "~/abi";
+import MapAbi from "~/abi/map.json";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { nullAddress, PhiObject } from "~/types";
 
