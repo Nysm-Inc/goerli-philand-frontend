@@ -1,20 +1,12 @@
-import { Link, Text, useBreakpointValue, VStack } from "@chakra-ui/react";
 import Image from "next/image";
-import { FC, useContext, useEffect } from "react";
+import { FC } from "react";
+import { Link, Text, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { TWITTER_URL } from "~/constants";
-import { AppContext } from "~/contexts";
+import useClouds from "~/hooks/game/useClouds";
 
 const Maintenance: FC = () => {
-  const { game } = useContext(AppContext);
   const isMobile = useBreakpointValue({ base: true, lg: false }, { ssr: false });
-
-  useEffect(() => {
-    if (isMobile) {
-      game.engine.hideClouds();
-    } else {
-      game.engine.showClouds();
-    }
-  }, [isMobile]);
+  useClouds(isMobile);
 
   return (
     <>

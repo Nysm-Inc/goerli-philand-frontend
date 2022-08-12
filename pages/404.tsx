@@ -1,8 +1,6 @@
 import { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
-import { useContext, useEffect } from "react";
 import { Link, Text, useBreakpointValue, VStack } from "@chakra-ui/react";
-import { AppContext } from "~/contexts";
 import useClouds from "~/hooks/game/useClouds";
 
 export const getStaticProps: GetStaticProps = async () => {

@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { FC, useContext, useEffect } from "react";
+import { FC, useContext } from "react";
 import axios from "axios";
 import { useBreakpointValue } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
