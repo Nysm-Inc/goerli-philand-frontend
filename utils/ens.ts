@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ENS_GRAPH_ENDPOINT } from "~/constants";
+import { ENS_GRAPH_ENDPOINT, UTILS_API_GATEWAY } from "~/constants";
 
 type Domain = {
   id: string;
@@ -26,3 +26,11 @@ export const getOwnedEnsDomains = async (account: string): Promise<Domain[]> => 
 };
 
 export const isValid = (ens: string) => ens.match(/^.+\.eth$/g);
+
+export const createPhiSubdomain = (address: string) => {
+  const unix = new Date().getTime();
+  const u = new URL(UTILS_API_GATEWAY + "/ens/create");
+  u.searchParams.append("address", address);
+  u.searchParams.append("value", unix.toString());
+  return axios.post(u.toString());
+};
