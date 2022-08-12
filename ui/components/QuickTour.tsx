@@ -66,7 +66,7 @@ const Tour1: FC<{ onClickNext: () => void }> = ({ onClickNext }) => (
 const Tour2: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onClickBack, onClickNext }) => (
   <Tour
     bottom="calc(95px + 16px)"
-    left="calc(50% - 16px)"
+    left="calc(50% - 12px)"
     transform="translateX(-50%)"
     w="312px"
     title="2/3 Check and deposit objects"
@@ -79,7 +79,7 @@ const Tour2: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onCli
 const Tour3: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onClickBack, onClickNext }) => (
   <Tour
     bottom="calc(95px + 16px)"
-    left="calc(50% + 148px)"
+    left="calc(50% + 162px)"
     transform="translateX(-50%)"
     w="294px"
     title="3/3 Edit and save your land"

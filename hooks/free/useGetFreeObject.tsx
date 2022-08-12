@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react";
-import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { useDeprecatedContractWrite, useWaitForTransaction } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { FREE_OBJECT_CONTRACT_ADDRESS } from "~/constants";
-import { FreeObjectAbi } from "~/abi";
+import FreeObjectAbi from "~/abi/freeobject.json";
 import { AppContext } from "~/contexts";
 
 const useGetFreeObject = (): { getFreeObject: (tokenIds: number[]) => Promise<TransactionResponse | undefined> } => {
@@ -11,7 +11,7 @@ const useGetFreeObject = (): { getFreeObject: (tokenIds: number[]) => Promise<Tr
     data,
     writeAsync,
     status: tmpStatus,
-  } = useContractWrite({
+  } = useDeprecatedContractWrite({
     addressOrName: FREE_OBJECT_CONTRACT_ADDRESS,
     contractInterface: FreeObjectAbi,
     functionName: "batchGetFreeObject",

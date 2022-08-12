@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
-import { useContractRead, useContractWrite, useWaitForTransaction } from "wagmi";
+import { useContractRead, useDeprecatedContractWrite, useWaitForTransaction } from "wagmi";
 import { BigNumber } from "ethers";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
-import { MapAbi } from "~/abi";
+import MapAbi from "~/abi/map.json";
 import { BalanceObject, DepositObject } from "~/types";
 import { AppContext } from "~/contexts";
 
@@ -29,7 +29,7 @@ const useDeposit = (
     data: depositData,
     writeAsync: deposit,
     status: depositTmpStatus,
-  } = useContractWrite({
+  } = useDeprecatedContractWrite({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "batchDepositObject",
@@ -40,7 +40,7 @@ const useDeposit = (
     data: withdrawData,
     writeAsync: withdraw,
     status: withdrawTmpStatus,
-  } = useContractWrite({
+  } = useDeprecatedContractWrite({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "batchWithdrawObject",

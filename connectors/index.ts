@@ -4,7 +4,11 @@ import { publicProvider } from "wagmi/providers/public";
 import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit";
 
 const alchemyId = process.env.ALCHEMY_ID;
-const { chains, provider } = configureChains([chain.polygonMumbai], [alchemyProvider({ alchemyId }), publicProvider()]);
+const defaultProvider = alchemyProvider({ apiKey: alchemyId });
+const { chains, provider } = configureChains(
+  [chain.polygonMumbai, chain.goerli],
+  [alchemyProvider({ apiKey: alchemyId }), publicProvider()]
+);
 const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
@@ -13,4 +17,4 @@ const connectors = connectorsForWallets([
 ]);
 const client = createClient({ autoConnect: true, connectors: connectors, provider });
 
-export { client, chains };
+export { client, defaultProvider, chains };

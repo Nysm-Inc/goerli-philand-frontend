@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useContractReads } from "wagmi";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
-import { QuestObjectAbi } from "~/abi";
+import QuestObjectAbi from "~/abi/questobject.json";
 import { objectMetadataList } from "~/types/object";
 import { ObjectContractAddress } from "~/types";
 

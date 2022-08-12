@@ -2,8 +2,6 @@ import dynamic from "next/dynamic";
 import { FC } from "react";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
 import { useViewPhiland } from "~/hooks/map";
-import ConfirmModal from "~/ui/components/transaction/ConfirmModal";
-import StatusToast from "~/ui/components/transaction/StatusToast";
 import CreatePhiland from "~/ui/components/CreatePhiland";
 
 const Philand = dynamic(() => import("./Philand"));
@@ -21,9 +19,6 @@ const HasENS: FC<{ address: string; currentENS: string; domains: string[]; switc
 
   return (
     <>
-      <ConfirmModal />
-      <StatusToast />
-
       {isCreatedPhiland ? (
         <Philand
           //

@@ -1,16 +1,41 @@
 import Image from "next/image";
-import { FC, useContext } from "react";
-import { Link, Text, VStack } from "@chakra-ui/react";
+import { FC, useContext, useEffect, useState } from "react";
+import { utils } from "ethers";
+import { chain, useAccount, useTransaction } from "wagmi";
+import { Link, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { HOWTOPLAY_URL } from "~/constants";
+import { defaultProvider } from "~/connectors";
+import { createPhiSubdomain } from "~/utils/ens";
+import { setPhiSubdomain } from "~/hooks/ens/subdomain";
 import { Modal, ModalHeader } from "./common/Modal";
 import Button from "./common/Button";
-import { createPhiSubdomain } from "~/utils/ens";
-import { useAccount } from "wagmi";
 
-const ENSNotFound: FC = () => {
-  const { colorMode } = useContext(AppContext);
+const ENSNotFound: FC<{ refetch: () => void }> = ({ refetch }) => {
+  const { colorMode, addTx } = useContext(AppContext);
   const { address } = useAccount();
+  const [hash, setHash] = useState<`0x${string}` | undefined>();
+  const { status } = useTransaction({ chainId: chain.goerli.id, hash });
+  const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
+
+  useEffect(() => {
+    addTx({
+      hash,
+      tmpStatus: "success",
+      status,
+      action: "Get ENS quickly",
+      msg: "Assigning a subdomain to you...",
+    });
+
+    if (status === "success") {
+      setTimeout(() => {
+        refetch();
+        stopLoading();
+      }, 1000 * 30);
+    } else if (status === "error") {
+      stopLoading();
+    }
+  }, [status]);
 
   return (
     <Modal w="456px" h="520px" isOpen clickThrough onClose={() => {}}>
@@ -51,9 +76,28 @@ const ENSNotFound: FC = () => {
               h="32px"
               color="purple"
               borderRadius="8px"
+              isLoading={isLoading}
               onClick={() => {
                 if (!address) return;
-                createPhiSubdomain(address);
+                startLoading();
+                const unix = new Date().getTime();
+                createPhiSubdomain(address, unix)
+                  .then((res) => {
+                    const txHash = res.data.hash as `0x${string}`;
+                    setHash(txHash);
+                    defaultProvider(chain.goerli)
+                      ?.provider()
+                      .getTransaction(txHash)
+                      .then((tx) => {
+                        const inputs = utils.defaultAbiCoder.decode(
+                          ["bytes32", "bytes32", "address", "address", "uint64"],
+                          utils.hexDataSlice(tx.data, 4)
+                        );
+                        const labelhash = inputs[1];
+                        setPhiSubdomain(labelhash, unix.toString() + ".phidemo.eth");
+                      });
+                  })
+                  .catch(stopLoading);
               }}
             >
               <Text textStyle="button-2" color={colorMode === "light" ? "white" : "grey.900"}>

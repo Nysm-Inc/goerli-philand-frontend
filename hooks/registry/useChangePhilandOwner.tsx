@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
 import axios from "axios";
-import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { useDeprecatedContractWrite, useWaitForTransaction } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { REGISTRY_CONTRACT_ADDRESS, UTILS_API_GATEWAY } from "~/constants";
-import { RegistryAbi } from "~/abi";
+import RegistryAbi from "~/abi/registry.json";
 import { Coupon } from "~/types/quest";
 import { AppContext } from "~/contexts";
 
@@ -13,7 +13,7 @@ const useChangePhilandOwner = (account?: string, ens?: string): { changePhilandO
     data,
     writeAsync,
     status: tmpStatus,
-  } = useContractWrite({
+  } = useDeprecatedContractWrite({
     addressOrName: REGISTRY_CONTRACT_ADDRESS,
     contractInterface: RegistryAbi,
     functionName: "changePhilandOwner",

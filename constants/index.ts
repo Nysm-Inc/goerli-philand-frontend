@@ -36,6 +36,7 @@ export const COLOR_MODE_KEY = "color_mode_key";
 export const CURRENT_ENS_KEY = "current_ens_key";
 export const HOW_IT_WORKS_KEY = "how_it_works_key";
 export const QUICK_TOUR_KEY = "quick_tour_key";
+export const PHI_SUBDOMAINS_KEY = "phi_subdomains_key";
 
 // game
 export const GAME_APP_WIDTH = 4000;

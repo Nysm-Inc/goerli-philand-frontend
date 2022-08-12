@@ -1,4 +1,7 @@
-import { FreeObjectAbi, QuestObjectAbi, PremiumObjectAbi, WallpaperAbi } from "~/abi";
+import FreeObjectAbi from "~/abi/freeobject.json";
+import QuestObjectAbi from "~/abi/questobject.json";
+import PremiumObjectAbi from "~/abi/premiumobject.json";
+import WallpaperAbi from "~/abi/wallpaper.json";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   QUEST_OBJECT_CONTRACT_ADDRESS,

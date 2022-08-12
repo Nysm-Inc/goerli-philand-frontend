@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react";
-import { useContractReads, useContractWrite, useWaitForTransaction } from "wagmi";
+import { useContractReads, useDeprecatedContractWrite, useWaitForTransaction } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { CLAIM_CONTRACT_ADDRESS, QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
-import { ClaimAbi } from "~/abi";
+import ClaimAbi from "~/abi/claim.json";
 import { getCoupon } from "~/utils/coupon";
 import { conditionList } from "~/types/quest";
 import { objectMetadataList } from "~/types/object";
@@ -32,7 +32,7 @@ const useClaim = (
     data: writeData,
     writeAsync,
     status: tmpStatus,
-  } = useContractWrite({
+  } = useDeprecatedContractWrite({
     addressOrName: CLAIM_CONTRACT_ADDRESS,
     contractInterface: ClaimAbi,
     functionName: "claimQuestObject",
