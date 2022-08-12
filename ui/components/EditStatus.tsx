@@ -2,8 +2,8 @@ import { FC, useContext, useEffect, useState } from "react";
 import { Center, ColorProps, HStack, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { Tx } from "~/types/tx";
-import Icon, { IconName } from "./Icon";
 import { ColorMode } from "~/ui/styles";
+import Icon, { IconName } from "./Icon";
 
 type Status = "unedited" | "editing" | "saving" | "saved";
 
@@ -48,15 +48,10 @@ const EditStatus: FC<{ isDiff: boolean; saveTx: Tx }> = ({ isDiff, saveTx }) => 
       case "success": {
         setEditStatus("saved");
         setTimeout(() => setSaved(true), 3000);
-        return;
       }
       case "loading": {
         setSaved(false);
         setEditStatus("saving");
-        return;
-      }
-      default: {
-        setEditStatus(isDiff ? "editing" : "unedited");
       }
     }
   }, [saveTx.status]);
