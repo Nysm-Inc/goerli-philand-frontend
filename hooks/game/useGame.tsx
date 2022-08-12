@@ -62,7 +62,7 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
   }, [state.wallpaper?.tokenId, loadedGame]);
 
   useInterval(() => {
-    if (!state.isEdit) {
+    if (!state.isEdit || !initialized) {
       setIsDiff(false);
       return;
     }
