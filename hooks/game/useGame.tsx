@@ -25,9 +25,7 @@ const useInterval = (callback: () => void, s: number) => {
   useEffect(() => {
     const tick = () => callbackRef.current();
     const id = setInterval(tick, s);
-    return () => {
-      clearInterval(id);
-    };
+    return () => clearInterval(id);
   }, []);
 };
 
