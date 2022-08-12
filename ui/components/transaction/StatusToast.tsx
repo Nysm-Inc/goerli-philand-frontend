@@ -65,7 +65,6 @@ const toastPositon = "top-right";
 const toastManagerId = `chakra-toast-manager-${toastPositon}`;
 
 const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }> = ({ colorMode, tx, onClose }) => {
-  const { chain } = useNetwork();
   const [status, setStatus] = useState<Status>(getStatus(tx.status));
 
   useEffect(() => {
@@ -111,7 +110,7 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
                   }[status]}
             </Text>
           </VStack>
-          <Link textStyle="button-2" color="primary.500" href={`${chain?.blockExplorers?.default.url}/tx/${tx.hash}`} isExternal>
+          <Link textStyle="button-2" color="primary.500" href={`${tx.chain?.blockExplorers?.default.url}/tx/${tx.hash}`} isExternal>
             View on explorer
           </Link>
         </VStack>

@@ -25,6 +25,7 @@ const ENSNotFound: FC<{ refetch: () => void }> = ({ refetch }) => {
       status,
       action: "Get ENS quickly",
       msg: "Assigning a subdomain to you...",
+      chain: chain.goerli,
     });
 
     if (status === "success") {
@@ -74,6 +75,7 @@ const ENSNotFound: FC<{ refetch: () => void }> = ({ refetch }) => {
             <Button
               w="154px"
               h="32px"
+              p="0"
               color="purple"
               borderRadius="8px"
               isLoading={isLoading}
