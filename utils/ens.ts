@@ -32,5 +32,5 @@ export const createPhiSubdomain = (address: string) => {
   const u = new URL(UTILS_API_GATEWAY + "/ens/create");
   u.searchParams.append("address", address);
   u.searchParams.append("value", unix.toString());
-  return axios.post(u.toString());
+  return axios.get(u.toString());
 };
