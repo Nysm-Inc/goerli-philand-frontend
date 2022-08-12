@@ -74,9 +74,7 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
     game.room.wallpaper.update(state.wallpaper?.tokenId || 0);
   }, [state.wallpaper?.tokenId, loadedGame]);
 
-  useInterval(() => {
-    setIsDiff(state.isEdit && controller.handler.onCheckDiff().isDiff);
-  }, 1000);
+  useInterval(() => setIsDiff(state.isEdit && controller.handler.onCheckDiff().isDiff), 1000);
 
   return controller;
 };
