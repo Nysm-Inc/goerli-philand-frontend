@@ -30,10 +30,8 @@ const ENSNotFound: FC<{ refetch: () => void }> = ({ refetch }) => {
     });
 
     if (status === "success") {
-      setTimeout(() => {
-        refetch();
-        stopLoading();
-      }, 1000 * 20);
+      refetch();
+      stopLoading();
     } else if (status === "error") {
       stopLoading();
     }
