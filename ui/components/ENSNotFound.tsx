@@ -12,7 +12,7 @@ import { setPhiSubdomain } from "~/hooks/ens/subdomain";
 import { Modal, ModalHeader } from "./common/Modal";
 import Button from "./common/Button";
 
-const ENSNotFound: FC<{ refetch: () => void }> = ({ refetch }) => {
+const ENSNotFound: FC = () => {
   const { colorMode, addTx } = useContext(AppContext);
   const { address } = useAccount();
   const [hash, setHash] = useState<`0x${string}` | undefined>();
@@ -29,14 +29,7 @@ const ENSNotFound: FC<{ refetch: () => void }> = ({ refetch }) => {
       chain: chain.goerli,
     });
 
-    if (status === "success") {
-      setTimeout(() => {
-        refetch();
-        stopLoading();
-      }, 10000);
-    } else if (status === "error") {
-      stopLoading();
-    }
+    if (status === "error") stopLoading();
   }, [status]);
 
   return (

@@ -11,7 +11,7 @@ const HasENS = dynamic(() => import("./HasENS"));
 const Authed: FC<{ address: string }> = ({ address }) => {
   const { data: dataENS } = useEnsName({ address });
   const ens = dataENS || "";
-  const [{ isLoading, domains }, currentENS, switchCurrentENS, refetch] = useENS(address, ens);
+  const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens);
 
   return (
     <>
@@ -19,7 +19,7 @@ const Authed: FC<{ address: string }> = ({ address }) => {
         <HasENS address={address} currentENS={currentENS} domains={domains} switchCurrentENS={switchCurrentENS} />
       ) : (
         <Box zIndex="default" position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)">
-          {isLoading ? <></> : <ENSNotFound refetch={refetch} />}
+          {isLoading ? <></> : <ENSNotFound />}
         </Box>
       )}
       <ConfirmModal />
