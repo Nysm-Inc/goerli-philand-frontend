@@ -3,6 +3,7 @@ import { AppContext } from "~/contexts";
 import type { UIManagerHandler } from "~/game/ui/UIManager";
 import { PhiObject, Wallpaper } from "~/types";
 import useHandler, { UIHandlerProps, Handler } from "./useHandler";
+import { useInterval } from "./helper";
 
 type UseGame = {
   state: {
@@ -13,20 +14,6 @@ type UseGame = {
   };
   uiHandler?: UIHandlerProps;
   gameUIHandler?: UIManagerHandler;
-};
-
-const useInterval = (callback: () => void, s: number) => {
-  const callbackRef = useRef<() => void>(callback);
-
-  useEffect(() => {
-    callbackRef.current = callback;
-  }, [callback]);
-
-  useEffect(() => {
-    const tick = () => callbackRef.current();
-    const id = setInterval(tick, s);
-    return () => clearInterval(id);
-  }, []);
 };
 
 const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initialized: boolean; isDiff: boolean }; handler: Handler } => {
