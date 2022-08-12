@@ -69,7 +69,7 @@ const StatusComponent: FC<{ colorMode: ColorMode; tx: Tx; onClose: () => void }>
   const [status, setStatus] = useState<Status>(getStatus(tx.status));
 
   useEffect(() => {
-    setTimeout(() => setStatus("pending"), 3000);
+    setTimeout(() => setStatus((prev) => (prev !== "success" ? "pending" : prev)), 3000);
   }, []);
 
   useEffect(() => {
