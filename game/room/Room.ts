@@ -1,4 +1,4 @@
-import { Container, SCALE_MODES, Sprite } from "pixi.js";
+import { Container, SCALE_MODES, Sprite, Texture, TilingSprite } from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { Layer } from "@pixi/layers";
 import { GAME_APP_HEIGHT, GAME_APP_WIDTH, LAND_H, LAND_OFFSET_Y, LAND_W, TILE_H, TILE_W } from "~/constants";
@@ -7,6 +7,7 @@ import MovingItemManager from "./item/MovingItemManager";
 import RoomItemManager from "./item/RoomItemManager";
 import Wallpaper from "./wallpaper/Wallpaper";
 import { isItemInLand, isValidTile, itemToLocal } from "./helper";
+import { ColorMode } from "~/ui/styles";
 
 export default class Room {
   roomItemManager: RoomItemManager;
@@ -18,6 +19,9 @@ export default class Room {
   landItemContainer: Container;
   landItemLayer: Layer;
   land: Sprite;
+
+  grids: Container;
+  gridSprites: { [mode in ColorMode]: TilingSprite | null };
 
   isEdit: boolean;
 
@@ -36,6 +40,11 @@ export default class Room {
     this.landItemLayer.zIndex = 3;
     this.landItemLayer.group.enableSort = true;
     this.land = new Sprite();
+
+    this.grids = new Container();
+    this.grids.zIndex = -1;
+    this.grids.visible = false;
+    this.gridSprites = { light: null, dark: null };
 
     this.isEdit = false;
   }
@@ -78,6 +87,18 @@ export default class Room {
         this.updateScaleMode(SCALE_MODES.LINEAR);
       }
     });
+
+    this.gridSprites.light = new TilingSprite(Texture.from("/assets/grid-pattern-light.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT);
+    this.gridSprites.dark = new TilingSprite(Texture.from("/assets/grid-pattern-dark.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT);
+    if (this.gridSprites.light) {
+      this.gridSprites.light.visible = false;
+      this.grids.addChild(this.gridSprites.light);
+    }
+    if (this.gridSprites.dark) {
+      this.gridSprites.dark.visible = false;
+      this.grids.addChild(this.gridSprites.dark);
+    }
+    engine.app.stage.addChild(this.grids);
   }
 
   enterRoom() {
@@ -90,9 +111,7 @@ export default class Room {
   }
 
   view() {
-    const { engine } = GameInstance.get();
-
-    engine.grids.visible = false;
+    this.grids.visible = false;
     this.isEdit = false;
     this.land.buttonMode = false;
     this.land.interactive = false;
@@ -102,9 +121,7 @@ export default class Room {
   }
 
   edit() {
-    const { engine } = GameInstance.get();
-
-    engine.grids.visible = true;
+    this.grids.visible = true;
     this.isEdit = true;
     this.land.buttonMode = true;
     this.land.interactive = true;

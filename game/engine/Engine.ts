@@ -14,8 +14,6 @@ export default class Engine {
   cloudContainer: Container;
   clouds: { [mode in ColorMode]: Container };
   cloudSprites: { [mode in ColorMode]: { lefttop: Sprite; righttop: Sprite; leftbottom: Sprite; rightbottom: Sprite } };
-  grids: Container;
-  gridSprites: { [mode in ColorMode]: TilingSprite };
   colorMode: ColorMode;
   scaleMode: SCALE_MODES;
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
@@ -108,19 +106,6 @@ export default class Engine {
     this.clouds.dark.addChild(this.cloudSprites.dark.rightbottom);
     this.cloudContainer.addChild(this.clouds.dark);
     this.app.stage.addChild(this.cloudContainer);
-
-    this.grids = new Container();
-    this.grids.zIndex = -1;
-    this.grids.visible = false;
-    this.gridSprites = {
-      light: new TilingSprite(Texture.from("/assets/grid-pattern-light.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
-      dark: new TilingSprite(Texture.from("/assets/grid-pattern-dark.png"), GAME_APP_WIDTH, GAME_APP_HEIGHT),
-    };
-    this.gridSprites.light.visible = false;
-    this.gridSprites.dark.visible = false;
-    this.grids.addChild(this.gridSprites.light);
-    this.grids.addChild(this.gridSprites.dark);
-    this.app.stage.addChild(this.grids);
   }
 
   async loadGlobalTextures() {
@@ -141,24 +126,25 @@ export default class Engine {
   }
 
   changeColorMode(colorMode: ColorMode) {
-    this.colorMode = colorMode;
+    const { room } = GameInstance.get();
 
+    this.colorMode = colorMode;
     if (colorMode === "light") {
       this.app.renderer.backgroundColor = 0xf5f2eb;
 
       this.clouds.light.visible = true;
       this.clouds.dark.visible = false;
 
-      this.gridSprites.light.visible = true;
-      this.gridSprites.dark.visible = false;
+      if (room.gridSprites.light) room.gridSprites.light.visible = true;
+      if (room.gridSprites.dark) room.gridSprites.dark.visible = false;
     } else {
       this.app.renderer.backgroundColor = 0x0d0d0d;
 
       this.clouds.dark.visible = true;
       this.clouds.light.visible = false;
 
-      this.gridSprites.dark.visible = true;
-      this.gridSprites.light.visible = false;
+      if (room.gridSprites.dark) room.gridSprites.dark.visible = true;
+      if (room.gridSprites.light) room.gridSprites.light.visible = false;
     }
   }
 
