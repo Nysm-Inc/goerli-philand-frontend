@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
-import { Link, Text, useBoolean, VStack } from "@chakra-ui/react";
+import { Link, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import { HOWTOPLAY_URL } from "~/constants";
 import { Modal, ModalHeader } from "./common/Modal";
 
 const ENSNotFound: FC = () => {
@@ -20,8 +21,8 @@ const ENSNotFound: FC = () => {
             Get your ENS to get your land.
           </Text>
         </VStack>
-        <Link color="primary.500" textStyle="button-2" href="https://app.ens.domains/" isExternal>
-          Get a new ENS on Goerli
+        <Link color="primary.500" textStyle="button-2" _focusVisible={{ boxShadow: "none" }} href={HOWTOPLAY_URL} isExternal>
+          How to get a new ENS on Goerli
         </Link>
       </VStack>
     </Modal>

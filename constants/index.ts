@@ -27,6 +27,8 @@ export const CANNY_URL = "https://philand.canny.io";
 export const HIRING_URL = "https://phi-xyz.notion.site/Phi-is-hiring-d60930cfdfde405cb0767b77165da632";
 export const PARTNERSHIP_APPLICATION_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSesnViXpjx2fufQrDI26yBbvcyNxWU-DVm3DEUn5WhKAn4XBQ/viewform?usp=sf_link";
+export const HOWTOPLAY_URL =
+  "https://phi-xyz.notion.site/How-to-play-the-demo-for-Phi-on-Polygon-Mumbai-Testnet-9463f796a11943e5add3d56ee00e7a76#0c6980291bc1487ba3100b905d4e563b";
 export const TWITTER_URL = "https://twitter.com/phi_xyz";
 
 // localstorage
