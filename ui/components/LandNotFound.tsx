@@ -18,12 +18,12 @@ const LandNotFound: FC<{ ens?: string; w?: LayoutProps["w"]; h?: LayoutProps["h"
       zIndex="default"
       p="32px"
       spacing="24px"
+      borderRadius="32px"
+      border="1px solid"
       w={w || "512px"}
       h={h || "368px"}
-      bgColor="white"
-      border="1px solid"
-      borderColor="light.g_orange"
-      borderRadius="32px"
+      borderColor={colorMode === "light" ? "light.g_orange" : "dark.grey800"}
+      bgColor={colorMode === "light" ? "white" : "grey.900"}
     >
       <Center w="192px" h="192px" position="relative">
         <Image src="/icons/ENShold.png" width="96px" height="96px" alt="" />
