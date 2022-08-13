@@ -162,8 +162,7 @@ const MenuBar: FC<{
         )}
         {!isEdit && (
           <ChakraTooltip
-            bgColor="transparent"
-            boxShadow="none"
+            variant="unstyled"
             shouldWrapChildren
             isDisabled={!(!initialized || noObjectsInLand)}
             label={
