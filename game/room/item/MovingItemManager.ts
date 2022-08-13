@@ -79,6 +79,7 @@ export default class MovingItemManager {
     return false;
   }
 
+  // todo: should impl KeyboardManager.ts
   esc(e: KeyboardEvent) {
     if (!this.item) return;
 
