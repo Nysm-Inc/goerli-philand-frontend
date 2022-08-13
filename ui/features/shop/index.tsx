@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FC, useContext, useState } from "react";
+import { useProvider } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, Flex, HStack, SimpleGrid, TabPanel, TabPanels, Tabs, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
@@ -119,6 +120,7 @@ const Shop: FC<{
   };
 }> = ({ isOpen, onOpenWallet, onClose, onSubmit }) => {
   const { colorMode } = useContext(AppContext);
+  const provider = useProvider();
   const [items, setItems] = useState<Item[]>(defaultItems(FREE_OBJECT_CONTRACT_ADDRESS));
   const [tabIdx, setTabIdx] = useState(0);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
@@ -197,8 +199,10 @@ const Shop: FC<{
                 }, [] as number[]);
                 onSubmit[tabIdx2Contract[tabIdx]](tokenIds)
                   .then(async (res) => {
+                    if (!res?.hash) throw new Error("invalid hash");
+
                     reset(tabIdx2Contract[tabIdx]);
-                    await res?.wait();
+                    await provider.waitForTransaction(res.hash);
                     stopLoading();
                     openNavi("Purchased Objects into Wallet.", "Open Wallet", () => {
                       onClose();

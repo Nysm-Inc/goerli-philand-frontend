@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useProvider } from "wagmi";
 import { Text, useBoolean } from "@chakra-ui/react";
 import type { TransactionResponse } from "@ethersproject/providers";
 import Icon from "~/ui/components/Icon";
@@ -11,6 +12,7 @@ const ClaimButton: FC<{
   onClick: () => Promise<TransactionResponse | undefined>;
   onClickAfterTx: () => void;
 }> = ({ claimable, claimed, onClick, onClickAfterTx }) => {
+  const provider = useProvider();
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const openNavi = useNavi();
 
@@ -25,7 +27,9 @@ const ClaimButton: FC<{
             startLoading();
             onClick()
               .then(async (res) => {
-                await res?.wait();
+                if (!res?.hash) throw new Error("invalid hash");
+
+                await provider.waitForTransaction(res.hash);
                 stopLoading();
                 openNavi("Claimed Objects into Wallet.", "Open Wallet", onClickAfterTx);
               })
