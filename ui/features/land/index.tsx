@@ -138,24 +138,30 @@ const Land: FC<{
           />,
         ]}
       />
-      {isEdit ? (
-        <Box h="16px" />
+      {objects.length > 0 ? (
+        <>
+          {isEdit ? (
+            <Box h="16px" />
+          ) : (
+            <HStack h="36px" m="16px 0 24px 0" align="center" spacing="8px">
+              <Checkbox
+                checked={checked}
+                onCheck={() => {
+                  setObjects((prev) =>
+                    prev.reduce((memo, p) => {
+                      return [...memo, { ...p, select: checked ? 0 : p.amount - p.used }];
+                    }, [] as LandObject[])
+                  );
+                }}
+              />
+              <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "grey.100"}>
+                Select All
+              </Text>
+            </HStack>
+          )}
+        </>
       ) : (
-        <HStack h="36px" m="16px 0 24px 0" align="center" spacing="8px">
-          <Checkbox
-            checked={checked}
-            onCheck={() => {
-              setObjects((prev) =>
-                prev.reduce((memo, p) => {
-                  return [...memo, { ...p, select: checked ? 0 : p.amount - p.used }];
-                }, [] as LandObject[])
-              );
-            }}
-          />
-          <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "grey.100"}>
-            Select All
-          </Text>
-        </HStack>
+        <Box h="16px" />
       )}
       <ModalBody>
         {objects.length > 0 ? (

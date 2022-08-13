@@ -64,21 +64,25 @@ const Wallet: FC<{
           />,
         ]}
       />
-      <HStack h="36px" m="16px 0 24px 0" align="center" spacing="8px">
-        <Checkbox
-          checked={checked}
-          onCheck={() => {
-            setItems((prev) =>
-              prev.reduce((memo, p) => {
-                return [...memo, p.contract === WALLPAPER_CONTRACT_ADDRESS ? p : { ...p, select: checked ? 0 : p.amount }];
-              }, [] as WalletObject[])
-            );
-          }}
-        />
-        <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "grey.100"}>
-          Select All
-        </Text>
-      </HStack>
+      {items.length > 0 ? (
+        <HStack h="36px" m="16px 0 24px 0" align="center" spacing="8px">
+          <Checkbox
+            checked={checked}
+            onCheck={() => {
+              setItems((prev) =>
+                prev.reduce((memo, p) => {
+                  return [...memo, p.contract === WALLPAPER_CONTRACT_ADDRESS ? p : { ...p, select: checked ? 0 : p.amount }];
+                }, [] as WalletObject[])
+              );
+            }}
+          />
+          <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "grey.100"}>
+            Select All
+          </Text>
+        </HStack>
+      ) : (
+        <Box h="16px" />
+      )}
       <ModalBody>
         {items.length > 0 ? (
           <>

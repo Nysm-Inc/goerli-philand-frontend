@@ -1,17 +1,18 @@
 import { FC, ReactNode, useContext } from "react";
-import { Box, PositionProps, TransformProps } from "@chakra-ui/react";
+import { BorderProps, Box, PositionProps, TransformProps } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { colors } from "~/ui/styles/color";
 
-const Tooltip: FC<{ rectLeft?: PositionProps["left"]; rectTransform?: TransformProps["transform"]; children: ReactNode }> = ({
-  rectLeft,
-  rectTransform,
-  children,
-}) => {
+const Tooltip: FC<{
+  rectLeft?: PositionProps["left"];
+  rectTransform?: TransformProps["transform"];
+  borderRadius?: BorderProps["borderRadius"];
+  children: ReactNode;
+}> = ({ rectLeft, rectTransform, borderRadius = "16px", children }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
-    <Box position="relative" bgColor={colorMode === "light" ? "grey.900" : "white"} borderRadius="16px">
+    <Box position="relative" bgColor={colorMode === "light" ? "grey.900" : "white"} borderRadius={borderRadius}>
       {children}
       <Box
         position="absolute"
