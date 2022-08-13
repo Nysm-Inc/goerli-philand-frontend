@@ -66,7 +66,6 @@ const useHandler = ({
   };
   const onPickLandObject = (object: IObject) => {
     game.room.movingItemManager.pickFromLand(object);
-    uiHandler?.tryWrite(object.contractAddress, object.tokenId);
   };
   const onChangeLink = (uuid: string, link: PhiLink) => {
     const roomItems = game.room.roomItemManager.getItems();

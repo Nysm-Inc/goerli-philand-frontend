@@ -47,6 +47,8 @@ export default class MovingItemManager {
     this.item.container.alpha = 0.6;
     this.isMoving = true;
     this.focus();
+
+    window.addEventListener("keydown", (e) => this.esc(e));
   }
 
   stop() {
@@ -55,6 +57,8 @@ export default class MovingItemManager {
     this.item.container.alpha = 1.0;
     this.isMoving = false;
     this.drop();
+
+    window.removeEventListener("keydown", (e) => this.esc(e));
   }
 
   getItem() {
@@ -75,20 +79,39 @@ export default class MovingItemManager {
     return false;
   }
 
+  esc(e: KeyboardEvent) {
+    if (!this.item) return;
+
+    if (e.key === "Escape") {
+      if (this.item instanceof RoomItem) {
+        const [tileX, tileY] = this.item.getTile();
+        const [sizeX, sizeY] = this.item.getSize();
+        const local = itemToLocal(tileX, tileY, sizeX, sizeY, this.item.container.height);
+        this.item.updateContainerPlacement(local.x, local.y);
+      } else {
+        const { room } = GameInstance.get();
+        room.landItemContainer.removeChild(this.item.container);
+      }
+      this.stop();
+    }
+  }
+
   placeItem(tileX: number, tileY: number) {
     if (!this.item) return;
     const [sizeX, sizeY] = this.item.getSize();
     if (!isItemInLand(tileX, tileY, sizeX, sizeY)) return;
     if (this.checkCollision({ x: tileX, y: tileY }, { uuid: this.item.getUUID(), sizeX, sizeY })) return;
 
-    const { room } = GameInstance.get();
+    const { room, uiManager } = GameInstance.get();
     if (this.item instanceof RoomItem) {
       room.roomItemManager.removeItemFromTilemap(this.item.getUUID());
       room.roomItemManager.addItemToTilemap(tileX, tileY, this.item);
       this.item.updatePlacement(tileX, tileY);
     } else {
-      room.roomItemManager.addItem(tileX, tileY, this.item.getObject());
+      const itemObject = this.item.getObject();
+      room.roomItemManager.addItem(tileX, tileY, itemObject);
       room.landItemContainer.removeChild(this.item.container);
+      uiManager.onPlaceFromLand(itemObject.contractAddress, itemObject.tokenId);
     }
     this.stop();
   }

@@ -51,14 +51,16 @@ export const useLand = (
     setObjects(copied);
   };
   const tryWrite = (contract: ObjectContractAddress, tokenId: number) => {
-    const copied = [...objects];
-    const idx = copied.findIndex((c) => c.contractAddress === contract && c.tokenId === tokenId);
-    copied[idx].used += 1;
-    if (copied[idx].amount - copied[idx].used > 0) {
-      setObjects(copied);
-    } else {
-      setObjects(copied.filter((_, i) => i !== idx));
-    }
+    setObjects((prev) => {
+      const copied = [...prev];
+      const idx = copied.findIndex((c) => c.contractAddress === contract && c.tokenId === tokenId);
+      copied[idx].used += 1;
+      if (copied[idx].amount - copied[idx].used > 0) {
+        return copied;
+      } else {
+        return copied.filter((_, i) => i !== idx);
+      }
+    });
   };
 
   const tryRemove = (contract: ObjectContractAddress, tokenId: number) => {

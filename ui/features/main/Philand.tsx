@@ -69,7 +69,7 @@ const Philand: FC<{
   } = useGame({
     state: { currentENS, isEdit, phiObjects, wallpaper },
     uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
-    gameUIHandler: { onOpenActionMenu, onOpenWallpaperMenu, onChangeLinkMenu: changeLink },
+    gameUIHandler: { onOpenActionMenu, onOpenWallpaperMenu, onChangeLinkMenu: changeLink, onPlaceFromLand: tryWrite },
   });
 
   return (
