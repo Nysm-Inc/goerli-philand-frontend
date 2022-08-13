@@ -41,7 +41,7 @@ const WallpaperMenu: FC<{
         <Menu isOpen={state.isShown}>
           <MenuList
             w="243px"
-            maxH="160px"
+            maxH="176px"
             options={uniqueWallpapers.map((w) => ({
               label: objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][w].name,
               value: w.toString(),
