@@ -1,5 +1,5 @@
 import { FC, useContext, useEffect, useState } from "react";
-import { chain, useNetwork } from "wagmi";
+import { chain } from "wagmi";
 import { Box, Center, HStack, Link, Text, useToast, UseToastOptions, VStack } from "@chakra-ui/react";
 import { Status as TxStatus, Tx } from "~/types/tx";
 import { AppContext } from "~/contexts";
