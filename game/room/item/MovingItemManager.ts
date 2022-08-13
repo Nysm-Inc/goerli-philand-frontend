@@ -11,6 +11,8 @@ export default class MovingItemManager {
   constructor() {
     this.item = null;
     this.isMoving = false;
+
+    window.addEventListener("keydown", (e) => this.esc(e));
   }
 
   pick(item: RoomItem) {
@@ -47,8 +49,6 @@ export default class MovingItemManager {
     this.item.container.alpha = 0.6;
     this.isMoving = true;
     this.focus();
-
-    window.addEventListener("keydown", (e) => this.esc(e));
   }
 
   stop() {
@@ -57,8 +57,6 @@ export default class MovingItemManager {
     this.item.container.alpha = 1.0;
     this.isMoving = false;
     this.drop();
-
-    window.removeEventListener("keydown", (e) => this.esc(e));
   }
 
   getItem() {
