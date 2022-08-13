@@ -40,27 +40,25 @@ const getColor = (status: Status, colorMode: ColorMode): ColorProps["color"] => 
 
 const EditStatus: FC<{ isDiff: boolean; saveTx: Tx }> = ({ isDiff, saveTx }) => {
   const { colorMode } = useContext(AppContext);
-  const [editStatus, setEditStatus] = useState<Status>("unedited");
-  const [saved, setSaved] = useState(false);
+  const [editStatus, setEditStatus] = useState<{ status: Status; locked: boolean }>({ status: "unedited", locked: false });
 
   useEffect(() => {
     switch (saveTx.status) {
       case "loading": {
-        setSaved(false);
-        setEditStatus("saving");
+        setEditStatus((prev) => ({ ...prev, status: "saving" }));
         return;
       }
       case "success": {
-        setEditStatus("saved");
-        setTimeout(() => setSaved(true), 3000);
+        setEditStatus((prev) => (prev.status === "saving" ? { status: "saved", locked: true } : prev));
+        setTimeout(() => setEditStatus((prev) => ({ ...prev, locked: false })), 3000);
         return;
       }
     }
   }, [saveTx.status]);
 
   useEffect(() => {
-    setEditStatus(isDiff ? "editing" : "unedited");
-  }, [isDiff, saved]);
+    setEditStatus((prev) => (prev.locked ? prev : { ...prev, status: isDiff ? "editing" : "unedited" }));
+  }, [isDiff, editStatus.locked]);
 
   return (
     <HStack
@@ -78,11 +76,11 @@ const EditStatus: FC<{ isDiff: boolean; saveTx: Tx }> = ({ isDiff, saveTx }) => 
       bgColor={colorMode === "light" ? "grey.900" : "white"}
       borderColor={colorMode === "light" ? "dark.grey800" : "grey.200"}
     >
-      <Center w="28px" h="28px" borderRadius="24px" bgColor={getColor(editStatus, colorMode)}>
-        <Icon name={icons[editStatus]} color={colorMode === "light" ? "grey.900" : "white"} />
+      <Center w="28px" h="28px" borderRadius="24px" bgColor={getColor(editStatus.status, colorMode)}>
+        <Icon name={icons[editStatus.status]} color={colorMode === "light" ? "grey.900" : "white"} />
       </Center>
       <Text textStyle="label-1" color={colorMode === "light" ? "white" : "grey.900"}>
-        {labels[editStatus]}
+        {labels[editStatus.status]}
       </Text>
     </HStack>
   );
