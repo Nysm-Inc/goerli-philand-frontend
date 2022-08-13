@@ -79,7 +79,7 @@ export default class MovingItemManager {
 
   // todo: should impl KeyboardManager.ts
   esc(e: KeyboardEvent) {
-    if (!this.item) return;
+    if (!this.item || !this.isMoving) return;
 
     if (e.key === "Escape") {
       if (this.item instanceof RoomItem) {
