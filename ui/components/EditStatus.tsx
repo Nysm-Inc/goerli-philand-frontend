@@ -45,13 +45,15 @@ const EditStatus: FC<{ isDiff: boolean; saveTx: Tx }> = ({ isDiff, saveTx }) => 
 
   useEffect(() => {
     switch (saveTx.status) {
-      case "success": {
-        setEditStatus("saved");
-        setTimeout(() => setSaved(true), 3000);
-      }
       case "loading": {
         setSaved(false);
         setEditStatus("saving");
+        return;
+      }
+      case "success": {
+        setEditStatus("saved");
+        setTimeout(() => setSaved(true), 3000);
+        return;
       }
     }
   }, [saveTx.status]);
