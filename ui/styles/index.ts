@@ -40,6 +40,14 @@ const theme = extendTheme({
         },
       },
     },
+    Tooltip: {
+      variants: {
+        unstyled: {
+          bgColor: "transparent",
+          boxShadow: "none",
+        },
+      },
+    },
   },
 });
 

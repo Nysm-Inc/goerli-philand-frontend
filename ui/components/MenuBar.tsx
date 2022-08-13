@@ -1,13 +1,14 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
 import type { TransactionResponse } from "@ethersproject/providers";
-import { Divider, HStack, Text, useBoolean } from "@chakra-ui/react";
+import { Divider, HStack, Text, Tooltip as ChakraTooltip, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { event } from "~/utils/ga/ga";
 import Icon from "~/ui/components/Icon";
 import IconButton from "./common/IconButton";
 import SelectBox from "./common/SelectBox";
 import Button from "./common/Button";
+import Tooltip from "./common/Tooltip";
 
 const MenuBar: FC<{
   initialized: boolean;
@@ -160,21 +161,36 @@ const MenuBar: FC<{
           </>
         )}
         {!isEdit && (
-          <Button
-            w="88px"
-            color="purple"
-            leftIcon={<Icon name="edit" />}
-            disabled={!initialized || noObjectsInLand}
-            onClick={() => {
-              actionHandler.onEdit();
-              actionHandler.onOpenLand();
-              event({ action: "click", category: "menubar", label: "edit" });
-            }}
+          <ChakraTooltip
+            variant="unstyled"
+            shouldWrapChildren
+            isDisabled={!(!initialized || noObjectsInLand)}
+            label={
+              <Tooltip borderRadius="8px">
+                <VStack w="256px" p="12px" spacing="8px">
+                  <Text textStyle="paragraph-3" color={colorMode === "light" ? "white" : "grey.900"}>
+                    Deposit objects to Land in order to edit your land.
+                  </Text>
+                </VStack>
+              </Tooltip>
+            }
           >
-            <Text textStyle="button-2" color="grey.900">
-              EDIT
-            </Text>
-          </Button>
+            <Button
+              w="88px"
+              color="purple"
+              leftIcon={<Icon name="edit" />}
+              disabled={!initialized || noObjectsInLand}
+              onClick={() => {
+                actionHandler.onEdit();
+                actionHandler.onOpenLand();
+                event({ action: "click", category: "menubar", label: "edit" });
+              }}
+            >
+              <Text textStyle="button-2" color="grey.900">
+                EDIT
+              </Text>
+            </Button>
+          </ChakraTooltip>
         )}
       </>
     </HStack>
