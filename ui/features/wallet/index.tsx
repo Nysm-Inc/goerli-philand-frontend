@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FC, useContext, useEffect, useMemo, useState } from "react";
+import { useProvider } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, HStack, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { BalanceObject } from "~/types";
@@ -24,6 +25,7 @@ const Wallet: FC<{
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
 }> = ({ items: originItems, isEdit, isOpen, onOpenLand, onClose, onSubmit }) => {
   const { colorMode } = useContext(AppContext);
+  const provider = useProvider();
   const [items, setItems] = useState<WalletObject[]>([]);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const openNavi = useNavi();
@@ -168,8 +170,10 @@ const Wallet: FC<{
               }, [] as BalanceObject[]);
               onSubmit(args)
                 .then(async (res) => {
+                  if (!res?.hash) throw new Error("invalid hash");
+
                   reset();
-                  await res?.wait();
+                  await provider.waitForTransaction(res.hash);
                   stopLoading();
                   openNavi("Deposited Objects into Land.", "Open Land", () => {
                     onClose();
