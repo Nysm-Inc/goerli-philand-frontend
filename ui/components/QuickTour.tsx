@@ -58,7 +58,7 @@ const Tour1: FC<{ onClickNext: () => void }> = ({ onClickNext }) => (
     rectLeft="46px"
     w="295px"
     title="1/3 Get objects"
-    description="First of all, Get Objects with Shop or Quest"
+    description="You can get your objects from shop and quest"
     onClickNext={onClickNext}
   />
 );
@@ -70,7 +70,7 @@ const Tour2: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onCli
     transform="translateX(-50%)"
     w="312px"
     title="2/3 Check and deposit objects"
-    description="Check the objects you got on this modal. Then, please deposit objects you want to place on your land."
+    description="Objects you claimed or brought will show up in your wallet. You can then deposit your objects from your wallet to start decorating your land."
     onClickBack={onClickBack}
     onClickNext={onClickNext}
   />
@@ -89,20 +89,20 @@ const Tour3: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onCli
   />
 );
 
-const Tour4: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onClickBack, onClickNext }) => (
+const Tour4: FC<{ ens: string; onClickBack: () => void; onClickNext: () => void }> = ({ ens, onClickBack, onClickNext }) => (
   <Tour
     bottom="calc(80px + 16px)"
     left="calc(100% - 320px)"
     rectLeft="208px"
     w="294px"
     title="Share your land on Twitter!"
-    description="Finally, please share your land to the world!"
+    description={`Show your newly created ${ens} to your friends!`}
     onClickBack={onClickBack}
     onClickNext={onClickNext}
   />
 );
 
-const QuickTour: FC = () => {
+const QuickTour: FC<{ ens: string }> = ({ ens }) => {
   const [done, setDone] = useState(true);
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
 
@@ -128,6 +128,7 @@ const QuickTour: FC = () => {
     case 4: {
       return (
         <Tour4
+          ens={ens}
           onClickBack={() => setStep(3)}
           onClickNext={() => {
             setDone(true);
