@@ -49,9 +49,8 @@ const MenuBar: FC<{
       boxShadow="md"
       borderRadius="20px"
       spacing="16px"
-      //
-      border={colorMode === "light" ? "1px solid" : "none"}
-      borderColor={colorMode === "light" ? "light.g_orange" : "none"}
+      border="1px solid"
+      borderColor={colorMode === "light" ? "light.g_orange" : "dark.grey800"}
       bgColor={colorMode === "light" ? "white" : "grey.900"}
     >
       <>
