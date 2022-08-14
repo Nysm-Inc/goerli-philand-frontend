@@ -92,7 +92,7 @@ const Detail: FC<{
               </Text>
             </HStack>
           </VStack>
-          <Box w={selected.claimable ? "134px" : "200px"}>
+          <Box w={selected.claimable ? (selected.claimed ? "160px" : "134px") : "200px"}>
             <ClaimButton claimable={selected.claimable} claimed={selected.claimed} onClick={onClick} onClickAfterTx={onClickAfterTx} />
           </Box>
         </VStack>
