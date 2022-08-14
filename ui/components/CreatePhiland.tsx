@@ -19,12 +19,12 @@ const CreatePhiland: FC<{
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
   return (
-    <Modal w="456px" h="398px" isOpen overlay onClose={() => {}}>
+    <Modal w="456px" h="422px" isOpen overlay onClose={() => {}}>
       <ModalHeader buttons={[]} />
       <VStack mt="14px" spacing="24px">
         <Image src="/icons/ens.png" width="128px" height="128px" quality={100} alt="" />
-        <Text textAlign="center" textStyle="paragraph-1" color="grey.500">
-          Choose your ENS
+        <Text w="356px" h="48px" textAlign="center" textStyle="paragraph-1" color="grey.500">
+          You can choose your ENS to create your new land.
         </Text>
         <VStack spacing="8px">
           <SelectBox
