@@ -61,8 +61,6 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
     game.room.wallpaper.update(state.wallpaper?.tokenId || 0);
   }, [state.wallpaper?.tokenId, loadedGame]);
 
-  // todo
-  // should use web worker
   useInterval(() => {
     if (!state.isEdit || !initialized) {
       setIsDiff(false);

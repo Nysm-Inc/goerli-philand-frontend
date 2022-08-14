@@ -190,7 +190,7 @@ const Shop: FC<{
               text="Purchase"
               itemNum={items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
               itemPrice={items.reduce((sum, item) => (item.select > 0 ? sum + item.select * item.price : sum), 0)}
-              subText="The objects you purchase will be sent to your wallet."
+              subText="After purchase, your objects are stored in your wallet"
               isLoading={isLoading}
               onClick={() => {
                 startLoading();
@@ -204,7 +204,7 @@ const Shop: FC<{
                     reset(tabIdx2Contract[tabIdx]);
                     await provider.waitForTransaction(res.hash);
                     stopLoading();
-                    openNavi("Purchased Objects into Wallet.", "Open Wallet", () => {
+                    openNavi("You can now find your objects in your wallet.", "Open Wallet", () => {
                       onClose();
                       onOpenWallet();
                     });

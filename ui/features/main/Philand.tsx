@@ -77,7 +77,7 @@ const Philand: FC<{
       <Help onOpenHowItWorks={onOpenHowItWorks} />
       <HowItWorks isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
       <Box {...(isEdit && { opacity: "0" })}>
-        <QuickTour />
+        <QuickTour ens={currentENS} />
       </Box>
 
       <MenuBar

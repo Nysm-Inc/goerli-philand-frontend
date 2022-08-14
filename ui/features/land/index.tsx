@@ -274,7 +274,7 @@ const Land: FC<{
                   reset();
                   await provider.waitForTransaction(res.hash);
                   stopLoading();
-                  openNavi("Withdrew Objects into Wallet.", "Open Wallet", () => {
+                  openNavi("You can now find your objects in your wallet.", "Open Wallet", () => {
                     onClose();
                     onOpenWallet();
                   });

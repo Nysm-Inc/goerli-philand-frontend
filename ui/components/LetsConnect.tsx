@@ -84,6 +84,4 @@ const LetsConnect: FC = () => {
   );
 };
 
-// F6F3ED;
-
 export default LetsConnect;
