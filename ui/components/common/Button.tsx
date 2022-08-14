@@ -35,6 +35,7 @@ const Button: FC<{
     children,
   } = props;
   const { colorMode } = useContext(AppContext);
+
   return (
     <ChakraButton
       variant="unstyled"
@@ -42,7 +43,6 @@ const Button: FC<{
       whiteSpace="nowrap"
       overflow="hidden"
       textOverflow="ellipsis"
-      //
       ref={ref}
       w={w}
       minH={h}
@@ -51,9 +51,7 @@ const Button: FC<{
       borderRadius={borderRadius}
       disabled={disabled || isLoading}
       onClick={onClick}
-      {...(shadow && {
-        boxShadow: "md",
-      })}
+      {...(shadow && { boxShadow: "md" })}
       {...(color
         ? {
             bgColor: `${color}.250`,
@@ -79,9 +77,7 @@ const Button: FC<{
                   bgColor: colorMode === "light" ? "grey.200" : "dark.grey800",
                   cursor: "not-allowed",
                 }
-              : {
-                  cursor: "not-allowed",
-                },
+              : { cursor: "not-allowed" },
           }
         : {
             bgColor: colorMode === "light" ? "white" : "grey.900",
@@ -106,9 +102,7 @@ const Button: FC<{
                   borderColor: colorMode === "light" ? "light.g_orange" : "dark.grey700",
                   cursor: "not-allowed",
                 }
-              : {
-                  cursor: "not-allowed",
-                },
+              : { cursor: "not-allowed" },
           })}
     >
       <Flex justify={isLoading ? "center" : justify} align="center">
