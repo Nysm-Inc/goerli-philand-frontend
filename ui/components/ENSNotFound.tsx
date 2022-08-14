@@ -58,7 +58,13 @@ const ENSNotFound: FC = () => {
             <Text textStyle="paragraph-2" color="grey.500">
               If you want to choose your ENS name
             </Text>
-            <Link color="primary.500" textStyle="button-2" _focusVisible={{ boxShadow: "none" }} href={HOWTOPLAY_URL} isExternal>
+            <Link
+              color="primary.500"
+              textStyle="button-2"
+              _focusVisible={{ boxShadow: "none" }}
+              href={HOWTOPLAY_URL + "#0c6980291bc1487ba3100b905d4e563b"}
+              isExternal
+            >
               How to get a new ENS on Goerli
             </Link>
           </VStack>

@@ -10,6 +10,11 @@ export const main = {
     200: "#CCCCCC",
     100: "#EEEEEE",
   },
+  warmgrey: {
+    70: "#D0CCC3",
+    90: "#F6F3ED",
+    95: "#FBF9F5",
+  },
   white: "#FFFFFF",
 };
 
