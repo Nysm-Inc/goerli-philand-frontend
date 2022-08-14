@@ -150,7 +150,7 @@ const Wallet: FC<{
           <ModalFooter
             text="Deposit"
             itemNum={items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
-            subText="The selected objects will be stored in your land"
+            subText="Objects Selected here will be placed on your PHI land"
             isLoading={isLoading}
             onClick={() => {
               startLoading();

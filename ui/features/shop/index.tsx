@@ -190,7 +190,7 @@ const Shop: FC<{
               text="Purchase"
               itemNum={items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
               itemPrice={items.reduce((sum, item) => (item.select > 0 ? sum + item.select * item.price : sum), 0)}
-              subText="The objects you purchase will be sent to your wallet."
+              subText="After purchase, your objects are stored in your wallet"
               isLoading={isLoading}
               onClick={() => {
                 startLoading();
