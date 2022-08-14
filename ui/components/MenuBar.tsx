@@ -9,6 +9,7 @@ import IconButton from "./common/IconButton";
 import SelectBox from "./common/SelectBox";
 import Button from "./common/Button";
 import Tooltip from "./common/Tooltip";
+import { useProvider } from "wagmi";
 
 const MenuBar: FC<{
   initialized: boolean;
@@ -32,6 +33,7 @@ const MenuBar: FC<{
   };
 }> = ({ initialized, isDiff, noObjectsInLand, isEdit, isOpen, currentENS, domains, actionHandler }) => {
   const { colorMode } = useContext(AppContext);
+  const provider = useProvider();
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
   return (
@@ -148,7 +150,8 @@ const MenuBar: FC<{
                 actionHandler
                   .onSave()
                   .then(async (res) => {
-                    await res?.wait();
+                    if (!res?.hash) throw new Error("invalid hash");
+                    await provider.waitForTransaction(res?.hash);
                     stopLoading();
                   })
                   .catch(stopLoading);
