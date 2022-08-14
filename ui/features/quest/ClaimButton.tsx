@@ -31,7 +31,7 @@ const ClaimButton: FC<{
 
                 await provider.waitForTransaction(res.hash);
                 stopLoading();
-                openNavi("Claimed Objects into Wallet.", "Open Wallet", onClickAfterTx);
+                openNavi("You can now find your objects in your wallet.", "Open Wallet", onClickAfterTx);
               })
               .catch(stopLoading);
           }}

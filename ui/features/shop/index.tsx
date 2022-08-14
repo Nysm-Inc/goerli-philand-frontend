@@ -204,7 +204,7 @@ const Shop: FC<{
                     reset(tabIdx2Contract[tabIdx]);
                     await provider.waitForTransaction(res.hash);
                     stopLoading();
-                    openNavi("Purchased Objects into Wallet.", "Open Wallet", () => {
+                    openNavi("You can now find your objects in your wallet.", "Open Wallet", () => {
                       onClose();
                       onOpenWallet();
                     });

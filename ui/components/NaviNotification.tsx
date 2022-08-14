@@ -21,7 +21,7 @@ const NaviNotification: FC<{ text: string; btnText: string; colorMode: ColorMode
       align="center"
       p="16px"
       gap="8px"
-      w="528px"
+      w="618px"
       h="64px"
       borderRadius="20px"
       border="1px solid"
@@ -29,7 +29,7 @@ const NaviNotification: FC<{ text: string; btnText: string; colorMode: ColorMode
       borderColor={colorMode === "light" ? "dark.grey800" : "light.lg_orange40"}
       bgColor={colorMode === "light" ? "grey.900" : "white"}
     >
-      <Text w="294px" h="20px" textStyle="paragraph-2" color={colorMode === "light" ? "white" : "grey.900"}>
+      <Text w="384px" h="20px" textStyle="paragraph-2" color={colorMode === "light" ? "white" : "grey.900"}>
         {text}
       </Text>
       <Button

@@ -175,7 +175,7 @@ const Wallet: FC<{
                   reset();
                   await provider.waitForTransaction(res.hash);
                   stopLoading();
-                  openNavi("Deposited Objects into Land.", "Open Land", () => {
+                  openNavi("You can now find your objects in your land.", "Open Land", () => {
                     onClose();
                     onOpenLand();
                   });
