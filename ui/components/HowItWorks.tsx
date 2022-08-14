@@ -19,7 +19,7 @@ const HowItWorks: FC<{ isOpen: boolean; onOpen: () => void; onClose: () => void 
   }, []);
 
   return (
-    <Modal w="864px" h="712px" isOpen={isOpen} onClose={onClose}>
+    <Modal w="832px" h="652px" isOpen={isOpen} onClose={onClose}>
       <ModalHeader
         title="How It Works"
         buttons={[
@@ -36,21 +36,19 @@ const HowItWorks: FC<{ isOpen: boolean; onOpen: () => void; onClose: () => void 
       />
       <Box h="16px" />
       <ModalBody>
-        <VStack
-          h="592px"
-          p="24px"
-          spacing="16px"
-          align="flex-start"
-          borderRadius="16px"
-          bgColor={colorMode === "light" ? "white" : "grey.900"}
-        >
+        <VStack h="532px" p="0 24px" spacing="16px" borderRadius="16px" bgColor={colorMode === "light" ? "white" : "grey.900"}>
           <Image src={`/assets/howItWorks_${colorMode}.png`} width="800px" height="400px" alt="" />
-          <Text w="711px" textStyle="paragraph-1" color="grey.500">
-            To place an object on land, you must obtain it from a store or quest and deposit it from your wallet into your land.
-          </Text>
-          <Text w="711px" textStyle="paragraph-1" color="grey.500">
-            Objects deposited in Land can be placed on Land by drag-and-drop.
-          </Text>
+          <VStack w="736px" spacing="0px" align="flex-start">
+            <Text textStyle="paragraph-1" color="grey.500">
+              You can purchase objects from the shop or claim objects from quests.
+            </Text>
+            <Text textStyle="paragraph-1" color="grey.500">
+              Objects that are claimed or purchased will show up in your wallet.
+            </Text>
+            <Text textStyle="paragraph-1" color="grey.500">
+              Then in your wallet you can click ‘deposit’ on objects to start decorating your land.
+            </Text>
+          </VStack>
         </VStack>
       </ModalBody>
     </Modal>
