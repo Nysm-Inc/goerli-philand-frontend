@@ -17,7 +17,7 @@ const ConfirmModal: FC = () => {
       <VStack mt="16px" spacing="32px">
         <Spinner size="112px" mode={colorMode} />
         <Text textStyle="headline-1" textAlign="center" color={colorMode === "light" ? "grey.900" : "white"}>
-          Waiting For Confirmation
+          Confirmation is almost ready
         </Text>
         <Message color="warning" text="Comfirm this transaction in your wallet" />
       </VStack>
