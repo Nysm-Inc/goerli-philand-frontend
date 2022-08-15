@@ -196,6 +196,8 @@ export default class Engine {
   }
 
   center() {
+    const { room } = GameInstance.get();
+    room.updateScaleMode(SCALE_MODES.LINEAR);
     this.viewport.moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2).setZoom(1, true);
   }
 
