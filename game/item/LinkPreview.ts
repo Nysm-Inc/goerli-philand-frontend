@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Container, Graphics, Sprite, Text, Texture } from "pixi.js";
-import { ethers } from "ethers";
+import { providers } from "ethers";
 import { PhiLink } from "~/types";
 import GameInstance from "~/game/GameInstance";
 import { postAccess } from "~/utils/access";
@@ -138,7 +138,7 @@ export default class LinkPreview {
         let address = "";
         if (window.ethereum) {
           // @ts-ignore
-          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const provider = new providers.Web3Provider(window.ethereum);
           address = await provider.getSigner().getAddress();
         }
         postAccess(landENS, target.toString(), address);

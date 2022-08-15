@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { utils } from "ethers";
 
 type Fee = {
   maxPriorityFee: number;
@@ -31,8 +31,8 @@ export const getFastestGasWei = async () => {
     const toFixedMaxPriorityFee = maxPriorityFee.toFixed(8);
     const toFixedMaxFee = maxFee.toFixed(8);
     return {
-      maxPriorityFeePerGas: ethers.utils.parseUnits(toFixedMaxPriorityFee, "gwei"),
-      maxFeePerGas: ethers.utils.parseUnits(toFixedMaxFee, "gwei"),
+      maxPriorityFeePerGas: utils.parseUnits(toFixedMaxPriorityFee, "gwei"),
+      maxFeePerGas: utils.parseUnits(toFixedMaxFee, "gwei"),
     };
   } catch {
     return undefined;

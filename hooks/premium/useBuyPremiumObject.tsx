@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
 import { useDeprecatedContractWrite, useWaitForTransaction } from "wagmi";
+import { BigNumber, utils } from "ethers";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import PremiumObjectAbi from "~/abi/premiumobject.json";
-import { BigNumber, ethers } from "ethers";
 import { objectMetadataList } from "~/types/object";
 import { AppContext } from "~/contexts";
 
@@ -40,7 +40,7 @@ const useBuyPremiumObject = (): {
           value: tokenIds
             .reduce((sum, tokenId) => {
               const metadata = objectMetadataList[PREMIUM_OBJECT_CONTRACT_ADDRESS][tokenId];
-              const wei = ethers.utils.parseEther(metadata.price.toString());
+              const wei = utils.parseEther(metadata.price.toString());
               return sum.add(wei);
             }, BigNumber.from(0))
             .toString(),
