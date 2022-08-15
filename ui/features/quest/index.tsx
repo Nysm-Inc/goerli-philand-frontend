@@ -121,7 +121,7 @@ const Quest: FC<{
                       {metadata.name}
                     </Text>
                     <HStack spacing="8px">
-                      <Badge text={`EXP ${metadata.EXP || 0}`} />
+                      <Badge text={`EXP ${metadata.EXP?.toLocaleString()}`} />
                       <Network tokenId={metadata.tokenId} />
                     </HStack>
                   </VStack>
