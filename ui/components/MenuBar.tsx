@@ -137,7 +137,12 @@ const MenuBar: FC<{
       <>
         {isEdit && (
           <HStack spacing="8px">
-            <IconButton ariaLabel="center" icon={<Icon name="center" />} boxShadow={false} onClick={() => game.engine.center()} />
+            <IconButton
+              ariaLabel="center"
+              icon={<Icon name="center" color={colorMode === "light" ? "grey.900" : "white"} />}
+              boxShadow={false}
+              onClick={() => game.engine.center()}
+            />
             <Button
               w="88px"
               color="green"
