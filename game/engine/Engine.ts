@@ -1,8 +1,8 @@
-import { Application, Container, LoaderResource, SCALE_MODES, Sprite, Texture, TilingSprite } from "pixi.js";
+import { Application, Container, Graphics, LoaderResource, SCALE_MODES, Sprite, Texture, TilingSprite } from "pixi.js";
 import { Stage as LayerStage } from "@pixi/layers";
 import { Viewport } from "pixi-viewport";
 import cloneDeep from "lodash.clonedeep";
-import { GAME_APP_WIDTH, GAME_APP_HEIGHT, LAND_OGP_W, LAND_OGP_H, LAND_OGP_PADDING_RL, LAND_OGP_PADDING_B, LAND_H } from "~/constants";
+import { GAME_APP_WIDTH, GAME_APP_HEIGHT, LAND_OGP_W, LAND_OGP_H, LAND_OGP_PADDING_B, LAND_H } from "~/constants";
 import GameInstance from "~/game/GameInstance";
 import { objectMetadataList } from "~/types/object";
 import { ColorMode, zIndices } from "~/ui/styles";
@@ -180,11 +180,6 @@ export default class Engine {
 
     // land
     const roomContainer = cloneDeep(room.container);
-    const gapObjectH = roomContainer.height - LAND_H;
-    const ogpLandH = LAND_OGP_H - gapObjectH;
-    const ogpLandW = roomContainer.width * (ogpLandH / roomContainer.height);
-    roomContainer.width = ogpLandW;
-    roomContainer.height = ogpLandH;
     roomContainer.children.forEach((child) => {
       child.x = 0;
       child.y = 0;
@@ -192,10 +187,12 @@ export default class Engine {
     container.addChild(roomContainer);
 
     // margin
-    const baseOGPLandH = LAND_OGP_H * (ogpLandW / LAND_OGP_W);
-    const marginBottom = ogpLandH - baseOGPLandH - LAND_OGP_PADDING_B;
-    roomContainer.x = (LAND_OGP_W - ogpLandW) / 2;
-    roomContainer.y = LAND_OGP_H - ogpLandH + marginBottom;
+    roomContainer.x = (LAND_OGP_W - roomContainer.width) / 2;
+    roomContainer.y = LAND_OGP_H - LAND_H - LAND_OGP_PADDING_B;
+    if (container.height > LAND_OGP_H) {
+      roomContainer.y += container.height - LAND_OGP_H;
+    }
+
     return this.app.renderer.plugins.extract.base64(container);
   }
 
