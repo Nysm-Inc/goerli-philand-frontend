@@ -730,8 +730,8 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
       2: {
         tokenId: 2,
         name: "Verification",
-        image_url: "https://www.arweave.net/K1a0ZarFqb_2e76tXJCGBGrTYUbiENmr3DMZ9pwnsMo?ext=png",
-        json_url: "https://www.arweave.net/l48x9wBKaiHQ4u3yM_AYTveJioVULylMg_0IqA966r8",
+        image_url: "https://www.arweave.net/axiL6KhICDqAPL4PeM5wiYAzPJYTsAOmHvbsS9GjFtk?ext=png",
+        json_url: "https://www.arweave.net/IBcAWpQIZwqZ5cDc1GX6Zsmihw6owNimJihHVumpuNM",
         size: [1, 1, 1],
         creator: "eBoy",
         maxClaimed: 999999999,
@@ -740,8 +740,8 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
       3: {
         tokenId: 3,
         name: "Heatmap Billboard",
-        image_url: "https://www.arweave.net/515THlrKL1yNr_j8ghWC3_NGXlahZ1uinp2WmPpZ3UE?ext=png",
-        json_url: "https://www.arweave.net/G8WaAgI0YOBUUm7cYhSr1d6f3qtdN-zCwM0Ht-wlq0g",
+        image_url: "https://www.arweave.net/R7GOVXhLHY7F3tJWzAHAd-coWB3ysc0BuD8GtLZDGDE?ext=png",
+        json_url: "https://www.arweave.net/ucqpJmEUMP7zlGnGzwIn8fjcqosvvDbsWLNIKTy9rFw",
         size: [1, 3, 3],
         creator: "eBoy",
         maxClaimed: 999999999,
