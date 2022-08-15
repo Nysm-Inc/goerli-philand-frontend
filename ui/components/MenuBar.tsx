@@ -134,15 +134,15 @@ const MenuBar: FC<{
         <Divider orientation="vertical" color={colorMode === "light" ? "light.g_orange" : "dark.grey700"} h="48px" />
       </>
 
-      <>
-        {isEdit && (
-          <HStack spacing="8px">
-            <IconButton
-              ariaLabel="center"
-              icon={<Icon name="center" color={colorMode === "light" ? "grey.900" : "white"} />}
-              boxShadow={false}
-              onClick={() => game.engine.center()}
-            />
+      <HStack spacing="8px">
+        <IconButton
+          ariaLabel="center"
+          icon={<Icon name="center" color={colorMode === "light" ? "grey.900" : "white"} />}
+          boxShadow={false}
+          onClick={() => game.engine.center()}
+        />
+        {isEdit ? (
+          <>
             <Button
               w="88px"
               color="green"
@@ -167,9 +167,8 @@ const MenuBar: FC<{
                 Save
               </Text>
             </Button>
-          </HStack>
-        )}
-        {!isEdit && (
+          </>
+        ) : (
           <ChakraTooltip
             variant="unstyled"
             shouldWrapChildren
@@ -201,7 +200,7 @@ const MenuBar: FC<{
             </Button>
           </ChakraTooltip>
         )}
-      </>
+      </HStack>
     </HStack>
   );
 };
