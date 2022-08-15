@@ -6,6 +6,7 @@ import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import MapAbi from "~/abi/map.json";
 import { BalanceObject, DepositObject } from "~/types";
 import { AppContext } from "~/contexts";
+import { getFastestGasWei } from "~/utils/gas";
 
 const useDeposit = (
   ens?: string | null,
@@ -51,7 +52,8 @@ const useDeposit = (
     if (!ens) return;
 
     const calldata = [ens.slice(0, -4), args.map((arg) => arg.contract), args.map((arg) => arg.tokenId), args.map((arg) => arg.amount)];
-    return deposit({ args: calldata });
+    const overrides = await getFastestGasWei();
+    return deposit({ args: calldata, overrides });
   };
 
   const onWithdraw = async (args: { contract: string; tokenId: number; amount: number }[]) => {

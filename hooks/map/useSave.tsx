@@ -7,6 +7,7 @@ import { AppContext } from "~/contexts";
 import { updateOGP } from "~/utils/ogp";
 import { PhiLink } from "~/types";
 import { Tx } from "~/types/tx";
+import { getFastestGasWei } from "~/utils/gas";
 
 export type SaveArgs = {
   removeArgs: { removeIdxs: (string | number)[] };
@@ -63,7 +64,8 @@ const useSave = (
       if (!ens) return;
 
       const calldata = [ens.slice(0, -4), removeArgs.removeIdxs, writeArgs, linkArgs, ...Object.values(wallpaperArgs)];
-      return writeAsync({ args: calldata });
+      const overrides = await getFastestGasWei();
+      return writeAsync({ args: calldata, overrides });
     },
     tx: {
       hash: data?.hash,

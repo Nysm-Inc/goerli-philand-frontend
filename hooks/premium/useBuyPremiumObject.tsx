@@ -6,6 +6,7 @@ import { PREMIUM_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import PremiumObjectAbi from "~/abi/premiumobject.json";
 import { objectMetadataList } from "~/types/object";
 import { AppContext } from "~/contexts";
+import { getFastestGasWei } from "~/utils/gas";
 
 const useBuyPremiumObject = (): {
   buyPremiumObject: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
@@ -34,9 +35,11 @@ const useBuyPremiumObject = (): {
   return {
     buyPremiumObject: async (tokenIds: number[]) => {
       const calldata = [tokenIds];
+      const overrides = await getFastestGasWei();
       return writeAsync({
         args: calldata,
         overrides: {
+          ...overrides,
           value: tokenIds
             .reduce((sum, tokenId) => {
               const metadata = objectMetadataList[PREMIUM_OBJECT_CONTRACT_ADDRESS][tokenId];

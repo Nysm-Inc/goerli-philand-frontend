@@ -45,7 +45,11 @@ export default class Engine {
     this.app.stage = new LayerStage();
     this.app.stage.sortableChildren = true;
     this.app.loader.concurrency = 100;
-    this.app.renderer.on("resize", () => this.initializeCloudsPosition());
+    this.app.renderer.on("resize", () => {
+      this.viewport.screenWidth = window.innerWidth;
+      this.viewport.screenHeight = window.innerHeight;
+      this.initializeCloudsPosition();
+    });
     document.body.appendChild(this.app.view);
     this.blurCanvas();
 
@@ -196,6 +200,9 @@ export default class Engine {
   }
 
   center() {
+    const { room } = GameInstance.get();
+    this.showClouds();
+    room.updateScaleMode(SCALE_MODES.LINEAR);
     this.viewport.moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2).setZoom(1, true);
   }
 
