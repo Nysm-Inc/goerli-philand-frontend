@@ -180,9 +180,9 @@ export default class Engine {
 
     // land
     const roomContainer = cloneDeep(room.container);
-    const ogpLandW = LAND_OGP_W - LAND_OGP_PADDING_RL * 2;
-    const ogpLandH = roomContainer.height * (ogpLandW / roomContainer.width);
-    const gapH = roomContainer.height - LAND_H;
+    const gapObjectH = roomContainer.height - LAND_H;
+    const ogpLandH = LAND_OGP_H - gapObjectH;
+    const ogpLandW = roomContainer.width * (ogpLandH / roomContainer.height);
     roomContainer.width = ogpLandW;
     roomContainer.height = ogpLandH;
     roomContainer.children.forEach((child) => {
@@ -192,11 +192,10 @@ export default class Engine {
     container.addChild(roomContainer);
 
     // margin
-    roomContainer.x = LAND_OGP_PADDING_RL;
     const baseOGPLandH = LAND_OGP_H * (ogpLandW / LAND_OGP_W);
     const marginBottom = ogpLandH - baseOGPLandH - LAND_OGP_PADDING_B;
+    roomContainer.x = (LAND_OGP_W - ogpLandW) / 2;
     roomContainer.y = LAND_OGP_H - ogpLandH + marginBottom;
-    container.y = -gapH;
     return this.app.renderer.plugins.extract.base64(container);
   }
 
