@@ -52,7 +52,7 @@ const IconButton: FC<{
             ? {
                 bgColor: _colorMode ? "light.lg_orange40" : "dark.grey700",
                 border: "1px solid",
-                borderColor: _colorMode ? "light.g_orange" : "dark.grey700",
+                borderColor: _colorMode ? "light.g_orange" : "dark.grey800",
               }
             : {
                 bgColor: _colorMode ? "white" : "dark.grey700",
