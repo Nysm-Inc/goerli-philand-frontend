@@ -13,6 +13,7 @@ import QuantityInput from "~/ui/components/common/QuantityInput";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "~/ui/components/common/Modal";
 import IconButton from "~/ui/components/common/IconButton";
 import Checkbox from "~/ui/components/common/Checkbox";
+import { event } from "~/utils/ga/ga";
 
 type WalletObject = BalanceObject & { select: number };
 
@@ -171,6 +172,7 @@ const Wallet: FC<{
               onSubmit(args)
                 .then(async (res) => {
                   if (!res?.hash) throw new Error("invalid hash");
+                  event({ action: "conversion_deposit" });
 
                   reset();
                   await provider.waitForTransaction(res.hash);

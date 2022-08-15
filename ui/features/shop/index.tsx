@@ -13,6 +13,7 @@ import QuantityInput from "~/ui/components/common/QuantityInput";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "~/ui/components/common/Modal";
 import IconButton from "~/ui/components/common/IconButton";
 import { Tab, TabList } from "~/ui/components/common/Tab";
+import { event } from "~/utils/ga/ga";
 
 type Item = ObjectMetadata & { select: number };
 
@@ -200,7 +201,8 @@ const Shop: FC<{
                 onSubmit[tabIdx2Contract[tabIdx]](tokenIds)
                   .then(async (res) => {
                     if (!res?.hash) throw new Error("invalid hash");
-
+                    // @ts-ignore
+                    event({ action: { 0: "conversion_get_free", 1: "conversion_get_premium", 2: "conversion_get_wallpaper" }[tabIdx] });
                     reset(tabIdx2Contract[tabIdx]);
                     await provider.waitForTransaction(res.hash);
                     stopLoading();

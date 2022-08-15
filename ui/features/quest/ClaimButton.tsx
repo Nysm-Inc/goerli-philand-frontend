@@ -5,6 +5,7 @@ import type { TransactionResponse } from "@ethersproject/providers";
 import Icon from "~/ui/components/Icon";
 import useNavi from "~/ui/components/NaviNotification";
 import Button from "~/ui/components/common/Button";
+import { event } from "~/utils/ga/ga";
 
 const ClaimButton: FC<{
   claimable: boolean;
@@ -28,6 +29,7 @@ const ClaimButton: FC<{
             onClick()
               .then(async (res) => {
                 if (!res?.hash) throw new Error("invalid hash");
+                event({ action: "conversion_get_quest" });
 
                 await provider.waitForTransaction(res.hash);
                 stopLoading();
