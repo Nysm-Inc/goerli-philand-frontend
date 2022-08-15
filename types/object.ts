@@ -830,9 +830,9 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
       12: {
         tokenId: 12,
         name: "Bitcoin Snowman",
-        image_url: "https://www.arweave.net/JIy87Ssc4gxnqIQHA5C_BACi4iR4oSvXHtRuiXoILOI?ext=png",
-        json_url: "https://www.arweave.net/c5l7T8MOcMsX9zRxcnlbJQ1Z1bkiV9RW9Y4bPC0jWQI",
-        size: [1, 2, 2],
+        image_url: "https://www.arweave.net/eJbJtgATSex0Ge8I_r-NJxL0RRRmZyq0wA3JjOQkR4c?ext=png",
+        json_url: "https://www.arweave.net/sFsFuzI09eXTUJvjIvJC0cTR5oVR-mDNbgffNzZ6r-c",
+        size: [1, 1, 2],
         creator: "eBoy",
         maxClaimed: 999999999,
         price: 2,

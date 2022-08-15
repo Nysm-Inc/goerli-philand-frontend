@@ -171,7 +171,7 @@ const StatusTx: FC = () => {
         }
       }
     });
-  }, [txs]);
+  }, [txs, colorMode]);
 
   useEffect(() => {
     const toastManagerDomNode = document.getElementById(toastManagerId);
