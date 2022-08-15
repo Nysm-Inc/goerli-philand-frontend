@@ -120,7 +120,6 @@ const Philand: FC<{
       />
       <Wallet
         items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
-        isEdit={isEdit}
         isOpen={isOpenWallet}
         onOpenLand={onOpenLand}
         onClose={onCloseWallet}

@@ -19,12 +19,11 @@ type WalletObject = BalanceObject & { select: number };
 
 const Wallet: FC<{
   items: BalanceObject[];
-  isEdit: boolean;
   isOpen: boolean;
   onOpenLand: () => void;
   onClose: () => void;
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
-}> = ({ items: originItems, isEdit, isOpen, onOpenLand, onClose, onSubmit }) => {
+}> = ({ items: originItems, isOpen, onOpenLand, onClose, onSubmit }) => {
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
   const [items, setItems] = useState<WalletObject[]>([]);
@@ -117,18 +116,14 @@ const Wallet: FC<{
                   <Text h="40px" textStyle="headline-2" textAlign="center" color={colorMode === "light" ? "grey.900" : "white"}>
                     {objectMetadataList[item.contract][item.tokenId].name}
                   </Text>
-                  {!isEdit && (
-                    <>
-                      {item.contract !== WALLPAPER_CONTRACT_ADDRESS && (
-                        <QuantityInput
-                          defaultText="+ Deposit"
-                          num={item.select}
-                          balance={item.amount}
-                          handleClickMinus={() => minus(i)}
-                          handleClickPlus={() => plus(i)}
-                        />
-                      )}
-                    </>
+                  {item.contract !== WALLPAPER_CONTRACT_ADDRESS && (
+                    <QuantityInput
+                      defaultText="+ Deposit"
+                      num={item.select}
+                      balance={item.amount}
+                      handleClickMinus={() => minus(i)}
+                      handleClickPlus={() => plus(i)}
+                    />
                   )}
                 </VStack>
               ))}
