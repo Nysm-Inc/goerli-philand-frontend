@@ -150,6 +150,7 @@ const MenuBar: FC<{
                   .onSave()
                   .then(async (res) => {
                     if (!res?.hash) throw new Error("invalid hash");
+                    event({ action: "conversions_save" });
                     await provider.waitForTransaction(res?.hash);
                     stopLoading();
                   })

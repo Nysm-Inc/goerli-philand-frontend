@@ -1,8 +1,8 @@
-export type Event = ClickEvent;
+type Action = "click" | "conversions_save";
 
-type ClickEvent = {
-  action: "click";
-  category: string;
-  label: string;
+export type Event = {
+  action: Action;
+  category?: string;
+  label?: string;
   value?: number;
 };
