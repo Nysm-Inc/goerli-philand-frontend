@@ -6,6 +6,7 @@ import { REGISTRY_CONTRACT_ADDRESS, UTILS_API_GATEWAY } from "~/constants";
 import RegistryAbi from "~/abi/registry.json";
 import { Coupon } from "~/types/quest";
 import { AppContext } from "~/contexts";
+import { getFastestGasWei } from "~/utils/gas";
 
 const useChangePhilandOwner = (account?: string, ens?: string): { changePhilandOwner: () => Promise<TransactionResponse | undefined> } => {
   const { addTx } = useContext(AppContext);
@@ -38,7 +39,8 @@ const useChangePhilandOwner = (account?: string, ens?: string): { changePhilandO
       url.searchParams.append("name", ens.slice(0, -4));
       const res = await axios.get<{ coupon: Coupon }>(url.toString());
 
-      return writeAsync({ args: [ens.slice(0, -4), res.data.coupon] });
+      const overrides = await getFastestGasWei();
+      return writeAsync({ args: [ens.slice(0, -4), res.data.coupon], overrides });
     },
   };
 };

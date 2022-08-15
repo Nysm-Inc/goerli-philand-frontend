@@ -7,6 +7,7 @@ import { getCoupon } from "~/utils/coupon";
 import { conditionList } from "~/types/quest";
 import { objectMetadataList } from "~/types/object";
 import { AppContext } from "~/contexts";
+import { getFastestGasWei } from "~/utils/gas";
 
 const checkClaimedStatus = (sender: string, tokenId: number) => ({
   addressOrName: CLAIM_CONTRACT_ADDRESS,
@@ -59,7 +60,8 @@ const useClaim = (
 
         const condition = conditionList[tokenId];
         const calldata = [QUEST_OBJECT_CONTRACT_ADDRESS, tokenId, condition.name + condition.value.toString(), coupon];
-        return writeAsync({ args: calldata });
+        const overrides = await getFastestGasWei();
+        return writeAsync({ args: calldata, overrides });
       },
     },
   ];

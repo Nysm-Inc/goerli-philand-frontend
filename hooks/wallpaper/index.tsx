@@ -4,6 +4,7 @@ import type { TransactionResponse } from "@ethersproject/providers";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import WallpaperAbi from "~/abi/wallpaper.json";
 import { AppContext } from "~/contexts";
+import { getFastestGasWei } from "~/utils/gas";
 
 const useGetWallpaper = (): { batchWallPaper: (tokenIds: number[]) => Promise<TransactionResponse | undefined> } => {
   const { addTx } = useContext(AppContext);
@@ -30,7 +31,8 @@ const useGetWallpaper = (): { batchWallPaper: (tokenIds: number[]) => Promise<Tr
   return {
     batchWallPaper: async (tokenIds: number[]) => {
       const calldata = [tokenIds];
-      return writeAsync({ args: calldata });
+      const overrides = await getFastestGasWei();
+      return writeAsync({ args: calldata, overrides });
     },
   };
 };
