@@ -195,6 +195,10 @@ export default class Engine {
     return this.app.renderer.plugins.extract.base64(container);
   }
 
+  center() {
+    this.viewport.moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2).setZoom(1, true);
+  }
+
   show() {
     try {
       document.body.appendChild(this.app.view);

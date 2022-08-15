@@ -6,6 +6,7 @@ import Arrows from "./Arrows";
 import ArrowTwoWay from "./ArrowTwoWay";
 import Bag from "./Bag";
 import Calendar from "./Calendar";
+import Center from "./Center";
 import Check from "./Check";
 import CheckCircle from "./CheckCircle";
 import Close from "./Close";
@@ -38,6 +39,7 @@ const icons = {
   arrowTwoWay: ArrowTwoWay,
   bag: Bag,
   calendar: Calendar,
+  center: Center,
   check: Check,
   checkCircle: CheckCircle,
   close: Close,

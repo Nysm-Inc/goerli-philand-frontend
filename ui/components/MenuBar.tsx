@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
+import { useProvider } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Divider, HStack, Text, Tooltip as ChakraTooltip, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
@@ -9,7 +10,6 @@ import IconButton from "./common/IconButton";
 import SelectBox from "./common/SelectBox";
 import Button from "./common/Button";
 import Tooltip from "./common/Tooltip";
-import { useProvider } from "wagmi";
 
 const MenuBar: FC<{
   initialized: boolean;
@@ -32,7 +32,7 @@ const MenuBar: FC<{
     onSave: () => Promise<TransactionResponse | undefined>;
   };
 }> = ({ initialized, isDiff, noObjectsInLand, isEdit, isOpen, currentENS, domains, actionHandler }) => {
-  const { colorMode } = useContext(AppContext);
+  const { game, colorMode } = useContext(AppContext);
   const provider = useProvider();
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
@@ -136,7 +136,13 @@ const MenuBar: FC<{
 
       <>
         {isEdit && (
-          <>
+          <HStack spacing="8px">
+            <IconButton
+              ariaLabel="center"
+              icon={<Icon name="center" color={colorMode === "light" ? "grey.900" : "white"} />}
+              boxShadow={false}
+              onClick={() => game.engine.center()}
+            />
             <Button
               w="88px"
               color="green"
@@ -161,7 +167,7 @@ const MenuBar: FC<{
                 Save
               </Text>
             </Button>
-          </>
+          </HStack>
         )}
         {!isEdit && (
           <ChakraTooltip
