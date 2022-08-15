@@ -1,8 +1,9 @@
-import { Text, useBoolean, VStack } from "@chakra-ui/react";
-import type { TransactionResponse } from "@ethersproject/providers";
 import Image from "next/image";
 import { FC } from "react";
+import type { TransactionResponse } from "@ethersproject/providers";
+import { Text, useBoolean, VStack } from "@chakra-ui/react";
 import { nullAddress } from "~/types";
+import { event } from "~/utils/ga/ga";
 import { Modal, ModalHeader } from "./common/Modal";
 import Button from "./common/Button";
 import SelectBox from "./common/SelectBox";
@@ -41,6 +42,7 @@ const CreatePhiland: FC<{
               startLoading();
               (owner === nullAddress ? createPhiland : changePhilandOwner)()
                 .then(async (res) => {
+                  if (owner === nullAddress) event({ action: "conversion_create_philand" });
                   await res?.wait();
                   stopLoading();
                 })
