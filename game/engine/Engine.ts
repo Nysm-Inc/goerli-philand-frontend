@@ -189,9 +189,7 @@ export default class Engine {
     // margin
     roomContainer.x = (LAND_OGP_W - roomContainer.width) / 2;
     roomContainer.y = LAND_OGP_H - LAND_H - LAND_OGP_PADDING_B;
-    if (container.height > LAND_OGP_H) {
-      roomContainer.y += LAND_OGP_PADDING_B / 2;
-    }
+    if (container.height > LAND_OGP_H) roomContainer.y += LAND_OGP_PADDING_B / 2;
 
     return this.app.renderer.plugins.extract.base64(container);
   }
