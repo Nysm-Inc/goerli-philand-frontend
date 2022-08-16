@@ -1,9 +1,10 @@
 import Image from "next/image";
-import { FC, useMemo } from "react";
+import { FC, useContext, useMemo } from "react";
 import { useBalance } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Link, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { HOWTOPLAY_URL } from "~/constants";
+import { AppContext } from "~/contexts";
 import { nullAddress } from "~/types";
 import { event } from "~/utils/ga/ga";
 import { Modal, ModalHeader } from "./common/Modal";
@@ -20,6 +21,7 @@ const CreatePhiland: FC<{
   createPhiland: () => Promise<TransactionResponse | undefined>;
   changePhilandOwner: () => Promise<TransactionResponse | undefined>;
 }> = ({ address, owner, currentENS, domains, switchCurrentENS, createPhiland, changePhilandOwner }) => {
+  const { colorMode } = useContext(AppContext);
   const { data } = useBalance({ addressOrName: address, watch: true });
   const insufficient = useMemo(() => !!data?.value.isZero(), [data]);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
@@ -57,7 +59,14 @@ const CreatePhiland: FC<{
               isLoading={isLoading}
               disabled={insufficient}
             >
-              <Text color="white" textStyle="button-1">
+              <Text
+                color={insufficient ? "grey.500" : "white"}
+                textStyle="button-1"
+                {...(insufficient && {
+                  textShadow: "3px 3px 0px rgba(26, 26, 26, 0.2)",
+                  style: { WebkitTextStroke: colorMode === "light" ? "1px #CCCCCC" : "1px #292929" },
+                })}
+              >
                 {owner === nullAddress ? "CREATE LAND" : "CHANGE OWNER"}
               </Text>
             </Button>
