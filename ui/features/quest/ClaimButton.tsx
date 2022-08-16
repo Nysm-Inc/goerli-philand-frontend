@@ -6,7 +6,9 @@ import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
 import useNavi from "~/ui/components/NaviNotification";
 import Button from "~/ui/components/common/Button";
+import { colors } from "~/ui/styles/color";
 import { event } from "~/utils/ga/ga";
+import { textShadows } from "~/ui/styles/typography";
 
 const ClaimButton: FC<{
   claimable: boolean;
@@ -57,8 +59,8 @@ const ClaimButton: FC<{
               <Text
                 color="grey.500"
                 textStyle="button-1"
-                textShadow="3px 3px 0px rgba(26, 26, 26, 0.2)"
-                style={{ WebkitTextStroke: colorMode === "light" ? "1px #CCCCCC" : "1px #292929" }}
+                textShadow={textShadows["button-1-disabled"]}
+                style={{ WebkitTextStroke: colorMode === "light" ? `1px ${colors.grey[200]}` : `1px ${colors.dark.grey800}` }}
               >
                 Not Eligible
               </Text>

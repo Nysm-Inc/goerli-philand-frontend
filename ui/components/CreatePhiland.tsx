@@ -7,6 +7,8 @@ import { HOWTOPLAY_URL } from "~/constants";
 import { AppContext } from "~/contexts";
 import { nullAddress } from "~/types";
 import { event } from "~/utils/ga/ga";
+import { textShadows } from "~/ui/styles/typography";
+import { colors } from "~/ui/styles/color";
 import { Modal, ModalHeader } from "./common/Modal";
 import Button from "./common/Button";
 import SelectBox from "./common/SelectBox";
@@ -63,8 +65,8 @@ const CreatePhiland: FC<{
                 color={insufficient ? "grey.500" : "white"}
                 textStyle="button-1"
                 {...(insufficient && {
-                  textShadow: "3px 3px 0px rgba(26, 26, 26, 0.2)",
-                  style: { WebkitTextStroke: colorMode === "light" ? "1px #CCCCCC" : "1px #292929" },
+                  textShadow: textShadows["button-1-disabled"],
+                  style: { WebkitTextStroke: colorMode === "light" ? `1px ${colors.grey[200]}` : `1px ${colors.dark.grey800}` },
                 })}
               >
                 {owner === nullAddress ? "CREATE LAND" : "CHANGE OWNER"}

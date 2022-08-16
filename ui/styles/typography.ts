@@ -1,3 +1,7 @@
+export const textShadows = {
+  "button-1-disabled": "3px 3px 0px rgba(26, 26, 26, 0.2)",
+};
+
 export const typographys = {
   headline: {
     fontFamily: "PhilsonBlock",
