@@ -39,9 +39,6 @@ const MenuList: FC<{
       >
         {options.map((option, i) => (
           <MenuItem
-            //
-            autoFocus={false}
-            isFocusable={false}
             key={i}
             w="100%"
             h={option.image ? "48px" : "32px"}
@@ -52,7 +49,6 @@ const MenuList: FC<{
               if (option.onClick) option.onClick();
               else if (onClick) onClick(option.value);
             }}
-            //
             bgColor={colorMode === "light" ? "white" : "grey.900"}
             _hover={{
               bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
