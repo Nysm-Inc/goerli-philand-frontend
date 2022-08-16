@@ -12,7 +12,9 @@ export default class MovingItemManager {
     this.item = null;
     this.isMoving = false;
 
-    window.addEventListener("keydown", (e) => this.esc(e));
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") this.esc();
+    });
   }
 
   pick(item: RoomItem) {
@@ -78,21 +80,19 @@ export default class MovingItemManager {
   }
 
   // todo: should impl KeyboardManager.ts
-  esc(e: KeyboardEvent) {
+  esc() {
     if (!this.item || !this.isMoving) return;
 
-    if (e.key === "Escape") {
-      if (this.item instanceof RoomItem) {
-        const [tileX, tileY] = this.item.getTile();
-        const [sizeX, sizeY] = this.item.getSize();
-        const local = itemToLocal(tileX, tileY, sizeX, sizeY, this.item.container.height);
-        this.item.updateContainerPlacement(local.x, local.y);
-      } else {
-        const { room } = GameInstance.get();
-        room.landItemContainer.removeChild(this.item.container);
-      }
-      this.stop();
+    if (this.item instanceof RoomItem) {
+      const [tileX, tileY] = this.item.getTile();
+      const [sizeX, sizeY] = this.item.getSize();
+      const local = itemToLocal(tileX, tileY, sizeX, sizeY, this.item.container.height);
+      this.item.updateContainerPlacement(local.x, local.y);
+    } else {
+      const { room } = GameInstance.get();
+      room.landItemContainer.removeChild(this.item.container);
     }
+    this.stop();
   }
 
   placeItem(tileX: number, tileY: number) {

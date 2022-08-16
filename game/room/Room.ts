@@ -139,7 +139,10 @@ export default class Room {
     if (!movingItem) return;
     if (!this.movingItemManager.isMoving) return;
     const tile = this.globalToLandTile(globalX, globalY);
-    if (!tile) return;
+    if (!tile) {
+      this.movingItemManager.esc();
+      return;
+    }
 
     this.movingItemManager.placeItem(tile.x, tile.y);
   }
