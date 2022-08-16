@@ -32,10 +32,10 @@ const HasENS: FC<{ address: string; currentENS: string; domains: string[]; switc
         />
       ) : (
         <CreatePhiland
+          address={address}
           owner={owner}
           currentENS={currentENS}
           domains={domains}
-          isCreatedPhiland={isCreatedPhiland}
           switchCurrentENS={switchCurrentENS}
           createPhiland={createPhiland}
           changePhilandOwner={changePhilandOwner}
