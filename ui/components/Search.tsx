@@ -7,7 +7,7 @@ import Input from "./common/Input";
 import Icon from "./Icon";
 import MenuList, { Option } from "./common/MenuList";
 
-const noOption = [{ label: "No Options", value: "" }];
+const noOption = [{ label: "No Options", value: "a" }];
 
 const onSubmit = (text: string) => {
   if (!text) return;
@@ -26,7 +26,7 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
 
   useEffect(() => {
     search(searchText).then((res) => {
-      setOptions(res.length > 0 ? res.map((name) => ({ label: name.name, value: name.name })) : noOption);
+      setOptions((prev) => (res.length > 0 ? res.map((name) => ({ label: name.name, value: name.name })) : prev));
     });
   }, [searchText]);
 
