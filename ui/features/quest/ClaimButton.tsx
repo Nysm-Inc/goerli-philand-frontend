@@ -1,11 +1,14 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { useProvider } from "wagmi";
 import { Text, useBoolean } from "@chakra-ui/react";
 import type { TransactionResponse } from "@ethersproject/providers";
+import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
 import useNavi from "~/ui/components/NaviNotification";
 import Button from "~/ui/components/common/Button";
+import { colors } from "~/ui/styles/color";
 import { event } from "~/utils/ga/ga";
+import { textShadows } from "~/ui/styles/typography";
 
 const ClaimButton: FC<{
   claimable: boolean;
@@ -13,6 +16,7 @@ const ClaimButton: FC<{
   onClick: () => Promise<TransactionResponse | undefined>;
   onClickAfterTx: () => void;
 }> = ({ claimable, claimed, onClick, onClickAfterTx }) => {
+  const { colorMode } = useContext(AppContext);
   const provider = useProvider();
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const openNavi = useNavi();
@@ -45,14 +49,19 @@ const ClaimButton: FC<{
       ) : (
         <>
           {claimed ? (
-            <Button w="full" leftIcon={<Icon name="check" />}>
+            <Button w="full" leftIcon={<Icon name="check" color={colorMode === "light" ? "grey.900" : "white"} />} disabled>
               <Text color="white" textStyle="button-1">
                 Claimed
               </Text>
             </Button>
           ) : (
-            <Button w="full" disabled>
-              <Text color="white" textStyle="button-1">
+            <Button w="full" color="purple" disabled>
+              <Text
+                color="grey.500"
+                textStyle="button-1"
+                textShadow={textShadows["button-1-disabled"]}
+                style={{ WebkitTextStroke: colorMode === "light" ? `1px ${colors.grey[200]}` : `1px ${colors.dark.grey800}` }}
+              >
                 Not Eligible
               </Text>
             </Button>
