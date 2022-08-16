@@ -1,11 +1,13 @@
 import { FC, useContext, useEffect, useRef, useState } from "react";
-import { Box, LayoutProps, Menu, MenuButton, Text, useDisclosure, useOutsideClick } from "@chakra-ui/react";
+import { Box, LayoutProps, Menu, MenuButton, Portal, Text, useDisclosure, useOutsideClick } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { isValid } from "~/utils/ens";
 import { search } from "~/utils/search";
 import Input from "./common/Input";
 import Icon from "./Icon";
 import MenuList, { Option } from "./common/MenuList";
+
+const noOption = [{ label: "No Options", value: "" }];
 
 const onSubmit = (text: string) => {
   if (!text) return;
@@ -16,15 +18,13 @@ const onSubmit = (text: string) => {
 const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = true }) => {
   const { colorMode } = useContext(AppContext);
   const [searchText, setSearchText] = useState("");
-  const [suggestOptions, setSuggestOptions] = useState<Option[]>([]);
+  const [suggestOptions, setSuggestOptions] = useState<Option[]>(noOption);
   const ref = useRef(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useOutsideClick({ ref: ref, handler: onClose });
 
   useEffect(() => {
-    if (!searchText) return;
-
     search(searchText).then((res) => {
       setSuggestOptions(res.name.map((name) => ({ label: name.name, value: name.name })));
     });
@@ -63,12 +63,9 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
         isOpen={isOpen && !!searchText}
       >
         <MenuButton as={Box} />
-        <MenuList
-          w={w || "336px"}
-          maxH="210px"
-          options={suggestOptions.length > 0 ? suggestOptions : [{ label: "No Options", value: "" }]}
-          onClick={onSubmit}
-        />
+        <Portal>
+          <MenuList w={w || "336px"} maxH="210px" options={suggestOptions.length > 0 ? suggestOptions : noOption} onClick={onSubmit} />
+        </Portal>
       </Menu>
     </form>
   );

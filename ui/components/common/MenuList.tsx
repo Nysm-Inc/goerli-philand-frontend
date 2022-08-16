@@ -40,13 +40,14 @@ const MenuList: FC<{
         {options.map((option, i) => (
           <MenuItem
             //
+            autoFocus={false}
+            isFocusable={false}
             key={i}
             w="100%"
             h={option.image ? "48px" : "32px"}
             p="8px"
             textAlign="left"
             borderRadius="6px"
-            isFocusable={false}
             onClick={() => {
               if (option.onClick) option.onClick();
               else if (onClick) onClick(option.value);
