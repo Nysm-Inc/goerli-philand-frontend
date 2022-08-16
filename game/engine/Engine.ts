@@ -1,4 +1,4 @@
-import { Application, Container, Graphics, LoaderResource, SCALE_MODES, Sprite, Texture, TilingSprite } from "pixi.js";
+import { Application, Container, LoaderResource, SCALE_MODES, Sprite, Texture, TilingSprite } from "pixi.js";
 import { Stage as LayerStage } from "@pixi/layers";
 import { Viewport } from "pixi-viewport";
 import cloneDeep from "lodash.clonedeep";
