@@ -1,5 +1,5 @@
 import { FC, useContext, useEffect, useRef, useState } from "react";
-import { Box, LayoutProps, Menu, MenuButton, Portal, Text, useDisclosure, useOutsideClick } from "@chakra-ui/react";
+import { Box, LayoutProps, Menu, MenuButton, Text, useDisclosure, useOutsideClick } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { isValid } from "~/utils/ens";
 import { search } from "~/utils/search";
@@ -63,9 +63,7 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
         isOpen={isOpen && !!searchText}
       >
         <MenuButton as={Box} />
-        <Portal>
-          <MenuList w={w || "336px"} maxH="210px" options={suggestOptions.length > 0 ? suggestOptions : noOption} onClick={onSubmit} />
-        </Portal>
+        <MenuList w={w || "336px"} maxH="210px" options={suggestOptions.length > 0 ? suggestOptions : noOption} onClick={onSubmit} />
       </Menu>
     </form>
   );
