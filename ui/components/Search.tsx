@@ -18,14 +18,15 @@ const onSubmit = (text: string) => {
 const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = true }) => {
   const { colorMode } = useContext(AppContext);
   const ref = useRef(null);
-  const [searchText, setSearchText] = useState("");
-  const [suggestOptions, setSuggestOptions] = useState<Option[]>(noOption);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [searchText, setSearchText] = useState("");
+  const [options, setOptions] = useState<Option[]>(noOption);
+
   useOutsideClick({ ref, handler: onClose });
 
   useEffect(() => {
     search(searchText).then((res) => {
-      setSuggestOptions(res.length > 0 ? res.map((name) => ({ label: name.name, value: name.name })) : noOption);
+      setOptions(res.length > 0 ? res.map((name) => ({ label: name.name, value: name.name })) : noOption);
     });
   }, [searchText]);
 
@@ -61,7 +62,7 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
         isOpen={isOpen && !!searchText}
       >
         <MenuButton as={Box} />
-        <MenuList w={w || "336px"} maxH="210px" options={suggestOptions} onClick={onSubmit} />
+        <MenuList w={w || "336px"} maxH="210px" options={options} onClick={onSubmit} />
       </Menu>
     </form>
   );
