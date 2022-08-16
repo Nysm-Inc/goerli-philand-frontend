@@ -70,7 +70,7 @@ const Detail: FC<{
           </VStack>
           <VStack spacing="12px" align="flex-start">
             <HStack spacing="8px">
-              <Badge text={`EXP ${selected.EXP || 0}`} />
+              <Badge text={`EXP ${selected.EXP?.toLocaleString()}`} />
               <Network tokenId={selected.tokenId} />
             </HStack>
             <HStack spacing="8px">
