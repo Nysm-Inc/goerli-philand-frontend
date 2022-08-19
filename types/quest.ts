@@ -17,13 +17,6 @@ export type Condition = {
   activities: string[];
 };
 
-export type ClaimableList = {
-  TokenId: string;
-  Value: string;
-  Condition: string;
-  TimeStamp: string;
-}[];
-
 export let conditionList: { [tokenId: number]: Condition } = {};
 
 const setConditionList = async () => {
@@ -33,6 +26,24 @@ const setConditionList = async () => {
       ...memo,
       [v.tokenId]: v,
     };
-  }, {} as { [tokenId: number]: Condition });
+  }, {});
 };
 setConditionList();
+
+export type QuestClaimable = {
+  tokenId: string;
+  condition: string;
+  value: string;
+  timeStamp: string;
+};
+
+export type QuestClaimableList = { [tokenId: number]: QuestClaimable | null };
+
+export type QuestProgress = {
+  tokenId: number;
+  condition: string;
+  value: number;
+  counter: number;
+};
+
+export type QuestProgressList = { [tokenId: number]: QuestProgress | null };

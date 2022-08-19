@@ -1,6 +1,6 @@
 import axios from "axios";
 import { UTILS_API_GATEWAY } from "~/constants";
-import { ClaimableList, Condition } from "~/types/quest";
+import { Condition } from "~/types/quest";
 
 type ConditionListResponse = { Condition: string; Value: string; TokenId: string; Links: string; Activities: string };
 
@@ -29,10 +29,17 @@ export const getConditionList = async (): Promise<Condition[]> => {
   });
 };
 
-export const getClaimableList = async (address: string): Promise<ClaimableList> => {
+type ClaimableAPIResponse = {
+  TokenId: string;
+  Value: string;
+  Condition: string;
+  TimeStamp: string;
+}[];
+
+export const getClaimableList = async (address: string): Promise<ClaimableAPIResponse> => {
   const url = new URL(UTILS_API_GATEWAY + "/condition/check");
   url.searchParams.append("address", address);
-  const res = await axios.get<{ result: ClaimableList }>(url.toString());
+  const res = await axios.get<{ result: ClaimableAPIResponse }>(url.toString());
   return res.data?.result || [];
 };
 
@@ -40,4 +47,18 @@ export const postClaimableList = async (address: string): Promise<void> => {
   const url = new URL(UTILS_API_GATEWAY + "/condition/check");
   url.searchParams.append("address", address);
   return axios.post(url.toString());
+};
+
+type ProgressAPIResponse = {
+  TokenId: number;
+  Condition: string;
+  Value: number;
+  Counter: number;
+}[];
+
+export const getProgressList = async (address: string): Promise<ProgressAPIResponse> => {
+  const url = new URL(UTILS_API_GATEWAY + "/condition/progress");
+  url.searchParams.append("address", address);
+  const res = await axios.get<{ result: ProgressAPIResponse }>(url.toString());
+  return res.data?.result || [];
 };

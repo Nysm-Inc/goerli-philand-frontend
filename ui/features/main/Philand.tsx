@@ -6,7 +6,7 @@ import Land, { useLand } from "~/ui/features/land";
 import Wallet from "~/ui/features/wallet";
 import { useWallpaper, useDeposit, useSave } from "~/hooks/map";
 import { useBalances, useTotalSupply } from "~/hooks/object";
-import { useClaim, useClaimableList } from "~/hooks/claim";
+import { useClaim, useClaimableList, useQuestProgress } from "~/hooks/claim";
 import useGame from "~/hooks/game/useGame";
 import { useGetFreeObject } from "~/hooks/free";
 import { useBuyPremiumObject } from "~/hooks/premium";
@@ -49,6 +49,8 @@ const Philand: FC<{
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
 
   const wallpaper = useWallpaper(currentENS);
+  const [claimableList, updateClaimableList] = useClaimableList(address);
+  const progressList = useQuestProgress(address);
   const [claimedList, { claimPhi }] = useClaim(address);
   const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS);
   const { getFreeObject } = useGetFreeObject();
@@ -60,7 +62,6 @@ const Philand: FC<{
   const balanceWallpapers = useBalances(WALLPAPER_CONTRACT_ADDRESS, address);
   const [depositObjects, { deposit, withdraw }] = useDeposit(currentENS);
   const { save, tx: txSave } = useSave(currentENS);
-  const [claimableList, updateClaimableList] = useClaimableList(address);
   const [landObjects, plus, minus, setLandObjects, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
 
   const {
@@ -100,6 +101,7 @@ const Philand: FC<{
       />
       <Quest
         claimableList={claimableList}
+        progressList={progressList}
         claimedList={claimedList}
         totalSupply={totalSupply}
         isOpen={isOpenQuest}
