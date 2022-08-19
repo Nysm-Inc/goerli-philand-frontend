@@ -20,10 +20,10 @@ type WalletObject = BalanceObject & { select: number };
 const Wallet: FC<{
   items: BalanceObject[];
   isOpen: boolean;
-  onOpenLand: () => void;
   onClose: () => void;
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
-}> = ({ items: originItems, isOpen, onOpenLand, onClose, onSubmit }) => {
+  onClickNavi: () => void;
+}> = ({ items: originItems, isOpen, onClose, onSubmit, onClickNavi }) => {
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
   const [items, setItems] = useState<WalletObject[]>([]);
@@ -172,10 +172,7 @@ const Wallet: FC<{
                   reset();
                   await provider.waitForTransaction(res.hash);
                   stopLoading();
-                  openNavi("You can now find your objects in your land.", "Open Land", () => {
-                    onClose();
-                    onOpenLand();
-                  });
+                  openNavi("All Set! Let’s Edit Your Land.", "Edit Land", onClickNavi);
                 })
                 .catch(stopLoading);
             }}

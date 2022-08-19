@@ -17,8 +17,8 @@ const ClaimButton: FC<{
     value: number;
   };
   onClick: () => Promise<TransactionResponse | undefined>;
-  onClickAfterTx: () => void;
-}> = ({ claimable, progress, claimed, onClick, onClickAfterTx }) => {
+  onClickNavi: () => void;
+}> = ({ claimable, progress, claimed, onClick, onClickNavi }) => {
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
@@ -40,7 +40,7 @@ const ClaimButton: FC<{
 
                 await provider.waitForTransaction(res.hash);
                 stopLoading();
-                openNavi("You can now find your objects in your wallet.", "Open Wallet", onClickAfterTx);
+                openNavi("You can now find your objects in your wallet.", "Open Wallet", onClickNavi);
               })
               .catch(stopLoading);
           }}

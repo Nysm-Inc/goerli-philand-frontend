@@ -43,8 +43,8 @@ const Detail: FC<{
   selected: Selected;
   totalSupply: { [tokenId: number]: number };
   onClick: () => Promise<TransactionResponse | undefined>;
-  onClickAfterTx: () => void;
-}> = ({ selected, totalSupply, onClick, onClickAfterTx }) => {
+  onClickNavi: () => void;
+}> = ({ selected, totalSupply, onClick, onClickNavi }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -100,7 +100,7 @@ const Detail: FC<{
               progress={selected.progress}
               claimed={selected.claimed}
               onClick={onClick}
-              onClickAfterTx={onClickAfterTx}
+              onClickNavi={onClickNavi}
             />
           </Box>
         </VStack>

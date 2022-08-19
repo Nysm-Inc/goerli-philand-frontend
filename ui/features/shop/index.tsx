@@ -114,14 +114,14 @@ const Cart: FC<{
 const Shop: FC<{
   address: string;
   isOpen: boolean;
-  onOpenWallet: () => void;
   onClose: () => void;
   onSubmit: {
     [FREE_OBJECT_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
     [PREMIUM_OBJECT_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
     [WALLPAPER_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
   };
-}> = ({ address, isOpen, onOpenWallet, onClose, onSubmit }) => {
+  onClickNavi: () => void;
+}> = ({ address, isOpen, onClose, onSubmit, onClickNavi }) => {
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
   const { data } = useBalance({ addressOrName: address, watch: true });
@@ -214,10 +214,7 @@ const Shop: FC<{
                     reset(tabIdx2Contract[tabIdx]);
                     await provider.waitForTransaction(res.hash);
                     stopLoading();
-                    openNavi("You can now find your objects in your wallet.", "Open Wallet", () => {
-                      onClose();
-                      onOpenWallet();
-                    });
+                    openNavi("You can now find your objects in your wallet.", "Open Wallet", onClickNavi);
                   })
                   .catch(stopLoading);
               }}

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { useDisclosure, useBoolean, Box } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
@@ -47,6 +47,7 @@ const Philand: FC<{
   const { isOpen: isOpenWallet, onOpen: onOpenWallet, onClose: onCloseWallet } = useDisclosure();
   const { isOpen: isOpenLand, onOpen: onOpenLand, onClose: onCloseLand } = useDisclosure();
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
+  const onCloseModals = useCallback(() => (onCloseQuest(), onCloseShop(), onCloseWallet(), onCloseLand(), onCloseHowItWorks()), []);
 
   const wallpaper = useWallpaper(currentENS);
   const [claimableList, updateClaimableList] = useClaimableList(address);
@@ -105,34 +106,33 @@ const Philand: FC<{
         claimedList={claimedList}
         totalSupply={totalSupply}
         isOpen={isOpenQuest}
-        onOpenWallet={onOpenWallet}
         onClose={onCloseQuest}
         onClickItem={claimPhi}
         onClickUpdate={updateClaimableList}
+        onClickNavi={() => (onCloseModals(), onOpenWallet())}
       />
       <Shop
         address={address}
         isOpen={isOpenShop}
-        onOpenWallet={onOpenWallet}
         onClose={onCloseShop}
         onSubmit={{
           [FREE_OBJECT_CONTRACT_ADDRESS]: getFreeObject,
           [PREMIUM_OBJECT_CONTRACT_ADDRESS]: buyPremiumObject,
           [WALLPAPER_CONTRACT_ADDRESS]: batchWallPaper,
         }}
+        onClickNavi={() => (onCloseModals(), onOpenWallet())}
       />
       <Wallet
         items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
         isOpen={isOpenWallet}
-        onOpenLand={onOpenLand}
         onClose={onCloseWallet}
         onSubmit={deposit}
+        onClickNavi={() => (onCloseModals(), onEdit(), onOpenLand())}
       />
       <Land
         objects={landObjects}
         isEdit={isEdit}
         isOpen={isOpenLand}
-        onOpenWallet={onOpenWallet}
         onClose={onCloseLand}
         setObjects={setLandObjects}
         onClickPlus={plus}
@@ -140,6 +140,7 @@ const Philand: FC<{
         onClickObject={onPickLandObject}
         onSubmit={withdraw}
         reset={reset}
+        onClickNavi={() => (onCloseModals(), onOpenWallet())}
       />
 
       {isEdit ? (

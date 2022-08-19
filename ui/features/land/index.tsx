@@ -99,7 +99,6 @@ const Land: FC<{
   objects: LandObject[];
   isEdit: boolean;
   isOpen: boolean;
-  onOpenWallet: () => void;
   onClose: () => void;
   onClickPlus: (idx: number) => void;
   onClickMinus: (idx: number) => void;
@@ -107,7 +106,8 @@ const Land: FC<{
   onClickObject: (object: IObject) => void;
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
   reset: () => void;
-}> = ({ objects, isEdit, isOpen, onOpenWallet, onClose, onClickPlus, onClickMinus, setObjects, onClickObject, onSubmit, reset }) => {
+  onClickNavi: () => void;
+}> = ({ objects, isEdit, isOpen, onClose, onClickPlus, onClickMinus, setObjects, onClickObject, onSubmit, reset, onClickNavi }) => {
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
@@ -274,10 +274,7 @@ const Land: FC<{
                   reset();
                   await provider.waitForTransaction(res.hash);
                   stopLoading();
-                  openNavi("You can now find your objects in your wallet.", "Open Wallet", () => {
-                    onClose();
-                    onOpenWallet();
-                  });
+                  openNavi("You can now find your objects in your wallet.", "Open Wallet", onClickNavi);
                 })
                 .catch(stopLoading);
             }}
