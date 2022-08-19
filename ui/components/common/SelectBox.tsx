@@ -40,7 +40,7 @@ const SelectBox: FC<{
               textOverflow="ellipsis"
               color={disabled ? (colorMode === "light" ? "dark.grey300" : "dark.grey600") : colorMode === "light" ? "grey.900" : "white"}
             >
-              {selected.label && selected.value ? selected.label : placeholder}
+              {selected.value ? selected.label : placeholder}
             </Text>
           </MenuButton>
 
