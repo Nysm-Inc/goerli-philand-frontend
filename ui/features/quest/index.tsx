@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useMemo, useState } from "react";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, HStack, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
@@ -31,6 +31,9 @@ const Quest: FC<{
   const { colorMode } = useContext(AppContext);
   const [selected, setSelected] = useState<Selected | undefined>(undefined);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
+  const exp = useMemo(() => {
+    return metadataList.reduce((memo, metadata) => memo + (claimedList[metadata.tokenId] ? metadata.EXP || 0 : 0), 0);
+  }, [claimedList]);
 
   return (
     <Modal w="832px" h="712px" isOpen={isOpen} onClose={onClose} onCloseComplete={() => setSelected(undefined)}>
@@ -92,7 +95,11 @@ const Quest: FC<{
             {metadataList.map((metadata, i) => {
               const claimable = Boolean(claimableList[metadata.tokenId]);
               const claimed = claimedList[metadata.tokenId];
-              const progress = { counter: progressList[metadata.tokenId]?.counter || 0, value: progressList[metadata.tokenId]?.value || 1 };
+              const progress = {
+                // todo
+                counter: [38, 39, 40, 41, 42].includes(metadata.tokenId) ? exp : progressList[metadata.tokenId]?.counter || 0,
+                value: progressList[metadata.tokenId]?.value || 1,
+              };
 
               return (
                 <VStack
