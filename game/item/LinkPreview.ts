@@ -15,8 +15,8 @@ const defaultOGPSize = 48;
 export default class LinkPreview {
   private link: PhiLink;
   private ogpURL: string;
-  container: Container;
 
+  container: Container;
   bgLight: Graphics;
   bgDark: Graphics;
   bgLightArrow: Graphics;
