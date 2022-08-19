@@ -70,7 +70,7 @@ const Tour2: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onCli
     transform="translateX(-50%)"
     w="312px"
     title="2/3 Check and deposit objects"
-    description="Objects you claimed or brought will show up in your wallet. You can then deposit your objects from your wallet to start decorating your land."
+    description="Objects you claimed or purchased will show up in your wallet. You can then deposit your objects from your wallet to start decorating your land."
     onClickBack={onClickBack}
     onClickNext={onClickNext}
   />
