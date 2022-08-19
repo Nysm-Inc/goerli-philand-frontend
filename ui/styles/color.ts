@@ -79,7 +79,7 @@ export const subColors = {
   },
   green: {
     350: "#14B881",
-    250: "#17CE92",
+    250: "#33CC99",
     150: "#70DBB8",
   },
   red: {

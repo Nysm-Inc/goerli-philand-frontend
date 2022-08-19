@@ -58,7 +58,15 @@ const ClaimButton: FC<{
               </Text>
             </Button>
           ) : (
-            <Center position="relative" w="full" h="48px" p="12px" borderRadius="12px" bgColor="warmgrey.90" cursor="not-allowed">
+            <Center
+              position="relative"
+              w="full"
+              h="48px"
+              p="12px"
+              borderRadius="12px"
+              cursor="not-allowed"
+              bgColor={colorMode === "light" ? "warmgrey.90" : "dark.grey800"}
+            >
               <Progress w="full" p="2px" bgColor="grey.900" borderRadius="48px" value={(progress.counter / progress.value) * 100} />
               <HStack position="absolute" right="calc(12px + 4px)" top="calc(50% + 2px)" transform="translateY(-50%)" spacing="0px">
                 <Text textStyle="button-1" color="green.250">

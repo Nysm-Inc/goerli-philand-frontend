@@ -94,7 +94,7 @@ const Detail: FC<{
               </Text>
             </HStack>
           </VStack>
-          <Box w={selected.claimable ? (selected.claimed ? "160px" : "134px") : "200px"}>
+          <Box w={selected.claimable ? (selected.claimed ? "160px" : "134px") : "full"}>
             <ClaimButton
               claimable={selected.claimable}
               progress={selected.progress}
