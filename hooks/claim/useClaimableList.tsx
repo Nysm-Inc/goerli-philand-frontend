@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { useBlockNumber } from "wagmi";
-import { ClaimableList } from "~/types/quest";
+import { QuestClaimableList } from "~/types/quest";
 import { getClaimableList, postClaimableList } from "~/utils/condition";
 
-const useClaimableList = (address?: string): [ClaimableList, () => Promise<void>] => {
+const useClaimableList = (address?: string): [QuestClaimableList, () => Promise<void>] => {
   const { data: blockNumber } = useBlockNumber({ watch: true });
-  const [claimableList, setClaimableList] = useState<ClaimableList>([]);
+  const [claimableList, setClaimableList] = useState<QuestClaimableList>([]);
 
   const updateClaimableList = useCallback(async () => {
     if (!address) return;
@@ -24,7 +24,20 @@ const useClaimableList = (address?: string): [ClaimableList, () => Promise<void>
 
     (async () => {
       const list = await getClaimableList(address);
-      setClaimableList(list);
+      setClaimableList(
+        list.reduce(
+          (memo, progress) => ({
+            ...memo,
+            [progress.TokenId]: {
+              tokenId: progress.TokenId,
+              condition: progress.Condition,
+              value: progress.Value,
+              timeStamp: progress.TimeStamp,
+            },
+          }),
+          {}
+        )
+      );
     })();
   }, [address, blockNumber]);
 
