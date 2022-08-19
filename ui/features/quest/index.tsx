@@ -90,7 +90,7 @@ const Quest: FC<{
             {Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
               const claimable = Boolean(claimableList[metadata.tokenId]);
               const claimed = claimedList[metadata.tokenId];
-              const progress = { counter: progressList[metadata.tokenId]?.counter, value: progressList[metadata.tokenId]?.value };
+              const progress = { counter: progressList[metadata.tokenId]?.counter || 0, value: progressList[metadata.tokenId]?.value || 0 };
 
               return (
                 <VStack

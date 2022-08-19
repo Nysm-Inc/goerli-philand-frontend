@@ -35,9 +35,9 @@ export type QuestClaimable = {
   condition: string;
   value: string;
   timeStamp: string;
-}[];
+};
 
-export type QuestClaimableList = { [tokenId: number]: QuestClaimable };
+export type QuestClaimableList = { [tokenId: number]: QuestClaimable | null };
 
 export type QuestProgress = {
   tokenId: number;
@@ -46,4 +46,4 @@ export type QuestProgress = {
   counter: number;
 };
 
-export type QuestProgressList = { [tokenId: number]: QuestProgress };
+export type QuestProgressList = { [tokenId: number]: QuestProgress | null };
