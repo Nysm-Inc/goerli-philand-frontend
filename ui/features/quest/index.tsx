@@ -15,6 +15,8 @@ import Badge from "~/ui/components/common/Badge";
 import ClaimButton from "./ClaimButton";
 import Detail, { Selected } from "./Detail";
 
+const metadataList = Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]);
+
 const Quest: FC<{
   claimableList: QuestClaimableList;
   claimedList: { [tokenId: number]: boolean };
@@ -87,7 +89,7 @@ const Quest: FC<{
           />
         ) : (
           <SimpleGrid columns={3} spacing="8px">
-            {Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
+            {metadataList.map((metadata, i) => {
               const claimable = Boolean(claimableList[metadata.tokenId]);
               const claimed = claimedList[metadata.tokenId];
               const progress = { counter: progressList[metadata.tokenId]?.counter || 0, value: progressList[metadata.tokenId]?.value || 1 };
