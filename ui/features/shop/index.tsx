@@ -131,7 +131,7 @@ const Shop: FC<{
   const openNavi = useNavi();
   const itemNum = useMemo(() => items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0), [items]);
   const itemPrice = useMemo(() => items.reduce((sum, item) => (item.select > 0 ? sum + item.select * item.price : sum), 0), [items]);
-  const insufficient = useMemo(() => !!data?.value?.lt(utils.parseUnits(itemPrice.toString(), data.decimals)), [data, itemPrice]);
+  const insufficient = useMemo(() => !!data?.value?.lt(utils.parseUnits(itemPrice.toString(), data.decimals)), [itemPrice]);
 
   const plus = (idx: number) => {
     const copied = [...items];
