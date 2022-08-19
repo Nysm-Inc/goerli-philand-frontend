@@ -131,7 +131,8 @@ const Shop: FC<{
   const openNavi = useNavi();
   const itemNum = useMemo(() => items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0), [items]);
   const itemPrice = useMemo(() => items.reduce((sum, item) => (item.select > 0 ? sum + item.select * item.price : sum), 0), [items]);
-  const insufficient = useMemo(() => !!data?.value?.lt(utils.parseUnits(itemPrice.toString(), data.decimals)), [itemPrice]);
+  const insufficient = useMemo(() => !!data?.value?.lt(utils.parseUnits(itemPrice.toString(), data.decimals)), [data, itemPrice]);
+  const isSelected = useMemo(() => items.some((item) => item.select > 0), [items]);
 
   const plus = (idx: number) => {
     const copied = [...items];
@@ -186,12 +187,12 @@ const Shop: FC<{
                     <Cart key={i} contract={tabIdx2Contract[tabIdx]} item={item} plus={() => plus(i)} minus={() => minus(i)} />
                   ))}
                 </SimpleGrid>
-                {items.some((item) => item.select > 0) && <Box h="120px" />}
+                {isSelected && <Box h="120px" />}
               </TabPanel>
             ))}
           </TabPanels>
         </ModalBody>
-        {items.some((item) => item.select > 0) && (
+        {isSelected && (
           <Box w="full" position="absolute" bottom="0" left="0">
             <ModalFooter
               text="Purchase"
