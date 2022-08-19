@@ -1,14 +1,13 @@
 import { FC, useContext } from "react";
 import { useProvider } from "wagmi";
-import { Text, useBoolean } from "@chakra-ui/react";
+import { Center, HStack, Progress, Text, useBoolean } from "@chakra-ui/react";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
 import useNavi from "~/ui/components/NaviNotification";
 import Button from "~/ui/components/common/Button";
-import { colors } from "~/ui/styles/color";
+
 import { event } from "~/utils/ga/ga";
-import { textShadows } from "~/ui/styles/typography";
 
 const ClaimButton: FC<{
   claimable: boolean;
@@ -59,16 +58,15 @@ const ClaimButton: FC<{
               </Text>
             </Button>
           ) : (
-            <Button w="full" color="purple" disabled>
-              <Text
-                color="grey.500"
-                textStyle="button-1"
-                textShadow={textShadows["button-1-disabled"]}
-                style={{ WebkitTextStroke: colorMode === "light" ? `1px ${colors.grey[200]}` : `1px ${colors.dark.grey800}` }}
-              >
-                {`${Number.isInteger(progress.counter) ? progress.counter : progress.counter.toPrecision(2)} / ${progress.value}`}
-              </Text>
-            </Button>
+            <Center position="relative" w="full" h="48px" p="12px" borderRadius="12px" bgColor="warmgrey.90" cursor="not-allowed">
+              <Progress w="full" p="2px" bgColor="grey.900" borderRadius="48px" value={(progress.counter / progress.value) * 100} />
+              <HStack position="absolute" right="calc(12px + 4px)" top="calc(50% + 2px)" transform="translateY(-50%)" spacing="0px">
+                <Text textStyle="button-1" color="green.250">
+                  {Number.isInteger(progress.counter) ? progress.counter : progress.counter.toPrecision(2)}
+                </Text>
+                <Text pt="6px" textStyle="button-1" fontSize="9px" color="white">{`/${progress.value}`}</Text>
+              </HStack>
+            </Center>
           )}
         </>
       )}

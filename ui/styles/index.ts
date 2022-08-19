@@ -48,6 +48,13 @@ const theme = extendTheme({
         },
       },
     },
+    Progress: {
+      baseStyle: {
+        filledTrack: {
+          bg: colors.green[250],
+        },
+      },
+    },
   },
 });
 
