@@ -44,6 +44,7 @@ const CreatePhiland: FC<{
               selected={{ label: currentENS, value: currentENS }}
               handleChange={switchCurrentENS}
               disabled={isLoading}
+              placeholder="Select your ENS"
             />
             <Button
               w="408px"
@@ -59,7 +60,7 @@ const CreatePhiland: FC<{
                   .catch(stopLoading);
               }}
               isLoading={isLoading}
-              disabled={insufficient}
+              disabled={insufficient || !currentENS}
             >
               <Text
                 color={insufficient ? "grey.500" : "white"}
