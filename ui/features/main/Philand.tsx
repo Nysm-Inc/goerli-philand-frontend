@@ -111,6 +111,7 @@ const Philand: FC<{
         onClickUpdate={updateClaimableList}
       />
       <Shop
+        address={address}
         isOpen={isOpenShop}
         onOpenWallet={onOpenWallet}
         onClose={onCloseShop}

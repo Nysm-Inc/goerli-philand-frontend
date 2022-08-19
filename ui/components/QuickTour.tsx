@@ -66,11 +66,11 @@ const Tour1: FC<{ onClickNext: () => void }> = ({ onClickNext }) => (
 const Tour2: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onClickBack, onClickNext }) => (
   <Tour
     bottom="calc(95px + 16px)"
-    left="calc(50% - 12px)"
+    left="calc(50% - 40px)"
     transform="translateX(-50%)"
     w="312px"
     title="2/3 Check and deposit objects"
-    description="Objects you claimed or brought will show up in your wallet. You can then deposit your objects from your wallet to start decorating your land."
+    description="Objects you claimed or purchased will show up in your wallet. You can then deposit your objects from your wallet to start decorating your land."
     onClickBack={onClickBack}
     onClickNext={onClickNext}
   />
@@ -79,7 +79,7 @@ const Tour2: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onCli
 const Tour3: FC<{ onClickBack: () => void; onClickNext: () => void }> = ({ onClickBack, onClickNext }) => (
   <Tour
     bottom="calc(95px + 16px)"
-    left="calc(50% + 162px)"
+    left="calc(50% + 186px)"
     transform="translateX(-50%)"
     w="294px"
     title="3/3 Edit and save your land"

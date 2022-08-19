@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { FC, useContext, useState } from "react";
-import { useProvider } from "wagmi";
+import { FC, useContext, useMemo, useState } from "react";
+import { useBalance, useProvider } from "wagmi";
+import { utils } from "ethers";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, Flex, HStack, SimpleGrid, TabPanel, TabPanels, Tabs, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
@@ -111,6 +112,7 @@ const Cart: FC<{
 };
 
 const Shop: FC<{
+  address: string;
   isOpen: boolean;
   onOpenWallet: () => void;
   onClose: () => void;
@@ -119,13 +121,18 @@ const Shop: FC<{
     [PREMIUM_OBJECT_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
     [WALLPAPER_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
   };
-}> = ({ isOpen, onOpenWallet, onClose, onSubmit }) => {
+}> = ({ address, isOpen, onOpenWallet, onClose, onSubmit }) => {
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
+  const { data } = useBalance({ addressOrName: address, watch: true });
   const [items, setItems] = useState<Item[]>(defaultItems(FREE_OBJECT_CONTRACT_ADDRESS));
   const [tabIdx, setTabIdx] = useState(0);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const openNavi = useNavi();
+  const itemNum = useMemo(() => items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0), [items]);
+  const itemPrice = useMemo(() => items.reduce((sum, item) => (item.select > 0 ? sum + item.select * item.price : sum), 0), [items]);
+  const insufficient = useMemo(() => !!data?.value?.lt(utils.parseUnits(itemPrice.toString(), data.decimals)), [data, itemPrice]);
+  const isSelected = useMemo(() => items.some((item) => item.select > 0), [items]);
 
   const plus = (idx: number) => {
     const copied = [...items];
@@ -180,19 +187,20 @@ const Shop: FC<{
                     <Cart key={i} contract={tabIdx2Contract[tabIdx]} item={item} plus={() => plus(i)} minus={() => minus(i)} />
                   ))}
                 </SimpleGrid>
-                {items.some((item) => item.select > 0) && <Box h="120px" />}
+                {isSelected && <Box h="120px" />}
               </TabPanel>
             ))}
           </TabPanels>
         </ModalBody>
-        {items.some((item) => item.select > 0) && (
+        {isSelected && (
           <Box w="full" position="absolute" bottom="0" left="0">
             <ModalFooter
               text="Purchase"
-              itemNum={items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0)}
-              itemPrice={items.reduce((sum, item) => (item.select > 0 ? sum + item.select * item.price : sum), 0)}
               subText="After purchase, your objects are stored in your wallet"
+              itemNum={itemNum}
+              itemPrice={itemPrice}
               isLoading={isLoading}
+              disabled={insufficient}
               onClick={() => {
                 startLoading();
                 const tokenIds = items.reduce((memo, item) => {

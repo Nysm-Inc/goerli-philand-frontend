@@ -73,8 +73,9 @@ const ModalFooter: FC<{
   buttonW?: "full" | "512px";
   subText: string;
   isLoading?: boolean;
+  disabled?: boolean;
   onClick: () => void;
-}> = ({ text, itemNum, itemPrice, buttonW = "512px", subText, isLoading, onClick }) => {
+}> = ({ text, itemNum, itemPrice, buttonW = "512px", subText, isLoading, disabled, onClick }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -96,6 +97,7 @@ const ModalFooter: FC<{
         borderRadius="16px"
         isLoading={isLoading}
         onClick={onClick}
+        disabled={disabled}
         leftIcon={
           <Text pl="12px" textStyle="button-1" color="white">
             {text}
@@ -109,7 +111,12 @@ const ModalFooter: FC<{
             </Text>
             {itemPrice ? (
               <>
-                <Box w="2px" h="16px" m="0px 4px" bgColor="primary.500" />
+                <Box
+                  w="2px"
+                  h="16px"
+                  m="0px 4px"
+                  bgColor={disabled ? (colorMode === "light" ? "light.g_orange" : "dark.grey700") : "primary.500"}
+                />
                 <Image src="/icons/polygon_logo.svg" width="24px" height="24px" alt="" />
                 <Text textStyle="headline-2" color="white">
                   {itemPrice + " MATIC"}
