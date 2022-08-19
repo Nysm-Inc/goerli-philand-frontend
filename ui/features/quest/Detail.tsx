@@ -37,8 +37,10 @@ const Row: FC<{ idx: number; length: number; children?: ReactNode }> = ({ idx, l
   );
 };
 
+export type Selected = ObjectMetadata & { claimable: boolean; claimed: boolean; progress: { counter: number; value: number } };
+
 const Detail: FC<{
-  selected: ObjectMetadata & { claimable: boolean; claimed: boolean };
+  selected: Selected;
   totalSupply: { [tokenId: number]: number };
   onClick: () => Promise<TransactionResponse | undefined>;
   onClickAfterTx: () => void;
@@ -93,7 +95,13 @@ const Detail: FC<{
             </HStack>
           </VStack>
           <Box w={selected.claimable ? (selected.claimed ? "160px" : "134px") : "200px"}>
-            <ClaimButton claimable={selected.claimable} claimed={selected.claimed} onClick={onClick} onClickAfterTx={onClickAfterTx} />
+            <ClaimButton
+              claimable={selected.claimable}
+              progress={selected.progress}
+              claimed={selected.claimed}
+              onClick={onClick}
+              onClickAfterTx={onClickAfterTx}
+            />
           </Box>
         </VStack>
       </HStack>

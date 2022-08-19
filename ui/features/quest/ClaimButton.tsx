@@ -13,9 +13,13 @@ import { textShadows } from "~/ui/styles/typography";
 const ClaimButton: FC<{
   claimable: boolean;
   claimed: boolean;
+  progress: {
+    counter: number;
+    value: number;
+  };
   onClick: () => Promise<TransactionResponse | undefined>;
   onClickAfterTx: () => void;
-}> = ({ claimable, claimed, onClick, onClickAfterTx }) => {
+}> = ({ claimable, progress, claimed, onClick, onClickAfterTx }) => {
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
@@ -62,7 +66,7 @@ const ClaimButton: FC<{
                 textShadow={textShadows["button-1-disabled"]}
                 style={{ WebkitTextStroke: colorMode === "light" ? `1px ${colors.grey[200]}` : `1px ${colors.dark.grey800}` }}
               >
-                Not Eligible
+                {`${Number.isInteger(progress.counter) ? progress.counter : progress.counter.toPrecision(2)} / ${progress.value}`}
               </Text>
             </Button>
           )}

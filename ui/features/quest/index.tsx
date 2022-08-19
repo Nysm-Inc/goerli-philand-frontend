@@ -3,7 +3,7 @@ import { FC, useContext, useState } from "react";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, HStack, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
-import { ObjectMetadata, objectMetadataList } from "~/types/object";
+import { objectMetadataList } from "~/types/object";
 import { QuestClaimableList, QuestProgressList } from "~/types/quest";
 import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
@@ -13,21 +13,21 @@ import { Modal, ModalBody, ModalHeader } from "~/ui/components/common/Modal";
 import IconButton from "~/ui/components/common/IconButton";
 import Badge from "~/ui/components/common/Badge";
 import ClaimButton from "./ClaimButton";
-import Detail from "./Detail";
+import Detail, { Selected } from "./Detail";
 
 const Quest: FC<{
   claimableList: QuestClaimableList;
-  progressList: QuestProgressList;
   claimedList: { [tokenId: number]: boolean };
+  progressList: QuestProgressList;
   totalSupply: { [tokenId: number]: number };
   isOpen: boolean;
   onOpenWallet: () => void;
   onClose: () => void;
   onClickItem: (tokenId: number) => Promise<TransactionResponse | undefined>;
   onClickUpdate: () => Promise<void>;
-}> = ({ claimableList, progressList, claimedList, totalSupply, isOpen, onOpenWallet, onClose, onClickItem, onClickUpdate }) => {
+}> = ({ claimableList, claimedList, progressList, totalSupply, isOpen, onOpenWallet, onClose, onClickItem, onClickUpdate }) => {
   const { colorMode } = useContext(AppContext);
-  const [selected, setSelected] = useState<(ObjectMetadata & { claimable: boolean; claimed: boolean }) | undefined>(undefined);
+  const [selected, setSelected] = useState<Selected | undefined>(undefined);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
 
   return (
@@ -90,6 +90,8 @@ const Quest: FC<{
             {Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]).map((metadata, i) => {
               const claimable = Boolean(claimableList[metadata.tokenId]);
               const claimed = claimedList[metadata.tokenId];
+              const progress = { counter: progressList[metadata.tokenId]?.counter, value: progressList[metadata.tokenId]?.value };
+
               return (
                 <VStack
                   key={i}
@@ -108,7 +110,7 @@ const Quest: FC<{
                     h="144px"
                     cursor="pointer"
                     {...(!claimable && { opacity: 0.5 })}
-                    onClick={() => setSelected({ ...metadata, claimable, claimed })}
+                    onClick={() => setSelected({ ...metadata, claimable, claimed, progress })}
                   >
                     <Box position="relative" w="96px" h="96px">
                       <Image src={metadata.image_url} layout="fill" objectFit="contain" draggable={false} alt="" />
@@ -128,6 +130,7 @@ const Quest: FC<{
                   </VStack>
                   <ClaimButton
                     claimable={claimable}
+                    progress={progress}
                     claimed={claimed}
                     onClick={() => onClickItem(metadata.tokenId)}
                     onClickAfterTx={() => {

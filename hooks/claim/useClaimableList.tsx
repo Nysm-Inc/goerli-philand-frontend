@@ -5,7 +5,7 @@ import { getClaimableList, postClaimableList } from "~/utils/condition";
 
 const useClaimableList = (address?: string): [QuestClaimableList, () => Promise<void>] => {
   const { data: blockNumber } = useBlockNumber({ watch: true });
-  const [claimableList, setClaimableList] = useState<QuestClaimableList>([]);
+  const [claimableList, setClaimableList] = useState<QuestClaimableList>({});
 
   const updateClaimableList = useCallback(async () => {
     if (!address) return;
