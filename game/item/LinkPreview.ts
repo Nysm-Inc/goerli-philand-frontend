@@ -8,6 +8,10 @@ import { isValid } from "~/utils/ens";
 import { ColorMode } from "~/ui/styles";
 import { FRONTEND_URL } from "~/constants";
 
+const [bgW, bgH] = [296, 64];
+const [arrowW, arrowH] = [16, 8];
+const defaultOGPSize = 48;
+
 export default class LinkPreview {
   private link: PhiLink;
   private ogpURL: string;
@@ -15,6 +19,8 @@ export default class LinkPreview {
 
   bgLight: Graphics;
   bgDark: Graphics;
+  bgLightArrow: Graphics;
+  bgDarkArrow: Graphics;
   text: Text;
   defaultOGP: Graphics;
   ogp: Sprite;
@@ -41,34 +47,58 @@ export default class LinkPreview {
     this.bgLight = new Graphics();
     this.bgLight.visible = false;
     this.bgLight.beginFill(0x000000);
-    this.bgLight.drawRoundedRect(0, 0, 296, 64, 16);
+    this.bgLight.drawRoundedRect(0, 0, bgW, bgH, 16);
     this.bgLight.endFill();
     clickableArea.addChild(this.bgLight);
+
+    this.bgLightArrow = new Graphics();
+    this.bgLightArrow.x = bgW / 2 - arrowW / 2;
+    this.bgLightArrow.y = bgH;
+    this.bgLightArrow.beginFill(0x000000);
+    this.bgLightArrow.lineStyle(0, 0x000000);
+    this.bgLightArrow.moveTo(arrowW, 0);
+    this.bgLightArrow.lineTo(arrowW / 2, arrowH);
+    this.bgLightArrow.lineTo(0, 0);
+    this.bgLightArrow.lineTo(arrowW / 2, 0);
+    this.bgLightArrow.endFill();
+    clickableArea.addChild(this.bgLightArrow);
 
     this.bgDark = new Graphics();
     this.bgDark.visible = false;
     this.bgDark.beginFill(0xffffff);
-    this.bgDark.drawRoundedRect(0, 0, 296, 64, 16);
+    this.bgDark.drawRoundedRect(0, 0, bgW, bgH, 16);
     this.bgDark.endFill();
     clickableArea.addChild(this.bgDark);
 
+    this.bgDarkArrow = new Graphics();
+    this.bgDarkArrow.x = bgW / 2 - arrowW / 2;
+    this.bgDarkArrow.y = bgH;
+    this.bgDarkArrow.beginFill(0xffffff);
+    this.bgDarkArrow.lineStyle(0, 0xffffff);
+    this.bgDarkArrow.moveTo(arrowW, 0);
+    this.bgDarkArrow.lineTo(arrowW / 2, arrowH);
+    this.bgDarkArrow.lineTo(0, 0);
+    this.bgDarkArrow.lineTo(arrowW / 2, 0);
+    this.bgDarkArrow.endFill();
+    clickableArea.addChild(this.bgDarkArrow);
+
     const gapArea = new Graphics();
     gapArea.beginFill(0xffffff, 0.001);
-    gapArea.drawRoundedRect(0, 64, 296, 64 * 2, 0);
+    gapArea.drawRoundedRect(0, bgH, bgW, bgH, 0);
     gapArea.endFill();
     hiddenArea.addChild(gapArea);
 
     this.defaultOGP = new Graphics();
     this.defaultOGP.beginFill(0xcccccc);
-    this.defaultOGP.drawRoundedRect(8, 8, 48, 48, 8);
+    this.defaultOGP.drawRoundedRect(8, 8, defaultOGPSize, defaultOGPSize, 8);
     this.defaultOGP.endFill();
     clickableArea.addChild(this.defaultOGP);
 
     this.ogp = new Sprite();
     this.ogp.x = 8;
     this.ogp.y = 8;
-    this.ogp.width = 48;
-    this.ogp.height = 48;
+    this.ogp.width = defaultOGPSize;
+    this.ogp.height = defaultOGPSize;
     clickableArea.addChild(this.ogp);
 
     // memo: paragraph-1
@@ -80,8 +110,8 @@ export default class LinkPreview {
       letterSpacing: -0.02,
       align: "center",
     });
-    this.text.x = 48 + 8 + 8;
-    this.text.y = 64 / 2 - 8;
+    this.text.x = defaultOGPSize + 8 + 8;
+    this.text.y = bgH / 2 - 8;
     clickableArea.addChild(this.text);
   }
 
@@ -102,10 +132,10 @@ export default class LinkPreview {
         img.onload = () => {
           this.ogpURL = res.data.ogp;
 
-          const w = 48 * (img.width / img.height);
+          const w = defaultOGPSize * (img.width / img.height);
 
           this.defaultOGP.beginFill(0xcccccc);
-          this.defaultOGP.drawRoundedRect(8, 8, w, 48, 8);
+          this.defaultOGP.drawRoundedRect(8, 8, w, defaultOGPSize, 8);
           this.defaultOGP.endFill();
 
           this.ogp.width = w;
