@@ -73,8 +73,7 @@ const useNavi = () => {
 
   useEffect(() => {
     const toastManagerDomNode = document.getElementById(toastManagerId);
-    if (!toastManagerDomNode) return;
-    toastManagerDomNode.style.padding = "72px 0 0 0";
+    if (toastManagerDomNode) toastManagerDomNode.style.padding = "72px 0 0 0";
   }, []);
 
   return useCallback(

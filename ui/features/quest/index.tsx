@@ -23,11 +23,11 @@ const Quest: FC<{
   progressList: QuestProgressList;
   totalSupply: { [tokenId: number]: number };
   isOpen: boolean;
-  onOpenWallet: () => void;
   onClose: () => void;
   onClickItem: (tokenId: number) => Promise<TransactionResponse | undefined>;
   onClickUpdate: () => Promise<void>;
-}> = ({ claimableList, claimedList, progressList, totalSupply, isOpen, onOpenWallet, onClose, onClickItem, onClickUpdate }) => {
+  onClickNavi: () => void;
+}> = ({ claimableList, claimedList, progressList, totalSupply, isOpen, onClose, onClickItem, onClickUpdate, onClickNavi }) => {
   const { colorMode } = useContext(AppContext);
   const [selected, setSelected] = useState<Selected | undefined>(undefined);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
@@ -78,15 +78,7 @@ const Quest: FC<{
       <Box h="16px" />
       <ModalBody>
         {selected ? (
-          <Detail
-            selected={selected}
-            totalSupply={totalSupply}
-            onClick={() => onClickItem(selected.tokenId)}
-            onClickAfterTx={() => {
-              onClose();
-              onOpenWallet();
-            }}
-          />
+          <Detail selected={selected} totalSupply={totalSupply} onClick={() => onClickItem(selected.tokenId)} onClickNavi={onClickNavi} />
         ) : (
           <SimpleGrid columns={3} spacing="8px">
             {metadataList.map((metadata, i) => {
@@ -138,10 +130,7 @@ const Quest: FC<{
                     progress={progress}
                     claimed={claimed}
                     onClick={() => onClickItem(metadata.tokenId)}
-                    onClickAfterTx={() => {
-                      onClose();
-                      onOpenWallet();
-                    }}
+                    onClickNavi={onClickNavi}
                   />
                 </VStack>
               );
