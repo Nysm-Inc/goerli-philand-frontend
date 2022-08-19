@@ -11,8 +11,9 @@ const SelectBox: FC<{
   options: Option[];
   selected: Option;
   disabled?: boolean;
+  placeholder?: string;
   handleChange: (value: string) => void;
-}> = ({ w, menuW, options, selected, disabled, handleChange }) => {
+}> = ({ w, menuW, options, selected, disabled, placeholder, handleChange }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -39,7 +40,7 @@ const SelectBox: FC<{
               textOverflow="ellipsis"
               color={disabled ? (colorMode === "light" ? "dark.grey300" : "dark.grey600") : colorMode === "light" ? "grey.900" : "white"}
             >
-              {selected.label}
+              {selected.value ? selected.label : placeholder}
             </Text>
           </MenuButton>
 
