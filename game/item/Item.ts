@@ -46,7 +46,7 @@ export default class Item {
 
     this.preview = new LinkPreview();
     this.preview.container.x = texture.width / 2 - this.preview.container.width / 2;
-    this.preview.container.y = -64 - 16;
+    this.preview.container.y = -48;
     this.preview.update(object.link);
     this.container.on("mouseover", () => this.mouseOver(), this);
     this.container.on("mouseout", () => this.mouseOut(), this);
@@ -100,10 +100,14 @@ export default class Item {
 
     if (engine.colorMode === "light") {
       this.preview.bgLight.visible = true;
+      this.preview.bgLightArrow.visible = true;
       this.preview.bgDark.visible = false;
+      this.preview.bgDarkArrow.visible = false;
     } else {
       this.preview.bgLight.visible = false;
+      this.preview.bgLightArrow.visible = false;
       this.preview.bgDark.visible = true;
+      this.preview.bgDarkArrow.visible = true;
     }
     this.preview.draw(engine.colorMode);
     this.preview.container.visible = true;
