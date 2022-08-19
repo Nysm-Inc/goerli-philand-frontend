@@ -62,7 +62,7 @@ const ClaimButton: FC<{
               <Progress w="full" p="2px" bgColor="grey.900" borderRadius="48px" value={(progress.counter / progress.value) * 100} />
               <HStack position="absolute" right="calc(12px + 4px)" top="calc(50% + 2px)" transform="translateY(-50%)" spacing="0px">
                 <Text textStyle="button-1" color="green.250">
-                  {Number.isInteger(progress.counter) ? progress.counter : progress.counter.toPrecision(2)}
+                  {Number.isInteger(progress.counter) ? progress.counter : progress.counter.toFixed(1)}
                 </Text>
                 <Text pt="6px" textStyle="button-1" fontSize="9px" color="white">{`/${progress.value}`}</Text>
               </HStack>
