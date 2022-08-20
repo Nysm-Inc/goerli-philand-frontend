@@ -1,44 +1,63 @@
 import Image from "next/image";
-import { FC, useContext } from "react";
+import { FC, useContext, useMemo } from "react";
 import { useProvider } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Divider, HStack, Text, Tooltip as ChakraTooltip, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import { BalanceObject, Wallpaper } from "~/types";
 import { event } from "~/utils/ga/ga";
-import Icon from "~/ui/components/Icon";
 import IconButton from "./common/IconButton";
 import SelectBox from "./common/SelectBox";
 import Button from "./common/Button";
 import Tooltip from "./common/Tooltip";
+import Icon from "./Icon";
+import SelectWallpaper from "./SelectWallpaper";
 
 const MenuBar: FC<{
   initialized: boolean;
   isDiff: boolean;
   noObjectsInLand: boolean;
   isEdit: boolean;
-  isOpen: {
-    wallet: boolean;
-    land: boolean;
-  };
+  isOpen: { wallet: boolean; land: boolean };
   currentENS: string;
   domains: string[];
+  currentWallpaper?: Wallpaper;
+  balanceWallpapers: BalanceObject[];
   actionHandler: {
     onOpenWallet: () => void;
     onOpenLand: () => void;
     onCloseLand: () => void;
     onSwitchCurrentENS: (ens: string) => void;
+    onChangeWallpaper: (tokenId: number) => void;
     onView: () => void;
     onEdit: () => void;
     onSave: () => Promise<TransactionResponse | undefined>;
   };
-}> = ({ initialized, isDiff, noObjectsInLand, isEdit, isOpen, currentENS, domains, actionHandler }) => {
+}> = ({
+  initialized,
+  isDiff,
+  noObjectsInLand,
+  isEdit,
+  isOpen,
+  currentENS,
+  domains,
+  currentWallpaper,
+  balanceWallpapers,
+  actionHandler,
+}) => {
   const { game, colorMode } = useContext(AppContext);
   const provider = useProvider();
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
+  const wallpaperTokenIds = useMemo(() => {
+    const tokenIds = currentWallpaper?.tokenId
+      ? [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId), currentWallpaper.tokenId]
+      : [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId)];
+    return Array.from(new Set(tokenIds));
+  }, [currentWallpaper?.tokenId, balanceWallpapers.length]);
 
   return (
     <HStack
-      zIndex="default"
+      zIndex="menubar"
       position="fixed"
       bottom="32px"
       left="50%"
@@ -69,37 +88,7 @@ const MenuBar: FC<{
       </>
 
       <>
-        {!isEdit ? (
-          <HStack spacing="0">
-            <IconButton
-              ariaLabel="wallet"
-              icon={<Image src="/icons/wallet.svg" width="32px" height="32px" alt="" />}
-              outline={isOpen.wallet}
-              isActive={isOpen.wallet}
-              boxShadow={false}
-              onClick={() => {
-                actionHandler.onOpenWallet();
-                event({ action: "click", category: "menubar", label: "wallet" });
-              }}
-            />
-            {noObjectsInLand ? (
-              <Icon name="arrow" color={colorMode === "light" ? "grey.900" : "white"} />
-            ) : (
-              <Icon name="arrowTwoWay" color={colorMode === "light" ? "grey.900" : "white"} />
-            )}
-            <IconButton
-              ariaLabel="land"
-              icon={<Image src="/icons/land.svg" width="32px" height="32px" alt="" />}
-              outline={isOpen.land}
-              isActive={isOpen.land}
-              boxShadow={false}
-              onClick={() => {
-                actionHandler.onOpenLand();
-                event({ action: "click", category: "menubar", label: "land" });
-              }}
-            />
-          </HStack>
-        ) : (
+        {isEdit ? (
           <>
             <Button
               w="88px"
@@ -129,7 +118,43 @@ const MenuBar: FC<{
                 event({ action: "click", category: "menubar", label: "land" });
               }}
             />
+            <SelectWallpaper
+              currentWallpaper={currentWallpaper?.tokenId}
+              tokenIds={wallpaperTokenIds}
+              disabled={wallpaperTokenIds.length <= 0}
+              onChange={actionHandler.onChangeWallpaper}
+            />
           </>
+        ) : (
+          <HStack spacing="0">
+            <IconButton
+              ariaLabel="wallet"
+              icon={<Image src="/icons/wallet.svg" width="32px" height="32px" alt="" />}
+              outline={isOpen.wallet}
+              isActive={isOpen.wallet}
+              boxShadow={false}
+              onClick={() => {
+                actionHandler.onOpenWallet();
+                event({ action: "click", category: "menubar", label: "wallet" });
+              }}
+            />
+            {noObjectsInLand ? (
+              <Icon name="arrow" color={colorMode === "light" ? "grey.900" : "white"} />
+            ) : (
+              <Icon name="arrowTwoWay" color={colorMode === "light" ? "grey.900" : "white"} />
+            )}
+            <IconButton
+              ariaLabel="land"
+              icon={<Image src="/icons/land.svg" width="32px" height="32px" alt="" />}
+              outline={isOpen.land}
+              isActive={isOpen.land}
+              boxShadow={false}
+              onClick={() => {
+                actionHandler.onOpenLand();
+                event({ action: "click", category: "menubar", label: "land" });
+              }}
+            />
+          </HStack>
         )}
         <Divider orientation="vertical" color={colorMode === "light" ? "light.g_orange" : "dark.grey700"} h="48px" />
       </>

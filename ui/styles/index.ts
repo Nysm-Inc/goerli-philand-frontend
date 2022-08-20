@@ -7,6 +7,7 @@ export type ColorMode = "light" | "dark";
 export const zIndices = {
   canvas: 0,
   default: 1,
+  menubar: 2,
   "search-menulist": 2,
   "canvas-focus": 3,
 };
