@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   QUEST_OBJECT_CONTRACT_ADDRESS,
@@ -6,6 +5,7 @@ import {
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
 import { ObjectContractAddress, WallpaperContractAddress } from ".";
+import traitsJson from "~/data/traits.json";
 
 export type ObjectMetadata = {
   tokenId: number;
@@ -973,28 +973,5 @@ export type ObjectTraits = {
   };
 };
 
-export let objectTraisList: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: ObjectTraits } } = {
-  [QUEST_OBJECT_CONTRACT_ADDRESS]: {},
-  [FREE_OBJECT_CONTRACT_ADDRESS]: {},
-  [PREMIUM_OBJECT_CONTRACT_ADDRESS]: {},
-  [WALLPAPER_CONTRACT_ADDRESS]: {},
-};
-
-const setTraits = () => {
-  Promise.all(
-    Object.keys(objectMetadataList).map((key) => {
-      const contract = key as ObjectContractAddress | WallpaperContractAddress;
-      Object.values(objectMetadataList[contract]).map(async (meta) => {
-        const res = await axios.get<ObjectTraits>(meta.json_url);
-        objectTraisList = {
-          ...objectTraisList,
-          [key]: {
-            ...objectTraisList[contract],
-            [meta.tokenId]: res.data,
-          },
-        };
-      });
-    })
-  );
-};
-setTraits();
+export let objectTraisList: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: ObjectTraits } } =
+  traitsJson;

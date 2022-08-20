@@ -16,22 +16,34 @@ let objectTraisList: { [contract in ObjectContractAddress | WallpaperContractAdd
   [WALLPAPER_CONTRACT_ADDRESS]: {},
 };
 
+const getMetadata = async (
+  contract: ObjectContractAddress | WallpaperContractAddress,
+  tokenId: number,
+  url: string
+): Promise<{ contract: ObjectContractAddress | WallpaperContractAddress; tokenId: number; data: ObjectTraits }> => {
+  const res = await axios.get<ObjectTraits>(url);
+  return { contract, tokenId, data: res.data };
+};
+
 const setTraits = async () => {
-  await Promise.all(
-    Object.keys(objectMetadataList).map((key) => {
-      const contract = key as ObjectContractAddress | WallpaperContractAddress;
-      Object.values(objectMetadataList[contract]).map(async (meta) => {
-        const res = await axios.get<ObjectTraits>(meta.json_url);
-        objectTraisList = {
-          ...objectTraisList,
-          [key]: {
-            ...objectTraisList[contract],
-            [meta.tokenId]: res.data,
-          },
-        };
-      });
-    })
-  );
+  const requests: Promise<{ contract: ObjectContractAddress | WallpaperContractAddress; tokenId: number; data: ObjectTraits }>[] = [];
+  Object.keys(objectMetadataList).forEach((key) => {
+    const contract = key as ObjectContractAddress | WallpaperContractAddress;
+    Object.values(objectMetadataList[contract]).forEach((meta) => {
+      requests.push(getMetadata(contract, meta.tokenId, meta.json_url));
+    });
+  });
+
+  const res = await Promise.all(requests);
+  res.forEach((meta) => {
+    objectTraisList = {
+      ...objectTraisList,
+      [meta.contract]: {
+        ...objectTraisList[meta.contract],
+        [meta.tokenId]: meta.data,
+      },
+    };
+  });
 
   writeFileSync("data/traits.json", JSON.stringify(objectTraisList));
 };
