@@ -18,10 +18,7 @@ const MenuBar: FC<{
   isDiff: boolean;
   noObjectsInLand: boolean;
   isEdit: boolean;
-  isOpen: {
-    wallet: boolean;
-    land: boolean;
-  };
+  isOpen: { wallet: boolean; land: boolean };
   currentENS: string;
   domains: string[];
   currentWallpaper?: Wallpaper;
@@ -94,37 +91,7 @@ const MenuBar: FC<{
       </>
 
       <>
-        {!isEdit ? (
-          <HStack spacing="0">
-            <IconButton
-              ariaLabel="wallet"
-              icon={<Image src="/icons/wallet.svg" width="32px" height="32px" alt="" />}
-              outline={isOpen.wallet}
-              isActive={isOpen.wallet}
-              boxShadow={false}
-              onClick={() => {
-                actionHandler.onOpenWallet();
-                event({ action: "click", category: "menubar", label: "wallet" });
-              }}
-            />
-            {noObjectsInLand ? (
-              <Icon name="arrow" color={colorMode === "light" ? "grey.900" : "white"} />
-            ) : (
-              <Icon name="arrowTwoWay" color={colorMode === "light" ? "grey.900" : "white"} />
-            )}
-            <IconButton
-              ariaLabel="land"
-              icon={<Image src="/icons/land.svg" width="32px" height="32px" alt="" />}
-              outline={isOpen.land}
-              isActive={isOpen.land}
-              boxShadow={false}
-              onClick={() => {
-                actionHandler.onOpenLand();
-                event({ action: "click", category: "menubar", label: "land" });
-              }}
-            />
-          </HStack>
-        ) : (
+        {isEdit ? (
           <>
             <Button
               w="88px"
@@ -161,6 +128,36 @@ const MenuBar: FC<{
               onChange={actionHandler.onChangeWallpaper}
             />
           </>
+        ) : (
+          <HStack spacing="0">
+            <IconButton
+              ariaLabel="wallet"
+              icon={<Image src="/icons/wallet.svg" width="32px" height="32px" alt="" />}
+              outline={isOpen.wallet}
+              isActive={isOpen.wallet}
+              boxShadow={false}
+              onClick={() => {
+                actionHandler.onOpenWallet();
+                event({ action: "click", category: "menubar", label: "wallet" });
+              }}
+            />
+            {noObjectsInLand ? (
+              <Icon name="arrow" color={colorMode === "light" ? "grey.900" : "white"} />
+            ) : (
+              <Icon name="arrowTwoWay" color={colorMode === "light" ? "grey.900" : "white"} />
+            )}
+            <IconButton
+              ariaLabel="land"
+              icon={<Image src="/icons/land.svg" width="32px" height="32px" alt="" />}
+              outline={isOpen.land}
+              isActive={isOpen.land}
+              boxShadow={false}
+              onClick={() => {
+                actionHandler.onOpenLand();
+                event({ action: "click", category: "menubar", label: "land" });
+              }}
+            />
+          </HStack>
         )}
         <Divider orientation="vertical" color={colorMode === "light" ? "light.g_orange" : "dark.grey700"} h="48px" />
       </>
