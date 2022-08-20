@@ -48,14 +48,11 @@ const MenuBar: FC<{
   const { game, colorMode } = useContext(AppContext);
   const provider = useProvider();
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
-  const uniqueWallpapers = useMemo(() => {
-    return Array.from(
-      new Set(
-        currentWallpaper?.tokenId
-          ? [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId), currentWallpaper?.tokenId]
-          : [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId)]
-      )
-    );
+  const wallpaperTokenIds = useMemo(() => {
+    const tokenIds = currentWallpaper?.tokenId
+      ? [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId), currentWallpaper.tokenId]
+      : [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId)];
+    return Array.from(new Set(tokenIds));
   }, [currentWallpaper?.tokenId, balanceWallpapers.length]);
 
   return (
@@ -123,8 +120,8 @@ const MenuBar: FC<{
             />
             <SelectWallpaper
               currentWallpaper={currentWallpaper?.tokenId}
-              wallpapers={uniqueWallpapers}
-              disabled={uniqueWallpapers.length <= 0}
+              tokenIds={wallpaperTokenIds}
+              disabled={wallpaperTokenIds.length <= 0}
               onChange={actionHandler.onChangeWallpaper}
             />
           </>

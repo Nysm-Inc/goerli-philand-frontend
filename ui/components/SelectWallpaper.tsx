@@ -4,11 +4,11 @@ import { objectMetadataList } from "~/types/object";
 import SelectBox from "./common/SelectBox";
 
 const SelectWallpaper: FC<{
-  wallpapers: number[];
+  tokenIds: number[];
   currentWallpaper?: number;
   disabled?: boolean;
   onChange: (tokenId: number) => void;
-}> = ({ wallpapers, currentWallpaper, disabled, onChange }) => {
+}> = ({ tokenIds, currentWallpaper, disabled, onChange }) => {
   const [selectedWallpaper, setSelectedWallpaper] = useState(currentWallpaper);
 
   return (
@@ -16,7 +16,7 @@ const SelectWallpaper: FC<{
       w="82px"
       menuW="243px"
       menuMaxH="176px"
-      options={wallpapers.map((tokenId) => ({
+      options={tokenIds.map((tokenId) => ({
         label: objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][tokenId].name,
         value: tokenId.toString(),
         image: objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][tokenId].image_url,
