@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, Fragment, useContext, useMemo } from "react";
+import { FC, Fragment, useContext } from "react";
 import { Box, Center, ColorProps, LayoutProps, MenuItem, MenuList as ChakraMenuList, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
