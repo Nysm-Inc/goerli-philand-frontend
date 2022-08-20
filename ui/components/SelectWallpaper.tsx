@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { objectMetadataList } from "~/types/object";

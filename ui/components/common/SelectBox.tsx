@@ -1,10 +1,10 @@
+import Image from "next/image";
 import { FC, useContext } from "react";
 import { Menu, MenuButton, LayoutProps, Text, Center } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
 import MenuList, { Option } from "./MenuList";
 import Button from "./Button";
-import Image from "next/image";
 
 const SelectBox: FC<{
   w: LayoutProps["w"];
