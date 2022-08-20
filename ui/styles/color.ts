@@ -1,8 +1,14 @@
 export const main = {
   primary: {
+    // old
     600: "#6767E4",
     500: "#8080FF",
     300: "#B2B2FF",
+
+    // new
+    70: "#A2A2FF",
+    60: "#8283FF",
+    50: "#6868E5",
   },
   grey: {
     900: "#1A1A1A",

@@ -220,7 +220,7 @@ const Land: FC<{
                   {!isEdit && !object.writed && (
                     <QuantityInput
                       w="full"
-                      defaultText="+ Withdraw"
+                      defaultText="Withdraw"
                       num={object.select}
                       balance={object.amount - object.used}
                       handleClickPlus={() => onClickPlus(i)}

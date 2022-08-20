@@ -98,7 +98,8 @@ const Cart: FC<{
             </VStack>
 
             <QuantityInput
-              defaultText="+ Add to Cart"
+              w="156px"
+              defaultText="Add to Cart"
               num={item.select}
               balance={contract === WALLPAPER_CONTRACT_ADDRESS ? 1 : 10}
               handleClickMinus={minus}

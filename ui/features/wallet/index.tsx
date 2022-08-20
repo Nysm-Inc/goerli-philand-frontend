@@ -118,7 +118,7 @@ const Wallet: FC<{
                   </Text>
                   {item.contract !== WALLPAPER_CONTRACT_ADDRESS && (
                     <QuantityInput
-                      defaultText="+ Deposit"
+                      defaultText="Deposit"
                       num={item.select}
                       balance={item.amount}
                       handleClickMinus={() => minus(i)}
