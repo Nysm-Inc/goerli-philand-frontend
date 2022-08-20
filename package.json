@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "next dev",
     "gen:traits": "node --loader ./scripts/loader.js scripts/traits.ts",
-    "prebuild": "npm run gen:traits",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

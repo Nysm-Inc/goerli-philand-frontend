@@ -4,8 +4,8 @@ import {
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
+import traitsJson from "~/data/traits.json" assert { type: "json" };
 import { ObjectContractAddress, WallpaperContractAddress } from ".";
-import traitsJson from "~/data/traits.json";
 
 export type ObjectMetadata = {
   tokenId: number;
