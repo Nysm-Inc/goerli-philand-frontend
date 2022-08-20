@@ -24,7 +24,9 @@ const SelectWallpaper: FC<{
       selected={{
         label: selectedWallpaper ? objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][selectedWallpaper].name : "",
         value: selectedWallpaper ? selectedWallpaper.toString() : "",
-        image: selectedWallpaper ? objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][selectedWallpaper].image_url : "",
+        image: selectedWallpaper
+          ? objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][selectedWallpaper].image_url
+          : objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][1].image_url,
       }}
       disabled={disabled}
       handleChange={(v) => {
