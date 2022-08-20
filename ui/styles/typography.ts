@@ -34,7 +34,7 @@ export const typographys = {
   },
   "paragraph-1": {
     fontFamily: "JetBrainsMono",
-    fontWeight: 500,
+    fontWeight: 400,
     fontSize: "16px",
     lineHeight: "24px",
     letterSpacing: "-0.02em",
