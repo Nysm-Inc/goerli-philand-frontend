@@ -119,7 +119,7 @@ const Detail: FC<{
                 w="32px"
                 h="32px"
                 borderRadius="8px"
-                bgColor={selected.claimable ? (colorMode === "light" ? "grey.900" : "white") : colorMode === "light" ? "white" : "grey.900"}
+                bgColor={selected.claimable ? "green.250" : colorMode === "light" ? "white" : "grey.900"}
               >
                 <Icon
                   name="check"
