@@ -90,11 +90,14 @@ const Philand: FC<{
         isOpen={{ wallet: isOpenWallet, land: isOpenLand }}
         currentENS={currentENS}
         domains={domains}
+        currentWallpaper={wallpaper}
+        balanceWallpapers={balanceWallpapers}
         actionHandler={{
           onOpenWallet,
           onOpenLand,
           onCloseLand,
           onSwitchCurrentENS: switchCurrentENS,
+          onChangeWallpaper,
           onView,
           onEdit,
           onSave,

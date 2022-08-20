@@ -1,15 +1,17 @@
 import Image from "next/image";
-import { FC, useContext } from "react";
+import { FC, useContext, useMemo } from "react";
 import { useProvider } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Divider, HStack, Text, Tooltip as ChakraTooltip, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import { BalanceObject, Wallpaper } from "~/types";
 import { event } from "~/utils/ga/ga";
-import Icon from "~/ui/components/Icon";
 import IconButton from "./common/IconButton";
 import SelectBox from "./common/SelectBox";
 import Button from "./common/Button";
 import Tooltip from "./common/Tooltip";
+import Icon from "./Icon";
+import SelectWallpaper from "./SelectWallpaper";
 
 const MenuBar: FC<{
   initialized: boolean;
@@ -22,23 +24,46 @@ const MenuBar: FC<{
   };
   currentENS: string;
   domains: string[];
+  currentWallpaper?: Wallpaper;
+  balanceWallpapers: BalanceObject[];
   actionHandler: {
     onOpenWallet: () => void;
     onOpenLand: () => void;
     onCloseLand: () => void;
     onSwitchCurrentENS: (ens: string) => void;
+    onChangeWallpaper: (tokenId: number) => void;
     onView: () => void;
     onEdit: () => void;
     onSave: () => Promise<TransactionResponse | undefined>;
   };
-}> = ({ initialized, isDiff, noObjectsInLand, isEdit, isOpen, currentENS, domains, actionHandler }) => {
+}> = ({
+  initialized,
+  isDiff,
+  noObjectsInLand,
+  isEdit,
+  isOpen,
+  currentENS,
+  domains,
+  currentWallpaper,
+  balanceWallpapers,
+  actionHandler,
+}) => {
   const { game, colorMode } = useContext(AppContext);
   const provider = useProvider();
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
+  const uniqueWallpapers = useMemo(() => {
+    return Array.from(
+      new Set(
+        currentWallpaper?.tokenId
+          ? [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId), currentWallpaper?.tokenId]
+          : [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId)]
+      )
+    );
+  }, [currentWallpaper?.tokenId, balanceWallpapers.length]);
 
   return (
     <HStack
-      zIndex="default"
+      zIndex="menubar"
       position="fixed"
       bottom="32px"
       left="50%"
@@ -128,6 +153,12 @@ const MenuBar: FC<{
                 actionHandler.onOpenLand();
                 event({ action: "click", category: "menubar", label: "land" });
               }}
+            />
+            <SelectWallpaper
+              currentWallpaper={currentWallpaper?.tokenId}
+              wallpapers={uniqueWallpapers}
+              disabled={uniqueWallpapers.length <= 0}
+              onChange={actionHandler.onChangeWallpaper}
             />
           </>
         )}
