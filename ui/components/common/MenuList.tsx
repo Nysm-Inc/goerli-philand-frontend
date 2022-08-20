@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, useContext } from "react";
+import { FC, Fragment, useContext } from "react";
 import { Box, Center, ColorProps, LayoutProps, MenuItem, MenuList as ChakraMenuList, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
@@ -10,6 +10,7 @@ export type Option = {
   onClick?: () => void;
   textColor?: ColorProps["textColor"];
   image?: string;
+  divider?: boolean;
 };
 
 const MenuList: FC<{
@@ -22,24 +23,22 @@ const MenuList: FC<{
   const { colorMode } = useContext(AppContext);
 
   return (
-    <>
-      <ChakraMenuList
-        maxHeight="240px"
-        borderRadius="12px"
-        p="8px"
-        overflowY="scroll"
-        boxShadow="md"
-        minW="0"
-        w={w}
-        maxH={maxH}
-        //
-        border={colorMode === "light" ? "1px solid" : "none"}
-        borderColor="light.g_orange"
-        bgColor={colorMode === "light" ? "white" : "grey.900"}
-      >
-        {options.map((option, i) => (
+    <ChakraMenuList
+      maxHeight="240px"
+      borderRadius="12px"
+      p="8px"
+      overflowY="scroll"
+      boxShadow="md"
+      minW="0"
+      w={w}
+      maxH={maxH}
+      border={colorMode === "light" ? "1px solid" : "none"}
+      borderColor="light.g_orange"
+      bgColor={colorMode === "light" ? "white" : "grey.900"}
+    >
+      {options.map((option, i) => (
+        <Fragment key={i}>
           <MenuItem
-            //
             key={i}
             w="100%"
             h={option.image ? "48px" : "32px"}
@@ -51,7 +50,6 @@ const MenuList: FC<{
               if (option.onClick) option.onClick();
               else if (onClick) onClick(option.value);
             }}
-            //
             bgColor={colorMode === "light" ? "white" : "grey.900"}
             _hover={{
               bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
@@ -81,9 +79,14 @@ const MenuList: FC<{
             <Box w="8px" />
             <Center w="24px">{value === option.value && <Icon name="check" color={colorMode === "light" ? "grey.900" : "white"} />}</Center>
           </MenuItem>
-        ))}
-      </ChakraMenuList>
-    </>
+          {option.divider && (
+            <Box p="8px 0px" w="100%" h="17px">
+              <Box w="100%" h="1px" bgColor={colorMode === "light" ? "grey.100" : "dark.grey700"} />
+            </Box>
+          )}
+        </Fragment>
+      ))}
+    </ChakraMenuList>
   );
 };
 
