@@ -35,7 +35,7 @@ const SelectBox: FC<{
             disabled={disabled}
           >
             {selected.image ? (
-              <Center mr="2px">
+              <Center mr="4px">
                 <Image src={selected.image} width="48px" height="24px" alt="" />
               </Center>
             ) : (
