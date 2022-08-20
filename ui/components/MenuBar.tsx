@@ -51,10 +51,8 @@ const MenuBar: FC<{
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure();
   const wallpaperTokenIds = useMemo(() => {
-    const tokenIds = currentWallpaper?.tokenId
-      ? [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId), currentWallpaper.tokenId]
-      : [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId)];
-    return Array.from(new Set(tokenIds));
+    const tokenIds = balanceWallpapers.map((wallpaper) => wallpaper.tokenId);
+    return Array.from(new Set(currentWallpaper?.tokenId ? [...tokenIds, currentWallpaper.tokenId] : tokenIds));
   }, [currentWallpaper?.tokenId, balanceWallpapers.length]);
 
   const cancel = () => {
