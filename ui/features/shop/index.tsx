@@ -1,10 +1,8 @@
-import { FC, useContext, useMemo, useState } from "react";
+import { FC, useCallback, useContext, useMemo, useState } from "react";
 import { useBalance, useProvider } from "wagmi";
 import { utils } from "ethers";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, SimpleGrid, TabPanel, TabPanels, Tabs, useBoolean } from "@chakra-ui/react";
-import { FREE_OBJECT_CONTRACT_ADDRESS, PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
-import { objectMetadataList } from "~/types/object";
 import { AppContext } from "~/contexts";
 import { ShopItemContractAddress } from "~/types";
 import Icon from "~/ui/components/Icon";
@@ -14,23 +12,7 @@ import IconButton from "~/ui/components/common/IconButton";
 import { Tab, TabList } from "~/ui/components/common/Tab";
 import { event } from "~/utils/ga/ga";
 import ShopItem from "./Item";
-import { Item, Items } from "./types";
-
-const _defaultItems = (contract: ShopItemContractAddress): Item[] => {
-  return Object.values(objectMetadataList[contract]).map((metadata) => ({ ...metadata, select: 0 }));
-};
-
-const defaultItems = () => ({
-  [FREE_OBJECT_CONTRACT_ADDRESS]: _defaultItems(FREE_OBJECT_CONTRACT_ADDRESS),
-  [PREMIUM_OBJECT_CONTRACT_ADDRESS]: _defaultItems(PREMIUM_OBJECT_CONTRACT_ADDRESS),
-  [WALLPAPER_CONTRACT_ADDRESS]: _defaultItems(WALLPAPER_CONTRACT_ADDRESS),
-});
-
-const tabIdx2Contract: { [idx: number]: ShopItemContractAddress } = {
-  0: FREE_OBJECT_CONTRACT_ADDRESS,
-  1: PREMIUM_OBJECT_CONTRACT_ADDRESS,
-  2: WALLPAPER_CONTRACT_ADDRESS,
-};
+import { defaultItems, Items, tabIdx2Contract } from "./types";
 
 const Shop: FC<{
   address: string;
@@ -48,34 +30,41 @@ const Shop: FC<{
 
   const [items, setItems] = useState<Items>(defaultItems());
   const itemNum = useMemo(
-    () => Object.values(items).reduce((sum, items) => sum + items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0), 0),
+    () =>
+      Object.values(items).reduce((sum, _items) => sum + _items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0), 0),
     [items]
   );
   const itemPrice = useMemo(
     () =>
       Object.values(items).reduce(
-        (sum, items) => sum + items.reduce((sum, item) => (item.select > 0 ? sum + item.select * item.price : sum), 0),
+        (sum, _items) => sum + _items.reduce((sum, item) => (item.select > 0 ? sum + item.select * item.price : sum), 0),
         0
       ),
     [items]
   );
   const isSelected = useMemo(
-    () => Object.values(items).reduce((memo, items) => memo || items.some((item) => item.select > 0), false),
+    () => Object.values(items).reduce((memo, _items) => memo || _items.some((item) => item.select > 0), false),
     [items]
   );
   const insufficient = useMemo(() => !!data?.value?.lt(utils.parseUnits(itemPrice.toString(), data.decimals)), [data, itemPrice]);
 
-  const plus = (contract: ShopItemContractAddress, idx: number) => {
-    const copied = [...items[contract]];
-    copied[idx].select += 1;
-    setItems((prev) => ({ ...prev, [contract]: copied }));
-  };
-  const minus = (contract: ShopItemContractAddress, idx: number) => {
-    const copied = [...items[contract]];
-    copied[idx].select -= 1;
-    setItems((prev) => ({ ...prev, [contract]: copied }));
-  };
-  const reset = () => setItems(defaultItems());
+  const plus = useCallback(
+    (contract: ShopItemContractAddress, idx: number) => {
+      const copied = [...items[contract]];
+      copied[idx].select += 1;
+      setItems((prev) => ({ ...prev, [contract]: copied }));
+    },
+    [items]
+  );
+  const minus = useCallback(
+    (contract: ShopItemContractAddress, idx: number) => {
+      const copied = [...items[contract]];
+      copied[idx].select -= 1;
+      setItems((prev) => ({ ...prev, [contract]: copied }));
+    },
+    [items]
+  );
+  const reset = useCallback(() => setItems(defaultItems()), []);
 
   return (
     <Tabs variant="unstyled" onChange={(idx) => setTabIdx(idx)}>
