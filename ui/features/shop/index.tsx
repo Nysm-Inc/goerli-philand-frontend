@@ -156,7 +156,10 @@ const Shop: FC<{
       ),
     [items]
   );
-  const isSelected = useMemo(() => Object.values(items).map((items) => items.some((item) => item.select > 0)), [items]);
+  const isSelected = useMemo(
+    () => Object.values(items).reduce((memo, items) => memo || items.some((item) => item.select > 0), false),
+    [items]
+  );
   const insufficient = useMemo(() => !!data?.value?.lt(utils.parseUnits(itemPrice.toString(), data.decimals)), [data, itemPrice]);
 
   const plus = (contract: ShopItemContractAddress, idx: number) => {
