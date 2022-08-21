@@ -98,31 +98,6 @@ const Philand: FC<{
           onSave,
         }}
       />
-      <Quest
-        claimableList={claimableList}
-        progressList={progressList}
-        claimedList={claimedList}
-        totalSupply={totalSupply}
-        isOpen={isOpenQuest}
-        onClose={onCloseQuest}
-        onClickItem={claimPhi}
-        onClickUpdate={updateClaimableList}
-        onClickNavi={() => (onCloseModals(), onOpenWallet())}
-      />
-      <Shop
-        address={address}
-        isOpen={isOpenShop}
-        onClose={onCloseShop}
-        onSubmit={buyObjects}
-        onClickNavi={() => (onCloseModals(), onOpenWallet())}
-      />
-      <Wallet
-        items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
-        isOpen={isOpenWallet}
-        onClose={onCloseWallet}
-        onSubmit={deposit}
-        onClickNavi={() => (onCloseModals(), onEdit(), onOpenLand())}
-      />
       <Land
         objects={landObjects}
         isEdit={isEdit}
@@ -166,6 +141,32 @@ const Philand: FC<{
         </>
       ) : (
         <>
+          <Quest
+            claimableList={claimableList}
+            progressList={progressList}
+            claimedList={claimedList}
+            totalSupply={totalSupply}
+            isOpen={isOpenQuest}
+            onClose={onCloseQuest}
+            onClickItem={claimPhi}
+            onClickUpdate={updateClaimableList}
+            onClickNavi={() => (onCloseModals(), onOpenWallet())}
+          />
+          <Shop
+            address={address}
+            isOpen={isOpenShop}
+            onClose={onCloseShop}
+            onSubmit={buyObjects}
+            onClickNavi={() => (onCloseModals(), onOpenWallet())}
+          />
+          <Wallet
+            items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
+            isOpen={isOpenWallet}
+            onClose={onCloseWallet}
+            onSubmit={deposit}
+            onClickNavi={() => (onCloseModals(), onEdit(), onOpenLand())}
+          />
+
           <MainMenu isOpenQuest={isOpenQuest} isOpenShop={isOpenShop} onOpenQuest={onOpenQuest} onOpenShop={onOpenShop} />
           <Share currentENS={currentENS} />
         </>
