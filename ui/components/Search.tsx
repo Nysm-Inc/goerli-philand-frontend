@@ -38,7 +38,7 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
         onSubmit(searchText);
       }}
     >
-      <FocusLock autoFocus={false}>
+      <FocusLock autoFocus={false} isDisabled={!searchText}>
         <Input
           innerRef={ref}
           w={w || "336px"}
