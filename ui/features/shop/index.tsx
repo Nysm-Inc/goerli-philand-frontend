@@ -18,15 +18,21 @@ import { event } from "~/utils/ga/ga";
 
 type Item = ObjectMetadata & { select: number };
 
+type Items = {
+  [FREE_OBJECT_CONTRACT_ADDRESS]: Item[];
+  [PREMIUM_OBJECT_CONTRACT_ADDRESS]: Item[];
+  [WALLPAPER_CONTRACT_ADDRESS]: Item[];
+};
+
 const _defaultItems = (contract: ShopItemContractAddress): Item[] => {
   return Object.values(objectMetadataList[contract]).map((metadata) => ({ ...metadata, select: 0 }));
 };
 
-const defaultItems = {
+const defaultItems = () => ({
   [FREE_OBJECT_CONTRACT_ADDRESS]: _defaultItems(FREE_OBJECT_CONTRACT_ADDRESS),
   [PREMIUM_OBJECT_CONTRACT_ADDRESS]: _defaultItems(PREMIUM_OBJECT_CONTRACT_ADDRESS),
   [WALLPAPER_CONTRACT_ADDRESS]: _defaultItems(WALLPAPER_CONTRACT_ADDRESS),
-};
+});
 
 const tabIdx2Contract: { [idx: number]: ShopItemContractAddress } = {
   0: FREE_OBJECT_CONTRACT_ADDRESS,
@@ -133,14 +139,11 @@ const Shop: FC<{
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
   const { data } = useBalance({ addressOrName: address, watch: true });
-  const [items, setItems] = useState<{
-    [FREE_OBJECT_CONTRACT_ADDRESS]: Item[];
-    [PREMIUM_OBJECT_CONTRACT_ADDRESS]: Item[];
-    [WALLPAPER_CONTRACT_ADDRESS]: Item[];
-  }>(defaultItems);
   const [tabIdx, setTabIdx] = useState(0);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const openNavi = useNavi();
+
+  const [items, setItems] = useState<Items>(defaultItems());
   const itemNum = useMemo(
     () => Object.values(items).reduce((sum, items) => sum + items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0), 0),
     [items]
@@ -166,7 +169,7 @@ const Shop: FC<{
     copied[idx].select -= 1;
     setItems((prev) => ({ ...prev, [contract]: copied }));
   };
-  const reset = () => setItems(defaultItems);
+  const reset = () => setItems(defaultItems());
 
   return (
     <Tabs variant="unstyled" onChange={(idx) => setTabIdx(idx)}>
