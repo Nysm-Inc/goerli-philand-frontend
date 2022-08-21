@@ -38,13 +38,11 @@ const useBuyObjects = (
     buyObjects: async (fTokenIds: number[], pTokenIds: number[], wTokenIds: number[]) => {
       const calldata = [address, fTokenIds, pTokenIds, wTokenIds];
       const overrides = await getFastestGasWei();
-
       const pValue = pTokenIds.reduce((sum, tokenId) => {
         const metadata = objectMetadataList[PREMIUM_OBJECT_CONTRACT_ADDRESS][tokenId];
         const wei = utils.parseEther(metadata.price.toString());
         return sum.add(wei);
       }, BigNumber.from(0));
-
       const wValue = wTokenIds.reduce((sum, tokenId) => {
         const metadata = objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][tokenId];
         const wei = utils.parseEther(metadata.price.toString());
