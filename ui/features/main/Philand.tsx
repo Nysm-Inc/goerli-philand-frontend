@@ -1,5 +1,5 @@
 import { FC, useCallback } from "react";
-import { useDisclosure, useBoolean, Box } from "@chakra-ui/react";
+import { useDisclosure, useBoolean } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
 import Land from "~/ui/features/land";
@@ -37,18 +37,10 @@ const Philand: FC<{
     removeIdx: number;
   })[];
 }> = ({ address, currentENS, domains, switchCurrentENS, phiObjects }) => {
-  const [isEdit, { on: edit, off: view }] = useBoolean(false);
-  const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
-  const [linkState, onOpenLinkMenu, onCloseLinkMenu, changeLink] = useLinkMenu();
-  const [wallpaperMenuState, onOpenWallpaperMenu, onCloseWallpaperMenu] = useWallpaperMenu();
+  // only view
   const { isOpen: isOpenQuest, onOpen: onOpenQuest, onClose: onCloseQuest } = useDisclosure();
   const { isOpen: isOpenShop, onOpen: onOpenShop, onClose: onCloseShop } = useDisclosure();
   const { isOpen: isOpenWallet, onOpen: onOpenWallet, onClose: onCloseWallet } = useDisclosure();
-  const { isOpen: isOpenLand, onOpen: onOpenLand, onClose: onCloseLand } = useDisclosure();
-  const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
-  const onCloseModals = useCallback(() => (onCloseQuest(), onCloseShop(), onCloseWallet(), onCloseLand(), onCloseHowItWorks()), []);
-
-  const wallpaper = useWallpaper(currentENS);
   const [claimableList, updateClaimableList] = useClaimableList(address);
   const progressList = useQuestProgress(address);
   const [claimedList, { claimPhi }] = useClaim(address);
@@ -57,11 +49,22 @@ const Philand: FC<{
   const balancePhiObjects = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address);
   const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
+
+  // only edit
+  const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
+  const [linkState, onOpenLinkMenu, onCloseLinkMenu, changeLink] = useLinkMenu();
+  const [wallpaperMenuState, onOpenWallpaperMenu, onCloseWallpaperMenu] = useWallpaperMenu();
+  const { save, tx: txSave } = useSave(currentENS);
+
+  // common
+  const [isEdit, { on: edit, off: view }] = useBoolean(false);
+  const { isOpen: isOpenLand, onOpen: onOpenLand, onClose: onCloseLand } = useDisclosure();
+  const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
+  const onCloseModals = useCallback(() => (onCloseQuest(), onCloseShop(), onCloseWallet(), onCloseLand(), onCloseHowItWorks()), []);
+  const wallpaper = useWallpaper(currentENS);
   const balanceWallpapers = useBalances(WALLPAPER_CONTRACT_ADDRESS, address);
   const [depositObjects, { deposit, withdraw }] = useDeposit(currentENS);
-  const { save, tx: txSave } = useSave(currentENS);
   const [landObjects, plus, minus, setLandObjects, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
-
   const {
     state: { initialized, isDiff },
     handler: { onEdit, onView, onDropObject, onMoveObject, onPickLandObject, onRemoveObject, onChangeLink, onChangeWallpaper, onSave },
@@ -75,9 +78,7 @@ const Philand: FC<{
     <>
       <Help onOpenHowItWorks={onOpenHowItWorks} />
       <HowItWorks isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
-      <Box {...(isEdit && { opacity: "0" })}>
-        <QuickTour ens={currentENS} />
-      </Box>
+      <QuickTour isEdit={isEdit} ens={currentENS} />
 
       <MenuBar
         initialized={initialized}
@@ -99,31 +100,6 @@ const Philand: FC<{
           onEdit,
           onSave,
         }}
-      />
-      <Quest
-        claimableList={claimableList}
-        progressList={progressList}
-        claimedList={claimedList}
-        totalSupply={totalSupply}
-        isOpen={isOpenQuest}
-        onClose={onCloseQuest}
-        onClickItem={claimPhi}
-        onClickUpdate={updateClaimableList}
-        onClickNavi={() => (onCloseModals(), onOpenWallet())}
-      />
-      <Shop
-        address={address}
-        isOpen={isOpenShop}
-        onClose={onCloseShop}
-        onSubmit={buyObjects}
-        onClickNavi={() => (onCloseModals(), onOpenWallet())}
-      />
-      <Wallet
-        items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
-        isOpen={isOpenWallet}
-        onClose={onCloseWallet}
-        onSubmit={deposit}
-        onClickNavi={() => (onCloseModals(), onEdit(), onOpenLand())}
       />
       <Land
         objects={landObjects}
@@ -168,6 +144,32 @@ const Philand: FC<{
         </>
       ) : (
         <>
+          <Quest
+            claimableList={claimableList}
+            progressList={progressList}
+            claimedList={claimedList}
+            totalSupply={totalSupply}
+            isOpen={isOpenQuest}
+            onClose={onCloseQuest}
+            onClickItem={claimPhi}
+            onClickUpdate={updateClaimableList}
+            onClickNavi={() => (onCloseModals(), onOpenWallet())}
+          />
+          <Shop
+            address={address}
+            isOpen={isOpenShop}
+            onClose={onCloseShop}
+            onSubmit={buyObjects}
+            onClickNavi={() => (onCloseModals(), onOpenWallet())}
+          />
+          <Wallet
+            items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
+            isOpen={isOpenWallet}
+            onClose={onCloseWallet}
+            onSubmit={deposit}
+            onClickNavi={() => (onCloseModals(), onEdit(), onOpenLand())}
+          />
+
           <MainMenu isOpenQuest={isOpenQuest} isOpenShop={isOpenShop} onOpenQuest={onOpenQuest} onOpenShop={onOpenShop} />
           <Share currentENS={currentENS} />
         </>

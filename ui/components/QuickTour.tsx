@@ -102,7 +102,7 @@ const Tour4: FC<{ ens: string; onClickBack: () => void; onClickNext: () => void 
   />
 );
 
-const QuickTour: FC<{ ens: string }> = ({ ens }) => {
+const QuickTour: FC<{ isEdit: boolean; ens: string }> = ({ isEdit, ens }) => {
   const [done, setDone] = useState(true);
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
 
@@ -111,7 +111,7 @@ const QuickTour: FC<{ ens: string }> = ({ ens }) => {
     if (!done) setDone(false);
   }, []);
 
-  if (done) {
+  if (isEdit || done) {
     return <></>;
   }
 
