@@ -128,14 +128,9 @@ const Shop: FC<{
   address: string;
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: {
-    [FREE_OBJECT_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
-    [PREMIUM_OBJECT_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
-    [WALLPAPER_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
-  };
-  onSubmit2: (fTokenIds: number[], pTokenIds: number[], wTokenIds: number[]) => Promise<TransactionResponse | undefined>;
+  onSubmit: (fTokenIds: number[], pTokenIds: number[], wTokenIds: number[]) => Promise<TransactionResponse | undefined>;
   onClickNavi: () => void;
-}> = ({ address, isOpen, onClose, onSubmit, onSubmit2, onClickNavi }) => {
+}> = ({ address, isOpen, onClose, onSubmit, onClickNavi }) => {
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
   const { data } = useBalance({ addressOrName: address, watch: true });
@@ -234,8 +229,7 @@ const Shop: FC<{
                     return item.select > 0 ? [...memo, ...[...new Array(item.select)].map(() => item.tokenId)] : memo;
                   }, [] as number[])
                 );
-                console.log(tokenIds);
-                onSubmit2(tokenIds[0], tokenIds[1], tokenIds[2])
+                onSubmit(tokenIds[0], tokenIds[1], tokenIds[2])
                   .then(async (res) => {
                     if (!res?.hash) throw new Error("invalid hash");
                     // @ts-ignore

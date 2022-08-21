@@ -9,9 +9,6 @@ import { useWallpaper, useDeposit, useSave } from "~/hooks/map";
 import { useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList, useQuestProgress } from "~/hooks/claim";
 import useGame from "~/hooks/game/useGame";
-import { useGetFreeObject } from "~/hooks/free";
-import { useBuyPremiumObject } from "~/hooks/premium";
-import useGetWallpaper from "~/hooks/wallpaper";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   QUEST_OBJECT_CONTRACT_ADDRESS,
@@ -56,9 +53,6 @@ const Philand: FC<{
   const progressList = useQuestProgress(address);
   const [claimedList, { claimPhi }] = useClaim(address);
   const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS);
-  const { getFreeObject } = useGetFreeObject();
-  const { buyPremiumObject } = useBuyPremiumObject();
-  const { batchWallPaper } = useGetWallpaper();
   const { buyObjects } = useBuyObjects(address);
   const balancePhiObjects = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address);
   const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
@@ -121,12 +115,7 @@ const Philand: FC<{
         address={address}
         isOpen={isOpenShop}
         onClose={onCloseShop}
-        onSubmit={{
-          [FREE_OBJECT_CONTRACT_ADDRESS]: getFreeObject,
-          [PREMIUM_OBJECT_CONTRACT_ADDRESS]: buyPremiumObject,
-          [WALLPAPER_CONTRACT_ADDRESS]: batchWallPaper,
-        }}
-        onSubmit2={buyObjects}
+        onSubmit={buyObjects}
         onClickNavi={() => (onCloseModals(), onOpenWallet())}
       />
       <Wallet
