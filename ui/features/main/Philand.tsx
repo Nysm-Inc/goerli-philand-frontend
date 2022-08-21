@@ -29,6 +29,7 @@ import LinkMenu, { useLinkMenu } from "~/ui/components/LinkMenu";
 import WallpaperMenu, { useWallpaperMenu } from "~/ui/components/WallpaperMenu";
 import Help from "~/ui/components/Help";
 import EditStatus from "~/ui/components/EditStatus";
+import useBuyObjects from "~/hooks/shop";
 
 const Philand: FC<{
   address: string;
@@ -58,6 +59,7 @@ const Philand: FC<{
   const { getFreeObject } = useGetFreeObject();
   const { buyPremiumObject } = useBuyPremiumObject();
   const { batchWallPaper } = useGetWallpaper();
+  const { buyObjects } = useBuyObjects(address);
   const balancePhiObjects = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address);
   const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
@@ -124,6 +126,7 @@ const Philand: FC<{
           [PREMIUM_OBJECT_CONTRACT_ADDRESS]: buyPremiumObject,
           [WALLPAPER_CONTRACT_ADDRESS]: batchWallPaper,
         }}
+        onSubmit2={buyObjects}
         onClickNavi={() => (onCloseModals(), onOpenWallet())}
       />
       <Wallet

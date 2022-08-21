@@ -18,8 +18,14 @@ import { event } from "~/utils/ga/ga";
 
 type Item = ObjectMetadata & { select: number };
 
-const defaultItems = (contract: ShopItemContractAddress): Item[] => {
+const _defaultItems = (contract: ShopItemContractAddress): Item[] => {
   return Object.values(objectMetadataList[contract]).map((metadata) => ({ ...metadata, select: 0 }));
+};
+
+const defaultItems = {
+  [FREE_OBJECT_CONTRACT_ADDRESS]: _defaultItems(FREE_OBJECT_CONTRACT_ADDRESS),
+  [PREMIUM_OBJECT_CONTRACT_ADDRESS]: _defaultItems(PREMIUM_OBJECT_CONTRACT_ADDRESS),
+  [WALLPAPER_CONTRACT_ADDRESS]: _defaultItems(WALLPAPER_CONTRACT_ADDRESS),
 };
 
 const tabIdx2Contract: { [idx: number]: ShopItemContractAddress } = {
@@ -121,43 +127,50 @@ const Shop: FC<{
     [PREMIUM_OBJECT_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
     [WALLPAPER_CONTRACT_ADDRESS]: (tokenIds: number[]) => Promise<TransactionResponse | undefined>;
   };
+  onSubmit2: (fTokenIds: number[], pTokenIds: number[], wTokenIds: number[]) => Promise<TransactionResponse | undefined>;
   onClickNavi: () => void;
-}> = ({ address, isOpen, onClose, onSubmit, onClickNavi }) => {
+}> = ({ address, isOpen, onClose, onSubmit, onSubmit2, onClickNavi }) => {
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
   const { data } = useBalance({ addressOrName: address, watch: true });
-  const [items, setItems] = useState<Item[]>(defaultItems(FREE_OBJECT_CONTRACT_ADDRESS));
+  const [items, setItems] = useState<{
+    [FREE_OBJECT_CONTRACT_ADDRESS]: Item[];
+    [PREMIUM_OBJECT_CONTRACT_ADDRESS]: Item[];
+    [WALLPAPER_CONTRACT_ADDRESS]: Item[];
+  }>(defaultItems);
   const [tabIdx, setTabIdx] = useState(0);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const openNavi = useNavi();
-  const itemNum = useMemo(() => items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0), [items]);
-  const itemPrice = useMemo(() => items.reduce((sum, item) => (item.select > 0 ? sum + item.select * item.price : sum), 0), [items]);
+  const itemNum = useMemo(
+    () => Object.values(items).reduce((sum, items) => sum + items.reduce((sum, item) => (item.select > 0 ? sum + item.select : sum), 0), 0),
+    [items]
+  );
+  const itemPrice = useMemo(
+    () =>
+      Object.values(items).reduce(
+        (sum, items) => sum + items.reduce((sum, item) => (item.select > 0 ? sum + item.select * item.price : sum), 0),
+        0
+      ),
+    [items]
+  );
+  const isSelected = useMemo(() => Object.values(items).map((items) => items.some((item) => item.select > 0)), [items]);
   const insufficient = useMemo(() => !!data?.value?.lt(utils.parseUnits(itemPrice.toString(), data.decimals)), [data, itemPrice]);
-  const isSelected = useMemo(() => items.some((item) => item.select > 0), [items]);
 
-  const plus = (idx: number) => {
-    const copied = [...items];
+  const plus = (contract: ShopItemContractAddress, idx: number) => {
+    const copied = [...items[contract]];
     copied[idx].select += 1;
-    setItems(copied);
+    setItems((prev) => ({ ...prev, [contract]: copied }));
   };
-  const minus = (idx: number) => {
-    const copied = [...items];
+  const minus = (contract: ShopItemContractAddress, idx: number) => {
+    const copied = [...items[contract]];
     copied[idx].select -= 1;
-    setItems(copied);
+    setItems((prev) => ({ ...prev, [contract]: copied }));
   };
-  const reset = (contract: ShopItemContractAddress) => {
-    setItems(defaultItems(contract));
-  };
+  const reset = () => setItems(defaultItems);
 
   return (
-    <Tabs
-      variant="unstyled"
-      onChange={(idx) => {
-        setTabIdx(idx);
-        reset(tabIdx2Contract[idx]);
-      }}
-    >
-      <Modal w="832px" h="712px" isOpen={isOpen} onClose={onClose} onCloseComplete={() => reset(tabIdx2Contract[tabIdx])}>
+    <Tabs variant="unstyled" onChange={(idx) => setTabIdx(idx)}>
+      <Modal w="832px" h="712px" isOpen={isOpen} onClose={onClose} onCloseComplete={reset}>
         <ModalHeader
           title="SHOP"
           buttons={[
@@ -184,8 +197,14 @@ const Shop: FC<{
             {Object.values(tabIdx2Contract).map((idx) => (
               <TabPanel key={idx} p="0">
                 <SimpleGrid columns={3} spacing="8px">
-                  {items.map((item, i) => (
-                    <Cart key={i} contract={tabIdx2Contract[tabIdx]} item={item} plus={() => plus(i)} minus={() => minus(i)} />
+                  {items[tabIdx2Contract[tabIdx]].map((item, i) => (
+                    <Cart
+                      key={i}
+                      contract={tabIdx2Contract[tabIdx]}
+                      item={item}
+                      plus={() => plus(tabIdx2Contract[tabIdx], i)}
+                      minus={() => minus(tabIdx2Contract[tabIdx], i)}
+                    />
                   ))}
                 </SimpleGrid>
                 {isSelected && <Box h="120px" />}
@@ -204,15 +223,18 @@ const Shop: FC<{
               disabled={insufficient}
               onClick={() => {
                 startLoading();
-                const tokenIds = items.reduce((memo, item) => {
-                  return item.select > 0 ? [...memo, ...[...new Array(item.select)].map(() => item.tokenId)] : memo;
-                }, [] as number[]);
-                onSubmit[tabIdx2Contract[tabIdx]](tokenIds)
+                const tokenIds = Object.values(items).map((items) =>
+                  items.reduce((memo, item) => {
+                    return item.select > 0 ? [...memo, ...[...new Array(item.select)].map(() => item.tokenId)] : memo;
+                  }, [] as number[])
+                );
+                console.log(tokenIds);
+                onSubmit2(tokenIds[0], tokenIds[1], tokenIds[2])
                   .then(async (res) => {
                     if (!res?.hash) throw new Error("invalid hash");
                     // @ts-ignore
                     event({ action: { 0: "conversion_get_free", 1: "conversion_get_premium", 2: "conversion_get_wallpaper" }[tabIdx] });
-                    reset(tabIdx2Contract[tabIdx]);
+                    reset();
                     await provider.waitForTransaction(res.hash);
                     stopLoading();
                     openNavi("You can now find your objects in your wallet.", "Open Wallet", onClickNavi);

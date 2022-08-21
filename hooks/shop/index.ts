@@ -2,8 +2,8 @@ import { useContext, useEffect } from "react";
 import { useDeprecatedContractWrite, useWaitForTransaction } from "wagmi";
 import { BigNumber, utils } from "ethers";
 import type { TransactionResponse } from "@ethersproject/providers";
-import { PREMIUM_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
-import PremiumObjectAbi from "~/abi/premiumobject.json";
+import { PREMIUM_OBJECT_CONTRACT_ADDRESS, SHOP_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
+import ShopAbi from "~/abi/shop.json";
 import { objectMetadataList } from "~/types/object";
 import { AppContext } from "~/contexts";
 import { getFastestGasWei } from "~/utils/gas";
@@ -19,8 +19,8 @@ const useBuyObjects = (
     writeAsync,
     status: tmpStatus,
   } = useDeprecatedContractWrite({
-    addressOrName: PREMIUM_OBJECT_CONTRACT_ADDRESS,
-    contractInterface: PremiumObjectAbi,
+    addressOrName: SHOP_CONTRACT_ADDRESS,
+    contractInterface: ShopAbi,
     functionName: "shopBuyObject",
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
