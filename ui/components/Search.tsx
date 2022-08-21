@@ -1,5 +1,6 @@
 import { FC, useContext, useEffect, useRef, useState } from "react";
 import { Box, LayoutProps, Menu, MenuButton, Text, useDisclosure, useOutsideClick } from "@chakra-ui/react";
+import { FocusLock } from "@chakra-ui/focus-lock";
 import { AppContext } from "~/contexts";
 import { isValid } from "~/utils/ens";
 import { search } from "~/utils/search";
@@ -37,21 +38,23 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
         onSubmit(searchText);
       }}
     >
-      <Input
-        innerRef={ref}
-        w={w || "336px"}
-        placeholder="visit other lands"
-        value={searchText}
-        shadow={shadow}
-        leftIcon={<Icon name="search" color={colorMode === "light" ? "grey.900" : "white"} />}
-        rightIcon={
-          <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
-            .eth
-          </Text>
-        }
-        onChange={(e) => setSearchText(e.target.value)}
-        onClick={onOpen}
-      />
+      <FocusLock>
+        <Input
+          innerRef={ref}
+          w={w || "336px"}
+          placeholder="visit other lands"
+          value={searchText}
+          shadow={shadow}
+          leftIcon={<Icon name="search" color={colorMode === "light" ? "grey.900" : "white"} />}
+          rightIcon={
+            <Text textStyle="label-1" color={colorMode === "light" ? "grey.900" : "white"}>
+              .eth
+            </Text>
+          }
+          onChange={(e) => setSearchText(e.target.value)}
+          onClick={onOpen}
+        />
+      </FocusLock>
 
       <Menu
         //
