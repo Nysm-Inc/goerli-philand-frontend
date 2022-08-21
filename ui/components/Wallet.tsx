@@ -18,7 +18,7 @@ const Wallet: FC = () => {
 
   return (
     <ConnectButton.Custom>
-      {({ account, chain, openChainModal, openConnectModal, mounted }) => {
+      {({ account, chain, openConnectModal, mounted }) => {
         return (
           <Box
             {...(!mounted && {
@@ -53,7 +53,7 @@ const Wallet: FC = () => {
 
               if (chain.unsupported) {
                 return (
-                  <Button w="154px" color="red" shadow leftIcon={<Icon name="info" color="grey.900" />} onClick={openChainModal}>
+                  <Button w="154px" color="red" shadow leftIcon={<Icon name="info" color="grey.900" />}>
                     <Text ml="8px" color="grey.900" textStyle="button-2">
                       Wrong Network
                     </Text>
