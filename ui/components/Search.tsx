@@ -38,7 +38,7 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
         onSubmit(searchText);
       }}
     >
-      <FocusLock>
+      <FocusLock autoFocus={false}>
         <Input
           innerRef={ref}
           w={w || "336px"}
@@ -57,7 +57,6 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
       </FocusLock>
 
       <Menu
-        //
         variant="unstyled"
         placement="bottom"
         autoSelect={false}
