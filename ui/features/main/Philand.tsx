@@ -1,5 +1,5 @@
 import { FC, useCallback } from "react";
-import { useDisclosure, useBoolean, Box } from "@chakra-ui/react";
+import { useDisclosure, useBoolean } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
 import Land from "~/ui/features/land";
@@ -75,9 +75,7 @@ const Philand: FC<{
     <>
       <Help onOpenHowItWorks={onOpenHowItWorks} />
       <HowItWorks isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
-      <Box {...(isEdit && { opacity: "0" })}>
-        <QuickTour ens={currentENS} />
-      </Box>
+      <QuickTour isEdit={isEdit} ens={currentENS} />
 
       <MenuBar
         initialized={initialized}
