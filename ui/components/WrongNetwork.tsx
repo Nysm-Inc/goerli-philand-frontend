@@ -24,13 +24,31 @@ const WrongNetwork: FC = () => {
           </Text>
         </VStack>
         <VStack spacing="0px" bgColor={colorMode === "light" ? "white" : "dark.grey800"} borderRadius="12px">
-          <HStack w="408px" h="56px" p="12px 16px" spacing="8px" align="center" cursor="pointer" onClick={() => switchNetwork?.()}>
+          <HStack
+            w="408px"
+            h="56px"
+            p="12px 16px"
+            spacing="8px"
+            align="center"
+            cursor="pointer"
+            _hover={{ bgColor: colorMode === "light" ? "warmgrey.90" : "dark.grey700", borderRadius: "12px" }}
+            onClick={() => switchNetwork?.()}
+          >
             <Image src="/icons/polygon_logo.svg" width="32px" height="32px" alt="" />
             <Text textStyle="button-2" color={colorMode === "light" ? "grey.900" : "white"}>
               Polygon Mumbai
             </Text>
           </HStack>
-          <HStack w="408px" h="56px" p="12px 16px" spacing="8px" align="center" cursor="pointer" onClick={() => disconnect()}>
+          <HStack
+            w="408px"
+            h="56px"
+            p="12px 16px"
+            spacing="8px"
+            align="center"
+            cursor="pointer"
+            _hover={{ bgColor: colorMode === "light" ? "warmgrey.90" : "dark.grey700", borderRadius: "12px" }}
+            onClick={() => disconnect()}
+          >
             <Image src="/icons/disconnect.svg" width="32px" height="32px" alt="" />
             <Text textStyle="button-2" color="red.250">
               Disconnect

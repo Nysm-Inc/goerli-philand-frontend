@@ -23,7 +23,8 @@ const Wallet: FC<{
   onClose: () => void;
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
   onClickNavi: () => void;
-}> = ({ items: originItems, isOpen, onClose, onSubmit, onClickNavi }) => {
+  onRefetch: () => void;
+}> = ({ items: originItems, isOpen, onClose, onSubmit, onClickNavi, onRefetch }) => {
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
   const [items, setItems] = useState<WalletObject[]>([]);
@@ -171,6 +172,7 @@ const Wallet: FC<{
 
                   reset();
                   await provider.waitForTransaction(res.hash);
+                  onRefetch();
                   stopLoading();
                   openNavi("All Set! Let’s Edit Your Land.", "Edit Land", onClickNavi);
                 })
