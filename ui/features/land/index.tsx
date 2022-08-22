@@ -26,7 +26,21 @@ const Land: FC<{
   onSubmit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
   reset: () => void;
   onClickNavi: () => void;
-}> = ({ objects, isEdit, isOpen, onClose, onClickPlus, onClickMinus, setObjects, onClickObject, onSubmit, reset, onClickNavi }) => {
+  onRefetch: () => void;
+}> = ({
+  objects,
+  isEdit,
+  isOpen,
+  onClose,
+  onClickPlus,
+  onClickMinus,
+  setObjects,
+  onClickObject,
+  onSubmit,
+  reset,
+  onClickNavi,
+  onRefetch,
+}) => {
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
@@ -192,6 +206,7 @@ const Land: FC<{
 
                   reset();
                   await provider.waitForTransaction(res.hash);
+                  onRefetch();
                   stopLoading();
                   openNavi("You can now find your objects in your wallet.", "Open Wallet", onClickNavi);
                 })

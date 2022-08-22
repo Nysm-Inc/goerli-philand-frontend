@@ -44,7 +44,8 @@ const Detail: FC<{
   totalSupply: { [tokenId: number]: number };
   onClick: () => Promise<TransactionResponse | undefined>;
   onClickNavi: () => void;
-}> = ({ selected, totalSupply, onClick, onClickNavi }) => {
+  onRefetch: () => void;
+}> = ({ selected, totalSupply, onClick, onClickNavi, onRefetch }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -101,6 +102,7 @@ const Detail: FC<{
               claimed={selected.claimed}
               onClick={onClick}
               onClickNavi={onClickNavi}
+              onRefetch={onRefetch}
             />
           </Box>
         </VStack>

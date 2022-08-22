@@ -20,7 +20,8 @@ const Shop: FC<{
   onClose: () => void;
   onSubmit: (fTokenIds: number[], pTokenIds: number[], wTokenIds: number[]) => Promise<TransactionResponse | undefined>;
   onClickNavi: () => void;
-}> = ({ address, isOpen, onClose, onSubmit, onClickNavi }) => {
+  onRefetch: () => void;
+}> = ({ address, isOpen, onClose, onSubmit, onClickNavi, onRefetch }) => {
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
   const { data } = useBalance({ addressOrName: address, watch: isOpen });
@@ -133,6 +134,7 @@ const Shop: FC<{
                     event({ action: "conversion_get_shop" });
                     reset();
                     await provider.waitForTransaction(res.hash);
+                    onRefetch();
                     stopLoading();
                     openNavi("You can now find your objects in your wallet.", "Open Wallet", onClickNavi);
                   })

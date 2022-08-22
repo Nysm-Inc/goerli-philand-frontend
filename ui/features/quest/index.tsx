@@ -27,7 +27,8 @@ const Quest: FC<{
   onClickItem: (tokenId: number) => Promise<TransactionResponse | undefined>;
   onClickUpdate: () => Promise<void>;
   onClickNavi: () => void;
-}> = ({ claimableList, claimedList, progressList, totalSupply, isOpen, onClose, onClickItem, onClickUpdate, onClickNavi }) => {
+  onRefetch: () => void;
+}> = ({ claimableList, claimedList, progressList, totalSupply, isOpen, onClose, onClickItem, onClickUpdate, onClickNavi, onRefetch }) => {
   const { colorMode } = useContext(AppContext);
   const [selected, setSelected] = useState<Selected | undefined>(undefined);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
@@ -78,7 +79,13 @@ const Quest: FC<{
       <Box h="16px" />
       <ModalBody>
         {selected ? (
-          <Detail selected={selected} totalSupply={totalSupply} onClick={() => onClickItem(selected.tokenId)} onClickNavi={onClickNavi} />
+          <Detail
+            selected={selected}
+            totalSupply={totalSupply}
+            onClick={() => onClickItem(selected.tokenId)}
+            onClickNavi={onClickNavi}
+            onRefetch={onRefetch}
+          />
         ) : (
           <SimpleGrid columns={3} spacing="8px">
             {metadataList.map((metadata, i) => {
@@ -131,6 +138,7 @@ const Quest: FC<{
                     claimed={claimed}
                     onClick={() => onClickItem(metadata.tokenId)}
                     onClickNavi={onClickNavi}
+                    onRefetch={onRefetch}
                   />
                 </VStack>
               );
