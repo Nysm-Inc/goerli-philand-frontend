@@ -15,7 +15,7 @@ const HasENS: FC<{ address: string; currentENS: string; domains: string[]; switc
   const { createPhiland } = useCreatePhiland(address, currentENS);
   const { changePhilandOwner } = useChangePhilandOwner(address, currentENS);
   const { owner, phiObjects } = useViewPhiland(currentENS);
-  const isCreatedPhiland = useMemo(() => owner === address && phiObjects.length > 0, [owner, address, phiObjects.length]);
+  const isCreatedPhiland = useMemo(() => owner === address, [owner, address]);
 
   return (
     <>
