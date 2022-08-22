@@ -14,12 +14,13 @@ const useDeposit = (
 ): [
   DepositObject[],
   {
+    refetch: () => void;
     deposit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
     withdraw: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
   }
 ] => {
   const { addTx } = useContext(AppContext);
-  const { data } = useContractRead({
+  const { data, refetch } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "checkAllDepositStatus",
@@ -102,6 +103,7 @@ const useDeposit = (
         }, [])
       : [],
     {
+      refetch,
       deposit: onDeposit,
       withdraw: onWithdraw,
     },

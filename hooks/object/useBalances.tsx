@@ -5,9 +5,13 @@ import { objectMetadataList } from "~/types/object";
 import { BalanceObject, ObjectContractAddress, WallpaperContractAddress } from "~/types";
 import { ContractAbis } from "~/abi/types";
 
-const useBalances = (contract: ObjectContractAddress | WallpaperContractAddress, account?: string, watch?: boolean): BalanceObject[] => {
+const useBalances = (
+  contract: ObjectContractAddress | WallpaperContractAddress,
+  account?: string,
+  watch?: boolean
+): { balances: BalanceObject[]; refetch: () => void } => {
   const metadata = useMemo(() => Object.values(objectMetadataList[contract]), [contract]);
-  const { data } = useContractRead({
+  const { data, refetch } = useContractRead({
     addressOrName: contract,
     contractInterface: ContractAbis[contract],
     functionName: "balanceOfBatch",
@@ -15,12 +19,15 @@ const useBalances = (contract: ObjectContractAddress | WallpaperContractAddress,
     watch: !!watch,
   });
 
-  return data
-    ? metadata.reduce((memo, meta, i) => {
-        const amount = BigNumber.from(data[i]).toNumber();
-        return amount > 0 ? [...memo, { contract: contract, tokenId: meta.tokenId, amount: amount }] : memo;
-      }, [] as BalanceObject[])
-    : [];
+  return {
+    balances: data
+      ? metadata.reduce((memo, meta, i) => {
+          const amount = BigNumber.from(data[i]).toNumber();
+          return amount > 0 ? [...memo, { contract: contract, tokenId: meta.tokenId, amount: amount }] : memo;
+        }, [] as BalanceObject[])
+      : [],
+    refetch,
+  };
 };
 
 export default useBalances;
