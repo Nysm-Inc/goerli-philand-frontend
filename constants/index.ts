@@ -30,8 +30,11 @@ export const PARTNERSHIP_APPLICATION_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSesnViXpjx2fufQrDI26yBbvcyNxWU-DVm3DEUn5WhKAn4XBQ/viewform?usp=sf_link";
 export const TERM_OF_SERVICE_URL = "https://phi-xyz.notion.site/Term-of-Service-for-Phi-9aba59d5b8ce4dcdaf860189eeff60f3";
 export const PRIVACY_POLICY_URL = "https://phi-xyz.notion.site/Privacy-Policy-for-Phi-48d9ed0ead2e4006a55d93d9854dc39a";
-export const HOWTOPLAY_URL =
-  "https://phi-xyz.notion.site/How-to-play-the-demo-for-Phi-on-Polygon-Mumbai-Testnet-9463f796a11943e5add3d56ee00e7a76";
+export const HOWTOPLAY_URL = "https://phi-xyz.notion.site/How-to-play-Phi-on-Polygon-Mumbai-Testnet-9463f796a11943e5add3d56ee00e7a76";
+export const HOWTOPLAY_CLAIM_MATIC_URL =
+  "https://phi-xyz.notion.site/Step-2-Get-test-MATIC-on-Polygon-Mumbai-Testnet-3e60a67c992048399943d24771a4c509";
+export const HOWTOPLAY_GET_ENS_URL =
+  "https://phi-xyz.notion.site/Step-4-Get-a-ENS-domain-on-Goerli-Testnet-6563298f8abc445d9a20472db05aef79";
 export const TWITTER_URL = "https://twitter.com/phi_xyz";
 
 // localstorage

@@ -3,7 +3,7 @@ import { FC, useContext, useMemo } from "react";
 import { useBalance } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Link, Text, useBoolean, VStack } from "@chakra-ui/react";
-import { HOWTOPLAY_URL } from "~/constants";
+import { HOWTOPLAY_CLAIM_MATIC_URL } from "~/constants";
 import { AppContext } from "~/contexts";
 import { nullAddress } from "~/types";
 import { event } from "~/utils/ga/ga";
@@ -82,7 +82,7 @@ const CreatePhiland: FC<{
               color="primary.500"
               textStyle="button-2"
               _focusVisible={{ boxShadow: "none" }}
-              href={HOWTOPLAY_URL + "#17bd0eb79e804ad493081e31cfe58e05"}
+              href={HOWTOPLAY_CLAIM_MATIC_URL}
               isExternal
             >
               How to claim $MATIC

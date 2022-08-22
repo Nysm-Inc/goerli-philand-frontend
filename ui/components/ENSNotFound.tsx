@@ -4,7 +4,7 @@ import { utils } from "ethers";
 import { chain, useAccount } from "wagmi";
 import { Link, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import { HOWTOPLAY_URL } from "~/constants";
+import { HOWTOPLAY_GET_ENS_URL } from "~/constants";
 import { goerliProvider } from "~/connectors";
 import { Status } from "~/types/tx";
 import { createPhiSubdomain } from "~/utils/ens";
@@ -58,13 +58,7 @@ const ENSNotFound: FC = () => {
             <Text textStyle="paragraph-2" color="grey.500">
               If you want to choose your ENS name
             </Text>
-            <Link
-              color="primary.500"
-              textStyle="button-2"
-              _focusVisible={{ boxShadow: "none" }}
-              href={HOWTOPLAY_URL + "#0c6980291bc1487ba3100b905d4e563b"}
-              isExternal
-            >
+            <Link color="primary.500" textStyle="button-2" _focusVisible={{ boxShadow: "none" }} href={HOWTOPLAY_GET_ENS_URL} isExternal>
               How to get a new ENS on Goerli
             </Link>
           </VStack>
