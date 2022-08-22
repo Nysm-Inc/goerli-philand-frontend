@@ -4,7 +4,7 @@ import MapAbi from "~/abi/map.json";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { nullAddress, Wallpaper } from "~/types";
 
-const useWallpaper = (ens?: string | null, disabled?: boolean): Wallpaper | undefined => {
+const useWallpaper = (ens?: string | null): Wallpaper | undefined => {
   const { data } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,

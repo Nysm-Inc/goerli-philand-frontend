@@ -5,8 +5,7 @@ import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { nullAddress, PhiObject } from "~/types";
 
 const useViewPhiland = (
-  ens?: string | null,
-  disabled?: boolean
+  ens?: string | null
 ): { owner: string; isFetchedOwner: boolean; phiObjects: (PhiObject & { removeIdx: number })[] } => {
   const { data: owner, isFetched: isFetchedOwner } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,

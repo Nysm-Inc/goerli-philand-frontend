@@ -48,19 +48,19 @@ const Philand: FC<{
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
   const onCloseModals = useCallback(() => (onCloseQuest(), onCloseShop(), onCloseWallet(), onCloseLand(), onCloseHowItWorks()), []);
 
-  const [claimableList, updateClaimableList] = useClaimableList(address);
-  const progressList = useQuestProgress(address);
-  const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS);
-  const wallpaper = useWallpaper(currentENS);
-  const balancePhiObjects = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address);
-  const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
-  const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
+  const [claimableList, updateClaimableList] = useClaimableList(address, isOpenQuest);
+  const progressList = useQuestProgress(address, isOpenQuest);
+  const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS, isOpenQuest);
+  const [claimedList, { claimPhi }] = useClaim(address, isOpenQuest);
+  const balancePhiObjects = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
+  const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
+  const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
   const balanceWallpapers = useBalances(WALLPAPER_CONTRACT_ADDRESS, address);
-  const [claimedList, { claimPhi }] = useClaim(address);
-  const { buyObjects } = useBuyObjects(address);
-  const [depositObjects, { deposit, withdraw }] = useDeposit(currentENS);
-  const { save, tx: txSave } = useSave(currentENS);
+  const wallpaper = useWallpaper(currentENS);
+  const [depositObjects, { deposit, withdraw }] = useDeposit(currentENS, isOpenLand);
   const [landObjects, plus, minus, setLandObjects, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
+  const { buyObjects } = useBuyObjects(address);
+  const { save, tx: txSave } = useSave(currentENS);
 
   const {
     state: { initialized, isDiff },

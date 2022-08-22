@@ -3,12 +3,12 @@ import { useBlockNumber } from "wagmi";
 import { QuestProgressList } from "~/types/quest";
 import { getProgressList } from "~/utils/condition";
 
-const useQuestProgress = (address?: string): QuestProgressList => {
-  const { data: blockNumber } = useBlockNumber({ watch: true });
+const useQuestProgress = (address?: string, watch?: boolean): QuestProgressList => {
+  const { data: blockNumber } = useBlockNumber({ watch: !!watch });
   const [progressList, setProgressList] = useState<QuestProgressList>({});
 
   useEffect(() => {
-    if (!address) return;
+    if (!address || !watch) return;
 
     (async () => {
       const list = await getProgressList(address);

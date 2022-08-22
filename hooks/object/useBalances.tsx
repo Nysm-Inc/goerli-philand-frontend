@@ -5,14 +5,14 @@ import { objectMetadataList } from "~/types/object";
 import { BalanceObject, ObjectContractAddress, WallpaperContractAddress } from "~/types";
 import { ContractAbis } from "~/abi/types";
 
-const useBalances = (contract: ObjectContractAddress | WallpaperContractAddress, account?: string, disabled?: boolean): BalanceObject[] => {
+const useBalances = (contract: ObjectContractAddress | WallpaperContractAddress, account?: string, watch?: boolean): BalanceObject[] => {
   const metadata = useMemo(() => Object.values(objectMetadataList[contract]), [contract]);
   const { data } = useContractRead({
     addressOrName: contract,
     contractInterface: ContractAbis[contract],
     functionName: "balanceOfBatch",
     args: account ? [metadata.map(() => account), metadata.map((meta) => meta.tokenId)] : null,
-    watch: true,
+    watch: !!watch,
   });
 
   return data

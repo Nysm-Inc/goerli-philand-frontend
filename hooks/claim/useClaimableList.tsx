@@ -3,8 +3,8 @@ import { useBlockNumber } from "wagmi";
 import { QuestClaimableList } from "~/types/quest";
 import { getClaimableList, postClaimableList } from "~/utils/condition";
 
-const useClaimableList = (address?: string): [QuestClaimableList, () => Promise<void>] => {
-  const { data: blockNumber } = useBlockNumber({ watch: true });
+const useClaimableList = (address?: string, watch?: boolean): [QuestClaimableList, () => Promise<void>] => {
+  const { data: blockNumber } = useBlockNumber({ watch: !!watch });
   const [claimableList, setClaimableList] = useState<QuestClaimableList>({});
 
   const updateClaimableList = useCallback(async () => {
@@ -20,7 +20,7 @@ const useClaimableList = (address?: string): [QuestClaimableList, () => Promise<
   }, [address]);
 
   useEffect(() => {
-    if (!address) return;
+    if (!address || !watch) return;
 
     (async () => {
       const list = await getClaimableList(address);

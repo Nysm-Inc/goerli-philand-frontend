@@ -10,7 +10,7 @@ import { getFastestGasWei } from "~/utils/gas";
 
 const useDeposit = (
   ens?: string | null,
-  disabled?: boolean
+  watch?: boolean
 ): [
   DepositObject[],
   {
@@ -24,7 +24,7 @@ const useDeposit = (
     contractInterface: MapAbi,
     functionName: "checkAllDepositStatus",
     args: ens ? [ens.slice(0, -4)] : null,
-    watch: true,
+    watch: !!watch,
   });
   const {
     data: depositData,
