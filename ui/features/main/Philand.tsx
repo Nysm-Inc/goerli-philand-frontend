@@ -48,19 +48,21 @@ const Philand: FC<{
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
   const onCloseModals = useCallback(() => (onCloseQuest(), onCloseShop(), onCloseWallet(), onCloseLand(), onCloseHowItWorks()), []);
 
-  const [claimableList, updateClaimableList] = useClaimableList(address);
-  const progressList = useQuestProgress(address);
-  const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS);
+  const [claimableList, updateClaimableList] = useClaimableList(address, isOpenQuest);
+  const progressList = useQuestProgress(address, isOpenQuest);
+  const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS, isOpenQuest);
+  const [claimedList, { claimPhi }] = useClaim(address, isOpenQuest);
+  const { balances: balanceQuestObjects, refetch: refetchQuest } = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
+  const { balances: balanceFreeObjects, refetch: refetchFree } = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
+  const { balances: balancePremiumObjects, refetch: refetchPre } = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
+  const { balances: balanceWallpapers, refetch: refetchWall } = useBalances(WALLPAPER_CONTRACT_ADDRESS, address, true);
   const wallpaper = useWallpaper(currentENS);
-  const balancePhiObjects = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address);
-  const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
-  const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
-  const balanceWallpapers = useBalances(WALLPAPER_CONTRACT_ADDRESS, address);
-  const [claimedList, { claimPhi }] = useClaim(address);
-  const { buyObjects } = useBuyObjects(address);
-  const [depositObjects, { deposit, withdraw }] = useDeposit(currentENS);
-  const { save, tx: txSave } = useSave(currentENS);
+  const [depositObjects, { refetch: refetchDepositObjects, deposit, withdraw }] = useDeposit(currentENS, isOpenLand);
   const [landObjects, plus, minus, setLandObjects, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
+  const { buyObjects } = useBuyObjects(address);
+  const { save, tx: txSave } = useSave(currentENS);
+  const openWallet = useCallback(() => (refetchQuest(), refetchFree(), refetchPre(), refetchWall(), onOpenWallet()), []);
+  const openLand = useCallback(() => (refetchDepositObjects(), onOpenLand()), []);
 
   const {
     state: { initialized, isDiff },
@@ -88,8 +90,8 @@ const Philand: FC<{
         currentWallpaper={wallpaper}
         balanceWallpapers={balanceWallpapers}
         actionHandler={{
-          onOpenWallet,
-          onOpenLand,
+          onOpenWallet: openWallet,
+          onOpenLand: openLand,
           onCloseLand,
           onSwitchCurrentENS: switchCurrentENS,
           onChangeWallpaper,
@@ -109,7 +111,7 @@ const Philand: FC<{
         onClickObject={onPickLandObject}
         onSubmit={withdraw}
         reset={reset}
-        onClickNavi={() => (onCloseModals(), onOpenWallet())}
+        onClickNavi={() => (onCloseModals(), openWallet())}
       />
 
       {isEdit ? (
@@ -150,21 +152,21 @@ const Philand: FC<{
             onClose={onCloseQuest}
             onClickItem={claimPhi}
             onClickUpdate={updateClaimableList}
-            onClickNavi={() => (onCloseModals(), onOpenWallet())}
+            onClickNavi={() => (onCloseModals(), openWallet())}
           />
           <Shop
             address={address}
             isOpen={isOpenShop}
             onClose={onCloseShop}
             onSubmit={buyObjects}
-            onClickNavi={() => (onCloseModals(), onOpenWallet())}
+            onClickNavi={() => (onCloseModals(), openWallet())}
           />
           <Wallet
-            items={[...balancePhiObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
+            items={[...balanceQuestObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
             isOpen={isOpenWallet}
             onClose={onCloseWallet}
             onSubmit={deposit}
-            onClickNavi={() => (onCloseModals(), onEdit(), onOpenLand())}
+            onClickNavi={() => (onCloseModals(), onEdit(), openLand())}
           />
 
           <MainMenu isOpenQuest={isOpenQuest} isOpenShop={isOpenShop} onOpenQuest={onOpenQuest} onOpenShop={onOpenShop} />

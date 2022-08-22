@@ -20,13 +20,13 @@ const metadata = Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]
 
 const useClaim = (
   address?: string,
-  disabled?: boolean
+  watch?: boolean
 ): [{ [tokenId: number]: boolean }, { claimPhi: (tokenId: number) => Promise<TransactionResponse | undefined> }] => {
   const { addTx } = useContext(AppContext);
   const { data } = useContractReads({
     contracts: metadata.map((meta) => checkClaimedStatus(address || "", meta.tokenId)),
-    watch: true,
     keepPreviousData: true,
+    watch: !!watch,
   });
 
   const {

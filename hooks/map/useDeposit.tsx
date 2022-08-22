@@ -10,21 +10,22 @@ import { getFastestGasWei } from "~/utils/gas";
 
 const useDeposit = (
   ens?: string | null,
-  disabled?: boolean
+  watch?: boolean
 ): [
   DepositObject[],
   {
+    refetch: () => void;
     deposit: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
     withdraw: (args: BalanceObject[]) => Promise<TransactionResponse | undefined>;
   }
 ] => {
   const { addTx } = useContext(AppContext);
-  const { data } = useContractRead({
+  const { data, refetch } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "checkAllDepositStatus",
     args: ens ? [ens.slice(0, -4)] : null,
-    watch: true,
+    watch: !!watch,
   });
   const {
     data: depositData,
@@ -102,6 +103,7 @@ const useDeposit = (
         }, [])
       : [],
     {
+      refetch,
       deposit: onDeposit,
       withdraw: onWithdraw,
     },

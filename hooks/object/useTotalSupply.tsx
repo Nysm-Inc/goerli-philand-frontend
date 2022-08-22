@@ -12,12 +12,12 @@ const totalSupply = (tokenId: number) => ({
   args: [tokenId],
 });
 
-const useTotalSupply = (contract: ObjectContractAddress): { [tokenId: number]: number } => {
+const useTotalSupply = (contract: ObjectContractAddress, watch?: boolean): { [tokenId: number]: number } => {
   const metadata = useMemo(() => Object.values(objectMetadataList[contract]), [contract]);
   const { data } = useContractReads({
     contracts: metadata.map((meta) => totalSupply(meta.tokenId)),
     keepPreviousData: true,
-    watch: true,
+    watch: !!watch,
   });
 
   return data && data[0] ? metadata.reduce((memo, meta, i) => ({ ...memo, [meta.tokenId]: data[i].toNumber() }), {}) : {};
