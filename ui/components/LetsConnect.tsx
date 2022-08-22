@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
-import { Box, Center, Flex, HStack, Link, Text, VStack } from "@chakra-ui/react";
-import { HOWTOPLAY_URL } from "~/constants";
+import { Center, HStack, Link, Text, VStack } from "@chakra-ui/react";
+import { HOWTOPLAY_GET_ENS_URL, HOWTOPLAY_URL } from "~/constants";
 import { AppContext } from "~/contexts";
 
 const LetsConnect: FC = () => {
@@ -34,13 +34,7 @@ const LetsConnect: FC = () => {
         <Text textStyle="paragraph-1" color="grey.500">
           You need ENS to have your PHI land.
         </Text>
-        <Link
-          color="primary.500"
-          textStyle="button-2"
-          _focusVisible={{ boxShadow: "none" }}
-          href={HOWTOPLAY_URL + "#0c6980291bc1487ba3100b905d4e563b"}
-          isExternal
-        >
+        <Link color="primary.500" textStyle="button-2" _focusVisible={{ boxShadow: "none" }} href={HOWTOPLAY_GET_ENS_URL} isExternal>
           Don’t know how to get ENS?
         </Link>
       </VStack>
