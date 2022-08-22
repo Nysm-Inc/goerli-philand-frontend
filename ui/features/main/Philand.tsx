@@ -55,7 +55,7 @@ const Philand: FC<{
   const { balances: balanceQuestObjects, refetch: refetchQuest } = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
   const { balances: balanceFreeObjects, refetch: refetchFree } = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
   const { balances: balancePremiumObjects, refetch: refetchPre } = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
-  const { balances: balanceWallpapers, refetch: refetchWall } = useBalances(WALLPAPER_CONTRACT_ADDRESS, address, true);
+  const { balances: balanceWallpapers, refetch: refetchWall } = useBalances(WALLPAPER_CONTRACT_ADDRESS, address, isOpenWallet || isEdit);
   const wallpaper = useWallpaper(currentENS);
   const [depositObjects, { refetch: refetchDepositObjects, deposit, withdraw }] = useDeposit(currentENS, isOpenLand);
   const [landObjects, plus, minus, setLandObjects, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
