@@ -167,6 +167,7 @@ const Philand: FC<{
             onClose={onCloseWallet}
             onSubmit={deposit}
             onClickNavi={() => (onCloseModals(), onEdit(), openLand())}
+            onRefetchDepositObjects={refetchDepositObjects}
           />
 
           <MainMenu isOpenQuest={isOpenQuest} isOpenShop={isOpenShop} onOpenQuest={onOpenQuest} onOpenShop={onOpenShop} />
