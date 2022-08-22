@@ -12,12 +12,10 @@ const HasENS: FC<{ address: string; currentENS: string; domains: string[]; switc
   domains,
   switchCurrentENS,
 }) => {
-  const [{ isCreated }, { createPhiland }] = useCreatePhiland(address, currentENS);
+  const { createPhiland } = useCreatePhiland(address, currentENS);
   const { changePhilandOwner } = useChangePhilandOwner(address, currentENS);
   const { owner, phiObjects } = useViewPhiland(currentENS);
-  const isCreatedPhiland = useMemo(() => {
-    return owner === address && (isCreated || phiObjects.length > 0);
-  }, [owner, address, isCreated, phiObjects.length]);
+  const isCreatedPhiland = useMemo(() => owner === address || phiObjects.length > 0, [owner, address, phiObjects.length]);
 
   return (
     <>

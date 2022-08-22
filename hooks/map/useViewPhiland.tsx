@@ -4,7 +4,19 @@ import MapAbi from "~/abi/map.json";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import { nullAddress, PhiObject } from "~/types";
 
-const useViewPhiland = (ens?: string | null, disabled?: boolean): { owner: string; phiObjects: (PhiObject & { removeIdx: number })[] } => {
+const useViewPhiland = (
+  ens?: string | null,
+  disabled?: boolean
+): { owner: string; isFetchedOwner: boolean; phiObjects: (PhiObject & { removeIdx: number })[] } => {
+  const { data: owner, isFetched: isFetchedOwner } = useContractRead({
+    addressOrName: MAP_CONTRACT_ADDRESS,
+    contractInterface: MapAbi,
+    functionName: "ownerOfPhiland",
+    args: ens ? [ens.slice(0, -4)] : null,
+    // todo
+    // watch: true,
+  });
+
   const { data: objects } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
@@ -19,17 +31,11 @@ const useViewPhiland = (ens?: string | null, disabled?: boolean): { owner: strin
     args: ens ? [ens.slice(0, -4)] : null,
     watch: true,
   });
-  const { data: owner } = useContractRead({
-    addressOrName: MAP_CONTRACT_ADDRESS,
-    contractInterface: MapAbi,
-    functionName: "ownerOfPhiland",
-    args: ens ? [ens.slice(0, -4)] : null,
-    watch: true,
-  });
 
   return {
     // @ts-ignore
     owner: owner || nullAddress,
+    isFetchedOwner,
     phiObjects:
       objects && links
         ? objects.reduce((memo, object, idx) => {

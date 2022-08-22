@@ -48,16 +48,16 @@ const Philand: FC<{
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
   const onCloseModals = useCallback(() => (onCloseQuest(), onCloseShop(), onCloseWallet(), onCloseLand(), onCloseHowItWorks()), []);
 
-  const wallpaper = useWallpaper(currentENS);
   const [claimableList, updateClaimableList] = useClaimableList(address);
   const progressList = useQuestProgress(address);
-  const [claimedList, { claimPhi }] = useClaim(address);
   const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS);
-  const { buyObjects } = useBuyObjects(address);
+  const wallpaper = useWallpaper(currentENS);
   const balancePhiObjects = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address);
   const balanceFreeObjects = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address);
   const balancePremiumObjects = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address);
   const balanceWallpapers = useBalances(WALLPAPER_CONTRACT_ADDRESS, address);
+  const [claimedList, { claimPhi }] = useClaim(address);
+  const { buyObjects } = useBuyObjects(address);
   const [depositObjects, { deposit, withdraw }] = useDeposit(currentENS);
   const { save, tx: txSave } = useSave(currentENS);
   const [landObjects, plus, minus, setLandObjects, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);

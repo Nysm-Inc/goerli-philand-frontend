@@ -16,7 +16,7 @@ const Index: NextPage = () => {
   return (
     <>
       <Dev />
-      {!isMobile ? <Main /> : <Mobile />}
+      {isMobile ? <Mobile /> : <Main />}
     </>
   );
 };
