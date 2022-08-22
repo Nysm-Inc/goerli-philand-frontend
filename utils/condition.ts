@@ -38,7 +38,7 @@ type ClaimableAPIResponse = {
 
 export const getClaimableList = async (address: string): Promise<ClaimableAPIResponse> => {
   const url = new URL(UTILS_API_GATEWAY + "/condition/check");
-  url.searchParams.append("address", address);
+  url.searchParams.append("address", address.toLowerCase());
   const res = await axios.get<{ result: ClaimableAPIResponse }>(url.toString());
   return res.data?.result || [];
 };
