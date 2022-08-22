@@ -7,6 +7,26 @@ const useClaimableList = (address?: string, watch?: boolean): [QuestClaimableLis
   const { data: blockNumber } = useBlockNumber({ watch: !!watch });
   const [claimableList, setClaimableList] = useState<QuestClaimableList>({});
 
+  const fetchClaimableList = useCallback(async () => {
+    if (!address) return;
+
+    const list = await getClaimableList(address);
+    setClaimableList(
+      list.reduce(
+        (memo, progress) => ({
+          ...memo,
+          [progress.TokenId]: {
+            tokenId: progress.TokenId,
+            condition: progress.Condition,
+            value: progress.Value,
+            timeStamp: progress.TimeStamp,
+          },
+        }),
+        {}
+      )
+    );
+  }, [address]);
+
   const updateClaimableList = useCallback(async () => {
     if (!address) return;
 
@@ -16,30 +36,15 @@ const useClaimableList = (address?: string, watch?: boolean): [QuestClaimableLis
   useEffect(() => {
     if (!address) return;
 
+    fetchClaimableList();
     updateClaimableList();
   }, [address]);
 
   useEffect(() => {
-    if (!address || !watch) return;
+    if (!watch) return;
 
-    (async () => {
-      const list = await getClaimableList(address);
-      setClaimableList(
-        list.reduce(
-          (memo, progress) => ({
-            ...memo,
-            [progress.TokenId]: {
-              tokenId: progress.TokenId,
-              condition: progress.Condition,
-              value: progress.Value,
-              timeStamp: progress.TimeStamp,
-            },
-          }),
-          {}
-        )
-      );
-    })();
-  }, [address, blockNumber]);
+    fetchClaimableList();
+  }, [blockNumber]);
 
   return [claimableList, updateClaimableList];
 };
