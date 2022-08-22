@@ -23,7 +23,7 @@ const Shop: FC<{
 }> = ({ address, isOpen, onClose, onSubmit, onClickNavi }) => {
   const { colorMode } = useContext(AppContext);
   const provider = useProvider();
-  const { data } = useBalance({ addressOrName: address, watch: true });
+  const { data } = useBalance({ addressOrName: address, watch: isOpen });
   const [tabIdx, setTabIdx] = useState(0);
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const openNavi = useNavi();
