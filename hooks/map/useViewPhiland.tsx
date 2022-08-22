@@ -13,10 +13,8 @@ const useViewPhiland = (
     contractInterface: MapAbi,
     functionName: "ownerOfPhiland",
     args: ens ? [ens.slice(0, -4)] : null,
-    // todo
-    // watch: true,
+    watch: true,
   });
-
   const { data: objects } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,

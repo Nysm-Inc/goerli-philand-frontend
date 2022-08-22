@@ -17,8 +17,7 @@ const useTotalSupply = (contract: ObjectContractAddress): { [tokenId: number]: n
   const { data } = useContractReads({
     contracts: metadata.map((meta) => totalSupply(meta.tokenId)),
     keepPreviousData: true,
-    // todo
-    // watch: true,
+    watch: true,
   });
 
   return data && data[0] ? metadata.reduce((memo, meta, i) => ({ ...memo, [meta.tokenId]: data[i].toNumber() }), {}) : {};
