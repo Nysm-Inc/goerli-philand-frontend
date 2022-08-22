@@ -4,11 +4,10 @@ import { FC, useMemo } from "react";
 import axios from "axios";
 import { useBreakpointValue } from "@chakra-ui/react";
 import { UTILS_API_GATEWAY } from "~/constants";
-import { PhiObject, Wallpaper } from "~/types";
+import { nullAddress, PhiObject, Wallpaper } from "~/types";
 import useGame from "~/hooks/game/useGame";
 import useClouds from "~/hooks/game/useClouds";
 import { useWallpaper, useViewPhiland } from "~/hooks/map";
-import { useCreatePhiland } from "~/hooks/registry";
 import Dev from "~/ui/components/Dev";
 import Header from "~/ui/components/Header";
 import HeaderMd from "~/ui/components/HeaderMd";
@@ -39,25 +38,24 @@ const Index: NextPage = () => {
   const ens = decodeURI(router.asPath).substring(1);
   const isMobile = useBreakpointValue({ base: true, lg: false }, { ssr: false });
 
-  const [{ isCreated, isFetched }] = useCreatePhiland("", ens);
-  const { phiObjects } = useViewPhiland(ens);
-  const isPhilandCreated = useMemo(() => isCreated || phiObjects.length > 0, [isCreated, phiObjects.length]);
+  const { owner, isFetchedOwner, phiObjects } = useViewPhiland(ens);
+  const isCreatedPhiland = useMemo(() => owner !== nullAddress || phiObjects.length > 0, [owner, phiObjects.length]);
   const wallpaper = useWallpaper(ens);
   useClouds(isMobile);
 
   return (
     <>
       <Dev />
-      {isPhilandCreated && <Philand ens={ens} phiObjects={phiObjects} wallpaper={wallpaper} />}
+      {isCreatedPhiland && <Philand ens={ens} phiObjects={phiObjects} wallpaper={wallpaper} />}
       {isMobile ? (
         <>
           <HeaderMd />
-          {isFetched && !isPhilandCreated && <LandNotFound ens={ens} w="360px" />}
+          {isFetchedOwner && !isCreatedPhiland && <LandNotFound ens={ens} w="360px" />}
         </>
       ) : (
         <>
           <Header />
-          {isFetched && !isPhilandCreated && <LandNotFound ens={ens} />}
+          {isFetchedOwner && !isCreatedPhiland && <LandNotFound ens={ens} />}
         </>
       )}
     </>
