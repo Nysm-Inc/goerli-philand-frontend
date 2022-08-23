@@ -195,10 +195,19 @@ export default class Engine {
   }
 
   center() {
-    const { room } = GameInstance.get();
+    const { room, uiManager } = GameInstance.get();
     this.showClouds();
     room.updateScaleMode(SCALE_MODES.LINEAR);
     this.viewport.moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2).setZoom(1, true);
+    uiManager.onChangeScaled(this.viewport.scaled);
+  }
+
+  getScale() {
+    return this.viewport.scaled;
+  }
+
+  zoom(scale: number) {
+    this.viewport.setZoom(scale, true);
   }
 
   show() {

@@ -66,6 +66,8 @@ export default class Room {
     engine.viewport.addChild(this.container);
 
     engine.viewport.on("zoomed", ({ viewport }: { viewport: Viewport }) => {
+      uiManager.onChangeScaled(viewport.scaled);
+
       if (viewport.scaled > 2) {
         if (engine.scaleMode === SCALE_MODES.NEAREST) return;
         engine.scaleMode = SCALE_MODES.NEAREST;

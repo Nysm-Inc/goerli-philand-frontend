@@ -27,6 +27,7 @@ import WallpaperMenu, { useWallpaperMenu } from "~/ui/components/WallpaperMenu";
 import Help from "~/ui/components/Help";
 import EditStatus from "~/ui/components/EditStatus";
 import useBuyObjects from "~/hooks/shop";
+import { useZoom } from "~/ui/components/Zoom";
 
 const Philand: FC<{
   address: string;
@@ -41,6 +42,7 @@ const Philand: FC<{
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
   const [linkState, onOpenLinkMenu, onCloseLinkMenu, changeLink] = useLinkMenu();
   const [wallpaperMenuState, onOpenWallpaperMenu, onCloseWallpaperMenu] = useWallpaperMenu();
+  const { scaled, changeScaled } = useZoom();
   const { isOpen: isOpenQuest, onOpen: onOpenQuest, onClose: onCloseQuest } = useDisclosure();
   const { isOpen: isOpenShop, onOpen: onOpenShop, onClose: onCloseShop } = useDisclosure();
   const { isOpen: isOpenWallet, onOpen: onOpenWallet, onClose: onCloseWallet } = useDisclosure();
@@ -65,11 +67,28 @@ const Philand: FC<{
 
   const {
     state: { initialized, isDiff },
-    handler: { onEdit, onView, onDropObject, onMoveObject, onPickLandObject, onRemoveObject, onChangeLink, onChangeWallpaper, onSave },
+    handler: {
+      onEdit,
+      onView,
+      onDropObject,
+      onMoveObject,
+      onPickLandObject,
+      onRemoveObject,
+      onChangeLink,
+      onChangeWallpaper,
+      onChangeScaled,
+      onSave,
+    },
   } = useGame({
     state: { currentENS, isEdit, phiObjects, wallpaper },
     uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
-    gameUIHandler: { onOpenActionMenu, onOpenWallpaperMenu, onChangeLinkMenu: changeLink, onPlaceFromLand: tryWrite },
+    gameUIHandler: {
+      onOpenActionMenu,
+      onOpenWallpaperMenu,
+      onChangeLinkMenu: changeLink,
+      onPlaceFromLand: tryWrite,
+      onChangeScaled: changeScaled,
+    },
   });
 
   return (
@@ -88,12 +107,14 @@ const Philand: FC<{
         domains={domains}
         currentWallpaper={wallpaper}
         balanceWallpapers={balanceWallpapers}
+        scaled={scaled}
         actionHandler={{
           onOpenWallet: onOpenWallet,
           onOpenLand: onOpenLand,
           onCloseLand,
           onSwitchCurrentENS: switchCurrentENS,
           onChangeWallpaper,
+          onChangeScaled: (_scaled) => (onChangeScaled(_scaled), changeScaled(_scaled)),
           onView,
           onEdit,
           onSave,

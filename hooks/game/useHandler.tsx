@@ -24,6 +24,7 @@ export type Handler = {
   onRemoveObject: (uuid: string) => void;
   onChangeLink: (id: string, link: PhiLink) => void;
   onChangeWallpaper: (tokenId: number) => void;
+  onChangeScaled: (scaled: number) => void;
   onCheckDiff: () => { isDiff: boolean; diff: SaveArgs };
   onSave: () => Promise<TransactionResponse | undefined>;
 };
@@ -76,6 +77,9 @@ const useHandler = ({
   const onChangeWallpaper = (tokenId: number) => {
     game.room.wallpaper.update(tokenId);
   };
+  const onChangeScaled = (scaled: number) => {
+    game.engine.zoom(scaled);
+  };
   const onCheckDiff = () => {
     const roomItems = game.room.roomItemManager.getItems();
     const prevPhiObjects = phiObjects;
@@ -121,6 +125,7 @@ const useHandler = ({
     onRemoveObject,
     onChangeLink,
     onChangeWallpaper,
+    onChangeScaled,
     onCheckDiff,
     onSave,
   };
