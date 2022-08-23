@@ -104,18 +104,14 @@ const Quest: FC<{
                   spacing="16px"
                   borderRadius="16px"
                   align="flex-start"
+                  cursor="pointer"
                   bgColor={colorMode === "light" ? "white" : "grey.900"}
                   _hover={{
                     bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
                   }}
+                  onClick={() => setSelected({ ...metadata, claimable, claimed, progress })}
                 >
-                  <Center
-                    w="100%"
-                    h="144px"
-                    cursor="pointer"
-                    {...(!claimable && { opacity: 0.5 })}
-                    onClick={() => setSelected({ ...metadata, claimable, claimed, progress })}
-                  >
+                  <Center w="100%" h="144px" cursor="pointer" {...(!claimable && { opacity: 0.5 })}>
                     <Box position="relative" w="96px" h="96px">
                       <Image src={metadata.image_url} layout="fill" objectFit="contain" draggable={false} alt="" />
                     </Box>
