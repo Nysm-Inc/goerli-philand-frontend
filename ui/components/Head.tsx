@@ -4,7 +4,7 @@ import { FRONTEND_URL, LAND_OGP_H, LAND_OGP_W } from "~/constants";
 
 const Head: FC<{ title?: string; ogp?: string }> = ({ title: _title, ogp }) => {
   const title = _title || "Phi";
-  const description = "Phi visualizes the Ethereum as Metaverse";
+  const description = "Phi visualizes your on-chain identity";
 
   return (
     <NextHead>
