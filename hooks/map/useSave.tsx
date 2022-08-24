@@ -42,9 +42,11 @@ const useSave = (
     switch (status) {
       case "loading": {
         setOGP(game.engine.exportImage());
+        return;
       }
       case "success": {
         updateOGP(ens, ogp);
+        return;
       }
     }
   }, [status]);
