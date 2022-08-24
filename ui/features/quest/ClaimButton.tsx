@@ -6,8 +6,11 @@ import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
 import useNavi from "~/ui/components/NaviNotification";
 import Button from "~/ui/components/common/Button";
-
 import { event } from "~/utils/ga/ga";
+
+const floor = (v: number, n: number): number => {
+  return Math.floor(v * Math.pow(10, n)) / Math.pow(10, n);
+};
 
 const ClaimButton: FC<{
   claimable: boolean;
@@ -72,7 +75,7 @@ const ClaimButton: FC<{
               <Progress w="full" p="2px" bgColor="grey.900" borderRadius="48px" value={(progress.counter / progress.value) * 100} />
               <HStack position="absolute" right="calc(12px + 4px)" top="calc(50% + 2px)" transform="translateY(-50%)" spacing="0px">
                 <Text textStyle="button-1" color="green.250">
-                  {Number.isInteger(progress.counter) ? progress.counter : progress.counter.toFixed(1)}
+                  {Number.isInteger(progress.counter) ? progress.counter : floor(progress.counter, 1)}
                 </Text>
                 <Text pt="6px" textStyle="button-1" fontSize="9px" color="white">{`/${progress.value}`}</Text>
               </HStack>
