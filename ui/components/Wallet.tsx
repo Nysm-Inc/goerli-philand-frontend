@@ -4,12 +4,12 @@ import { useDisconnect } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Avatar, Box, Menu, MenuButton, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import useEXP from "~/hooks/leader/exp";
 import { event } from "~/utils/ga/ga";
 import Button from "./common/Button";
 import MenuList from "./common/MenuList";
 import Icon from "./Icon";
 import "@rainbow-me/rainbowkit/styles.css";
-import useEXP from "~/hooks/leader/exp";
 
 const showAddress = (address: string) => `${address.substring(0, 6)}...${address.substring(address.length - 6)}`;
 
