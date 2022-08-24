@@ -32,7 +32,8 @@ const ClaimButton: FC<{
           w="full"
           color="purple"
           isLoading={isLoading}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             startLoading();
             onClick()
               .then(async (res) => {
@@ -66,7 +67,6 @@ const ClaimButton: FC<{
               h="48px"
               p="12px"
               borderRadius="12px"
-              cursor="not-allowed"
               bgColor={colorMode === "light" ? "warmgrey.90" : "dark.grey800"}
             >
               <Progress w="full" p="2px" bgColor="grey.900" borderRadius="48px" value={(progress.counter / progress.value) * 100} />

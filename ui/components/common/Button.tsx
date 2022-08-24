@@ -1,4 +1,4 @@
-import { FC, ReactNode, useContext } from "react";
+import { FC, MouseEventHandler, ReactNode, useContext } from "react";
 import { Button as ChakraButton, LayoutProps, Flex, forwardRef, Center, SystemProps, SpaceProps } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { subColors } from "~/ui/styles/color";
@@ -16,7 +16,7 @@ const Button: FC<{
   borderRadius?: SystemProps["borderRadius"];
   disabled?: boolean;
   isLoading?: boolean;
-  onClick?: () => void;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   children?: ReactNode;
 }> = forwardRef((props, ref) => {
   const {
