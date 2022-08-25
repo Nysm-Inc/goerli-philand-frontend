@@ -65,6 +65,7 @@ const Philand: FC<{
   const { save, tx: txSave } = useSave(currentENS);
   const refetchObjects = useCallback(() => (refetchQuest(), refetchFree(), refetchPre(), refetchDepositObjects()), []);
 
+  // refactor: separate useGame and useHandler
   const {
     state: { initialized, isDiff },
     handler: {
