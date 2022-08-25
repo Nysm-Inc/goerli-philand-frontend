@@ -12,6 +12,7 @@ export type UIHandlerProps = {
   tryWrite: (contract: ObjectContractAddress, tokenId: number) => void;
   tryRemove: (contract: ObjectContractAddress, tokenId: number) => void;
   changeLink: (id: string, link: PhiLink) => void;
+  changeScaled: (scaled: number) => void;
   save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => Promise<TransactionResponse | undefined>;
 };
 
@@ -79,6 +80,7 @@ const useHandler = ({
   };
   const onChangeScaled = (scaled: number) => {
     game.engine.zoom(scaled);
+    uiHandler?.changeScaled(scaled);
   };
   const onCheckDiff = () => {
     const roomItems = game.room.roomItemManager.getItems();
