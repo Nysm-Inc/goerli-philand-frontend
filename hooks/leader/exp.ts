@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useBlockNumber } from "wagmi";
 import { getEXP } from "~/utils/leader";
 
-const useEXP = (address: string): number => {
+const useEXP = (address: string, watch?: boolean): number => {
+  const { data: blockNumber } = useBlockNumber({ watch: !!watch });
   const [exp, setEXP] = useState(0);
 
   useEffect(() => {
@@ -11,7 +13,7 @@ const useEXP = (address: string): number => {
       const exp = await getEXP(address);
       setEXP(exp);
     })();
-  }, [address]);
+  }, [address, blockNumber]);
 
   return exp;
 };
