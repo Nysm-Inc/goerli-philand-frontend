@@ -28,6 +28,7 @@ import Help from "~/ui/components/Help";
 import EditStatus from "~/ui/components/EditStatus";
 import useBuyObjects from "~/hooks/shop";
 import { useZoom } from "~/ui/components/Zoom";
+import useHandler from "~/hooks/game/useHandler";
 
 const Philand: FC<{
   address: string;
@@ -65,24 +66,24 @@ const Philand: FC<{
   const { save, tx: txSave } = useSave(currentENS);
   const refetchObjects = useCallback(() => (refetchQuest(), refetchFree(), refetchPre(), refetchDepositObjects()), []);
 
-  // refactor: separate useGame and useHandler
   const {
-    state: { initialized, isDiff },
-    handler: {
-      onEdit,
-      onView,
-      onDropObject,
-      onMoveObject,
-      onPickLandObject,
-      onRemoveObject,
-      onChangeLink,
-      onChangeWallpaper,
-      onChangeScaled,
-      onSave,
-    },
-  } = useGame({
-    state: { currentENS, isEdit, phiObjects, wallpaper },
+    onEdit,
+    onView,
+    onDropObject,
+    onMoveObject,
+    onPickLandObject,
+    onRemoveObject,
+    onChangeLink,
+    onChangeWallpaper,
+    onChangeScaled,
+    onSave,
+  } = useHandler({
+    phiObjects,
+    wallpaper,
     uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
+  });
+  const { initialized, isDiff } = useGame({
+    state: { currentENS, isEdit, phiObjects, wallpaper },
     gameUIHandler: {
       onOpenActionMenu,
       onOpenWallpaperMenu,
