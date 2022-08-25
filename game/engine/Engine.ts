@@ -195,10 +195,6 @@ export default class Engine {
     uiManager.onChangeScaled(this.viewport.scaled);
   }
 
-  getScale() {
-    return this.viewport.scaled;
-  }
-
   zoom(scale: number) {
     const { uiManager, room } = GameInstance.get();
 

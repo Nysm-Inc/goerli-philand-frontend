@@ -17,7 +17,7 @@ export const useZoom = () => {
   const [scaled, setScaled] = useState(1);
 
   useEffect(() => {
-    setScaled(game.engine.getScale());
+    setScaled(game.engine.viewport.scaled);
   }, []);
 
   return { scaled, changeScaled: (_scaled: number) => setScaled(_scaled) };
