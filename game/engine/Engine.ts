@@ -64,7 +64,7 @@ export default class Engine {
     this.viewport
       .moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2)
       .setZoom(isMobile ? 0.4 : 1, true)
-      .clampZoom({ minScale: 0.01, maxScale: 16 })
+      .clampZoom({ minScale: 0.1, maxScale: 16 })
       .drag({ clampWheel: false, wheel: true, pressDrag: isMobile })
       .wheel({ smooth: 3, trackpadPinch: true, wheelZoom: false })
       .pinch()
