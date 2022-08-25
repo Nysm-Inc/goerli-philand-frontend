@@ -2,37 +2,28 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "~/contexts";
 import type { UIManagerHandler } from "~/game/ui/UIManager";
 import { PhiObject, Wallpaper } from "~/types";
-import useHandler, { UIHandlerProps, Handler } from "./useHandler";
+import { SaveArgs } from "~/hooks/map";
 import { useInterval } from "./helper";
 
 type UseGame = {
-  state: {
-    currentENS: string;
-    isEdit: boolean;
-    phiObjects: (PhiObject & { removeIdx: number })[];
-    wallpaper?: Wallpaper;
-  };
-  uiHandler?: UIHandlerProps;
-  gameUIHandler?: UIManagerHandler;
+  state: { currentENS: string; isEdit: boolean; phiObjects: (PhiObject & { removeIdx: number })[]; wallpaper?: Wallpaper };
+  handler?: { onCheckDiff: () => { isDiff: boolean; diff: SaveArgs } };
+  gameHandler?: UIManagerHandler;
 };
 
-const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initialized: boolean; isDiff: boolean }; handler: Handler } => {
+const useGame = ({ state, handler, gameHandler }: UseGame): { initialized: boolean; isDiff: boolean } => {
+  const { game } = useContext(AppContext);
   const _strictRef = useRef(false); // for avoiding react18 strict mode
   const [loadedGame, setLoadedGame] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [isDiff, setIsDiff] = useState(false);
-  const { game } = useContext(AppContext);
-  const controller = {
-    state: { initialized, isDiff },
-    handler: useHandler({ phiObjects: state.phiObjects, wallpaper: state.wallpaper, uiHandler }),
-  };
 
   useEffect(() => {
     if (_strictRef.current) return;
     _strictRef.current = true;
 
     (async () => {
-      await game.loadGame(gameUIHandler);
+      await game.loadGame(gameHandler);
       setLoadedGame(true);
     })();
   }, []);
@@ -66,10 +57,10 @@ const useGame = ({ state, uiHandler, gameUIHandler }: UseGame): { state: { initi
       setIsDiff(false);
       return;
     }
-    setIsDiff(controller.handler.onCheckDiff().isDiff);
+    setIsDiff(!!handler?.onCheckDiff()?.isDiff);
   }, 1000);
 
-  return controller;
+  return { initialized, isDiff };
 };
 
 export default useGame;

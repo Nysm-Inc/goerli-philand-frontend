@@ -19,6 +19,7 @@ export default class Engine {
   ogpLayout: { [mode in ColorMode]: Texture };
   colorMode: ColorMode;
   scaleMode: SCALE_MODES;
+  isMobile: boolean;
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
   onMouseClickHandler: (mouseX: number, mouseY: number) => void;
 
@@ -60,12 +61,12 @@ export default class Engine {
       passiveWheel: false,
       stopPropagation: true,
     });
-    const isMobile = window.matchMedia("(any-pointer:coarse)").matches;
+    this.isMobile = window.matchMedia("(any-pointer:coarse)").matches;
     this.viewport
       .moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2)
-      .setZoom(isMobile ? 0.4 : 1, true)
+      .setZoom(this.isMobile ? 0.4 : 1, true)
       .clampZoom({ minScale: 0.1, maxScale: 16 })
-      .drag({ clampWheel: false, wheel: true, pressDrag: isMobile })
+      .drag({ clampWheel: false, wheel: true, pressDrag: this.isMobile })
       .wheel({ smooth: 3, trackpadPinch: true, wheelZoom: false })
       .pinch()
       .decelerate()
@@ -75,15 +76,6 @@ export default class Engine {
       .on("mousemove", (evt) => {
         const world = this.viewport.toWorld(evt.data.global);
         this.onMouseMoveHandler(world.x, world.y);
-      })
-      .on("zoomed", ({ viewport }: { viewport: Viewport }) => {
-        if (isMobile) return;
-
-        if (viewport.scaled > 2) {
-          this.hideClouds();
-        } else {
-          this.showClouds();
-        }
       });
     this.app.stage.addChild(this.viewport);
 
@@ -143,7 +135,6 @@ export default class Engine {
         }
       }
       this.app.loader.load();
-      // this.app.loader.onProgress.add(console.log);
       this.app.loader.onComplete.add(() => resolve("loaded"));
       this.app.loader.onError.add(() => reject("failed to load"));
     });
@@ -195,10 +186,21 @@ export default class Engine {
   }
 
   center() {
-    const { room } = GameInstance.get();
-    this.showClouds();
-    room.updateScaleMode(SCALE_MODES.LINEAR);
     this.viewport.moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2).setZoom(1, true);
+    this.updateAfterZoom();
+  }
+
+  zoom(scale: number) {
+    this.viewport.setZoom(scale, true);
+    this.updateAfterZoom();
+  }
+
+  updateAfterZoom() {
+    const { uiManager, room } = GameInstance.get();
+
+    this.updateClouds();
+    room.updateScaleMode();
+    uiManager.onChangeScaled(this.viewport.scaled);
   }
 
   show() {
@@ -219,6 +221,16 @@ export default class Engine {
 
   hideClouds() {
     this.cloudContainer.visible = false;
+  }
+
+  updateClouds() {
+    if (this.isMobile) return;
+
+    if (this.viewport.scaled > 2) {
+      this.hideClouds();
+    } else {
+      this.showClouds();
+    }
   }
 
   initializeCloudsPosition() {

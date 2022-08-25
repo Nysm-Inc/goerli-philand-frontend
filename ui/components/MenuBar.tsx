@@ -13,6 +13,7 @@ import Tooltip from "./common/Tooltip";
 import Icon from "./Icon";
 import SelectWallpaper from "./SelectWallpaper";
 import Alert from "./Alert";
+import Zoom from "./Zoom";
 
 const MenuBar: FC<{
   initialized: boolean;
@@ -24,12 +25,14 @@ const MenuBar: FC<{
   domains: string[];
   currentWallpaper?: Wallpaper;
   balanceWallpapers: BalanceObject[];
+  scaled: number;
   actionHandler: {
     onOpenWallet: () => void;
     onOpenLand: () => void;
     onCloseLand: () => void;
     onSwitchCurrentENS: (ens: string) => void;
     onChangeWallpaper: (tokenId: number) => void;
+    onChangeScaled: (scaled: number) => void;
     onView: () => void;
     onEdit: () => void;
     onSave: () => Promise<TransactionResponse | undefined>;
@@ -44,6 +47,7 @@ const MenuBar: FC<{
   domains,
   currentWallpaper,
   balanceWallpapers,
+  scaled,
   actionHandler,
 }) => {
   const { game, colorMode } = useContext(AppContext);
@@ -164,6 +168,7 @@ const MenuBar: FC<{
             boxShadow={false}
             onClick={() => game.engine.center()}
           />
+          <Zoom scaled={scaled} changeScaled={actionHandler.onChangeScaled} />
           {isEdit ? (
             <>
               <Button

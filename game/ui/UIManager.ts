@@ -5,6 +5,7 @@ export type UIManagerHandler = {
   onOpenWallpaperMenu: (globalX: number, globalY: number) => void;
   onChangeLinkMenu: (id: string, link: PhiLink) => void;
   onPlaceFromLand: (contract: ObjectContractAddress, tokenId: number) => void;
+  onChangeScaled: (scaled: number) => void;
 };
 
 export default class UIManager {
@@ -12,12 +13,14 @@ export default class UIManager {
   onOpenWallpaperMenu: (globalX: number, globalY: number) => void;
   onChangeLinkMenu: (id: string, link: PhiLink) => void;
   onPlaceFromLand: (contract: ObjectContractAddress, tokenId: number) => void;
+  onChangeScaled: (scaled: number) => void;
 
   constructor() {
     this.onOpenActionMenu = () => {};
     this.onOpenWallpaperMenu = () => {};
     this.onChangeLinkMenu = () => {};
     this.onPlaceFromLand = () => {};
+    this.onChangeScaled = () => {};
   }
 
   loadUIHandler(handler: UIManagerHandler) {
@@ -25,5 +28,6 @@ export default class UIManager {
     this.onOpenWallpaperMenu = handler.onOpenWallpaperMenu;
     this.onChangeLinkMenu = handler.onChangeLinkMenu;
     this.onPlaceFromLand = handler.onPlaceFromLand;
+    this.onChangeScaled = handler.onChangeScaled;
   }
 }

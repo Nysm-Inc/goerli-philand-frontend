@@ -1,5 +1,4 @@
 import { Container, SCALE_MODES, Sprite } from "pixi.js";
-import { Viewport } from "pixi-viewport";
 import { Layer } from "@pixi/layers";
 import { GAME_APP_HEIGHT, GAME_APP_WIDTH, LAND_H, LAND_OFFSET_Y, LAND_W, TILE_H, TILE_W } from "~/constants";
 import GameInstance from "~/game/GameInstance";
@@ -64,20 +63,7 @@ export default class Room {
     this.container.addChild(this.landItemContainer);
     this.container.addChild(this.landItemLayer);
     engine.viewport.addChild(this.container);
-
-    engine.viewport.on("zoomed", ({ viewport }: { viewport: Viewport }) => {
-      if (viewport.scaled > 2) {
-        if (engine.scaleMode === SCALE_MODES.NEAREST) return;
-        engine.scaleMode = SCALE_MODES.NEAREST;
-
-        this.updateScaleMode(SCALE_MODES.NEAREST);
-      } else {
-        if (engine.scaleMode === SCALE_MODES.LINEAR) return;
-        engine.scaleMode = SCALE_MODES.LINEAR;
-
-        this.updateScaleMode(SCALE_MODES.LINEAR);
-      }
-    });
+    engine.viewport.on("zoomed", () => engine.updateAfterZoom());
   }
 
   enterRoom() {
@@ -168,7 +154,21 @@ export default class Room {
     return { x: tileX, y: tileY };
   }
 
-  updateScaleMode(scaleMode: SCALE_MODES) {
+  updateScaleMode() {
+    const { engine } = GameInstance.get();
+
+    if (engine.viewport.scaled > 2) {
+      if (engine.scaleMode === SCALE_MODES.NEAREST) return;
+      engine.scaleMode = SCALE_MODES.NEAREST;
+      this._updateScaleMode(SCALE_MODES.NEAREST);
+    } else {
+      if (engine.scaleMode === SCALE_MODES.LINEAR) return;
+      engine.scaleMode = SCALE_MODES.LINEAR;
+      this._updateScaleMode(SCALE_MODES.LINEAR);
+    }
+  }
+
+  private _updateScaleMode(scaleMode: SCALE_MODES) {
     const { room } = GameInstance.get();
 
     this.land.texture.baseTexture.scaleMode = scaleMode;

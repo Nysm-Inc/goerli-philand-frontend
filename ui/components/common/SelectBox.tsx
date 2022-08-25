@@ -14,7 +14,7 @@ const SelectBox: FC<{
   selected: Option;
   disabled?: boolean;
   placeholder?: string;
-  handleChange: (value: string) => void;
+  handleChange?: (value: string) => void;
 }> = ({ w, menuW, menuMaxH, options, selected, disabled, placeholder, handleChange }) => {
   const { colorMode } = useContext(AppContext);
 

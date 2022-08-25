@@ -8,6 +8,8 @@ import Wallet from "~/ui/features/wallet";
 import { useWallpaper, useDeposit, useSave } from "~/hooks/map";
 import { useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList, useQuestProgress } from "~/hooks/claim";
+import useBuyObjects from "~/hooks/shop";
+import useHandler from "~/hooks/game/useHandler";
 import useGame from "~/hooks/game/useGame";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
@@ -26,7 +28,7 @@ import LinkMenu, { useLinkMenu } from "~/ui/components/LinkMenu";
 import WallpaperMenu, { useWallpaperMenu } from "~/ui/components/WallpaperMenu";
 import Help from "~/ui/components/Help";
 import EditStatus from "~/ui/components/EditStatus";
-import useBuyObjects from "~/hooks/shop";
+import { useZoom } from "~/ui/components/Zoom";
 
 const Philand: FC<{
   address: string;
@@ -41,6 +43,7 @@ const Philand: FC<{
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
   const [linkState, onOpenLinkMenu, onCloseLinkMenu, changeLink] = useLinkMenu();
   const [wallpaperMenuState, onOpenWallpaperMenu, onCloseWallpaperMenu] = useWallpaperMenu();
+  const { scaled, changeScaled } = useZoom();
   const { isOpen: isOpenQuest, onOpen: onOpenQuest, onClose: onCloseQuest } = useDisclosure();
   const { isOpen: isOpenShop, onOpen: onOpenShop, onClose: onCloseShop } = useDisclosure();
   const { isOpen: isOpenWallet, onOpen: onOpenWallet, onClose: onCloseWallet } = useDisclosure();
@@ -64,12 +67,28 @@ const Philand: FC<{
   const refetchObjects = useCallback(() => (refetchQuest(), refetchFree(), refetchPre(), refetchDepositObjects()), []);
 
   const {
-    state: { initialized, isDiff },
-    handler: { onEdit, onView, onDropObject, onMoveObject, onPickLandObject, onRemoveObject, onChangeLink, onChangeWallpaper, onSave },
-  } = useGame({
+    onEdit,
+    onView,
+    onDropObject,
+    onMoveObject,
+    onPickLandObject,
+    onRemoveObject,
+    onChangeLink,
+    onChangeWallpaper,
+    onChangeScaled,
+    onCheckDiff,
+    onSave,
+  } = useHandler({ phiObjects, wallpaper, uiHandler: { edit, view, tryWrite, tryRemove, changeLink, changeScaled, save } });
+  const { initialized, isDiff } = useGame({
     state: { currentENS, isEdit, phiObjects, wallpaper },
-    uiHandler: { edit, view, tryWrite, tryRemove, changeLink, save },
-    gameUIHandler: { onOpenActionMenu, onOpenWallpaperMenu, onChangeLinkMenu: changeLink, onPlaceFromLand: tryWrite },
+    handler: { onCheckDiff },
+    gameHandler: {
+      onOpenActionMenu,
+      onOpenWallpaperMenu,
+      onChangeLinkMenu: changeLink,
+      onPlaceFromLand: tryWrite,
+      onChangeScaled: changeScaled,
+    },
   });
 
   return (
@@ -88,12 +107,14 @@ const Philand: FC<{
         domains={domains}
         currentWallpaper={wallpaper}
         balanceWallpapers={balanceWallpapers}
+        scaled={scaled}
         actionHandler={{
           onOpenWallet: onOpenWallet,
           onOpenLand: onOpenLand,
           onCloseLand,
           onSwitchCurrentENS: switchCurrentENS,
           onChangeWallpaper,
+          onChangeScaled,
           onView,
           onEdit,
           onSave,
