@@ -19,6 +19,7 @@ export default class Engine {
   ogpLayout: { [mode in ColorMode]: Texture };
   colorMode: ColorMode;
   scaleMode: SCALE_MODES;
+  isMobile: boolean;
   onMouseMoveHandler: (mouseX: number, mouseY: number) => void;
   onMouseClickHandler: (mouseX: number, mouseY: number) => void;
 
@@ -60,12 +61,12 @@ export default class Engine {
       passiveWheel: false,
       stopPropagation: true,
     });
-    const isMobile = window.matchMedia("(any-pointer:coarse)").matches;
+    this.isMobile = window.matchMedia("(any-pointer:coarse)").matches;
     this.viewport
       .moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2)
-      .setZoom(isMobile ? 0.4 : 1, true)
+      .setZoom(this.isMobile ? 0.4 : 1, true)
       .clampZoom({ minScale: 0.1, maxScale: 16 })
-      .drag({ clampWheel: false, wheel: true, pressDrag: isMobile })
+      .drag({ clampWheel: false, wheel: true, pressDrag: this.isMobile })
       .wheel({ smooth: 3, trackpadPinch: true, wheelZoom: false })
       .pinch()
       .decelerate()
@@ -75,9 +76,6 @@ export default class Engine {
       .on("mousemove", (evt) => {
         const world = this.viewport.toWorld(evt.data.global);
         this.onMouseMoveHandler(world.x, world.y);
-      })
-      .on("zoomed", () => {
-        if (!isMobile) this.updateClouds();
       });
     this.app.stage.addChild(this.viewport);
 
@@ -196,11 +194,15 @@ export default class Engine {
   }
 
   zoom(scale: number) {
+    this.viewport.setZoom(scale, true);
+    this.updateAfterZoom();
+  }
+
+  updateAfterZoom() {
     const { uiManager, room } = GameInstance.get();
 
-    this.viewport.setZoom(scale, true);
-    room.updateScaleMode();
     this.updateClouds();
+    room.updateScaleMode();
     uiManager.onChangeScaled(this.viewport.scaled);
   }
 
@@ -225,7 +227,11 @@ export default class Engine {
   }
 
   updateClouds() {
-    this.viewport.scaled > 2 ? this.hideClouds() : this.showClouds();
+    if (!this.isMobile && this.viewport.scaled > 2) {
+      this.hideClouds();
+    } else {
+      this.showClouds();
+    }
   }
 
   initializeCloudsPosition() {

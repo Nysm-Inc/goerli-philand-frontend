@@ -1,5 +1,4 @@
 import { Container, SCALE_MODES, Sprite } from "pixi.js";
-import { Viewport } from "pixi-viewport";
 import { Layer } from "@pixi/layers";
 import { GAME_APP_HEIGHT, GAME_APP_WIDTH, LAND_H, LAND_OFFSET_Y, LAND_W, TILE_H, TILE_W } from "~/constants";
 import GameInstance from "~/game/GameInstance";
@@ -64,11 +63,7 @@ export default class Room {
     this.container.addChild(this.landItemContainer);
     this.container.addChild(this.landItemLayer);
     engine.viewport.addChild(this.container);
-
-    engine.viewport.on("zoomed", ({ viewport }: { viewport: Viewport }) => {
-      this.updateScaleMode();
-      uiManager.onChangeScaled(viewport.scaled);
-    });
+    engine.viewport.on("zoomed", () => engine.updateAfterZoom());
   }
 
   enterRoom() {
