@@ -66,19 +66,8 @@ export default class Room {
     engine.viewport.addChild(this.container);
 
     engine.viewport.on("zoomed", ({ viewport }: { viewport: Viewport }) => {
+      this.updateScaleMode();
       uiManager.onChangeScaled(viewport.scaled);
-
-      if (viewport.scaled > 2) {
-        if (engine.scaleMode === SCALE_MODES.NEAREST) return;
-        engine.scaleMode = SCALE_MODES.NEAREST;
-
-        this.updateScaleMode(SCALE_MODES.NEAREST);
-      } else {
-        if (engine.scaleMode === SCALE_MODES.LINEAR) return;
-        engine.scaleMode = SCALE_MODES.LINEAR;
-
-        this.updateScaleMode(SCALE_MODES.LINEAR);
-      }
     });
   }
 
@@ -170,7 +159,21 @@ export default class Room {
     return { x: tileX, y: tileY };
   }
 
-  updateScaleMode(scaleMode: SCALE_MODES) {
+  updateScaleMode() {
+    const { engine } = GameInstance.get();
+
+    if (engine.viewport.scaled > 2) {
+      if (engine.scaleMode === SCALE_MODES.NEAREST) return;
+      engine.scaleMode = SCALE_MODES.NEAREST;
+      this._updateScaleMode(SCALE_MODES.NEAREST);
+    } else {
+      if (engine.scaleMode === SCALE_MODES.LINEAR) return;
+      engine.scaleMode = SCALE_MODES.LINEAR;
+      this._updateScaleMode(SCALE_MODES.LINEAR);
+    }
+  }
+
+  private _updateScaleMode(scaleMode: SCALE_MODES) {
     const { room } = GameInstance.get();
 
     this.land.texture.baseTexture.scaleMode = scaleMode;
