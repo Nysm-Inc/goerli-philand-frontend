@@ -8,6 +8,8 @@ import Wallet from "~/ui/features/wallet";
 import { useWallpaper, useDeposit, useSave } from "~/hooks/map";
 import { useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList, useQuestProgress } from "~/hooks/claim";
+import useBuyObjects from "~/hooks/shop";
+import useHandler from "~/hooks/game/useHandler";
 import useGame from "~/hooks/game/useGame";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
@@ -26,9 +28,7 @@ import LinkMenu, { useLinkMenu } from "~/ui/components/LinkMenu";
 import WallpaperMenu, { useWallpaperMenu } from "~/ui/components/WallpaperMenu";
 import Help from "~/ui/components/Help";
 import EditStatus from "~/ui/components/EditStatus";
-import useBuyObjects from "~/hooks/shop";
 import { useZoom } from "~/ui/components/Zoom";
-import useHandler from "~/hooks/game/useHandler";
 
 const Philand: FC<{
   address: string;
