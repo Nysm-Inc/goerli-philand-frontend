@@ -186,11 +186,8 @@ export default class Engine {
   }
 
   center() {
-    const { room, uiManager } = GameInstance.get();
-    this.showClouds();
-    room.updateScaleMode();
     this.viewport.moveCenter(GAME_APP_WIDTH / 2, GAME_APP_HEIGHT / 2).setZoom(1, true);
-    uiManager.onChangeScaled(this.viewport.scaled);
+    this.updateAfterZoom();
   }
 
   zoom(scale: number) {
