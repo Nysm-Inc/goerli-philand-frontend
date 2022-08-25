@@ -224,7 +224,9 @@ export default class Engine {
   }
 
   updateClouds() {
-    if (!this.isMobile && this.viewport.scaled > 2) {
+    if (this.isMobile) return;
+
+    if (this.viewport.scaled > 2) {
       this.hideClouds();
     } else {
       this.showClouds();
