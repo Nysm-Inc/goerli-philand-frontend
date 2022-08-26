@@ -5,6 +5,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Avatar, Box, Menu, MenuButton, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import useEXP from "~/hooks/leader/exp";
+import useSentry from "~/hooks/sentry";
 import { event } from "~/utils/ga/ga";
 import Button from "./common/Button";
 import MenuList from "./common/MenuList";
@@ -17,6 +18,7 @@ const ConnectedButton: FC<{ address: string; ensAvatar?: string }> = ({ address,
   const { colorMode } = useContext(AppContext);
   const { disconnect } = useDisconnect();
   const exp = useEXP(address);
+  useSentry(address);
 
   return (
     <Menu matchWidth variant="unstyled" autoSelect={false}>
