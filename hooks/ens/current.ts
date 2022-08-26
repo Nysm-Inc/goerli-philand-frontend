@@ -10,8 +10,9 @@ export const getCurrentENS = (account?: string): string => {
   try {
     // @ts-ignore
     const prev: CacheENS = JSON.parse(localStorage.getItem(CURRENT_ENS_KEY));
-    return prev[account];
+    return prev ? prev[account] : "";
   } catch (err) {
+    console.error(err);
     return "";
   }
 };
