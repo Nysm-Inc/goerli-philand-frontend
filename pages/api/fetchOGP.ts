@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { withSentry } from "@sentry/nextjs";
 import axios from "axios";
 import { JSDOM } from "jsdom";
 
@@ -46,9 +47,4 @@ const fetchOGP = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default fetchOGP;
-
-// const ens = decodeURI(u.pathname).substring(1);
-// const _res = await axios.get<{ images: string[] }>(`${UTILS_API_GATEWAY}/images/list?name=${ens}`);
-// const images = _res.data.images;
-// ogpURL = images.length > 0 ? "https://" + images[images.length - 1] : "";
+export default withSentry(fetchOGP);
