@@ -12,7 +12,6 @@ export const getCurrentENS = (account?: string): string => {
     const prev: CacheENS = JSON.parse(localStorage.getItem(CURRENT_ENS_KEY));
     return prev[account];
   } catch (err) {
-    console.error(err);
     return "";
   }
 };
