@@ -5,6 +5,7 @@ type ConversionName =
   | "conversion_get_shop"
   | "conversion_deposit"
   | "conversion_withdraw"
+  | "conversion_set_link"
   | "conversion_save"
   | "conversion_share";
 
