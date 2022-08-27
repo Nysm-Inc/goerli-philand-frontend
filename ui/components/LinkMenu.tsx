@@ -2,6 +2,7 @@ import { FC, useContext, useEffect, useState } from "react";
 import { HStack, Modal, ModalContent, VStack } from "@chakra-ui/react";
 import { PhiLink } from "~/types";
 import { AppContext } from "~/contexts";
+import { event } from "~/utils/ga/ga";
 import { ActionMenuState } from "./ActionMenu";
 import Input from "./common/Input";
 import Button from "./common/Button";
@@ -81,6 +82,7 @@ const LinkMenu: FC<{
                   w="120px"
                   color="green"
                   onClick={() => {
+                    event({ action: "conversion_set_link" });
                     onChange(state.id, { title: input.title, url: input.url });
                     onClose(state.id);
                     onBack();

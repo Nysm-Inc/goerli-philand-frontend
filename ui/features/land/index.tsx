@@ -12,6 +12,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from "~/ui/components/comm
 import IconButton from "~/ui/components/common/IconButton";
 import Checkbox from "~/ui/components/common/Checkbox";
 import QuantityInput from "~/ui/components/common/QuantityInput";
+import { event } from "~/utils/ga/ga";
 import { LandObject } from "./types";
 
 const Land: FC<{
@@ -203,6 +204,7 @@ const Land: FC<{
               onSubmit(args)
                 .then(async (res) => {
                   if (!res?.hash) throw new Error("invalid hash");
+                  event({ action: "conversion_withdraw" });
 
                   reset();
                   await provider.waitForTransaction(res.hash);
