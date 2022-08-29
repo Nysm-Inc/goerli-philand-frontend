@@ -18,7 +18,7 @@ const useCreatePhiland = (account?: string, ens?: string): { createPhiland: () =
     addressOrName: REGISTRY_CONTRACT_ADDRESS,
     contractInterface: RegistryAbi,
     functionName: "createPhiland",
-    onError: console.error,
+    onError: (err) => console.error(err),
   });
   const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });
 

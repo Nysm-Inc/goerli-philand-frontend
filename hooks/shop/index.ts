@@ -22,7 +22,7 @@ const useBuyObjects = (
     addressOrName: SHOP_CONTRACT_ADDRESS,
     contractInterface: ShopAbi,
     functionName: "shopBuyObject",
-    onError: console.error,
+    onError: (err) => console.error(err),
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
