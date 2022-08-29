@@ -12,6 +12,7 @@ import Dev from "~/ui/components/Dev";
 import Header from "~/ui/components/Header";
 import HeaderMd from "~/ui/components/HeaderMd";
 import LandNotFound from "~/ui/components/LandNotFound";
+import LandName from "~/ui/components/LandName";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
@@ -30,7 +31,11 @@ const Philand: FC<{
   wallpaper?: Wallpaper;
 }> = ({ ens, phiObjects, wallpaper }) => {
   useGame({ state: { currentENS: ens, isEdit: false, phiObjects, wallpaper } });
-  return <></>;
+  return (
+    <>
+      <LandName ens={ens} />
+    </>
+  );
 };
 
 const Index: NextPage = () => {
