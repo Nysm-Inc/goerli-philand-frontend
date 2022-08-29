@@ -5,6 +5,7 @@ import Shop from "~/ui/features/shop";
 import Land from "~/ui/features/land";
 import { useLand } from "~/ui/features/land/useLand";
 import Wallet from "~/ui/features/wallet";
+import Leaderboard from "~/ui/features/leaderboard";
 import { useWallpaper, useDeposit, useSave } from "~/hooks/map";
 import { useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList, useQuestProgress } from "~/hooks/claim";
@@ -30,6 +31,7 @@ import WallpaperMenu, { useWallpaperMenu } from "~/ui/components/WallpaperMenu";
 import Help from "~/ui/components/Help";
 import EditStatus from "~/ui/components/EditStatus";
 import { useZoom } from "~/ui/components/Zoom";
+import useScore from "~/hooks/leader/score";
 
 const Philand: FC<{
   address: string;
@@ -49,9 +51,12 @@ const Philand: FC<{
   const { isOpen: isOpenShop, onOpen: onOpenShop, onClose: onCloseShop } = useDisclosure();
   const { isOpen: isOpenWallet, onOpen: onOpenWallet, onClose: onCloseWallet } = useDisclosure();
   const { isOpen: isOpenLand, onOpen: onOpenLand, onClose: onCloseLand } = useDisclosure();
+  const { isOpen: isOpenLeaderboard, onOpen: onOpenLeaderboard, onClose: onCloseLeaderboard } = useDisclosure();
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
   const onCloseModals = useCallback(() => (onCloseQuest(), onCloseShop(), onCloseWallet(), onCloseLand(), onCloseHowItWorks()), []);
 
+  const score = useScore(undefined, true, isOpenLeaderboard);
+  console.log(score);
   const [claimableList, updateClaimableList] = useClaimableList(address, isOpenQuest);
   const updateEXP = useUpdateEXP(address);
   const progressList = useQuestProgress(address, isOpenQuest);
@@ -98,6 +103,7 @@ const Philand: FC<{
       <Help onOpenHowItWorks={onOpenHowItWorks} />
       <HowItWorks isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
       <QuickTour isEdit={isEdit} ens={currentENS} />
+      <Leaderboard isOpen={isOpenLeaderboard} onOpen={onOpenLeaderboard} onClose={onCloseLeaderboard} />
 
       <MenuBar
         initialized={initialized}

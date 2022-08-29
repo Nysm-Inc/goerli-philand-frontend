@@ -13,3 +13,10 @@ export const updateEXP = async (address: string): Promise<void> => {
   u.searchParams.append("address", address);
   return axios.post(u.toString());
 };
+
+export const getScore = async (ens?: string, top?: boolean) => {
+  const u = new URL(UTILS_API_GATEWAY + "/leader/score");
+  if (ens) u.searchParams.append("name", ens.slice(0, -4));
+  if (top) u.searchParams.append("top", "true");
+  return axios.get(u.toString());
+};

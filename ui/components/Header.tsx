@@ -21,20 +21,6 @@ const Header: FC = () => {
         <Search />
       </Box>
 
-      <Box zIndex="default" position="fixed" top="24px" left="calc(106px + 336px + 16px)">
-        <Button
-          w="146px"
-          disabled
-          shadow
-          justify="space-between"
-          leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" alt="" />}
-        >
-          <Text textStyle="button-2" color={colorMode === "light" ? "dark.grey300" : "dark.grey600"}>
-            Leaderboard
-          </Text>
-        </Button>
-      </Box>
-
       <HStack zIndex="default" position="fixed" top="24px" right="24px" spacing="8px">
         <IconButton
           ariaLabel="color_mode"
