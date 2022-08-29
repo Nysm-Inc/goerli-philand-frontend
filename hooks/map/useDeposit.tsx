@@ -35,6 +35,7 @@ const useDeposit = (
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "batchDepositObject",
+    onError: console.error,
   });
   const { status: depositStatus } = useWaitForTransaction({ hash: depositData?.hash || "" });
 
@@ -46,6 +47,7 @@ const useDeposit = (
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "batchWithdrawObject",
+    onError: console.error,
   });
   const { status: withdrawStatus } = useWaitForTransaction({ hash: withdrawData?.hash || "" });
 

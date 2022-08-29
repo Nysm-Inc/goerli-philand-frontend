@@ -35,6 +35,7 @@ const useSave = (
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "save",
+    onError: console.error,
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 

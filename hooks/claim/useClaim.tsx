@@ -37,6 +37,7 @@ const useClaim = (
     addressOrName: CLAIM_CONTRACT_ADDRESS,
     contractInterface: ClaimAbi,
     functionName: "claimQuestObject",
+    onError: console.error,
   });
   const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });
 

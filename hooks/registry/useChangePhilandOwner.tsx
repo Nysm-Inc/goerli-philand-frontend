@@ -18,6 +18,7 @@ const useChangePhilandOwner = (account?: string, ens?: string): { changePhilandO
     addressOrName: REGISTRY_CONTRACT_ADDRESS,
     contractInterface: RegistryAbi,
     functionName: "changePhilandOwner",
+    onError: console.error,
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
