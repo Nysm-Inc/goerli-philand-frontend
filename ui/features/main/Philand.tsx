@@ -8,6 +8,7 @@ import Wallet from "~/ui/features/wallet";
 import { useWallpaper, useDeposit, useSave } from "~/hooks/map";
 import { useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList, useQuestProgress } from "~/hooks/claim";
+import { useUpdateEXP } from "~/hooks/leader/exp";
 import useBuyObjects from "~/hooks/shop";
 import useHandler from "~/hooks/game/useHandler";
 import useGame from "~/hooks/game/useGame";
@@ -52,6 +53,7 @@ const Philand: FC<{
   const onCloseModals = useCallback(() => (onCloseQuest(), onCloseShop(), onCloseWallet(), onCloseLand(), onCloseHowItWorks()), []);
 
   const [claimableList, updateClaimableList] = useClaimableList(address, isOpenQuest);
+  const updateEXP = useUpdateEXP(address);
   const progressList = useQuestProgress(address, isOpenQuest);
   const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS, isOpenQuest);
   const [claimedList, { claimPhi }] = useClaim(address, isOpenQuest);
@@ -172,7 +174,7 @@ const Philand: FC<{
             isOpen={isOpenQuest}
             onClose={onCloseQuest}
             onClickItem={claimPhi}
-            onClickUpdate={updateClaimableList}
+            onClickUpdate={() => (updateClaimableList(), updateEXP())}
             onClickNavi={() => (onCloseModals(), onOpenWallet())}
             onRefetch={refetchQuest}
           />

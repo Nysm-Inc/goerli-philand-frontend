@@ -1,21 +1,36 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useBlockNumber } from "wagmi";
-import { getEXP } from "~/utils/leader";
+import { getEXP, updateEXP as _updateEXP } from "~/utils/leader";
 
-const useEXP = (address: string, watch?: boolean): number => {
+export const useEXP = (address: string, watch?: boolean): number => {
   const { data: blockNumber } = useBlockNumber({ watch: !!watch });
   const [exp, setEXP] = useState(0);
-
-  useEffect(() => {
+  const updateEXP = useUpdateEXP(address);
+  const fetchEXP = useCallback(async () => {
     if (!address) return;
 
-    (async () => {
-      const exp = await getEXP(address);
-      setEXP(exp);
-    })();
-  }, [address, blockNumber]);
+    const exp = await getEXP(address);
+    setEXP(exp);
+  }, [address]);
+
+  useEffect(() => {
+    fetchEXP();
+  }, [blockNumber]);
+
+  useEffect(() => {
+    fetchEXP();
+    updateEXP();
+  }, [address]);
 
   return exp;
 };
 
-export default useEXP;
+export const useUpdateEXP = (address: string): (() => Promise<void>) => {
+  const updateEXP = useCallback(async () => {
+    if (!address) return;
+
+    return _updateEXP(address);
+  }, [address]);
+
+  return updateEXP;
+};

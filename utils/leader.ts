@@ -7,3 +7,9 @@ export const getEXP = async (address: string) => {
   const res = await axios.get<{ result: number }>(u.toString());
   return res?.data?.result || 0;
 };
+
+export const updateEXP = async (address: string): Promise<void> => {
+  const u = new URL(UTILS_API_GATEWAY + "/leader/exp");
+  u.searchParams.append("address", address);
+  return axios.post(u.toString());
+};
