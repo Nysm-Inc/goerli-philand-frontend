@@ -82,7 +82,7 @@ const ShopItem: FC<{
               w="156px"
               defaultText="Add to Cart"
               num={item.select}
-              balance={contract === WALLPAPER_CONTRACT_ADDRESS ? 1 : 10}
+              balance={contract === WALLPAPER_CONTRACT_ADDRESS ? 1 : 64}
               handleClickMinus={minus}
               handleClickPlus={plus}
             />
