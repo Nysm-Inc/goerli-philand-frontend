@@ -18,7 +18,7 @@ const LandName: FC<{ ens: string }> = ({ ens }) => {
       p="4px 12px 4px 4px"
       spacing="8px"
       boxShadow="md"
-      borderRadius="60px"
+      borderRadius="52px"
       border="1px solid"
       bgColor={colorMode === "light" ? "grey.900" : "white"}
       borderColor={colorMode === "light" ? "dark.grey800" : "grey.200"}
