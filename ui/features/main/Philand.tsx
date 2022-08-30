@@ -38,9 +38,7 @@ const Philand: FC<{
   currentENS: string;
   domains: string[];
   switchCurrentENS: (ens: string) => void;
-  phiObjects: (PhiObject & {
-    removeIdx: number;
-  })[];
+  phiObjects: (PhiObject & { removeIdx: number })[];
 }> = ({ address, currentENS, domains, switchCurrentENS, phiObjects }) => {
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
