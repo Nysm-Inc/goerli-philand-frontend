@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
-import { Box, Center, HStack, Text } from "@chakra-ui/react";
+import { Box, Center, HStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import Button from "./common/Button";
 import IconButton from "./common/IconButton";
 import Search from "./Search";
 import Icon from "./Icon";

@@ -35,7 +35,7 @@ const MyScore: FC<{ title: string; score: number; rank: number }> = ({ title, sc
         {title}
       </Text>
       <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
-        {score}
+        {score.toFixed(2)}
       </Text>
       <Badge text={`Ranked ${rank.toLocaleString()}`} />
     </VStack>
@@ -134,7 +134,7 @@ const Leaderboard: FC<{
                         <Tr key={i} cursor="pointer" onClick={() => (window.location.href = score.name + ".eth")}>
                           <Td>{i + 1}</Td>
                           <Td>{score.name}</Td>
-                          <Td>{score.value}</Td>
+                          <Td>{score.value.toFixed(2)}</Td>
                           <Td>{NaN}</Td>
                           <Td>{NaN}</Td>
                         </Tr>
