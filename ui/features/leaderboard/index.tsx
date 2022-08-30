@@ -38,6 +38,7 @@ const Leaderboard: FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ ens, myScore, topScoreList, isOpen, onClose }) => {
+  // const isMobile = useBreakpointValue({ base: true, lg: false }, { ssr: false });
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -58,7 +59,7 @@ const Leaderboard: FC<{
           ]}
         />
         <Box h="24px" />
-        <VStack spacing="24px" align="flex-start">
+        <VStack spacing="24px" align={ens && myScore ? "flex-start" : "center"}>
           {ens && myScore && <MyScore ens={ens} myScore={myScore} />}
           <TabList>
             <Tab text="Active" />
