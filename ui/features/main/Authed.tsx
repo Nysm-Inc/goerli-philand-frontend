@@ -9,9 +9,8 @@ const ENSNotFound = dynamic(() => import("~/ui/components/ENSNotFound"));
 const HasENS = dynamic(() => import("./HasENS"));
 
 const Authed: FC<{ address: string }> = ({ address }) => {
-  const { data: dataENS } = useEnsName({ address });
-  const ens = dataENS || "";
-  const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens);
+  const { data: ens } = useEnsName({ address });
+  const [{ isLoading, domains }, currentENS, switchCurrentENS] = useENS(address, ens || "");
 
   return (
     <>
