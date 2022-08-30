@@ -14,8 +14,11 @@ import IconButton from "~/ui/components/common/IconButton";
 import Badge from "~/ui/components/common/Badge";
 import ClaimButton from "./ClaimButton";
 import Detail, { Selected } from "./Detail";
+import NewBadge from "./NewBadge";
 
 const metadataList = Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]);
+
+const newQuestIds = [24, 31, 32, 33];
 
 const Quest: FC<{
   claimableList: QuestClaimableList;
@@ -111,6 +114,7 @@ const Quest: FC<{
                   }}
                   onClick={() => setSelected({ ...metadata, claimable, claimed, progress })}
                 >
+                  {newQuestIds.includes(metadata.tokenId) && <NewBadge />}
                   <Center w="100%" h="144px" cursor="pointer" {...(!claimable && { opacity: 0.5 })}>
                     <Box position="relative" w="96px" h="96px">
                       <Image src={metadata.image_url} layout="fill" objectFit="contain" draggable={false} alt="" />
