@@ -102,6 +102,7 @@ const Quest: FC<{
               return (
                 <VStack
                   key={i}
+                  position="relative"
                   height="calc(348px - 16px - 8px)"
                   p="16px"
                   spacing="16px"
@@ -114,7 +115,11 @@ const Quest: FC<{
                   }}
                   onClick={() => setSelected({ ...metadata, claimable, claimed, progress })}
                 >
-                  {newQuestIds.includes(metadata.tokenId) && <NewBadge />}
+                  {newQuestIds.includes(metadata.tokenId) && (
+                    <Box position="absolute">
+                      <NewBadge />
+                    </Box>
+                  )}
                   <Center w="100%" h="144px" cursor="pointer" {...(!claimable && { opacity: 0.5 })}>
                     <Box position="relative" w="96px" h="96px">
                       <Image src={metadata.image_url} layout="fill" objectFit="contain" draggable={false} alt="" />
