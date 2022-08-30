@@ -14,9 +14,49 @@ export const updateEXP = async (address: string): Promise<void> => {
   return axios.post(u.toString());
 };
 
-export const getScore = async (ens?: string, top?: boolean) => {
+type GetMyScoreAPIResponse = {
+  data: {
+    activityScore: number;
+    socialScore: number;
+    attentionScore: number;
+    activityRank: number;
+  };
+};
+
+export const getMyScore = async (ens: string) => {
   const u = new URL(UTILS_API_GATEWAY + "/leader/score");
-  if (ens) u.searchParams.append("name", ens.slice(0, -4));
-  if (top) u.searchParams.append("top", "true");
-  return axios.get(u.toString());
+  u.searchParams.append("name", ens.slice(0, -4));
+  const res = await axios.get<GetMyScoreAPIResponse | null>(u.toString());
+  const data = res.data?.data;
+  return {
+    activity: data?.activityScore || 0,
+    social: data?.socialScore || 0,
+    attention: data?.attentionScore || 0,
+    activityRank: data?.activityRank || 0,
+  };
+};
+
+type Score = {
+  name: string;
+  value: number;
+};
+
+type GetTopScoreAPIResponse = {
+  data: {
+    activityScore: Score[];
+    socialScore: Score[];
+    attentionScore: Score[];
+  };
+};
+
+export const getTopScoreList = async () => {
+  const u = new URL(UTILS_API_GATEWAY + "/leader/score");
+  u.searchParams.append("top", "true");
+  const res = await axios.get<GetTopScoreAPIResponse>(u.toString());
+  const data = res.data?.data;
+  return {
+    activity: data?.activityScore || [],
+    social: data?.socialScore || [],
+    attention: data?.attentionScore || [],
+  };
 };

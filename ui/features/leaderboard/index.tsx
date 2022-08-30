@@ -24,20 +24,7 @@ import IconButton from "~/ui/components/common/IconButton";
 import Button from "~/ui/components/common/Button";
 import { Tab, TabList } from "~/ui/components/common/Tab";
 import Badge from "~/ui/components/common/Badge";
-
-// todo: replace hooks
-const mockScoreList = [
-  { rank: 1, user: "nick.eth", active: 88.23, social: NaN, attention: NaN },
-  { rank: 1, user: "nick.eth", active: 88.23, social: NaN, attention: NaN },
-  { rank: 1, user: "nick.eth", active: 88.23, social: NaN, attention: NaN },
-  { rank: 1, user: "nick.eth", active: 88.23, social: NaN, attention: NaN },
-  { rank: 1, user: "nick.eth", active: 88.23, social: NaN, attention: NaN },
-  { rank: 1, user: "nick.eth", active: 88.23, social: NaN, attention: NaN },
-  { rank: 1, user: "nick.eth", active: 88.23, social: NaN, attention: NaN },
-  { rank: 1, user: "nick.eth", active: 88.23, social: NaN, attention: NaN },
-  { rank: 1, user: "nick.eth", active: 88.23, social: NaN, attention: NaN },
-  { rank: 1, user: "nick.eth", active: 88.23, social: NaN, attention: NaN },
-];
+import type { MyScore, TopScoreList } from "~/types/leaderboard";
 
 const MyScore: FC<{ title: string; score: number; rank: number }> = ({ title, score, rank }) => {
   const { colorMode } = useContext(AppContext);
@@ -55,7 +42,14 @@ const MyScore: FC<{ title: string; score: number; rank: number }> = ({ title, sc
   );
 };
 
-const Leaderboard: FC<{ isOpen: boolean; onOpen: () => void; onClose: () => void }> = ({ isOpen, onOpen, onClose }) => {
+const Leaderboard: FC<{
+  ens: string;
+  myScore: MyScore;
+  topScoreList: TopScoreList;
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}> = ({ ens, myScore, topScoreList, isOpen, onOpen, onClose }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -105,10 +99,10 @@ const Leaderboard: FC<{ isOpen: boolean; onOpen: () => void; onClose: () => void
               />
               <VStack spacing="16px" align="flex-start">
                 <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
-                  Jane Cooper
+                  {ens}
                 </Text>
                 <HStack spacing="16px">
-                  <MyScore title="Active Score" score={64.09} rank={1245} />
+                  <MyScore title="Active Score" score={myScore.activity} rank={myScore.activityRank} />
                   <MyScore title="Social Score" score={NaN} rank={NaN} />
                   <MyScore title="Attention Score" score={NaN} rank={NaN} />
                 </HStack>
@@ -136,13 +130,13 @@ const Leaderboard: FC<{ isOpen: boolean; onOpen: () => void; onClose: () => void
                       </Tr>
                     </Thead>
                     <Tbody textStyle="paragraph-2" color={colorMode === "light" ? "grey.900" : "white"}>
-                      {mockScoreList.map((score, i) => (
-                        <Tr key={i} cursor="pointer" onClick={() => (window.location.href = score.user)}>
-                          <Td>{score.rank}</Td>
-                          <Td>{score.user}</Td>
-                          <Td>{score.active}</Td>
-                          <Td>{score.social}</Td>
-                          <Td>{score.attention}</Td>
+                      {topScoreList.activity.map((score, i) => (
+                        <Tr key={i} cursor="pointer" onClick={() => (window.location.href = score.name + ".eth")}>
+                          <Td>{i + 1}</Td>
+                          <Td>{score.name}</Td>
+                          <Td>{score.value}</Td>
+                          <Td>{NaN}</Td>
+                          <Td>{NaN}</Td>
                         </Tr>
                       ))}
                     </Tbody>

@@ -55,8 +55,7 @@ const Philand: FC<{
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
   const onCloseModals = useCallback(() => (onCloseQuest(), onCloseShop(), onCloseWallet(), onCloseLand(), onCloseHowItWorks()), []);
 
-  const score = useScore(undefined, true, isOpenLeaderboard);
-  console.log(score);
+  const { myScore, topScoreList } = useScore(currentENS, isOpenLeaderboard);
   const [claimableList, updateClaimableList] = useClaimableList(address, isOpenQuest);
   const updateEXP = useUpdateEXP(address);
   const progressList = useQuestProgress(address, isOpenQuest);
@@ -103,7 +102,14 @@ const Philand: FC<{
       <Help onOpenHowItWorks={onOpenHowItWorks} />
       <HowItWorks isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
       <QuickTour isEdit={isEdit} ens={currentENS} />
-      <Leaderboard isOpen={isOpenLeaderboard} onOpen={onOpenLeaderboard} onClose={onCloseLeaderboard} />
+      <Leaderboard
+        ens={currentENS}
+        myScore={myScore}
+        topScoreList={topScoreList}
+        isOpen={isOpenLeaderboard}
+        onOpen={onOpenLeaderboard}
+        onClose={onCloseLeaderboard}
+      />
 
       <MenuBar
         initialized={initialized}
