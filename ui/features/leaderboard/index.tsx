@@ -18,13 +18,27 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import type { MyScore, TopScoreList } from "~/types/leaderboard";
 import Icon from "~/ui/components/Icon";
 import { Modal, ModalBody, ModalHeader } from "~/ui/components/common/Modal";
 import IconButton from "~/ui/components/common/IconButton";
 import Button from "~/ui/components/common/Button";
 import { Tab, TabList } from "~/ui/components/common/Tab";
-import Badge from "~/ui/components/common/Badge";
-import type { MyScore, TopScoreList } from "~/types/leaderboard";
+
+const ScoreBadge: FC<{ rank: number }> = ({ rank }) => {
+  const { colorMode } = useContext(AppContext);
+
+  return (
+    <HStack h="24px" p="4px 8px" spacing="8px" borderRadius="8px" bgColor={colorMode === "light" ? "warmgrey.80" : "grey.900"}>
+      <Text textStyle="label-1" color={colorMode === "light" ? "warmgrey.60" : "warmgrey.50"}>
+        Ranked
+      </Text>
+      <Text textStyle="label-1" color={colorMode === "light" ? "warmgrey.40" : "white"}>
+        {rank.toLocaleString()}
+      </Text>
+    </HStack>
+  );
+};
 
 const MyScore: FC<{ title: string; score: number; rank: number }> = ({ title, score, rank }) => {
   const { colorMode } = useContext(AppContext);
@@ -37,7 +51,7 @@ const MyScore: FC<{ title: string; score: number; rank: number }> = ({ title, sc
       <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
         {score.toFixed(2)}
       </Text>
-      <Badge text={`Ranked ${rank.toLocaleString()}`} />
+      <ScoreBadge rank={rank} />
     </VStack>
   );
 };
@@ -131,7 +145,14 @@ const Leaderboard: FC<{
                     </Thead>
                     <Tbody textStyle="paragraph-2" color={colorMode === "light" ? "grey.900" : "white"}>
                       {topScoreList.activity.map((score, i) => (
-                        <Tr key={i} cursor="pointer" onClick={() => (window.location.href = score.name + ".eth")}>
+                        <Tr
+                          key={i}
+                          cursor="pointer"
+                          _hover={{
+                            bgColor: colorMode === "light" ? "warmgrey.90" : "dark.grey700",
+                          }}
+                          onClick={() => (window.location.href = score.name + ".eth")}
+                        >
                           <Td>{i + 1}</Td>
                           <Td>{score.name}</Td>
                           <Td>{score.value.toFixed(2)}</Td>
