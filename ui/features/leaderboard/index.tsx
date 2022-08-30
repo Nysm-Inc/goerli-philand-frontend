@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
-import { Box, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
+import { Box, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import type { MyScore as TypMyScore, TopScoreList } from "~/types/leaderboard";
 import Icon from "~/ui/components/Icon";
 import { Modal, ModalBody, ModalHeader } from "~/ui/components/common/Modal";
 import IconButton from "~/ui/components/common/IconButton";
 import Button from "~/ui/components/common/Button";
+import { Tab, TabList } from "~/ui/components/common/Tab";
 import MyScore from "./MyScore";
 import RankingTable from "./RankingTable";
 
@@ -31,8 +32,8 @@ const LeaderboardButton: FC<{ onOpen: () => void }> = ({ onOpen }) => {
 };
 
 const Leaderboard: FC<{
-  ens: string;
-  myScore: TypMyScore;
+  ens?: string;
+  myScore?: TypMyScore;
   topScoreList: TopScoreList;
   isOpen: boolean;
   onOpen: () => void;
@@ -61,7 +62,14 @@ const Leaderboard: FC<{
             ]}
           />
           <Box h="24px" />
-          <MyScore ens={ens} myScore={myScore} />
+          <VStack spacing="24px" align="flex-start">
+            {ens && myScore && <MyScore ens={ens} myScore={myScore} />}
+            <TabList>
+              <Tab text="Active" />
+              <Tab text="Social" disabled />
+              <Tab text="Attention" disabled />
+            </TabList>
+          </VStack>
           <Box h="24px" />
           <ModalBody>
             <TabPanels>

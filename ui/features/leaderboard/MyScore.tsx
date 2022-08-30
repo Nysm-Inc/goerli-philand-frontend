@@ -3,7 +3,6 @@ import { FC, useContext } from "react";
 import { Avatar, Box, HStack, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import type { MyScore as TypMyScore } from "~/types/leaderboard";
-import { Tab, TabList } from "~/ui/components/common/Tab";
 
 const ScoreBadge: FC<{ rank: number }> = ({ rank }) => {
   const { colorMode } = useContext(AppContext);
@@ -40,35 +39,28 @@ const MyScore: FC<{ ens: string; myScore: TypMyScore }> = ({ ens, myScore }) => 
   const { colorMode } = useContext(AppContext);
 
   return (
-    <VStack spacing="24px" align="flex-start">
-      <HStack w="full" h="128px" spacing="24px">
-        <Avatar
-          w="128px"
-          h="128px"
-          bgColor={colorMode === "light" ? "purple.150" : "red.150"}
-          icon={
-            <Box position="absolute" top="16px">
-              <Image width="112px" height="112px" src="/icons/dotty.svg" alt="" quality={100} />
-            </Box>
-          }
-        />
-        <VStack spacing="16px" align="flex-start">
-          <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
-            {ens}
-          </Text>
-          <HStack spacing="16px">
-            <ScoreCard title="Active Score" score={myScore.activity} rank={myScore.activityRank} />
-            <ScoreCard title="Social Score" score={NaN} rank={NaN} />
-            <ScoreCard title="Attention Score" score={NaN} rank={NaN} />
-          </HStack>
-        </VStack>
-      </HStack>
-      <TabList>
-        <Tab text="Active" />
-        <Tab text="Social" disabled />
-        <Tab text="Attention" disabled />
-      </TabList>
-    </VStack>
+    <HStack w="full" h="128px" spacing="24px">
+      <Avatar
+        w="128px"
+        h="128px"
+        bgColor={colorMode === "light" ? "purple.150" : "red.150"}
+        icon={
+          <Box position="absolute" top="16px">
+            <Image width="112px" height="112px" src="/icons/dotty.svg" alt="" quality={100} />
+          </Box>
+        }
+      />
+      <VStack spacing="16px" align="flex-start">
+        <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
+          {ens}
+        </Text>
+        <HStack spacing="16px">
+          <ScoreCard title="Active Score" score={myScore.activity} rank={myScore.activityRank} />
+          <ScoreCard title="Social Score" score={NaN} rank={NaN} />
+          <ScoreCard title="Attention Score" score={NaN} rank={NaN} />
+        </HStack>
+      </VStack>
+    </HStack>
   );
 };
 
