@@ -11,14 +11,14 @@ import { Tab, TabList } from "~/ui/components/common/Tab";
 import MyScore from "./MyScore";
 import RankingTable from "./RankingTable";
 
-const LeaderboardButton: FC<{ onOpen: () => void }> = ({ onOpen }) => {
+export const LeaderboardButton: FC<{ shadow?: boolean; onOpen: () => void }> = ({ shadow, onOpen }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
     <Box zIndex="default" position="fixed" top="24px" left="calc(106px + 336px + 16px)">
       <Button
         w="146px"
-        shadow
+        shadow={shadow}
         justify="space-between"
         leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" alt="" />}
         onClick={onOpen}
@@ -36,53 +36,48 @@ const Leaderboard: FC<{
   myScore?: TypMyScore;
   topScoreList: TopScoreList;
   isOpen: boolean;
-  onOpen: () => void;
   onClose: () => void;
-}> = ({ ens, myScore, topScoreList, isOpen, onOpen, onClose }) => {
+}> = ({ ens, myScore, topScoreList, isOpen, onClose }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
-    <>
-      <LeaderboardButton onOpen={onOpen} />
-
-      <Tabs variant="unstyled">
-        <Modal w="832px" h="712px" isOpen={isOpen} onClose={onClose}>
-          <ModalHeader
-            title="LEADERBOARD"
-            buttons={[
-              <IconButton
-                key="close"
-                ariaLabel="close"
-                icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
-                size="32px"
-                borderRadius="8px"
-                boxShadow={false}
-                onClick={onClose}
-              />,
-            ]}
-          />
-          <Box h="24px" />
-          <VStack spacing="24px" align="flex-start">
-            {ens && myScore && <MyScore ens={ens} myScore={myScore} />}
-            <TabList>
-              <Tab text="Active" />
-              <Tab text="Social" disabled />
-              <Tab text="Attention" disabled />
-            </TabList>
-          </VStack>
-          <Box h="24px" />
-          <ModalBody>
-            <TabPanels>
-              <TabPanel p="0">
-                <RankingTable topScoreList={topScoreList} />
-              </TabPanel>
-              <TabPanel p="0"></TabPanel>
-              <TabPanel p="0"></TabPanel>
-            </TabPanels>
-          </ModalBody>
-        </Modal>
-      </Tabs>
-    </>
+    <Tabs variant="unstyled">
+      <Modal w="832px" h="712px" isOpen={isOpen} onClose={onClose}>
+        <ModalHeader
+          title="LEADERBOARD"
+          buttons={[
+            <IconButton
+              key="close"
+              ariaLabel="close"
+              icon={<Icon name="close" color={colorMode === "light" ? "grey.900" : "white"} />}
+              size="32px"
+              borderRadius="8px"
+              boxShadow={false}
+              onClick={onClose}
+            />,
+          ]}
+        />
+        <Box h="24px" />
+        <VStack spacing="24px" align="flex-start">
+          {ens && myScore && <MyScore ens={ens} myScore={myScore} />}
+          <TabList>
+            <Tab text="Active" />
+            <Tab text="Social" disabled />
+            <Tab text="Attention" disabled />
+          </TabList>
+        </VStack>
+        <Box h="24px" />
+        <ModalBody>
+          <TabPanels>
+            <TabPanel p="0">
+              <RankingTable topScoreList={topScoreList} />
+            </TabPanel>
+            <TabPanel p="0"></TabPanel>
+            <TabPanel p="0"></TabPanel>
+          </TabPanels>
+        </ModalBody>
+      </Modal>
+    </Tabs>
   );
 };
 

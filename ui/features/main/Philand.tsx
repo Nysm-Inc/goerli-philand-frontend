@@ -5,7 +5,7 @@ import Shop from "~/ui/features/shop";
 import Land from "~/ui/features/land";
 import { useLand } from "~/ui/features/land/useLand";
 import Wallet from "~/ui/features/wallet";
-import Leaderboard from "~/ui/features/leaderboard";
+import Leaderboard, { LeaderboardButton } from "~/ui/features/leaderboard";
 import { useWallpaper, useDeposit, useSave } from "~/hooks/map";
 import { useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList, useQuestProgress } from "~/hooks/claim";
@@ -100,14 +100,8 @@ const Philand: FC<{
       <Help onOpenHowItWorks={onOpenHowItWorks} />
       <HowItWorks isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
       <QuickTour isEdit={isEdit} ens={currentENS} />
-      <Leaderboard
-        ens={currentENS}
-        myScore={myScore}
-        topScoreList={topScoreList}
-        isOpen={isOpenLeaderboard}
-        onOpen={onOpenLeaderboard}
-        onClose={onCloseLeaderboard}
-      />
+      <LeaderboardButton onOpen={onOpenLeaderboard} />
+      <Leaderboard ens={currentENS} myScore={myScore} topScoreList={topScoreList} isOpen={isOpenLeaderboard} onClose={onCloseLeaderboard} />
 
       <MenuBar
         initialized={initialized}
