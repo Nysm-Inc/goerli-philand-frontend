@@ -1,11 +1,10 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
-import { Box, Center, Flex, Text } from "@chakra-ui/react";
+import { Box, Center, Flex } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Search from "./Search";
 import Icon from "./Icon";
 import IconButton from "./common/IconButton";
-import Button from "./common/Button";
 
 const HeaderMd: FC = () => {
   const { colorMode, toggleColorMode } = useContext(AppContext);
@@ -24,7 +23,6 @@ const HeaderMd: FC = () => {
         boxShadow="base"
         borderRadius="16px"
         align="center"
-        //
         border={colorMode === "light" ? "1px solid" : "none"}
         bgColor={colorMode === "light" ? "white" : "grey.900"}
         borderColor={colorMode === "light" ? "light.g_orange" : "none"}
@@ -35,22 +33,6 @@ const HeaderMd: FC = () => {
         <Search w="calc(100vw - 12px * 2 - 8px - 12px - 40px - 8px)" shadow={false} />
       </Flex>
 
-      <Box zIndex="default" position="fixed" top="89px" left="12px">
-        <Button
-          w="154px"
-          h="40px"
-          justify="space-between"
-          disabled
-          shadow
-          leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" alt="" />}
-        >
-          <Text textStyle="button-2" color={colorMode === "light" ? "dark.grey300" : "dark.grey600"}>
-            Leaderboard
-          </Text>
-        </Button>
-      </Box>
-
-      {/* @ts-ignore */}
       <Box zIndex="default" position="fixed" top="89px" right="19px">
         <IconButton
           ariaLabel="color_mode"
