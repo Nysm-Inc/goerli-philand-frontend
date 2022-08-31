@@ -27,7 +27,7 @@ const RankingTable: FC<{ topScoreList: TopScoreList }> = ({ topScoreList }) => {
               onClick={() => (window.location.href = score.name + ".eth")}
             >
               <Td>{i + 1}</Td>
-              <Td>{score.name}</Td>
+              <Td>{score.name + ".eth"}</Td>
               <Td>{score.value.toFixed(2)}</Td>
               <Td>-</Td>
               <Td>-</Td>
