@@ -16,7 +16,10 @@ const Share: FC<{ currentENS: string }> = ({ currentENS }) => {
         icon={<Icon name="share" color={colorMode === "light" ? "grey.900" : "white"} />}
         onClick={() => {
           event({ action: "conversion_share" });
-          window.open(`https://twitter.com/intent/tweet?text=Come visit my philand @phi_xyz%0a${FRONTEND_URL}/${currentENS}`, "_blank");
+          window.open(
+            `https://twitter.com/intent/tweet?text=Come visit my philand @phi_xyz&url=${FRONTEND_URL}/${currentENS}&hashtags=philand`,
+            "_blank"
+          );
         }}
       />
     </Box>
