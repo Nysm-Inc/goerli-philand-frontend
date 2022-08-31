@@ -218,8 +218,8 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
       32: {
         tokenId: 32,
         name: "Gas Station",
-        image_url: "https://www.arweave.net/sz5aewlIsGV2BKRwDoO_H9IjjM_rGEbnz1H29O1IwVc?ext=png",
-        json_url: "https://www.arweave.net/Yyo4gc9TSOYTr4OmWMFz6QFIutGJ9-Dg8oUEdolzLRM",
+        image_url: "https://www.arweave.net/ynowjithLuxERHqZfzi67XyxGUC0N382qCibGsR5XCs?ext=png",
+        json_url: "https://www.arweave.net/Y3MVHe26OaZzor0iBlil7Vw-54E-JZH3VmFdroMPAtU",
         size: [2, 2, 2],
         relatedProject: "Ethereum",
         creator: "ta2nb",
