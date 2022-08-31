@@ -5,8 +5,10 @@ import axios from "axios";
 import { REGISTRY_CONTRACT_ADDRESS, UTILS_API_GATEWAY } from "~/constants";
 import RegistryAbi from "~/abi/registry.json";
 import { Coupon } from "~/types/quest";
+import { wrapTxErr } from "~/types/tx";
 import { AppContext } from "~/contexts";
 import { getFastestGasWei } from "~/utils/gas";
+import { captureError } from "~/utils/sentry";
 
 const useCreatePhiland = (account?: string, ens?: string): { createPhiland: () => Promise<TransactionResponse | undefined> } => {
   const { addTx } = useContext(AppContext);
@@ -18,7 +20,7 @@ const useCreatePhiland = (account?: string, ens?: string): { createPhiland: () =
     addressOrName: REGISTRY_CONTRACT_ADDRESS,
     contractInterface: RegistryAbi,
     functionName: "createPhiland",
-    onError: (err) => console.error(err),
+    onError: (error, variables) => captureError(wrapTxErr(error, variables)),
   });
   const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });
 

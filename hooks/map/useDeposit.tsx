@@ -4,9 +4,11 @@ import { BigNumber } from "ethers";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import MapAbi from "~/abi/map.json";
+import { wrapTxErr } from "~/types/tx";
 import { BalanceObject, DepositObject } from "~/types";
 import { AppContext } from "~/contexts";
 import { getFastestGasWei } from "~/utils/gas";
+import { captureError } from "~/utils/sentry";
 
 const useDeposit = (
   ens?: string | null,
@@ -35,7 +37,7 @@ const useDeposit = (
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "batchDepositObject",
-    onError: (err) => console.error(err),
+    onError: (error, variables) => captureError(wrapTxErr(error, variables)),
   });
   const { status: depositStatus } = useWaitForTransaction({ hash: depositData?.hash || "" });
 
@@ -47,7 +49,7 @@ const useDeposit = (
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "batchWithdrawObject",
-    onError: (err) => console.error(err),
+    onError: (error, variables) => captureError(wrapTxErr(error, variables)),
   });
   const { status: withdrawStatus } = useWaitForTransaction({ hash: withdrawData?.hash || "" });
 
