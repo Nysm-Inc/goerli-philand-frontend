@@ -2,7 +2,7 @@ import { FC, ReactNode, useContext } from "react";
 import { Tab as ChakraTab, TabList as ChakraTabList, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 
-const Tab: FC<{ text: string }> = ({ text }) => {
+const Tab: FC<{ text: string; disabled?: boolean }> = ({ text, disabled }) => {
   const { colorMode } = useContext(AppContext);
   return (
     <ChakraTab
@@ -10,10 +10,14 @@ const Tab: FC<{ text: string }> = ({ text }) => {
       textStyle="label-1"
       borderRadius="8px"
       textColor="grey.500"
+      isDisabled={disabled}
       _selected={{
         color: colorMode === "light" ? "white" : "grey.900",
         bgColor: colorMode === "light" ? "grey.900" : "white",
         textColor: colorMode === "light" ? "white" : "grey.900",
+      }}
+      _disabled={{
+        cursor: "not-allowed",
       }}
     >
       <Text textStyle="label-1">{text}</Text>
