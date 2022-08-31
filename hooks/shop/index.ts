@@ -4,9 +4,11 @@ import { BigNumber, utils } from "ethers";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { PREMIUM_OBJECT_CONTRACT_ADDRESS, SHOP_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import ShopAbi from "~/abi/shop.json";
-import { objectMetadataList } from "~/types/object";
 import { AppContext } from "~/contexts";
+import { objectMetadataList } from "~/types/object";
+import { formatTxErr } from "~/types/tx";
 import { getFastestGasWei } from "~/utils/gas";
+import { captureError } from "~/utils/sentry";
 
 const useBuyObjects = (
   address?: string
@@ -22,7 +24,7 @@ const useBuyObjects = (
     addressOrName: SHOP_CONTRACT_ADDRESS,
     contractInterface: ShopAbi,
     functionName: "shopBuyObject",
-    onError: (err) => console.error(err),
+    onError: (error, variables) => captureError(formatTxErr(error, variables)),
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 

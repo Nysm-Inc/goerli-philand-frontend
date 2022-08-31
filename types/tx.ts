@@ -10,3 +10,13 @@ export type Tx = {
   status: Status;
   tmpStatus: Status;
 };
+
+export const formatTxErr = (error: Error, variables: any): string => {
+  return JSON.stringify({
+    name: error.name,
+    message: error.message,
+    contract: variables.addressOrName,
+    function: variables.functionName,
+    args: variables.args,
+  });
+};

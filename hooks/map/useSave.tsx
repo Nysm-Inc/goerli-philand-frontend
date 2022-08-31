@@ -4,10 +4,11 @@ import type { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import MapAbi from "~/abi/map.json";
 import { AppContext } from "~/contexts";
-import { updateOGP } from "~/utils/ogp";
 import { PhiLink } from "~/types";
-import { Tx } from "~/types/tx";
+import { formatTxErr, Tx } from "~/types/tx";
+import { updateOGP } from "~/utils/ogp";
 import { getFastestGasWei } from "~/utils/gas";
+import { captureError } from "~/utils/sentry";
 
 export type SaveArgs = {
   removeArgs: { removeIdxs: (string | number)[] };
@@ -35,7 +36,7 @@ const useSave = (
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "save",
-    onError: (err) => console.error(err),
+    onError: (error, variables) => captureError(formatTxErr(error, variables)),
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
