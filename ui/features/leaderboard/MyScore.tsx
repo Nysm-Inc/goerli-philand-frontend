@@ -28,7 +28,7 @@ const ScoreCard: FC<{ title: string; score?: number; rank?: number }> = ({ title
         {title}
       </Text>
       <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
-        {score ? score.toFixed(2) : "-"}
+        {score !== undefined ? score.toFixed(2) : "-"}
       </Text>
       <ScoreBadge rank={rank} />
     </VStack>
