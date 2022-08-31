@@ -11,12 +11,8 @@ export type Tx = {
   tmpStatus: Status;
 };
 
-export const formatTxErr = (error: Error, variables: any): string => {
-  return JSON.stringify({
-    name: error.name,
-    message: error.message,
-    contract: variables.addressOrName,
-    function: variables.functionName,
-    args: variables.args,
-  });
-};
+export const wrapTxErr = (error: Error, variables: any): Error => ({
+  name: "Contract Write Error",
+  message: JSON.stringify({ contract: variables.addressOrName, function: variables.functionName, args: variables.args }),
+  cause: error,
+});

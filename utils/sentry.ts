@@ -1,9 +1,10 @@
 import { captureException } from "@sentry/nextjs";
 
-export const captureError = (err: string) => {
+export const captureError = (err: Error) => {
   if (process.env.NEXT_PUBLIC_APP_ENV === "local") {
-    console.error(err);
+    console.error(JSON.stringify(err));
+    captureException(err);
   } else {
-    captureException(new Error(err));
+    captureException(err);
   }
 };

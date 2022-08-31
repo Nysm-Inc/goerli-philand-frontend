@@ -5,7 +5,7 @@ import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import MapAbi from "~/abi/map.json";
 import { AppContext } from "~/contexts";
 import { PhiLink } from "~/types";
-import { formatTxErr, Tx } from "~/types/tx";
+import { wrapTxErr, Tx } from "~/types/tx";
 import { updateOGP } from "~/utils/ogp";
 import { getFastestGasWei } from "~/utils/gas";
 import { captureError } from "~/utils/sentry";
@@ -36,7 +36,7 @@ const useSave = (
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "save",
-    onError: (error, variables) => captureError(formatTxErr(error, variables)),
+    onError: (error, variables) => captureError(wrapTxErr(error, variables)),
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
