@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
-import { Box, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
+import { Box, TabPanel, TabPanels, Tabs, Text, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import type { MyScore as TypMyScore, TopScoreList } from "~/types/leaderboard";
 import Icon from "~/ui/components/Icon";
@@ -15,7 +15,7 @@ export const LeaderboardButton: FC<{ shadow?: boolean; onOpen: () => void }> = (
   const { colorMode } = useContext(AppContext);
 
   return (
-    <Box zIndex="default" position="fixed" top="24px" left="calc(106px + 336px + 16px)">
+    <Box zIndex="default" position="fixed" top={"24px"} left="calc(106px + 336px + 16px)">
       <Button
         w="146px"
         shadow={shadow}
@@ -31,19 +31,40 @@ export const LeaderboardButton: FC<{ shadow?: boolean; onOpen: () => void }> = (
   );
 };
 
+export const LeaderboardButtonMd: FC<{ shadow?: boolean; onOpen: () => void }> = ({ shadow, onOpen }) => {
+  const { colorMode } = useContext(AppContext);
+
+  return (
+    <Box zIndex="default" position="fixed" top="89px" left="12px">
+      <Button
+        w="154px"
+        h="40px"
+        justify="space-between"
+        shadow={shadow}
+        leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" alt="" />}
+        onClick={onOpen}
+      >
+        <Text textStyle="button-2" color={colorMode === "light" ? "grey.900" : "white"}>
+          Leaderboard
+        </Text>
+      </Button>
+    </Box>
+  );
+};
+
 const Leaderboard: FC<{
+  isMobile?: boolean;
   ens?: string;
   myScore?: TypMyScore;
   topScoreList: TopScoreList;
   isOpen: boolean;
   onClose: () => void;
-}> = ({ ens, myScore, topScoreList, isOpen, onClose }) => {
-  // const isMobile = useBreakpointValue({ base: true, lg: false }, { ssr: false });
+}> = ({ isMobile, ens, myScore, topScoreList, isOpen, onClose }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
     <Tabs variant="unstyled">
-      <Modal w="832px" h="712px" isOpen={isOpen} onClose={onClose}>
+      <Modal w={isMobile ? "full" : "832px"} h={isMobile ? "full" : "712px"} isOpen={isOpen} onClose={onClose}>
         <ModalHeader
           title="LEADERBOARD"
           buttons={[
