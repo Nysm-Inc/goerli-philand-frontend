@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
-import { Box, TabPanel, TabPanels, Tabs, Text, useBreakpointValue, VStack } from "@chakra-ui/react";
+import { Box, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import type { MyScore as TypMyScore, TopScoreList } from "~/types/leaderboard";
 import Icon from "~/ui/components/Icon";

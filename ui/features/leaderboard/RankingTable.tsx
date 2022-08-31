@@ -29,8 +29,8 @@ const RankingTable: FC<{ topScoreList: TopScoreList }> = ({ topScoreList }) => {
               <Td>{i + 1}</Td>
               <Td>{score.name}</Td>
               <Td>{score.value.toFixed(2)}</Td>
-              <Td>{NaN}</Td>
-              <Td>{NaN}</Td>
+              <Td>-</Td>
+              <Td>-</Td>
             </Tr>
           ))}
         </Tbody>

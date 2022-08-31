@@ -4,7 +4,7 @@ import { Avatar, Box, HStack, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import type { MyScore as TypMyScore } from "~/types/leaderboard";
 
-const ScoreBadge: FC<{ rank: number }> = ({ rank }) => {
+const ScoreBadge: FC<{ rank?: number }> = ({ rank }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -13,13 +13,13 @@ const ScoreBadge: FC<{ rank: number }> = ({ rank }) => {
         Ranked
       </Text>
       <Text textStyle="label-1" color={colorMode === "light" ? "warmgrey.40" : "white"}>
-        {rank.toLocaleString()}
+        {rank ? rank.toLocaleString() : "-"}
       </Text>
     </HStack>
   );
 };
 
-const ScoreCard: FC<{ title: string; score: number; rank: number }> = ({ title, score, rank }) => {
+const ScoreCard: FC<{ title: string; score?: number; rank?: number }> = ({ title, score, rank }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -28,7 +28,7 @@ const ScoreCard: FC<{ title: string; score: number; rank: number }> = ({ title, 
         {title}
       </Text>
       <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
-        {score.toFixed(2)}
+        {score ? score.toFixed(2) : "-"}
       </Text>
       <ScoreBadge rank={rank} />
     </VStack>
@@ -56,8 +56,8 @@ const MyScore: FC<{ ens: string; myScore: TypMyScore }> = ({ ens, myScore }) => 
         </Text>
         <HStack spacing="16px">
           <ScoreCard title="Active Score" score={myScore.activity} rank={myScore.activityRank} />
-          <ScoreCard title="Social Score" score={NaN} rank={NaN} />
-          <ScoreCard title="Attention Score" score={NaN} rank={NaN} />
+          <ScoreCard title="Social Score" />
+          <ScoreCard title="Attention Score" />
         </HStack>
       </VStack>
     </HStack>
