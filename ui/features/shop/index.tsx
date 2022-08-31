@@ -85,7 +85,7 @@ const Shop: FC<{
           ]}
         />
         <Box minH="16px" h="16px" />
-        <TabList>
+        <TabList w="510px">
           <Tab text="Object (Free)" />
           <Tab text="Object (Premium)" />
           <Tab text="Wallpaper" />

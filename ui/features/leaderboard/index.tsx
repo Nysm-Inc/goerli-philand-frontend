@@ -64,7 +64,13 @@ const Leaderboard: FC<{
 
   return (
     <Tabs variant="unstyled">
-      <Modal w={isMobile ? "full" : "832px"} h={isMobile ? "full" : "712px"} isOpen={isOpen} onClose={onClose}>
+      <Modal
+        w={isMobile ? "full" : "832px"}
+        h={isMobile ? "full" : "712px"}
+        {...(isMobile && { borderRadius: "0px" })}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
         <ModalHeader
           title="LEADERBOARD"
           buttons={[
@@ -82,7 +88,7 @@ const Leaderboard: FC<{
         <Box h="24px" />
         <VStack spacing="24px" align={ens && myScore ? "flex-start" : "center"}>
           {ens && myScore && <MyScore ens={ens} myScore={myScore} />}
-          <TabList>
+          <TabList w={isMobile ? "full" : "510px"}>
             <Tab text="Active" />
             <Tab text="Social" disabled />
             <Tab text="Attention" disabled />
