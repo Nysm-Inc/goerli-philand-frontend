@@ -5,13 +5,15 @@ import Shop from "~/ui/features/shop";
 import Land from "~/ui/features/land";
 import { useLand } from "~/ui/features/land/useLand";
 import Wallet from "~/ui/features/wallet";
+import Leaderboard, { LeaderboardButton } from "~/ui/features/leaderboard";
 import { useWallpaper, useDeposit, useSave } from "~/hooks/map";
 import { useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList, useQuestProgress } from "~/hooks/claim";
-import { useUpdateEXP } from "~/hooks/leader/exp";
+import { useUpdateEXP } from "~/hooks/leaderboard/exp";
 import useBuyObjects from "~/hooks/shop";
 import useHandler from "~/hooks/game/useHandler";
 import useGame from "~/hooks/game/useGame";
+import useScore from "~/hooks/leaderboard/score";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   QUEST_OBJECT_CONTRACT_ADDRESS,
@@ -36,9 +38,7 @@ const Philand: FC<{
   currentENS: string;
   domains: string[];
   switchCurrentENS: (ens: string) => void;
-  phiObjects: (PhiObject & {
-    removeIdx: number;
-  })[];
+  phiObjects: (PhiObject & { removeIdx: number })[];
 }> = ({ address, currentENS, domains, switchCurrentENS, phiObjects }) => {
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
@@ -49,9 +49,11 @@ const Philand: FC<{
   const { isOpen: isOpenShop, onOpen: onOpenShop, onClose: onCloseShop } = useDisclosure();
   const { isOpen: isOpenWallet, onOpen: onOpenWallet, onClose: onCloseWallet } = useDisclosure();
   const { isOpen: isOpenLand, onOpen: onOpenLand, onClose: onCloseLand } = useDisclosure();
+  const { isOpen: isOpenLeaderboard, onOpen: onOpenLeaderboard, onClose: onCloseLeaderboard } = useDisclosure();
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
   const onCloseModals = useCallback(() => (onCloseQuest(), onCloseShop(), onCloseWallet(), onCloseLand(), onCloseHowItWorks()), []);
 
+  const { myScore, topScoreList } = useScore(currentENS, isOpenLeaderboard);
   const [claimableList, updateClaimableList] = useClaimableList(address, isOpenQuest);
   const updateEXP = useUpdateEXP(address);
   const progressList = useQuestProgress(address, isOpenQuest);
@@ -98,6 +100,8 @@ const Philand: FC<{
       <Help onOpenHowItWorks={onOpenHowItWorks} />
       <HowItWorks isOpen={isOpenHowItWorks} onOpen={onOpenHowItWorks} onClose={onCloseHowItWorks} />
       <QuickTour isEdit={isEdit} ens={currentENS} />
+      <LeaderboardButton onOpen={onOpenLeaderboard} />
+      <Leaderboard ens={currentENS} myScore={myScore} topScoreList={topScoreList} isOpen={isOpenLeaderboard} onClose={onCloseLeaderboard} />
 
       <MenuBar
         initialized={initialized}

@@ -85,14 +85,14 @@ const Shop: FC<{
           ]}
         />
         <Box minH="16px" h="16px" />
-        <TabList>
+        <TabList w="510px">
           <Tab text="Object (Free)" />
           <Tab text="Object (Premium)" />
           <Tab text="Wallpaper" />
         </TabList>
         <Box minH="16px" h="16px" />
         <ModalBody>
-          <TabPanels id="8">
+          <TabPanels>
             {Object.values(tabIdx2Contract).map((idx) => (
               <TabPanel key={idx} p="0">
                 <SimpleGrid columns={3} spacing="8px">

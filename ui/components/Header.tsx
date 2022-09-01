@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { FC, useContext } from "react";
-import { Box, Center, HStack, Text } from "@chakra-ui/react";
+import { Box, Center, HStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import Button from "./common/Button";
 import IconButton from "./common/IconButton";
 import Search from "./Search";
 import Icon from "./Icon";
@@ -19,20 +18,6 @@ const Header: FC = () => {
 
       <Box zIndex="default" position="fixed" top="24px" left="106px">
         <Search />
-      </Box>
-
-      <Box zIndex="default" position="fixed" top="24px" left="calc(106px + 336px + 16px)">
-        <Button
-          w="146px"
-          disabled
-          shadow
-          justify="space-between"
-          leftIcon={<Image src="/icons/leaderboard.svg" width="24px" height="24px" alt="" />}
-        >
-          <Text textStyle="button-2" color={colorMode === "light" ? "dark.grey300" : "dark.grey600"}>
-            Leaderboard
-          </Text>
-        </Button>
       </Box>
 
       <HStack zIndex="default" position="fixed" top="24px" right="24px" spacing="8px">

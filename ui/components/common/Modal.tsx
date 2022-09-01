@@ -15,6 +15,7 @@ import {
   ModalHeaderProps,
   Center,
   Box,
+  BorderProps,
 } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
@@ -141,11 +142,12 @@ const Modal: FC<{
   left?: PositionProps["left"];
   overlay?: boolean;
   clickThrough?: boolean;
+  borderRadius?: BorderProps["borderRadius"];
   isOpen: boolean;
   onClose: () => void;
   onCloseComplete?: () => void;
   children: ReactNode;
-}> = ({ w, h, isOpen, clickThrough, left, overlay, onClose, onCloseComplete, children }) => {
+}> = ({ w, h, isOpen, clickThrough, borderRadius = "32px", left, overlay, onClose, onCloseComplete, children }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -160,8 +162,8 @@ const Modal: FC<{
       {overlay && <ModalOverlay bgColor="rgba(26, 26, 26, 0.64)" />}
       <ChakraModalContent
         p="24px"
-        borderRadius="32px"
         boxShadow="2xl"
+        borderRadius={borderRadius}
         border="1px solid"
         borderColor={colorMode === "light" ? "light.g_orange" : "grey.900"}
         bgColor={colorMode === "light" ? "light.lg_orange30" : "dark.black"}
