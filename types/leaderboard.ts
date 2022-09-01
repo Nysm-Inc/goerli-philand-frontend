@@ -5,10 +5,7 @@ export type MyScore = {
   activityRank: number;
 };
 
-type Score = {
-  name: string;
-  value: number;
-};
+type Score = { name: string; value: number };
 
 export type TopScoreList = {
   activity: Score[];
