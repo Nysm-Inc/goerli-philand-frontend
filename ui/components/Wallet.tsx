@@ -4,7 +4,7 @@ import { useDisconnect } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Avatar, Box, Menu, MenuButton, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import { useEXP } from "~/hooks/leader/exp";
+import { useEXP } from "~/hooks/leaderboard/exp";
 import useSentry from "~/hooks/sentry";
 import { event } from "~/utils/ga/ga";
 import Button from "./common/Button";

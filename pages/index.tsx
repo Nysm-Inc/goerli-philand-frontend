@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 import { useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import useClouds from "~/hooks/game/useClouds";
-import useScore from "~/hooks/leader/score";
+import useScore from "~/hooks/leaderboard/score";
 import Main from "~/ui/features/main";
 import Leaderboard, { LeaderboardButton, LeaderboardButtonMd } from "~/ui/features/leaderboard";
 import Dev from "~/ui/components/Dev";

@@ -7,7 +7,7 @@ import { UTILS_API_GATEWAY } from "~/constants";
 import { nullAddress, PhiObject, Wallpaper } from "~/types";
 import useGame from "~/hooks/game/useGame";
 import useClouds from "~/hooks/game/useClouds";
-import useScore from "~/hooks/leader/score";
+import useScore from "~/hooks/leaderboard/score";
 import { useWallpaper, useViewPhiland } from "~/hooks/map";
 import Leaderboard, { LeaderboardButton, LeaderboardButtonMd } from "~/ui/features/leaderboard";
 import Dev from "~/ui/components/Dev";

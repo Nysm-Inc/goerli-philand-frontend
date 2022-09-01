@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useBlockNumber } from "wagmi";
 import type { MyScore, TopScoreList } from "~/types/leaderboard";
-import { getMyScore, getTopScoreList } from "~/utils/leader";
+import { getMyScore, getTopScoreList } from "~/utils/leaderboard";
 
 const useScore = (ens?: string, watch?: boolean) => {
   const { data: blockNumber } = useBlockNumber({ watch: !!watch });

@@ -9,10 +9,11 @@ import Leaderboard, { LeaderboardButton } from "~/ui/features/leaderboard";
 import { useWallpaper, useDeposit, useSave } from "~/hooks/map";
 import { useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList, useQuestProgress } from "~/hooks/claim";
-import { useUpdateEXP } from "~/hooks/leader/exp";
+import { useUpdateEXP } from "~/hooks/leaderboard/exp";
 import useBuyObjects from "~/hooks/shop";
 import useHandler from "~/hooks/game/useHandler";
 import useGame from "~/hooks/game/useGame";
+import useScore from "~/hooks/leaderboard/score";
 import {
   FREE_OBJECT_CONTRACT_ADDRESS,
   QUEST_OBJECT_CONTRACT_ADDRESS,
@@ -31,7 +32,6 @@ import WallpaperMenu, { useWallpaperMenu } from "~/ui/components/WallpaperMenu";
 import Help from "~/ui/components/Help";
 import EditStatus from "~/ui/components/EditStatus";
 import { useZoom } from "~/ui/components/Zoom";
-import useScore from "~/hooks/leader/score";
 
 const Philand: FC<{
   address: string;

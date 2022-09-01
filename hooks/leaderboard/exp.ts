@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useBlockNumber } from "wagmi";
-import { getEXP, updateEXP as _updateEXP } from "~/utils/leader";
+import { getEXP, updateEXP as _updateEXP } from "~/utils/leaderboard";
 
 export const useEXP = (address: string, watch?: boolean): number => {
   const { data: blockNumber } = useBlockNumber({ watch: !!watch });

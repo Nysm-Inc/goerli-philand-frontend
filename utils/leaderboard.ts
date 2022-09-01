@@ -36,10 +36,7 @@ export const getMyScore = async (ens: string) => {
   };
 };
 
-type Score = {
-  name: string;
-  value: number;
-};
+type Score = { name: string; value: number };
 
 type GetTopScoreAPIResponse = {
   data: {
@@ -52,7 +49,7 @@ type GetTopScoreAPIResponse = {
 export const getTopScoreList = async () => {
   const u = new URL(UTILS_API_GATEWAY + "/leader/score");
   u.searchParams.append("top", "true");
-  const res = await axios.get<GetTopScoreAPIResponse>(u.toString());
+  const res = await axios.get<GetTopScoreAPIResponse | null>(u.toString());
   const data = res.data?.data;
   return {
     activity: data?.activityScore || [],
