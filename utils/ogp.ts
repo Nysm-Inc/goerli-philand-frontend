@@ -6,8 +6,5 @@ export const updateOGP = async (ens: string | null | undefined, dataurl: string)
     name: ens + ".png",
     file: dataurl,
   };
-  return axios.post(UTILS_API_GATEWAY + "/images/upload", {
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
+  return axios.post(UTILS_API_GATEWAY + "/images/upload", JSON.stringify(body));
 };
