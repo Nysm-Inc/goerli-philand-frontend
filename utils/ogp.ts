@@ -1,3 +1,4 @@
+import axios from "axios";
 import { UTILS_API_GATEWAY } from "~/constants";
 
 export const updateOGP = async (ens: string | null | undefined, dataurl: string) => {
@@ -5,9 +6,7 @@ export const updateOGP = async (ens: string | null | undefined, dataurl: string)
     name: ens + ".png",
     file: dataurl,
   };
-  return await fetch(UTILS_API_GATEWAY + "/images/upload", {
-    mode: "cors",
-    method: "POST",
+  return axios.post(UTILS_API_GATEWAY + "/images/upload", {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
