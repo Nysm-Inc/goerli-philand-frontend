@@ -7,6 +7,7 @@ import { postAccess } from "~/utils/access";
 import { isValid } from "~/utils/ens";
 import { ColorMode } from "~/ui/styles";
 import { FRONTEND_URL } from "~/constants";
+import { event } from "~/utils/ga/ga";
 
 const [bgW, bgH] = [296, 64];
 const [arrowW, arrowH] = [16, 8];
@@ -184,6 +185,7 @@ export default class LinkPreview {
           const provider = new providers.Web3Provider(window.ethereum);
           address = await provider.getSigner().getAddress();
         }
+        event({ action: "click", category: "view", label: "jump_object" });
         postAccess(landENS, target.toString(), address);
       }
 
