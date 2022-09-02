@@ -88,6 +88,16 @@ export default class RoomItemManager {
     }
   }
 
+  showLinkPreview(uuid: string) {
+    const item = this.roomItems[uuid];
+    item.mouseOver();
+  }
+
+  hideLinkPreview(uuid: string) {
+    const item = this.roomItems[uuid];
+    item.mouseOut();
+  }
+
   reset() {
     this.roomItems = {};
     this.tileMap = emptyTilemap();

@@ -15,6 +15,8 @@ import Header from "~/ui/components/Header";
 import HeaderMd from "~/ui/components/HeaderMd";
 import LandNotFound from "~/ui/components/LandNotFound";
 import LandName from "~/ui/components/LandName";
+import LinkList from "~/ui/components/LinkList";
+import Help from "~/ui/components/Help";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
@@ -33,11 +35,7 @@ const Philand: FC<{
   wallpaper?: Wallpaper;
 }> = ({ ens, phiObjects, wallpaper }) => {
   useGame({ state: { currentENS: ens, isEdit: false, phiObjects, wallpaper } });
-  return (
-    <>
-      <LandName ens={ens} />
-    </>
-  );
+  return <LandName ens={ens} />;
 };
 
 const Index: NextPage = () => {
@@ -49,6 +47,7 @@ const Index: NextPage = () => {
   const { myScore, topScoreList } = useScore(ens, isOpenLeaderboard);
   const { owner, isFetchedOwner, phiObjects } = useViewPhiland(ens);
   const isCreatedPhiland = useMemo(() => owner !== nullAddress || phiObjects.length > 0, [owner, phiObjects.length]);
+  const phiObjectsWithLink = useMemo(() => phiObjects.filter((object) => object.link.title || object.link.url), [phiObjects]);
   const { wallpaper } = useWallpaper(ens);
   useClouds(isMobile);
 
@@ -73,6 +72,8 @@ const Index: NextPage = () => {
       ) : (
         <>
           <Header />
+          <Help />
+          <LinkList phiObjects={phiObjectsWithLink} defaultIsOpen />
           <LeaderboardButton shadow onOpen={onOpenLeaderboard} />
           {isFetchedOwner && !isCreatedPhiland && <LandNotFound ens={ens} />}
         </>

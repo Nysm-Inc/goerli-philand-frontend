@@ -17,6 +17,7 @@ import Help from "./Help";
 import Info from "./Info";
 import InfoActive from "./InfoActive";
 import Link from "./Link";
+import List from "./List";
 import Man from "./Man";
 import Menu from "./Menu";
 import Minus from "./Minus";
@@ -50,6 +51,7 @@ const icons = {
   info: Info,
   infoActive: InfoActive,
   link: Link,
+  list: List,
   man: Man,
   menu: Menu,
   minus: Minus,
