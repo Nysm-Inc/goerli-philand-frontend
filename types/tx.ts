@@ -22,8 +22,6 @@ export const sentryErr = (error: Error, variables: any): { error: Error; txName:
       contract: variables.addressOrName,
       function: variables.functionName,
       args: JSON.stringify(variables.args),
-      overrides: variables.overrides,
-      signerOrProvider: variables.signerOrProvider,
     },
   };
 };
