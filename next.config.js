@@ -9,6 +9,9 @@ const nextConfig = {
     domains: ["www.arweave.net"],
     minimumCacheTTL: 86400,
   },
+  api: {
+    externalResolver: true,
+  },
 };
 
 const sentryWebpackPluginOptions = {
