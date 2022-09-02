@@ -29,7 +29,9 @@ export default class LinkPreview {
   bgDark: Graphics;
   bgLightArrow: Graphics;
   bgDarkArrow: Graphics;
-  text: Text;
+  title: Text;
+  url: Text;
+
   defaultOGP: Graphics;
   ogp: Sprite;
 
@@ -110,15 +112,27 @@ export default class LinkPreview {
     clickableArea.addChild(this.ogp);
 
     // @ts-ignore
-    this.text = new Text("", paragraph1);
-    this.text.x = defaultOGPSize + 8 + 8;
-    this.text.y = bgH / 2 - 8;
-    clickableArea.addChild(this.text);
+    this.title = new Text("", paragraph1);
+    this.title.x = defaultOGPSize + 8 + 8;
+    this.title.y = 8 + (24 - 16) / 2;
+    clickableArea.addChild(this.title);
+
+    // @ts-ignore
+    this.url = new Text("", paragraph1);
+    this.url.x = defaultOGPSize + 8 + 8;
+    this.url.y = 8 + 24 + (24 - 16) / 2;
+    clickableArea.addChild(this.url);
   }
 
   draw(colorMode: ColorMode) {
-    this.text.text = this.link.title.length > 16 ? `${this.link.title.substring(0, 12)}...` : this.link.title;
-    this.text.style.fill = colorMode === "light" ? 0xffffff : 0x000000;
+    this.title.text = this.link.title.length > 16 ? `${this.link.title.substring(0, 12)}...` : this.link.title;
+    this.title.style.fill = colorMode === "light" ? 0xffffff : 0x000000;
+
+    try {
+      const url = new URL(this.link.url).toString().replace(/(^\w+:|^)\/\//, "");
+      this.url.text = url.length > 16 ? `${url.substring(0, 16)}...` : url;
+      this.url.style.fill = 0x8283ff;
+    } catch {}
   }
 
   update(link: PhiLink) {
@@ -143,7 +157,8 @@ export default class LinkPreview {
           this.ogp.texture = Texture.from(this.ogpURL);
           this.ogp.mask = this.defaultOGP;
 
-          this.text.x = w + 8 + 8;
+          this.title.x = w + 8 + 8;
+          this.url.x = w + 8 + 8;
         };
       } catch {
         const icon = Sprite.from("/assets/default_ogp.png");
