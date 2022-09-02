@@ -24,7 +24,10 @@ const useBuyObjects = (
     addressOrName: SHOP_CONTRACT_ADDRESS,
     contractInterface: ShopAbi,
     functionName: "shopBuyObject",
-    onError: (error, variables) => captureError(wrapTxErr(error, variables)),
+    onError: (error, variables) => {
+      const err = wrapTxErr(error, variables);
+      captureError(err.error, err.extra, err.context);
+    },
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 

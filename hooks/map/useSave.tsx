@@ -36,7 +36,10 @@ const useSave = (
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "save",
-    onError: (error, variables) => captureError(wrapTxErr(error, variables)),
+    onError: (error, variables) => {
+      const err = wrapTxErr(error, variables);
+      captureError(err.error, err.extra, err.context);
+    },
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 

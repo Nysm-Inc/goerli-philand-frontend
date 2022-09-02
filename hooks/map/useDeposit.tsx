@@ -37,7 +37,10 @@ const useDeposit = (
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "batchDepositObject",
-    onError: (error, variables) => captureError(wrapTxErr(error, variables)),
+    onError: (error, variables) => {
+      const err = wrapTxErr(error, variables);
+      captureError(err.error, err.extra, err.context);
+    },
   });
   const { status: depositStatus } = useWaitForTransaction({ hash: depositData?.hash || "" });
 
@@ -49,7 +52,10 @@ const useDeposit = (
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "batchWithdrawObject",
-    onError: (error, variables) => captureError(wrapTxErr(error, variables)),
+    onError: (error, variables) => {
+      const err = wrapTxErr(error, variables);
+      captureError(err.error, err.extra, err.context);
+    },
   });
   const { status: withdrawStatus } = useWaitForTransaction({ hash: withdrawData?.hash || "" });
 
