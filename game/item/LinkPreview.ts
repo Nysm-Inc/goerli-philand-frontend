@@ -128,7 +128,7 @@ export default class LinkPreview {
     this.title.text = this.link.title.length > 16 ? `${this.link.title.substring(0, 12)}...` : this.link.title;
     this.title.style.fill = colorMode === "light" ? 0xffffff : 0x000000;
 
-    this.url.text = this.link.url.length > 16 ? `${this.link.url.substring(0, 16)}...` : this.link.url;
+    this.url.text = this.link.url.length > 16 ? `${this.link.url.substring(0, 12)}...` : this.link.url;
     this.url.style.fill = 0x8283ff;
   }
 
