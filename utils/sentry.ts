@@ -1,9 +1,12 @@
 import { captureException } from "@sentry/nextjs";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-export const captureError = (err: Error) => {
+export type Extra = { [key: string]: string };
+
+export const captureError = (err: Error, txName?: string, extra?: Extra) => {
   captureException(err, (scope) => {
-    scope.setTransactionName(err.name);
+    if (txName) scope.setTransactionName(txName);
+    if (extra) scope.setExtras(extra);
     return scope;
   });
 };

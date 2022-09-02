@@ -4,7 +4,7 @@ import type { TransactionResponse } from "@ethersproject/providers";
 import ClaimAbi from "~/abi/claim.json";
 import { CLAIM_CONTRACT_ADDRESS, QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
-import { wrapTxErr } from "~/types/tx";
+import { sentryErr } from "~/types/tx";
 import { conditionList } from "~/types/quest";
 import { objectMetadataList } from "~/types/object";
 import { getCoupon } from "~/utils/coupon";
@@ -39,7 +39,10 @@ const useClaim = (
     addressOrName: CLAIM_CONTRACT_ADDRESS,
     contractInterface: ClaimAbi,
     functionName: "claimQuestObject",
-    onError: (error, variables) => captureError(wrapTxErr(error, variables)),
+    onError: (error, variables) => {
+      const err = sentryErr(error, variables);
+      captureError(err.error, err.txName, err.extra);
+    },
   });
   const { status } = useWaitForTransaction({ hash: writeData?.hash || "" });
 

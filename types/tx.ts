@@ -1,4 +1,5 @@
 import { Chain } from "wagmi";
+import { Extra } from "~/utils/sentry";
 
 export type Status = "idle" | "loading" | "success" | "error";
 
@@ -11,9 +12,16 @@ export type Tx = {
   tmpStatus: Status;
 };
 
-export const wrapTxErr = (error: Error, variables: any): Error => {
-  const msg = JSON.stringify({ contract: variables.addressOrName, function: variables.functionName, args: variables.args });
-  const e = new Error(msg, { cause: error });
+export const sentryErr = (error: Error, variables: any): { error: Error; txName: string; extra: Extra } => {
+  const e = new Error(error.message, { cause: error });
   e.name = "Contract Write Error";
-  return e;
+  return {
+    error: e,
+    txName: variables.functionName,
+    extra: {
+      contract: variables.addressOrName,
+      function: variables.functionName,
+      args: JSON.stringify(variables.args),
+    },
+  };
 };

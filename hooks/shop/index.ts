@@ -6,7 +6,7 @@ import { PREMIUM_OBJECT_CONTRACT_ADDRESS, SHOP_CONTRACT_ADDRESS, WALLPAPER_CONTR
 import ShopAbi from "~/abi/shop.json";
 import { AppContext } from "~/contexts";
 import { objectMetadataList } from "~/types/object";
-import { wrapTxErr } from "~/types/tx";
+import { sentryErr } from "~/types/tx";
 import { getFastestGasWei } from "~/utils/gas";
 import { captureError } from "~/utils/sentry";
 
@@ -24,7 +24,10 @@ const useBuyObjects = (
     addressOrName: SHOP_CONTRACT_ADDRESS,
     contractInterface: ShopAbi,
     functionName: "shopBuyObject",
-    onError: (error, variables) => captureError(wrapTxErr(error, variables)),
+    onError: (error, variables) => {
+      const err = sentryErr(error, variables);
+      captureError(err.error, err.txName, err.extra);
+    },
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });
 
