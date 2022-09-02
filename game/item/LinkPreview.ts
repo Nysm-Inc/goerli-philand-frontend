@@ -11,6 +11,14 @@ import { FRONTEND_URL } from "~/constants";
 const [bgW, bgH] = [296, 64];
 const [arrowW, arrowH] = [16, 8];
 const defaultOGPSize = 48;
+const paragraph1 = {
+  fontFamily: "JetBrainsMono",
+  fontWeight: "500",
+  fontSize: "16px",
+  lineHeight: 24,
+  letterSpacing: -0.02,
+  align: "center",
+};
 
 export default class LinkPreview {
   private link: PhiLink;
@@ -101,15 +109,8 @@ export default class LinkPreview {
     this.ogp.height = defaultOGPSize;
     clickableArea.addChild(this.ogp);
 
-    // memo: paragraph-1
-    this.text = new Text("", {
-      fontFamily: "JetBrainsMono",
-      fontWeight: "500",
-      fontSize: "16px",
-      lineHeight: 24,
-      letterSpacing: -0.02,
-      align: "center",
-    });
+    // @ts-ignore
+    this.text = new Text("", paragraph1);
     this.text.x = defaultOGPSize + 8 + 8;
     this.text.y = bgH / 2 - 8;
     clickableArea.addChild(this.text);
