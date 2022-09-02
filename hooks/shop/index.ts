@@ -26,7 +26,7 @@ const useBuyObjects = (
     functionName: "shopBuyObject",
     onError: (error, variables) => {
       const err = wrapTxErr(error, variables);
-      captureError(err.error, err.extra, err.context);
+      captureError(err.error, err.extra);
     },
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });

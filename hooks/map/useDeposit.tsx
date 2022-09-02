@@ -39,7 +39,7 @@ const useDeposit = (
     functionName: "batchDepositObject",
     onError: (error, variables) => {
       const err = wrapTxErr(error, variables);
-      captureError(err.error, err.extra, err.context);
+      captureError(err.error, err.extra);
     },
   });
   const { status: depositStatus } = useWaitForTransaction({ hash: depositData?.hash || "" });
@@ -54,7 +54,7 @@ const useDeposit = (
     functionName: "batchWithdrawObject",
     onError: (error, variables) => {
       const err = wrapTxErr(error, variables);
-      captureError(err.error, err.extra, err.context);
+      captureError(err.error, err.extra);
     },
   });
   const { status: withdrawStatus } = useWaitForTransaction({ hash: withdrawData?.hash || "" });
