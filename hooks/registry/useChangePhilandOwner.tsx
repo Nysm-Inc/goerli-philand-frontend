@@ -5,7 +5,7 @@ import type { TransactionResponse } from "@ethersproject/providers";
 import { REGISTRY_CONTRACT_ADDRESS, UTILS_API_GATEWAY } from "~/constants";
 import RegistryAbi from "~/abi/registry.json";
 import { Coupon } from "~/types/quest";
-import { wrapTxErr } from "~/types/tx";
+import { sentryErr } from "~/types/tx";
 import { AppContext } from "~/contexts";
 import { getFastestGasWei } from "~/utils/gas";
 import { captureError } from "~/utils/sentry";
@@ -21,8 +21,8 @@ const useChangePhilandOwner = (account?: string, ens?: string): { changePhilandO
     contractInterface: RegistryAbi,
     functionName: "changePhilandOwner",
     onError: (error, variables) => {
-      const err = wrapTxErr(error, variables);
-      captureError(err.error, err.extra);
+      const err = sentryErr(error, variables);
+      captureError(err.error, err.txName, err.extra);
     },
   });
   const { status } = useWaitForTransaction({ hash: data?.hash || "" });

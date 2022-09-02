@@ -3,10 +3,10 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 
 export type Extra = { [key: string]: string };
 
-export const captureError = (err: Error, extra?: Extra) => {
+export const captureError = (err: Error, txName?: string, extra?: Extra) => {
   captureException(err, (scope) => {
+    if (txName) scope.setTransactionName(txName);
     if (extra) scope.setExtras(extra);
-    scope.setTransactionName(err.message);
     return scope;
   });
 };

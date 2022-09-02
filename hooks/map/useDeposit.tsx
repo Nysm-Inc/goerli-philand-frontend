@@ -4,7 +4,7 @@ import { BigNumber } from "ethers";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { MAP_CONTRACT_ADDRESS } from "~/constants";
 import MapAbi from "~/abi/map.json";
-import { wrapTxErr } from "~/types/tx";
+import { sentryErr } from "~/types/tx";
 import { BalanceObject, DepositObject } from "~/types";
 import { AppContext } from "~/contexts";
 import { getFastestGasWei } from "~/utils/gas";
@@ -38,8 +38,8 @@ const useDeposit = (
     contractInterface: MapAbi,
     functionName: "batchDepositObject",
     onError: (error, variables) => {
-      const err = wrapTxErr(error, variables);
-      captureError(err.error, err.extra);
+      const err = sentryErr(error, variables);
+      captureError(err.error, err.txName, err.extra);
     },
   });
   const { status: depositStatus } = useWaitForTransaction({ hash: depositData?.hash || "" });
@@ -53,8 +53,8 @@ const useDeposit = (
     contractInterface: MapAbi,
     functionName: "batchWithdrawObject",
     onError: (error, variables) => {
-      const err = wrapTxErr(error, variables);
-      captureError(err.error, err.extra);
+      const err = sentryErr(error, variables);
+      captureError(err.error, err.txName, err.extra);
     },
   });
   const { status: withdrawStatus } = useWaitForTransaction({ hash: withdrawData?.hash || "" });

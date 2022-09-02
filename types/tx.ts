@@ -12,12 +12,18 @@ export type Tx = {
   tmpStatus: Status;
 };
 
-export const wrapTxErr = (error: Error, variables: any): { error: Error; extra: Extra } => {
-  const msg = variables.functionName + ": " + error.message;
-  const e = new Error(msg, { cause: error });
+export const sentryErr = (error: Error, variables: any): { error: Error; txName: string; extra: Extra } => {
+  const e = new Error(error.message, { cause: error });
   e.name = "Contract Write Error";
   return {
     error: e,
-    extra: { contract: variables.addressOrName, function: variables.functionName, args: JSON.stringify(variables.args) },
+    txName: variables.functionName,
+    extra: {
+      contract: variables.addressOrName,
+      function: variables.functionName,
+      args: JSON.stringify(variables.args),
+      overrides: variables.overrides,
+      signerOrProvider: variables.signerOrProvider,
+    },
   };
 };
