@@ -40,8 +40,8 @@ const useViewPhiland = (
                 yStart: BigNumber.from(object[3]).toNumber(),
                 xEnd: BigNumber.from(object[4]).toNumber(),
                 yEnd: BigNumber.from(object[5]).toNumber(),
-                link: { title: object[6]?.title || "", url: object[6]?.url || "" },
-              } as PhiObject,
+                link: { title: object[6]?.[0] || "", url: object[6]?.[1] || "" },
+              },
             ];
           } else {
             return memo;
