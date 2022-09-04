@@ -82,7 +82,7 @@ const Philand: FC<{
     onChangeScaled,
     onCheckDiff,
     onSave,
-  } = useHandler({ phiObjects, wallpaper, uiHandler: { edit, view, tryWrite, tryRemove, changeLink, changeScaled, save } });
+  } = useHandler({ phiObjects, wallpaper, uiHandler: { edit, view, tryRemove, changeLink, changeScaled, save } });
   const { initialized, isDiff } = useGame({
     state: { currentENS, isEdit, phiObjects, wallpaper },
     handler: { onCheckDiff },
