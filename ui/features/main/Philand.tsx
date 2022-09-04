@@ -20,7 +20,7 @@ import {
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
-import { PhiLink, PhiObject } from "~/types";
+import { PhiObject } from "~/types";
 import MenuBar from "~/ui/components/MenuBar";
 import Share from "~/ui/components/Share";
 import MainMenu from "~/ui/components/MainMenu";
@@ -154,10 +154,11 @@ const Philand: FC<{
             onClickTrash={() => onRemoveObject(actionMenuState.id)}
           />
           <LinkMenu
+            //
             state={linkState[actionMenuState.id]}
             onClose={onCloseLinkMenu}
             onBack={onDropObject}
-            onChange={(id: string, link: PhiLink) => onChangeLink(id, { title: link.title, url: link.url })}
+            onChange={onChangeLink}
           />
           <WallpaperMenu
             state={wallpaperMenuState}

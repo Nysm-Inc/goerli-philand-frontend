@@ -34,30 +34,28 @@ export default class RoomItemManager {
   }
 
   loadItems(objects: PhiObject[]) {
-    const { uiManager } = GameInstance.get();
     this.reset();
     objects.forEach((object) => {
-      const item = this.addItem(object.xStart, object.yStart, {
+      this.addItem(object.xStart, object.yStart, {
         contractAddress: object.contractAddress,
         tokenId: object.tokenId,
         sizeX: object.xEnd - object.xStart,
         sizeY: object.yEnd - object.yStart,
         link: object.link,
       });
-      uiManager.onChangeLinkMenu(item.getUUID(), object.link);
     });
   }
 
-  addItem(tileX: number, tileY: number, object: IObject): RoomItem {
+  addItem(tileX: number, tileY: number, object: IObject) {
     const uuid = this.randomUUID();
     const item = new RoomItem(uuid, tileX, tileY, object);
-    const { room } = GameInstance.get();
+    const { room, uiManager } = GameInstance.get();
     if (room.isEdit) {
       item.container.buttonMode = true;
     }
     this.roomItems[uuid] = item;
     this.addItemToTilemap(tileX, tileY, item);
-    return item;
+    uiManager.onChangeLinkMenu(item.getUUID(), object.link);
   }
 
   removeItem(uuid: string) {
