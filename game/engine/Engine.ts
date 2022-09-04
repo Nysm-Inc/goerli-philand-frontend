@@ -136,7 +136,7 @@ export default class Engine {
       }
       this.app.loader.load();
       this.app.loader.onComplete.add(() => resolve("loaded"));
-      this.app.loader.onError.add(() => reject("failed to load"));
+      this.app.loader.onError.add(() => reject("failed to load assets"));
     });
   }
 
