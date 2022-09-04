@@ -38,7 +38,7 @@ const LinkMenu: FC<{
   const [input, setInput] = useState<PhiLink>(defaultLink);
 
   useEffect(() => {
-    setInput(state || defaultLink);
+    setInput({ title: state?.title || "", url: state?.url || "" });
   }, [state?.isShown]);
 
   return (
