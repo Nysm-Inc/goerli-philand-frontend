@@ -4,6 +4,7 @@ import type { UIManagerHandler } from "~/game/ui/UIManager";
 import { PhiObject, Wallpaper } from "~/types";
 import { SaveArgs } from "~/hooks/map";
 import { useInterval } from "./helper";
+import { captureError } from "~/utils/sentry";
 
 type UseGame = {
   state: { currentENS: string; isEdit: boolean; phiObjects: (PhiObject & { removeIdx: number })[]; wallpaper?: Wallpaper };
@@ -23,8 +24,15 @@ const useGame = ({ state, handler, gameHandler }: UseGame): { initialized: boole
     _strictRef.current = true;
 
     (async () => {
-      await game.loadGame(gameHandler);
-      setLoadedGame(true);
+      game
+        .loadGame(gameHandler)
+        .then(() => {
+          setLoadedGame(true);
+        })
+        .catch((err) => {
+          captureError(err);
+          // alert("Network Error: Please refresh this page in your browser and try again.");
+        });
     })();
   }, []);
 

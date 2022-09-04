@@ -1,4 +1,4 @@
-import { Container, SCALE_MODES, Sprite } from "pixi.js";
+import { Container, SCALE_MODES, Sprite, Texture } from "pixi.js";
 import { Layer } from "@pixi/layers";
 import { GAME_APP_HEIGHT, GAME_APP_WIDTH, LAND_H, LAND_OFFSET_Y, LAND_W, TILE_H, TILE_W } from "~/constants";
 import GameInstance from "~/game/GameInstance";
@@ -39,31 +39,34 @@ export default class Room {
     this.isEdit = false;
   }
 
-  initialize() {
-    const { engine, room, uiManager } = GameInstance.get();
+  async initialize() {
+    return Texture.fromURL("/assets/baseplate.png").then((texture) => {
+      const { engine, room, uiManager } = GameInstance.get();
 
-    const landOffsetX = GAME_APP_WIDTH / 2 - LAND_W / 2;
-    const landOffsetY = GAME_APP_HEIGHT / 2 - LAND_H / 2;
-    this.landContainer.x = landOffsetX;
-    this.landContainer.y = landOffsetY;
-    this.landItemContainer.x = landOffsetX;
-    this.landItemContainer.y = landOffsetY;
-    this.land = Sprite.from("/assets/baseplate.png");
-    this.land.texture.baseTexture.scaleMode = engine.scaleMode;
-    this.land.on("mousedown", (e) => {
-      if (!this.isEdit) return;
-      if (!!room.movingItemManager.getItem()) return;
-      const origin = e.data.originalEvent;
-      uiManager.onOpenWallpaperMenu(origin.x, origin.y);
+      const landOffsetX = GAME_APP_WIDTH / 2 - LAND_W / 2;
+      const landOffsetY = GAME_APP_HEIGHT / 2 - LAND_H / 2;
+      this.landContainer.x = landOffsetX;
+      this.landContainer.y = landOffsetY;
+      this.landItemContainer.x = landOffsetX;
+      this.landItemContainer.y = landOffsetY;
+
+      this.land = Sprite.from(texture);
+      this.land.texture.baseTexture.scaleMode = engine.scaleMode;
+      this.land.on("mousedown", (e) => {
+        if (!this.isEdit) return;
+        if (!!room.movingItemManager.getItem()) return;
+        const origin = e.data.originalEvent;
+        uiManager.onOpenWallpaperMenu(origin.x, origin.y);
+      });
+      this.landContainer.addChild(this.land);
+      this.landContainer.addChild(this.wallpaper.container);
+
+      this.container.addChild(this.landContainer);
+      this.container.addChild(this.landItemContainer);
+      this.container.addChild(this.landItemLayer);
+      engine.viewport.addChild(this.container);
+      engine.viewport.on("zoomed", () => engine.updateAfterZoom());
     });
-    this.landContainer.addChild(this.land);
-    this.landContainer.addChild(this.wallpaper.container);
-
-    this.container.addChild(this.landContainer);
-    this.container.addChild(this.landItemContainer);
-    this.container.addChild(this.landItemLayer);
-    engine.viewport.addChild(this.container);
-    engine.viewport.on("zoomed", () => engine.updateAfterZoom());
   }
 
   enterRoom() {

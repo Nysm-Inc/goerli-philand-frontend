@@ -18,15 +18,13 @@ export default class Game {
   }
 
   async loadGame(handler?: UIManagerHandler) {
+    if (this.loaded) return;
+
     const { engine, room, uiManager } = GameInstance.get();
-    if (handler) {
-      uiManager.loadUIHandler(handler);
-    }
-    if (!this.loaded) {
-      room.initialize();
-      await engine.loadGlobalTextures();
+    if (handler) uiManager.loadUIHandler(handler);
+    return Promise.all([room.initialize(), engine.loadGlobalTextures()]).then(() => {
       this.loaded = true;
-    }
+    });
   }
 
   onMouseMove = (x: number, y: number) => {

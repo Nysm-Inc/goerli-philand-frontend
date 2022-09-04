@@ -9,7 +9,6 @@ import { diff } from "./helper";
 export type UIHandlerProps = {
   edit: () => void;
   view: () => void;
-  tryWrite: (contract: ObjectContractAddress, tokenId: number) => void;
   tryRemove: (contract: ObjectContractAddress, tokenId: number) => void;
   changeLink: (id: string, link: PhiLink) => void;
   changeScaled: (scaled: number) => void;
