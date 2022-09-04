@@ -23,7 +23,7 @@ export default class Game {
       uiManager.loadUIHandler(handler);
     }
     if (!this.loaded) {
-      room.initialize();
+      await room.initialize();
       await engine.loadGlobalTextures();
       this.loaded = true;
     }
