@@ -31,7 +31,7 @@ const useGame = ({ state, handler, gameHandler }: UseGame): { initialized: boole
         })
         .catch((err) => {
           captureError(err);
-          // alert("Network Error: Please refresh this page in your browser and try again.");
+          alert("Network Error: Please refresh this page in your browser and try again.");
         });
     })();
   }, []);
