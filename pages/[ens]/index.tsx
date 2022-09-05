@@ -49,7 +49,7 @@ const Index: NextPage = () => {
   const { myScore, topScoreList } = useScore(ens, isOpenLeaderboard);
   const { owner, isFetchedOwner, phiObjects } = useViewPhiland(ens);
   const isCreatedPhiland = useMemo(() => owner !== nullAddress || phiObjects.length > 0, [owner, phiObjects.length]);
-  const wallpaper = useWallpaper(ens);
+  const { wallpaper } = useWallpaper(ens);
   useClouds(isMobile);
 
   return (
