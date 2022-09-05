@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { useBlockNumber } from "wagmi";
 import { QuestProgressList } from "~/types/quest";
 import { getProgressList } from "~/utils/condition";
 
-const useQuestProgress = (address?: string, watch?: boolean): QuestProgressList => {
-  const { data: blockNumber } = useBlockNumber({ watch: !!watch });
+const useQuestProgress = (address?: string, refresh?: boolean): QuestProgressList => {
   const [progressList, setProgressList] = useState<QuestProgressList>({});
 
   const fetchProgressList = useCallback(async () => {
@@ -29,13 +27,7 @@ const useQuestProgress = (address?: string, watch?: boolean): QuestProgressList 
 
   useEffect(() => {
     fetchProgressList();
-  }, [address]);
-
-  useEffect(() => {
-    if (!watch) return;
-
-    fetchProgressList();
-  }, [blockNumber]);
+  }, [address, refresh]);
 
   return progressList;
 };

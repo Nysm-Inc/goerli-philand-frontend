@@ -10,7 +10,6 @@ const useWallpaper = (ens?: string | null): Wallpaper | undefined => {
     contractInterface: MapAbi,
     functionName: "checkWallPaper",
     args: ens ? [ens.slice(0, -4)] : null,
-    watch: true,
   });
 
   return data && data[0] !== nullAddress

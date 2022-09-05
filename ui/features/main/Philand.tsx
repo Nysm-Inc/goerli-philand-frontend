@@ -39,7 +39,8 @@ const Philand: FC<{
   domains: string[];
   switchCurrentENS: (ens: string) => void;
   phiObjects: (PhiObject & { removeIdx: number })[];
-}> = ({ address, currentENS, domains, switchCurrentENS, phiObjects }) => {
+  refetchPhiObjects: () => void;
+}> = ({ address, currentENS, domains, switchCurrentENS, phiObjects, refetchPhiObjects }) => {
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
   const [linkState, onOpenLinkMenu, onCloseLinkMenu, changeLink] = useLinkMenu();
@@ -124,6 +125,7 @@ const Philand: FC<{
           onView,
           onEdit,
           onSave,
+          onRefetch: refetchPhiObjects,
         }}
       />
       <Land
