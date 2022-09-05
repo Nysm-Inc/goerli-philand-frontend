@@ -23,17 +23,15 @@ const useGame = ({ state, handler, gameHandler }: UseGame): { initialized: boole
     if (_strictRef.current) return;
     _strictRef.current = true;
 
-    (async () => {
-      game
-        .loadGame(gameHandler)
-        .then(() => {
-          setLoadedGame(true);
-        })
-        .catch((err) => {
-          captureError(err);
-          alert("Network Error: Please refresh this page in your browser and try again.");
-        });
-    })();
+    game
+      .loadGame(gameHandler)
+      .then(() => {
+        setLoadedGame(true);
+      })
+      .catch((err) => {
+        captureError(err);
+        alert("Network Error: Please refresh this page in your browser and try again.");
+      });
   }, []);
 
   useEffect(() => {
