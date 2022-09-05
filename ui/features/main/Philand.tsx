@@ -6,7 +6,7 @@ import Land from "~/ui/features/land";
 import { useLand } from "~/ui/features/land/useLand";
 import Wallet from "~/ui/features/wallet";
 import Leaderboard, { LeaderboardButton } from "~/ui/features/leaderboard";
-import { useWallpaper, useDeposit, useSave } from "~/hooks/map";
+import { useDeposit, useSave } from "~/hooks/map";
 import { useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList, useQuestProgress } from "~/hooks/claim";
 import { useUpdateEXP } from "~/hooks/leaderboard/exp";
@@ -20,7 +20,7 @@ import {
   PREMIUM_OBJECT_CONTRACT_ADDRESS,
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
-import { PhiObject } from "~/types";
+import { PhiObject, Wallpaper } from "~/types";
 import MenuBar from "~/ui/components/MenuBar";
 import Share from "~/ui/components/Share";
 import MainMenu from "~/ui/components/MainMenu";
@@ -39,8 +39,9 @@ const Philand: FC<{
   domains: string[];
   switchCurrentENS: (ens: string) => void;
   phiObjects: (PhiObject & { removeIdx: number })[];
-  refetchPhiObjects: () => void;
-}> = ({ address, currentENS, domains, switchCurrentENS, phiObjects, refetchPhiObjects }) => {
+  wallpaper: Wallpaper | undefined;
+  refetchPhiland: () => void;
+}> = ({ address, currentENS, domains, switchCurrentENS, phiObjects, wallpaper, refetchPhiland }) => {
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
   const [linkState, onOpenLinkMenu, onCloseLinkMenu, changeLink] = useLinkMenu();
@@ -64,7 +65,6 @@ const Philand: FC<{
   const { balances: balanceFreeObjects, refetch: refetchFree } = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
   const { balances: balancePremiumObjects, refetch: refetchPre } = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
   const { balances: balanceWallpapers, refetch: refetchWall } = useBalances(WALLPAPER_CONTRACT_ADDRESS, address, isOpenWallet || isEdit);
-  const wallpaper = useWallpaper(currentENS);
   const [depositObjects, { refetch: refetchDepositObjects, deposit, withdraw }] = useDeposit(currentENS, isOpenLand);
   const [landObjects, plus, minus, setLandObjects, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
   const { buyObjects } = useBuyObjects(address);
@@ -125,7 +125,7 @@ const Philand: FC<{
           onView,
           onEdit,
           onSave,
-          onRefetch: refetchPhiObjects,
+          onRefetch: refetchPhiland,
         }}
       />
       <Land
