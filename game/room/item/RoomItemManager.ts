@@ -90,12 +90,12 @@ export default class RoomItemManager {
 
   showLinkPreview(uuid: string) {
     const item = this.roomItems[uuid];
-    item.mouseOver();
+    item.showLinkPreview();
   }
 
   hideLinkPreview(uuid: string) {
     const item = this.roomItems[uuid];
-    item.mouseOut();
+    item.hideLinkPreview();
   }
 
   reset() {
