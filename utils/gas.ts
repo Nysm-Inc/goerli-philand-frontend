@@ -1,4 +1,6 @@
+import axios from "axios";
 import { utils } from "ethers";
+import { captureError } from "./sentry";
 
 type Fee = {
   maxPriorityFee: number;
@@ -14,7 +16,8 @@ type GasStation = {
 };
 
 const _ethGasStationCall = async (): Promise<GasStation | null> => {
-  return fetch("https://gasstation-mumbai.matic.today/v2").then((res) => res.json());
+  const gas = await axios.get<GasStation>("https://gasstation-mumbai.matic.today/v2");
+  return gas.data;
 };
 
 const _getFastestGas = async (): Promise<Fee | null> => {
@@ -34,7 +37,8 @@ export const getFastestGasWei = async () => {
       maxPriorityFeePerGas: utils.parseUnits(toFixedMaxPriorityFee, "gwei"),
       maxFeePerGas: utils.parseUnits(toFixedMaxFee, "gwei"),
     };
-  } catch {
+  } catch (err) {
+    captureError(err as Error);
     return undefined;
   }
 };
