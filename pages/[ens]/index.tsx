@@ -34,8 +34,15 @@ const Philand: FC<{
   phiObjects: (PhiObject & { removeIdx: number })[];
   wallpaper?: Wallpaper;
 }> = ({ ens, phiObjects, wallpaper }) => {
-  useGame({ state: { currentENS: ens, isEdit: false, phiObjects, wallpaper } });
-  return <LandName ens={ens} />;
+  const phiObjectsWithLink = useMemo(() => phiObjects.filter((object) => object.link.title || object.link.url), [phiObjects]);
+  const { initialized } = useGame({ state: { currentENS: ens, isEdit: false, phiObjects, wallpaper } });
+
+  return (
+    <>
+      {initialized && <LinkList phiObjects={phiObjectsWithLink} defaultIsOpen />}
+      <LandName ens={ens} />
+    </>
+  );
 };
 
 const Index: NextPage = () => {
@@ -47,7 +54,6 @@ const Index: NextPage = () => {
   const { myScore, topScoreList } = useScore(ens, isOpenLeaderboard);
   const { owner, isFetchedOwner, phiObjects } = useViewPhiland(ens);
   const isCreatedPhiland = useMemo(() => owner !== nullAddress || phiObjects.length > 0, [owner, phiObjects.length]);
-  const phiObjectsWithLink = useMemo(() => phiObjects.filter((object) => object.link.title || object.link.url), [phiObjects]);
   const { wallpaper } = useWallpaper(ens);
   useClouds(isMobile);
 
@@ -73,7 +79,6 @@ const Index: NextPage = () => {
         <>
           <Header />
           <Help />
-          <LinkList phiObjects={phiObjectsWithLink} defaultIsOpen />
           <LeaderboardButton shadow onOpen={onOpenLeaderboard} />
           {isFetchedOwner && !isCreatedPhiland && <LandNotFound ens={ens} />}
         </>
