@@ -9,7 +9,7 @@ const useBlockNumber = (): number => {
 
   // mumbai
   const [blockNumber, setBlockNumber] = useState(0);
-  useInterval(() => setBlockNumber((prev) => prev++), mumbaiBlockTime);
+  useInterval(() => setBlockNumber((prev) => prev + 1), mumbaiBlockTime);
 
   return blockNumber;
 };
