@@ -17,7 +17,7 @@ const showAddress = (address: string) => `${address.substring(0, 6)}...${address
 const ConnectedButton: FC<{ address: string; ensAvatar?: string }> = ({ address, ensAvatar }) => {
   const { colorMode } = useContext(AppContext);
   const { disconnect } = useDisconnect();
-  const exp = useEXP(address);
+  const exp = useEXP(address, false, true);
   useSentry(address);
 
   return (

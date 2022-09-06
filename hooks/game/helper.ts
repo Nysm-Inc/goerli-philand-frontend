@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import { PhiObject } from "~/types";
 
 const equal = (a: PhiObject, b: PhiObject): boolean => {
@@ -16,18 +15,4 @@ const equal = (a: PhiObject, b: PhiObject): boolean => {
 
 export const diff = (arr1: PhiObject[], arr2: PhiObject[]): PhiObject[] => {
   return arr1.filter((a1) => !arr2.some((a2) => equal(a1, a2)));
-};
-
-export const useInterval = (callback: () => void, s: number) => {
-  const callbackRef = useRef<() => void>(callback);
-
-  useEffect(() => {
-    callbackRef.current = callback;
-  }, [callback]);
-
-  useEffect(() => {
-    const tick = () => callbackRef.current();
-    const id = setInterval(tick, s);
-    return () => clearInterval(id);
-  }, []);
 };

@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { QuestClaimableList } from "~/types/quest";
 import { getClaimableList, postClaimableList } from "~/utils/condition";
+import useBlockNumber from "~/hooks/helper/useBlockNumber";
 
-const useClaimableList = (address?: string, refresh?: boolean): [QuestClaimableList, () => Promise<void>] => {
+const useClaimableList = (address?: string, refresh?: boolean, watch?: boolean): [QuestClaimableList, () => Promise<void>] => {
+  const blockNumber = useBlockNumber();
   const [claimableList, setClaimableList] = useState<QuestClaimableList>({});
 
   const fetchClaimableList = useCallback(async () => {
@@ -39,6 +41,10 @@ const useClaimableList = (address?: string, refresh?: boolean): [QuestClaimableL
   useEffect(() => {
     fetchClaimableList();
   }, [refresh]);
+
+  useEffect(() => {
+    if (watch) fetchClaimableList();
+  }, [blockNumber]);
 
   return [claimableList, updateClaimableList];
 };

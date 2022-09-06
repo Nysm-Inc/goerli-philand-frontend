@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { getEXP, updateEXP as _updateEXP } from "~/utils/leaderboard";
+import useBlockNumber from "~/hooks/helper/useBlockNumber";
 
-export const useEXP = (address: string, refresh?: boolean): number => {
+export const useEXP = (address: string, refresh?: boolean, watch?: boolean): number => {
+  const blockNumber = useBlockNumber();
   const [exp, setEXP] = useState(0);
   const updateEXP = useUpdateEXP(address);
   const fetchEXP = useCallback(async () => {
@@ -19,6 +21,10 @@ export const useEXP = (address: string, refresh?: boolean): number => {
     fetchEXP();
     updateEXP();
   }, [address]);
+
+  useEffect(() => {
+    if (watch) fetchEXP();
+  }, [blockNumber]);
 
   return exp;
 };

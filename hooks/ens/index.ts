@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { useBlockNumber } from "wagmi";
 import { getOwnedEnsDomains } from "~/utils/ens";
+import useBlockNumber from "~/hooks/helper/useBlockNumber";
 import { getCurrentENS, setCurrentENS } from "./current";
 import { getPhiSubdomain } from "./subdomain";
 
@@ -8,7 +8,7 @@ const useENS = (account?: string, ens?: string | null): [{ isLoading: boolean; d
   const [isLoading, setIsLoading] = useState(true);
   const [current, setCurrent] = useState("");
   const [domains, setDomains] = useState<string[]>([]);
-  const { data: blockNumber } = useBlockNumber({ watch: true });
+  const blockNumber = useBlockNumber();
 
   const switchCurrentENS = useCallback(
     (ownedENS: string) => {
