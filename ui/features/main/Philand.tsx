@@ -56,9 +56,9 @@ const Philand: FC<{
 
   const { wallpaper, refetch: refetchWallpaper } = useWallpaper(currentENS);
   const { myScore, topScoreList } = useScore(currentENS, isOpenLeaderboard);
-  const [claimableList, updateClaimableList] = useClaimableList(address, isOpenQuest);
+  const [claimableList, updateClaimableList] = useClaimableList(address, isOpenQuest, isOpenQuest);
   const updateEXP = useUpdateEXP(address);
-  const progressList = useQuestProgress(address, isOpenQuest);
+  const progressList = useQuestProgress(address, isOpenQuest, isOpenQuest);
   const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS, isOpenQuest);
   const { claimedList, claimPhi, refetch: refetchClaimedList } = useClaim(address, isOpenQuest);
   const { balances: balanceQuestObjects, refetch: refetchQuest } = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
