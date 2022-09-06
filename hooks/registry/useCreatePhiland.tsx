@@ -7,7 +7,7 @@ import RegistryAbi from "~/abi/registry.json";
 import { Coupon } from "~/types/quest";
 import { sentryErr } from "~/types/tx";
 import { AppContext } from "~/contexts";
-import { getFastestGasWei } from "~/utils/gas";
+import { getFastestGasWei, payTip } from "~/utils/gas";
 import { captureError } from "~/utils/sentry";
 
 const useCreatePhiland = (account?: string, ens?: string): { createPhiland: () => Promise<TransactionResponse | undefined> } => {
@@ -44,9 +44,14 @@ const useCreatePhiland = (account?: string, ens?: string): { createPhiland: () =
       url.searchParams.append("address", account);
       url.searchParams.append("name", ens.slice(0, -4));
       const res = await axios.get<{ coupon: Coupon }>(url.toString());
-
-      const overrides = await getFastestGasWei();
-      return writeAsync({ args: [ens.slice(0, -4), res.data.coupon], overrides });
+      const fee = await getFastestGasWei();
+      if (fee) {
+        const maxFeePerGas = payTip({ fee: fee.maxFeePerGas, tipRate: 30 });
+        const maxPriorityFeePerGas = payTip({ fee: fee.maxPriorityFeePerGas, tipRate: 30 });
+        return writeAsync({ args: [ens.slice(0, -4), res.data.coupon], overrides: { maxFeePerGas, maxPriorityFeePerGas } });
+      } else {
+        return writeAsync({ args: [ens.slice(0, -4), res.data.coupon] });
+      }
     },
   };
 };
