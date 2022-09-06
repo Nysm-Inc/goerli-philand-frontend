@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useContractRead } from "wagmi";
 import { BigNumber } from "ethers";
 import MapAbi from "~/abi/map.json";
@@ -6,21 +7,29 @@ import { nullAddress, PhiObject } from "~/types";
 
 const useViewPhiland = (
   ens?: string | null
-): { owner: string; isFetchedOwner: boolean; phiObjects: (PhiObject & { removeIdx: number })[] } => {
-  const { data: owner, isFetched: isFetchedOwner } = useContractRead({
+): {
+  owner: string;
+  isFetchedOwner: boolean;
+  phiObjects: (PhiObject & { removeIdx: number })[];
+  refetchPhiObjects: () => void;
+} => {
+  const {
+    data: owner,
+    isFetched: isFetchedOwner,
+    refetch: refetchOwner,
+  } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "ownerOfPhiland",
     args: ens ? [ens.slice(0, -4)] : null,
-    watch: true,
   });
-  const { data: objects } = useContractRead({
+  const { data: objects, refetch: refetchPhiland } = useContractRead({
     addressOrName: MAP_CONTRACT_ADDRESS,
     contractInterface: MapAbi,
     functionName: "viewPhiland",
     args: ens ? [ens.slice(0, -4)] : null,
-    watch: true,
   });
+  const refetchPhiObjects = useCallback(() => (refetchOwner(), refetchPhiland()), []);
 
   return {
     // @ts-ignore
@@ -48,6 +57,7 @@ const useViewPhiland = (
           }
         }, [])
       : [],
+    refetchPhiObjects,
   };
 };
 

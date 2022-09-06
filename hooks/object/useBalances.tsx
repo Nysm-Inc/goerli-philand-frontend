@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { BigNumber } from "ethers";
 import { useContractRead } from "wagmi";
 import { objectMetadataList } from "~/types/object";
@@ -8,7 +8,7 @@ import { ContractAbis } from "~/abi/types";
 const useBalances = (
   contract: ObjectContractAddress | WallpaperContractAddress,
   account?: string,
-  watch?: boolean
+  refresh?: boolean
 ): { balances: BalanceObject[]; refetch: () => void } => {
   const metadata = useMemo(() => Object.values(objectMetadataList[contract]), [contract]);
   const { data, refetch } = useContractRead({
@@ -16,8 +16,11 @@ const useBalances = (
     contractInterface: ContractAbis[contract],
     functionName: "balanceOfBatch",
     args: account ? [metadata.map(() => account), metadata.map((meta) => meta.tokenId)] : null,
-    watch: !!watch,
   });
+
+  useEffect(() => {
+    refetch();
+  }, [refresh]);
 
   return {
     balances: data

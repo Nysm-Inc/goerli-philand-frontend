@@ -36,6 +36,7 @@ const MenuBar: FC<{
     onView: () => void;
     onEdit: () => void;
     onSave: () => Promise<TransactionResponse | undefined>;
+    onRefetch: () => void;
   };
 }> = ({
   initialized,
@@ -186,6 +187,7 @@ const MenuBar: FC<{
                       if (!res?.hash) throw new Error("invalid hash");
                       event({ action: "conversion_save" });
                       await provider.waitForTransaction(res?.hash);
+                      actionHandler.onRefetch();
                       stopLoading();
                     })
                     .catch(stopLoading);
