@@ -7,7 +7,7 @@ import { AppContext } from "~/contexts";
 import { PhiLink } from "~/types";
 import { sentryErr, Tx } from "~/types/tx";
 import { updateOGP } from "~/utils/ogp";
-import { getFastestGasWei } from "~/utils/gas";
+import { getFastestGasWei, payTip } from "~/utils/gas";
 import { captureError } from "~/utils/sentry";
 
 export type SaveArgs = {
@@ -71,8 +71,14 @@ const useSave = (
       if (!ens) return;
 
       const calldata = [ens.slice(0, -4), removeArgs.removeIdxs, writeArgs, linkArgs, ...Object.values(wallpaperArgs)];
-      const overrides = await getFastestGasWei();
-      return writeAsync({ args: calldata, overrides });
+      const fee = await getFastestGasWei();
+      if (fee) {
+        const maxFeePerGas = payTip({ fee: fee.maxFeePerGas, tipRate: 30 });
+        const maxPriorityFeePerGas = payTip({ fee: fee.maxPriorityFeePerGas, tipRate: 30 });
+        return writeAsync({ args: calldata, overrides: { maxFeePerGas, maxPriorityFeePerGas } });
+      } else {
+        return writeAsync({ args: calldata });
+      }
     },
     tx: {
       hash: data?.hash,

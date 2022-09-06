@@ -1,5 +1,5 @@
 import axios from "axios";
-import { utils } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { captureError } from "./sentry";
 
 type Fee = {
@@ -41,4 +41,9 @@ export const getFastestGasWei = async () => {
     captureError(err as Error);
     return undefined;
   }
+};
+
+export const payTip = ({ fee, tipRate = 0 }: { fee: BigNumber; tipRate?: number }): BigNumber => {
+  if (tipRate > 100) throw new Error("tipRate should be less than 100");
+  return fee.mul(100 + tipRate).div(100);
 };
