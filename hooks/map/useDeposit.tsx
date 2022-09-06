@@ -7,7 +7,7 @@ import MapAbi from "~/abi/map.json";
 import { sentryErr } from "~/types/tx";
 import { BalanceObject, DepositObject } from "~/types";
 import { AppContext } from "~/contexts";
-import { getFastestGasWei } from "~/utils/gas";
+import { getFastestGasWei, payTip } from "~/utils/gas";
 import { captureError } from "~/utils/sentry";
 
 const useDeposit = (
@@ -62,15 +62,28 @@ const useDeposit = (
     if (!ens) return;
 
     const calldata = [ens.slice(0, -4), args.map((arg) => arg.contract), args.map((arg) => arg.tokenId), args.map((arg) => arg.amount)];
-    const overrides = await getFastestGasWei();
-    return deposit({ args: calldata, overrides });
+    const fee = await getFastestGasWei();
+    if (fee) {
+      const maxFeePerGas = payTip({ fee: fee.maxFeePerGas, tipRate: 30 });
+      const maxPriorityFeePerGas = payTip({ fee: fee.maxPriorityFeePerGas, tipRate: 30 });
+      return deposit({ args: calldata, overrides: { maxFeePerGas, maxPriorityFeePerGas } });
+    } else {
+      return deposit({ args: calldata });
+    }
   };
 
   const onWithdraw = async (args: { contract: string; tokenId: number; amount: number }[]) => {
     if (!ens) return;
 
     const calldata = [ens.slice(0, -4), args.map((arg) => arg.contract), args.map((arg) => arg.tokenId), args.map((arg) => arg.amount)];
-    return withdraw({ args: calldata });
+    const fee = await getFastestGasWei();
+    if (fee) {
+      const maxFeePerGas = payTip({ fee: fee.maxFeePerGas, tipRate: 30 });
+      const maxPriorityFeePerGas = payTip({ fee: fee.maxPriorityFeePerGas, tipRate: 30 });
+      return withdraw({ args: calldata, overrides: { maxFeePerGas, maxPriorityFeePerGas } });
+    } else {
+      return withdraw({ args: calldata });
+    }
   };
 
   useEffect(() => {
