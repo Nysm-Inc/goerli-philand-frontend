@@ -22,7 +22,8 @@ const CreatePhiland: FC<{
   switchCurrentENS: (ens: string) => void;
   createPhiland: () => Promise<TransactionResponse | undefined>;
   changePhilandOwner: () => Promise<TransactionResponse | undefined>;
-}> = ({ address, owner, currentENS, domains, switchCurrentENS, createPhiland, changePhilandOwner }) => {
+  refetchPhiObjects: () => void;
+}> = ({ address, owner, currentENS, domains, switchCurrentENS, createPhiland, changePhilandOwner, refetchPhiObjects }) => {
   const { colorMode } = useContext(AppContext);
   const { data } = useBalance({ addressOrName: address, watch: true });
   const insufficient = useMemo(() => !!data?.value.isZero(), [data]);
@@ -55,6 +56,7 @@ const CreatePhiland: FC<{
                   .then(async (res) => {
                     if (owner === nullAddress) event({ action: "conversion_create_philand" });
                     await res?.wait();
+                    refetchPhiObjects();
                     stopLoading();
                   })
                   .catch(stopLoading);

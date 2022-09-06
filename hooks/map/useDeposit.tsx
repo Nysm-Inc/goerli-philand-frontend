@@ -12,7 +12,7 @@ import { captureError } from "~/utils/sentry";
 
 const useDeposit = (
   ens?: string | null,
-  watch?: boolean
+  refresh?: boolean
 ): [
   DepositObject[],
   {
@@ -27,7 +27,6 @@ const useDeposit = (
     contractInterface: MapAbi,
     functionName: "checkAllDepositStatus",
     args: ens ? [ens.slice(0, -4)] : null,
-    watch: !!watch,
   });
   const {
     data: depositData,
@@ -91,6 +90,10 @@ const useDeposit = (
       action: "Withdrawing Objects to Your Wallet",
     });
   }, [withdrawTmpStatus, withdrawStatus]);
+
+  useEffect(() => {
+    refetch();
+  }, [refresh]);
 
   return [
     data

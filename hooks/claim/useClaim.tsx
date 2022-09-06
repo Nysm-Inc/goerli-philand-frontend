@@ -22,13 +22,12 @@ const metadata = Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]
 
 const useClaim = (
   address?: string,
-  watch?: boolean
+  refresh?: boolean
 ): [{ [tokenId: number]: boolean }, { claimPhi: (tokenId: number) => Promise<TransactionResponse | undefined> }] => {
   const { addTx } = useContext(AppContext);
-  const { data } = useContractReads({
+  const { data, refetch } = useContractReads({
     contracts: metadata.map((meta) => checkClaimedStatus(address || "", meta.tokenId)),
     keepPreviousData: true,
-    watch: !!watch,
   });
 
   const {
@@ -54,6 +53,10 @@ const useClaim = (
       action: "Claiming Quest Object",
     });
   }, [tmpStatus, status]);
+
+  useEffect(() => {
+    refetch();
+  }, [refresh]);
 
   return [
     data && data[0] ? metadata.reduce((memo, meta, i) => ({ ...memo, [meta.tokenId]: !!data[i].toNumber() }), {}) : {},

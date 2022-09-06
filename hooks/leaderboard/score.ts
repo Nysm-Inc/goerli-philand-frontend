@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { useBlockNumber } from "wagmi";
 import type { MyScore, TopScoreList } from "~/types/leaderboard";
 import { getMyScore, getTopScoreList } from "~/utils/leaderboard";
 
-const useScore = (ens?: string, watch?: boolean) => {
-  const { data: blockNumber } = useBlockNumber({ watch: !!watch });
+const useScore = (ens?: string, refresh?: boolean) => {
   const [myScore, setMyScore] = useState<MyScore>({ activity: 0, social: 0, attention: 0, activityRank: 0 });
   const [topScoreList, setTopScoreList] = useState<TopScoreList>({ activity: [], social: [], attention: [] });
 
@@ -27,10 +25,9 @@ const useScore = (ens?: string, watch?: boolean) => {
   }, []);
 
   useEffect(() => {
-    if (!watch) return;
     fetchMyScore();
     fetchTopScoreList();
-  }, [blockNumber]);
+  }, [refresh]);
 
   return { myScore, topScoreList };
 };
