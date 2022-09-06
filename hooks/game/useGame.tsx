@@ -3,7 +3,7 @@ import { AppContext } from "~/contexts";
 import type { UIManagerHandler } from "~/game/ui/UIManager";
 import { PhiObject, Wallpaper } from "~/types";
 import { SaveArgs } from "~/hooks/map";
-import { useInterval } from "./helper";
+import useInterval from "~/hooks/helper/useInterval";
 import { captureError } from "~/utils/sentry";
 
 type UseGame = {

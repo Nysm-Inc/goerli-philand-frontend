@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { QuestProgressList } from "~/types/quest";
 import { getProgressList } from "~/utils/condition";
+import useBlockNumber from "~/hooks/helper/useBlockNumber";
 
-const useQuestProgress = (address?: string, refresh?: boolean): QuestProgressList => {
+const useQuestProgress = (address?: string, refresh?: boolean, watch?: boolean): QuestProgressList => {
+  const blockNumber = useBlockNumber();
   const [progressList, setProgressList] = useState<QuestProgressList>({});
 
   const fetchProgressList = useCallback(async () => {
@@ -28,6 +30,10 @@ const useQuestProgress = (address?: string, refresh?: boolean): QuestProgressLis
   useEffect(() => {
     fetchProgressList();
   }, [address, refresh]);
+
+  useEffect(() => {
+    if (watch) fetchProgressList();
+  }, [blockNumber]);
 
   return progressList;
 };
