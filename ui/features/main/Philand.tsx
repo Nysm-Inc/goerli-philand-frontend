@@ -127,7 +127,7 @@ const Philand: FC<{
           onView,
           onEdit,
           onSave,
-          onRefetch: refetchPhiland,
+          onRefetch: () => (refetchPhiland(), updateEXP()),
         }}
       />
       <Land
@@ -183,7 +183,7 @@ const Philand: FC<{
             isOpen={isOpenQuest}
             onClose={onCloseQuest}
             onClickItem={claimPhi}
-            onClickUpdate={() => (updateClaimableList(), updateEXP())}
+            onClickUpdate={updateClaimableList}
             onClickNavi={() => (onCloseModals(), onOpenWallet())}
             onRefetch={refetchQuests}
           />
