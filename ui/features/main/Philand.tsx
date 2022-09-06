@@ -60,7 +60,7 @@ const Philand: FC<{
   const updateEXP = useUpdateEXP(address);
   const progressList = useQuestProgress(address, isOpenQuest);
   const totalSupply = useTotalSupply(QUEST_OBJECT_CONTRACT_ADDRESS, isOpenQuest);
-  const [claimedList, { claimPhi }] = useClaim(address, isOpenQuest);
+  const { claimedList, claimPhi, refetch: refetchClaimedList } = useClaim(address, isOpenQuest);
   const { balances: balanceQuestObjects, refetch: refetchQuest } = useBalances(QUEST_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
   const { balances: balanceFreeObjects, refetch: refetchFree } = useBalances(FREE_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
   const { balances: balancePremiumObjects, refetch: refetchPre } = useBalances(PREMIUM_OBJECT_CONTRACT_ADDRESS, address, isOpenWallet);
@@ -69,6 +69,7 @@ const Philand: FC<{
   const [landObjects, plus, minus, setLandObjects, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
   const { buyObjects } = useBuyObjects(address);
   const { save, tx: txSave } = useSave(currentENS);
+  const refetchQuests = useCallback(() => (refetchQuest(), refetchClaimedList()), []);
   const refetchBalances = useCallback(() => (refetchQuest(), refetchFree(), refetchPre(), refetchWall(), refetchDepositObjects()), []);
   const refetchPhiland = useCallback(() => (refetchPhiObjects(), refetchWallpaper()), []);
 
@@ -184,7 +185,7 @@ const Philand: FC<{
             onClickItem={claimPhi}
             onClickUpdate={() => (updateClaimableList(), updateEXP())}
             onClickNavi={() => (onCloseModals(), onOpenWallet())}
-            onRefetch={refetchQuest}
+            onRefetch={refetchQuests}
           />
           <Shop
             address={address}

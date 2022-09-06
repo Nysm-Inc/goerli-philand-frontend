@@ -23,7 +23,11 @@ const metadata = Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]
 const useClaim = (
   address?: string,
   refresh?: boolean
-): [{ [tokenId: number]: boolean }, { claimPhi: (tokenId: number) => Promise<TransactionResponse | undefined> }] => {
+): {
+  claimedList: { [tokenId: number]: boolean };
+  claimPhi: (tokenId: number) => Promise<TransactionResponse | undefined>;
+  refetch: () => void;
+} => {
   const { addTx } = useContext(AppContext);
   const { data, refetch } = useContractReads({
     contracts: metadata.map((meta) => checkClaimedStatus(address || "", meta.tokenId)),
@@ -58,22 +62,21 @@ const useClaim = (
     refetch();
   }, [refresh]);
 
-  return [
-    data && data[0] ? metadata.reduce((memo, meta, i) => ({ ...memo, [meta.tokenId]: !!data[i].toNumber() }), {}) : {},
-    {
-      claimPhi: async (tokenId: number) => {
-        if (!address) return;
+  return {
+    claimedList: data && data[0] ? metadata.reduce((memo, meta, i) => ({ ...memo, [meta.tokenId]: !!data[i].toNumber() }), {}) : {},
+    claimPhi: async (tokenId: number) => {
+      if (!address) return;
 
-        const coupon = await getCoupon(address, tokenId);
-        if (!coupon) return;
+      const coupon = await getCoupon(address, tokenId);
+      if (!coupon) return;
 
-        const condition = conditionList[tokenId];
-        const calldata = [QUEST_OBJECT_CONTRACT_ADDRESS, tokenId, condition.name + condition.value.toString(), coupon];
-        const overrides = await getFastestGasWei();
-        return writeAsync({ args: calldata, overrides });
-      },
+      const condition = conditionList[tokenId];
+      const calldata = [QUEST_OBJECT_CONTRACT_ADDRESS, tokenId, condition.name + condition.value.toString(), coupon];
+      const overrides = await getFastestGasWei();
+      return writeAsync({ args: calldata, overrides });
     },
-  ];
+    refetch,
+  };
 };
 
 export default useClaim;
