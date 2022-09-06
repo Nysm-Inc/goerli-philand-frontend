@@ -22,6 +22,8 @@ export const sentryErr = (error: Error, variables: any): { error: Error; txName:
       contract: variables.addressOrName,
       function: variables.functionName,
       args: JSON.stringify(variables.args),
+      maxFeePerGas: variables.overrides?.maxFeePerGas?.toString(),
+      maxPriorityFeePerGas: variables.overrides?.maxPriorityFeePerGas?.toString(),
     },
   };
 };
