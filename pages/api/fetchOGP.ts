@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { withSentry } from "@sentry/nextjs";
 import axios from "axios";
 import { JSDOM } from "jsdom";
+import { captureError } from "~/utils/sentry";
 
 type OGP = {
   type: string;
@@ -43,6 +44,7 @@ const fetchOGP = async (req: NextApiRequest, res: NextApiResponse) => {
       height: ogp["image:height"],
     });
   } catch (err) {
+    captureError(err as Error);
     res.status(400).json({ err });
   }
 };

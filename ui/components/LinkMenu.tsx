@@ -72,7 +72,7 @@ const LinkMenu: FC<{
               />
               <Input
                 w="full"
-                placeholder="URL"
+                placeholder="https://mumbai.philand.xyz/vitalik.eth"
                 shadow={false}
                 value={input?.url || ""}
                 onChange={(e) => setInput((prev) => ({ ...prev, url: e.target.value }))}
@@ -82,10 +82,15 @@ const LinkMenu: FC<{
                   w="120px"
                   color="green"
                   onClick={() => {
-                    event({ action: "conversion_set_link" });
-                    onChange(state.id, { title: input.title, url: input.url });
-                    onClose(state.id);
-                    onBack();
+                    try {
+                      const url = new URL(input.url);
+                      if (url.protocol !== "https:") return;
+
+                      event({ action: "conversion_set_link" });
+                      onChange(state.id, { title: input.title, url: url.toString() });
+                      onClose(state.id);
+                      onBack();
+                    } catch {}
                   }}
                 >
                   <Icon name="check" />

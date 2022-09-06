@@ -15,6 +15,8 @@ import Header from "~/ui/components/Header";
 import HeaderMd from "~/ui/components/HeaderMd";
 import LandNotFound from "~/ui/components/LandNotFound";
 import LandName from "~/ui/components/LandName";
+import LinkList from "~/ui/components/LinkList";
+import Help from "~/ui/components/Help";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
@@ -32,9 +34,12 @@ const Philand: FC<{
   phiObjects: (PhiObject & { removeIdx: number })[];
   wallpaper?: Wallpaper;
 }> = ({ ens, phiObjects, wallpaper }) => {
-  useGame({ state: { currentENS: ens, isEdit: false, phiObjects, wallpaper } });
+  const phiObjectsWithLink = useMemo(() => phiObjects.filter((object) => object.link.title || object.link.url), [phiObjects]);
+  const { initialized } = useGame({ state: { currentENS: ens, isEdit: false, phiObjects, wallpaper } });
+
   return (
     <>
+      {initialized && <LinkList phiObjects={phiObjectsWithLink} defaultIsOpen />}
       <LandName ens={ens} />
     </>
   );
@@ -73,6 +78,7 @@ const Index: NextPage = () => {
       ) : (
         <>
           <Header />
+          <Help />
           <LeaderboardButton shadow onOpen={onOpenLeaderboard} />
           {isFetchedOwner && !isCreatedPhiland && <LandNotFound ens={ens} />}
         </>

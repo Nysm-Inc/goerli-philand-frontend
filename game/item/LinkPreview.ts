@@ -7,10 +7,19 @@ import { postAccess } from "~/utils/access";
 import { isValid } from "~/utils/ens";
 import { ColorMode } from "~/ui/styles";
 import { FRONTEND_URL } from "~/constants";
+import { event } from "~/utils/ga/ga";
 
 const [bgW, bgH] = [296, 64];
 const [arrowW, arrowH] = [16, 8];
 const defaultOGPSize = 48;
+const paragraph1 = {
+  fontFamily: "JetBrainsMono",
+  fontWeight: "500",
+  fontSize: "16px",
+  lineHeight: 24,
+  letterSpacing: -0.02,
+  align: "center",
+};
 
 export default class LinkPreview {
   private link: PhiLink;
@@ -21,7 +30,9 @@ export default class LinkPreview {
   bgDark: Graphics;
   bgLightArrow: Graphics;
   bgDarkArrow: Graphics;
-  text: Text;
+  title: Text;
+  url: Text;
+
   defaultOGP: Graphics;
   ogp: Sprite;
 
@@ -101,23 +112,25 @@ export default class LinkPreview {
     this.ogp.height = defaultOGPSize;
     clickableArea.addChild(this.ogp);
 
-    // memo: paragraph-1
-    this.text = new Text("", {
-      fontFamily: "JetBrainsMono",
-      fontWeight: "500",
-      fontSize: "16px",
-      lineHeight: 24,
-      letterSpacing: -0.02,
-      align: "center",
-    });
-    this.text.x = defaultOGPSize + 8 + 8;
-    this.text.y = bgH / 2 - 8;
-    clickableArea.addChild(this.text);
+    // @ts-ignore
+    this.title = new Text("", paragraph1);
+    this.title.x = defaultOGPSize + 8 + 8;
+    this.title.y = 8 + (24 - 16) / 2;
+    clickableArea.addChild(this.title);
+
+    // @ts-ignore
+    this.url = new Text("", paragraph1);
+    this.url.x = defaultOGPSize + 8 + 8;
+    this.url.y = 8 + 24 + (24 - 16) / 2;
+    clickableArea.addChild(this.url);
   }
 
   draw(colorMode: ColorMode) {
-    this.text.text = this.link.title.length > 16 ? `${this.link.title.substring(0, 12)}...` : this.link.title;
-    this.text.style.fill = colorMode === "light" ? 0xffffff : 0x000000;
+    this.title.text = this.link.title.length > 16 ? `${this.link.title.substring(0, 12)}...` : this.link.title;
+    this.title.style.fill = colorMode === "light" ? 0xffffff : 0x000000;
+
+    this.url.text = this.link.url.length > 16 ? `${this.link.url.substring(0, 12)}...` : this.link.url;
+    this.url.style.fill = 0x8283ff;
   }
 
   update(link: PhiLink) {
@@ -142,7 +155,8 @@ export default class LinkPreview {
           this.ogp.texture = Texture.from(this.ogpURL);
           this.ogp.mask = this.defaultOGP;
 
-          this.text.x = w + 8 + 8;
+          this.title.x = w + 8 + 8;
+          this.url.x = w + 8 + 8;
         };
       } catch {
         const icon = Sprite.from("/assets/default_ogp.png");
@@ -171,6 +185,7 @@ export default class LinkPreview {
           const provider = new providers.Web3Provider(window.ethereum);
           address = await provider.getSigner().getAddress();
         }
+        event({ action: "click", category: "view", label: "jump_object" });
         postAccess(landENS, target.toString(), address);
       }
 
