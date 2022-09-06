@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
-import { FC, useCallback, useMemo } from "react";
+import { FC, useMemo } from "react";
 import { useChangePhilandOwner, useCreatePhiland } from "~/hooks/registry";
-import { useViewPhiland, useWallpaper } from "~/hooks/map";
+import { useViewPhiland } from "~/hooks/map";
 import CreatePhiland from "~/ui/components/CreatePhiland";
 
 const Philand = dynamic(() => import("./Philand"));
@@ -16,8 +16,6 @@ const HasENS: FC<{ address: string; currentENS: string; domains: string[]; switc
   const { changePhilandOwner } = useChangePhilandOwner(address, currentENS);
   const { owner, phiObjects, refetchPhiObjects } = useViewPhiland(currentENS);
   const isCreatedPhiland = useMemo(() => owner === address, [owner, address]);
-  const { wallpaper, refetch: refetchWallpaper } = useWallpaper(currentENS);
-  const refetchPhiland = useCallback(() => (refetchPhiObjects(), refetchWallpaper()), []);
 
   return (
     <>
@@ -28,8 +26,7 @@ const HasENS: FC<{ address: string; currentENS: string; domains: string[]; switc
           domains={domains}
           switchCurrentENS={switchCurrentENS}
           phiObjects={phiObjects}
-          wallpaper={wallpaper}
-          refetchPhiland={refetchPhiland}
+          refetchPhiObjects={refetchPhiObjects}
         />
       ) : (
         <CreatePhiland
@@ -40,7 +37,7 @@ const HasENS: FC<{ address: string; currentENS: string; domains: string[]; switc
           switchCurrentENS={switchCurrentENS}
           createPhiland={createPhiland}
           changePhilandOwner={changePhilandOwner}
-          refetchPhiObjects={refetchPhiland}
+          refetchPhiObjects={refetchPhiObjects}
         />
       )}
     </>

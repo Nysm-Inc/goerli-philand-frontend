@@ -6,7 +6,7 @@ import Land from "~/ui/features/land";
 import { useLand } from "~/ui/features/land/useLand";
 import Wallet from "~/ui/features/wallet";
 import Leaderboard, { LeaderboardButton } from "~/ui/features/leaderboard";
-import { useDeposit, useSave } from "~/hooks/map";
+import { useDeposit, useSave, useWallpaper } from "~/hooks/map";
 import { useBalances, useTotalSupply } from "~/hooks/object";
 import { useClaim, useClaimableList, useQuestProgress } from "~/hooks/claim";
 import { useUpdateEXP } from "~/hooks/leaderboard/exp";
@@ -39,9 +39,8 @@ const Philand: FC<{
   domains: string[];
   switchCurrentENS: (ens: string) => void;
   phiObjects: (PhiObject & { removeIdx: number })[];
-  wallpaper: Wallpaper | undefined;
-  refetchPhiland: () => void;
-}> = ({ address, currentENS, domains, switchCurrentENS, phiObjects, wallpaper, refetchPhiland }) => {
+  refetchPhiObjects: () => void;
+}> = ({ address, currentENS, domains, switchCurrentENS, phiObjects, refetchPhiObjects }) => {
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
   const [linkState, onOpenLinkMenu, onCloseLinkMenu, changeLink] = useLinkMenu();
@@ -55,6 +54,7 @@ const Philand: FC<{
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
   const onCloseModals = useCallback(() => (onCloseQuest(), onCloseShop(), onCloseWallet(), onCloseLand(), onCloseHowItWorks()), []);
 
+  const { wallpaper, refetch: refetchWallpaper } = useWallpaper(currentENS);
   const { myScore, topScoreList } = useScore(currentENS, isOpenLeaderboard);
   const [claimableList, updateClaimableList] = useClaimableList(address, isOpenQuest);
   const updateEXP = useUpdateEXP(address);
@@ -69,7 +69,8 @@ const Philand: FC<{
   const [landObjects, plus, minus, setLandObjects, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
   const { buyObjects } = useBuyObjects(address);
   const { save, tx: txSave } = useSave(currentENS);
-  const refetchObjects = useCallback(() => (refetchQuest(), refetchFree(), refetchPre(), refetchDepositObjects()), []);
+  const refetchBalances = useCallback(() => (refetchQuest(), refetchFree(), refetchPre(), refetchWall(), refetchDepositObjects()), []);
+  const refetchPhiland = useCallback(() => (refetchPhiObjects(), refetchWallpaper()), []);
 
   const {
     onEdit,
@@ -140,7 +141,7 @@ const Philand: FC<{
         onSubmit={withdraw}
         reset={reset}
         onClickNavi={() => (onCloseModals(), onOpenWallet())}
-        onRefetch={refetchObjects}
+        onRefetch={refetchBalances}
       />
 
       {isEdit ? (
@@ -191,7 +192,7 @@ const Philand: FC<{
             onClose={onCloseShop}
             onSubmit={buyObjects}
             onClickNavi={() => (onCloseModals(), onOpenWallet())}
-            onRefetch={() => (refetchFree(), refetchPre(), refetchWall())}
+            onRefetch={refetchBalances}
           />
           <Wallet
             items={[...balanceQuestObjects, ...balanceFreeObjects, ...balancePremiumObjects, ...balanceWallpapers]}
@@ -199,7 +200,7 @@ const Philand: FC<{
             onClose={onCloseWallet}
             onSubmit={deposit}
             onClickNavi={() => (onCloseModals(), onEdit(), onOpenLand())}
-            onRefetch={refetchObjects}
+            onRefetch={refetchBalances}
           />
 
           <MainMenu isOpenQuest={isOpenQuest} isOpenShop={isOpenShop} onOpenQuest={onOpenQuest} onOpenShop={onOpenShop} />
