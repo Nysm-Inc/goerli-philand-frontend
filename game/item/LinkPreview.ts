@@ -50,7 +50,14 @@ export default class LinkPreview {
     const clickableArea = new Container();
     clickableArea.interactive = true;
     clickableArea.buttonMode = true;
-    clickableArea.on(engine.isMobile ? "touchstart" : "mousedown", () => this.onMousedown(), this);
+    clickableArea.on(
+      engine.isMobile ? "touchstart" : "mousedown",
+      (e) => {
+        e.stopPropagation();
+        this.onMousedown();
+      },
+      this
+    );
     this.container.addChild(clickableArea);
     const hiddenArea = new Container();
     this.container.addChild(hiddenArea);
