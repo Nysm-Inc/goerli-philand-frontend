@@ -51,13 +51,19 @@ export default class Item {
     this.container.on("mouseover", () => this.showLinkPreview(), this);
     this.container.on("mouseout", () => this.hideLinkPreview(), this);
     this.container.on(
-      "mousedown",
-      () => {
-        const { engine } = GameInstance.get();
-        if (engine.isMobile) this.showLinkPreview();
+      "touchstart",
+      (e) => {
+        if (!engine.isMobile) return;
+        e.stopPropagation();
+        room.roomItemManager.hideLinkPreviews();
+        this.showLinkPreview();
       },
       this
     );
+    engine.viewport.on("touchstart", () => {
+      if (!engine.isMobile) return;
+      room.roomItemManager.hideLinkPreviews();
+    });
     this.container.addChild(this.preview.container);
 
     this.tiles = new StatusTiles(this);

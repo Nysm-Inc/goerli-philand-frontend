@@ -98,6 +98,12 @@ export default class RoomItemManager {
     item.hideLinkPreview();
   }
 
+  hideLinkPreviews() {
+    Object.keys(this.roomItems).forEach((uuid) => {
+      this.hideLinkPreview(uuid);
+    });
+  }
+
   reset() {
     this.roomItems = {};
     this.tileMap = emptyTilemap();
