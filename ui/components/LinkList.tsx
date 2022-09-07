@@ -71,7 +71,7 @@ const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?:
   const { colorMode, game } = useContext(AppContext);
 
   return (
-    <Box zIndex="default" position="fixed" bottom={isMobile ? "12px" : "32px"} right={isMobile ? "12px" : "calc(24px + 48px + 16px)"}>
+    <Box zIndex="link-list" position="fixed" bottom={isMobile ? "12px" : "32px"} right={isMobile ? "12px" : "calc(24px + 48px + 16px)"}>
       <Menu variant="unstyled" placement="top" autoSelect={false} closeOnSelect={false} defaultIsOpen={defaultIsOpen}>
         <MenuButton as={IconButton} ariaLabel="list" icon={<Icon name="list" color={colorMode === "light" ? "grey.900" : "white"} />} />
         <MenuList
