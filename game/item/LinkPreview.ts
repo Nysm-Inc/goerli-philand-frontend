@@ -192,6 +192,8 @@ export default class LinkPreview {
       if (target.host === new URL(FRONTEND_URL).host && isValid(target.pathname.slice(1))) {
         window.location.href = target.toString();
       } else {
+        alert("fire");
+        // window.open(target, "_blank");
         window.open(target, "_blank") || (window.location.href = target.toString());
       }
     } catch {}
