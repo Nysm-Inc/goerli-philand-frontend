@@ -93,7 +93,7 @@ const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?:
                 _hover={{ bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700" }}
                 _active={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
                 _focus={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
-                onClick={() => jump(object.link.url, isMobile)}
+                onClick={() => jump(object.link.url)}
                 onMouseEnter={() => {
                   try {
                     const uuid = game.room.roomItemManager.getUUIDFromTilemap(object.xStart, object.yStart);

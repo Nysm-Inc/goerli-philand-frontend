@@ -46,7 +46,7 @@ export default class LinkPreview {
     const clickableArea = new Container();
     clickableArea.interactive = true;
     clickableArea.buttonMode = true;
-    clickableArea.on(engine.isMobile ? "touchstart" : "mousedown", () => this.jump(), this);
+    clickableArea.on(engine.isMobile ? "touchstart" : "mousedown", () => jump(this.link.url), this);
     this.container.addChild(clickableArea);
     const hiddenArea = new Container();
     this.container.addChild(hiddenArea);
@@ -168,10 +168,5 @@ export default class LinkPreview {
   updateContainerPlacement(localX: number, localY: number) {
     this.container.x = localX;
     this.container.y = localY;
-  }
-
-  jump() {
-    const { engine } = GameInstance.get();
-    jump(this.link.url, engine.isMobile);
   }
 }
