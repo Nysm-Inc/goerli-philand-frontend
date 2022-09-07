@@ -72,7 +72,7 @@ const LinkList: FC<{ phiObjects: PhiObject[]; defaultIsOpen?: boolean }> = ({ ph
 
   return (
     <Box zIndex="default" position="fixed" bottom="32px" right="calc(24px + 48px + 16px)">
-      <Menu variant="unstyled" placement="top" autoSelect={false} defaultIsOpen={defaultIsOpen}>
+      <Menu variant="unstyled" placement="top" autoSelect={false} closeOnSelect={false} defaultIsOpen={defaultIsOpen}>
         <MenuButton as={IconButton} ariaLabel="list" icon={<Icon name="list" color={colorMode === "light" ? "grey.900" : "white"} />} />
         <MenuList
           maxHeight="240px"
