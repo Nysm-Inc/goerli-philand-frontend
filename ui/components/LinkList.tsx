@@ -20,21 +20,14 @@ const defaultLinkOGP = (
 const defaultOGPSize = 48;
 
 const LinkOGP: FC<{ url: string }> = ({ url }) => {
-  const [ogp, setOGP] = useState<HTMLImageElement | undefined>(undefined);
+  const [ogp, setOGP] = useState("");
 
   useEffect(() => {
     (async () => {
       try {
         const u = new URL(url);
         const res = await axios.get<{ ogp: string }>(`/api/fetchOGP?url=${u}`);
-        const base64 = res.data.ogp;
-        const img = new Image();
-        img.src = base64;
-        img.onload = () => {
-          img.width = defaultOGPSize * (img.width / img.height);
-          img.height = defaultOGPSize;
-          setOGP(img);
-        };
+        setOGP(res.data.ogp);
       } catch {}
     })();
   }, [url]);
@@ -49,7 +42,7 @@ const LinkOGP: FC<{ url: string }> = ({ url }) => {
       minH={defaultOGPSize + "px"}
       maxH={defaultOGPSize + "px"}
     >
-      <NextImage src={ogp.src} width={defaultOGPSize + "px"} height={defaultOGPSize + "px"} objectFit="cover" alt="" />
+      <NextImage src={ogp} width={defaultOGPSize + "px"} height={defaultOGPSize + "px"} objectFit="cover" alt="" />
     </Center>
   ) : (
     <Center
