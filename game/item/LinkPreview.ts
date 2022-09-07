@@ -171,9 +171,7 @@ export default class LinkPreview {
   }
 
   async jump() {
-    try {
-      const { engine } = GameInstance.get();
-      jump(this.link.url, engine.isMobile);
-    } catch {}
+    const { engine } = GameInstance.get();
+    jump(this.link.url, engine.isMobile);
   }
 }

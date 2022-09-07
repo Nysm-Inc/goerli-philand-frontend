@@ -4,7 +4,6 @@ import axios from "axios";
 import { Box, Center, Menu, MenuButton, MenuItem, MenuList, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { PhiObject } from "~/types";
-import { event } from "~/utils/ga/ga";
 import IconButton from "./common/IconButton";
 import Icon from "./Icon";
 import { jump } from "~/utils/url";
@@ -102,10 +101,7 @@ const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?:
               _hover={{ bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700" }}
               _active={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
               _focus={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
-              onClick={() => {
-                event({ action: "click", category: "jump_link", label: "list", value: object.link.url.toString() });
-                jump(object.link.url, isMobile);
-              }}
+              onClick={() => jump(object.link.url, isMobile)}
               onMouseEnter={() => {
                 try {
                   const uuid = game.room.roomItemManager.getUUIDFromTilemap(object.xStart, object.yStart);
