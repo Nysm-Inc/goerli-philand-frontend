@@ -44,12 +44,12 @@ const LinkOGP: FC<{ url: string }> = ({ url }) => {
       position="relative"
       borderRadius="8px"
       overflow="hidden"
-      minW={ogp.width + "px"}
-      maxW={ogp.width + "px"}
+      minW={defaultOGPSize + "px"}
+      maxW={defaultOGPSize + "px"}
       minH={defaultOGPSize + "px"}
       maxH={defaultOGPSize + "px"}
     >
-      <NextImage src={ogp.src} layout="fill" objectFit="contain" alt="" />
+      <NextImage src={ogp.src} width={defaultOGPSize + "px"} height={defaultOGPSize + "px"} objectFit="cover" alt="" />
     </Center>
   ) : (
     <Center
@@ -74,59 +74,61 @@ const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?:
     <Box zIndex="link-list" position="fixed" bottom={isMobile ? "12px" : "32px"} right={isMobile ? "12px" : "calc(24px + 48px + 16px)"}>
       <Menu variant="unstyled" placement="top" autoSelect={false} closeOnSelect={false} defaultIsOpen={defaultIsOpen}>
         <MenuButton as={IconButton} ariaLabel="list" icon={<Icon name="list" color={colorMode === "light" ? "grey.900" : "white"} />} />
-        <MenuList
-          maxHeight="240px"
-          borderRadius="12px"
-          p="8px"
-          overflowY="scroll"
-          boxShadow="md"
-          maxH="512px"
-          border={colorMode === "light" ? "1px solid" : "none"}
-          borderColor="light.g_orange"
-          bgColor={colorMode === "light" ? "white" : "grey.900"}
-          {...(isMobile ? { w: "calc(100vw - 12px * 2)", mr: "12px" } : { w: "320px", mr: "24px" })}
-        >
-          {phiObjects.map((object, i) => (
-            <MenuItem
-              key={i}
-              w="100%"
-              h="64px"
-              p="8px"
-              gap="8px"
-              borderRadius="12px"
-              whiteSpace="nowrap"
-              overflow="hidden"
-              textOverflow="ellipsis"
-              bgColor={colorMode === "light" ? "white" : "grey.900"}
-              _hover={{ bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700" }}
-              _active={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
-              _focus={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
-              onClick={() => jump(object.link.url, isMobile)}
-              onMouseEnter={() => {
-                try {
-                  const uuid = game.room.roomItemManager.getUUIDFromTilemap(object.xStart, object.yStart);
-                  game.room.roomItemManager.showLinkPreview(uuid);
-                } catch {}
-              }}
-              onMouseLeave={() => {
-                try {
-                  const uuid = game.room.roomItemManager.getUUIDFromTilemap(object.xStart, object.yStart);
-                  game.room.roomItemManager.hideLinkPreview(uuid);
-                } catch {}
-              }}
-            >
-              <LinkOGP url={object.link.url} />
-              <VStack spacing="0px" align="flex-start">
-                <Text textStyle="paragraph-1" h="24px" color={colorMode === "light" ? "warmgrey.20" : "grey.200"}>
-                  {object.link.title}
-                </Text>
-                <Text textStyle="label-2" h="16px" color={colorMode === "light" ? "warmgrey.60" : "warmgrey.50"}>
-                  {object.link.url}
-                </Text>
-              </VStack>
-            </MenuItem>
-          ))}
-        </MenuList>
+        {phiObjects.length > 0 && (
+          <MenuList
+            maxHeight="240px"
+            borderRadius="12px"
+            p="8px"
+            overflowY="scroll"
+            boxShadow="md"
+            maxH="512px"
+            border={colorMode === "light" ? "1px solid" : "none"}
+            borderColor="light.g_orange"
+            bgColor={colorMode === "light" ? "white" : "grey.900"}
+            {...(isMobile ? { w: "calc(100vw - 12px * 2)", mr: "12px" } : { w: "320px", mr: "24px" })}
+          >
+            {phiObjects.map((object, i) => (
+              <MenuItem
+                key={i}
+                w="100%"
+                h="64px"
+                p="8px"
+                gap="8px"
+                borderRadius="12px"
+                whiteSpace="nowrap"
+                overflow="hidden"
+                textOverflow="ellipsis"
+                bgColor={colorMode === "light" ? "white" : "grey.900"}
+                _hover={{ bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700" }}
+                _active={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
+                _focus={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
+                onClick={() => jump(object.link.url, isMobile)}
+                onMouseEnter={() => {
+                  try {
+                    const uuid = game.room.roomItemManager.getUUIDFromTilemap(object.xStart, object.yStart);
+                    game.room.roomItemManager.showLinkPreview(uuid);
+                  } catch {}
+                }}
+                onMouseLeave={() => {
+                  try {
+                    const uuid = game.room.roomItemManager.getUUIDFromTilemap(object.xStart, object.yStart);
+                    game.room.roomItemManager.hideLinkPreview(uuid);
+                  } catch {}
+                }}
+              >
+                <LinkOGP url={object.link.url} />
+                <VStack spacing="0px" align="flex-start">
+                  <Text textStyle="paragraph-1" h="24px" color={colorMode === "light" ? "warmgrey.20" : "grey.200"}>
+                    {object.link.title}
+                  </Text>
+                  <Text textStyle="label-2" h="16px" color={colorMode === "light" ? "warmgrey.60" : "warmgrey.50"}>
+                    {object.link.url}
+                  </Text>
+                </VStack>
+              </MenuItem>
+            ))}
+          </MenuList>
+        )}
       </Menu>
     </Box>
   );
