@@ -88,9 +88,6 @@ const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?:
                 p="8px"
                 gap="8px"
                 borderRadius="12px"
-                whiteSpace="nowrap"
-                overflow="hidden"
-                textOverflow="ellipsis"
                 bgColor={colorMode === "light" ? "white" : "grey.900"}
                 _hover={{ bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700" }}
                 _active={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
@@ -110,7 +107,7 @@ const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?:
                 }}
               >
                 <LinkOGP url={object.link.url} />
-                <VStack spacing="0px" align="flex-start">
+                <VStack spacing="0px" align="flex-start" whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis">
                   <Text textStyle="paragraph-1" h="24px" color={colorMode === "light" ? "warmgrey.20" : "grey.200"}>
                     {object.link.title}
                   </Text>
