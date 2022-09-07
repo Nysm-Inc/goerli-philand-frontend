@@ -1,3 +1,4 @@
+import { providers } from "ethers";
 import { FRONTEND_URL } from "~/constants";
 import { postAccess } from "./access";
 import { isValid } from "./ens";

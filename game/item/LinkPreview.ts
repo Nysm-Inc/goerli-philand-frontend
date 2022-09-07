@@ -170,7 +170,7 @@ export default class LinkPreview {
     this.container.y = localY;
   }
 
-  async jump() {
+  jump() {
     const { engine } = GameInstance.get();
     jump(this.link.url, engine.isMobile);
   }
