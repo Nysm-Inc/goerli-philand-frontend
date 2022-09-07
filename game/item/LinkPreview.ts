@@ -176,6 +176,8 @@ export default class LinkPreview {
 
   async onMousedown() {
     try {
+      prompt("fire1");
+
       const target = new URL(this.link.url);
       const landENS = new URL(window.location.href).pathname.slice(1);
       if (isValid(landENS)) {
@@ -192,9 +194,9 @@ export default class LinkPreview {
       if (target.host === new URL(FRONTEND_URL).host && isValid(target.pathname.slice(1))) {
         window.location.href = target.toString();
       } else {
-        alert("fire");
-        // window.open(target, "_blank");
-        window.open(target, "_blank") || (window.location.href = target.toString());
+        prompt("fire2");
+        window.open(target, "_blank");
+        // window.open(target, "_blank") || (window.location.href = target.toString());
       }
     } catch {}
   }
