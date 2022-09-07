@@ -30,16 +30,17 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 };
 
 const Philand: FC<{
+  isMobile: boolean;
   ens: string;
   phiObjects: (PhiObject & { removeIdx: number })[];
   wallpaper?: Wallpaper;
-}> = ({ ens, phiObjects, wallpaper }) => {
+}> = ({ isMobile, ens, phiObjects, wallpaper }) => {
   const phiObjectsWithLink = useMemo(() => phiObjects.filter((object) => object.link.title || object.link.url), [phiObjects]);
   const { initialized } = useGame({ state: { currentENS: ens, isEdit: false, phiObjects, wallpaper } });
 
   return (
     <>
-      {initialized && <LinkList phiObjects={phiObjectsWithLink} defaultIsOpen />}
+      {initialized && <LinkList isMobile={isMobile} phiObjects={phiObjectsWithLink} defaultIsOpen={!isMobile} />}
       <LandName ens={ens} />
     </>
   );
@@ -68,7 +69,7 @@ const Index: NextPage = () => {
         isOpen={isOpenLeaderboard}
         onClose={onCloseLeaderboard}
       />
-      {isCreatedPhiland && <Philand ens={ens} phiObjects={phiObjects} wallpaper={wallpaper} />}
+      {isCreatedPhiland && <Philand isMobile={!!isMobile} ens={ens} phiObjects={phiObjects} wallpaper={wallpaper} />}
       {isMobile ? (
         <>
           <HeaderMd />

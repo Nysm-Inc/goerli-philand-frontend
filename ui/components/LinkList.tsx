@@ -67,11 +67,11 @@ const LinkOGP: FC<{ url: string }> = ({ url }) => {
   );
 };
 
-const LinkList: FC<{ phiObjects: PhiObject[]; defaultIsOpen?: boolean }> = ({ phiObjects, defaultIsOpen }) => {
+const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?: boolean }> = ({ isMobile, phiObjects, defaultIsOpen }) => {
   const { colorMode, game } = useContext(AppContext);
 
   return (
-    <Box zIndex="default" position="fixed" bottom="32px" right="calc(24px + 48px + 16px)">
+    <Box zIndex="default" position="fixed" bottom={isMobile ? "12px" : "32px"} right={isMobile ? "12px" : "calc(24px + 48px + 16px)"}>
       <Menu variant="unstyled" placement="top" autoSelect={false} closeOnSelect={false} defaultIsOpen={defaultIsOpen}>
         <MenuButton as={IconButton} ariaLabel="list" icon={<Icon name="list" color={colorMode === "light" ? "grey.900" : "white"} />} />
         <MenuList
@@ -80,12 +80,11 @@ const LinkList: FC<{ phiObjects: PhiObject[]; defaultIsOpen?: boolean }> = ({ ph
           p="8px"
           overflowY="scroll"
           boxShadow="md"
-          w="320px"
           maxH="512px"
-          mr="24px"
           border={colorMode === "light" ? "1px solid" : "none"}
           borderColor="light.g_orange"
           bgColor={colorMode === "light" ? "white" : "grey.900"}
+          {...(isMobile ? { w: "calc(100vw - 12px * 2)", mr: "12px" } : { w: "320px", mr: "24px" })}
         >
           {phiObjects.map((object, i) => (
             <MenuItem
