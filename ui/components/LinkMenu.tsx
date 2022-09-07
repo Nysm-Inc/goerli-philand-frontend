@@ -7,6 +7,7 @@ import { ActionMenuState } from "./ActionMenu";
 import Input from "./common/Input";
 import Button from "./common/Button";
 import Icon from "./Icon";
+import { isValidURL } from "~/utils/url";
 
 export type LinkMenuState = ActionMenuState & PhiLink;
 export type LinkState = { [id: string]: LinkMenuState };
@@ -92,6 +93,7 @@ const LinkMenu: FC<{
                       onBack();
                     } catch {}
                   }}
+                  disabled={!isValidURL(input.url)}
                 >
                   <Icon name="check" />
                 </Button>

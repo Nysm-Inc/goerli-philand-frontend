@@ -1,13 +1,9 @@
 import axios from "axios";
 import { Container, Graphics, Sprite, Text, Texture } from "pixi.js";
-import { providers } from "ethers";
 import { PhiLink } from "~/types";
 import GameInstance from "~/game/GameInstance";
-import { postAccess } from "~/utils/access";
-import { isValid } from "~/utils/ens";
 import { ColorMode } from "~/ui/styles";
-import { FRONTEND_URL } from "~/constants";
-import { event } from "~/utils/ga/ga";
+import { jump } from "~/utils/url";
 
 const [bgW, bgH] = [296, 64];
 const [arrowW, arrowH] = [16, 8];
@@ -50,7 +46,7 @@ export default class LinkPreview {
     const clickableArea = new Container();
     clickableArea.interactive = true;
     clickableArea.buttonMode = true;
-    clickableArea.on(engine.isMobile ? "touchstart" : "mousedown", () => this.onMousedown(), this);
+    clickableArea.on(engine.isMobile ? "touchstart" : "mousedown", () => this.jump(), this);
     this.container.addChild(clickableArea);
     const hiddenArea = new Container();
     this.container.addChild(hiddenArea);
@@ -174,28 +170,10 @@ export default class LinkPreview {
     this.container.y = localY;
   }
 
-  async onMousedown() {
+  async jump() {
     try {
       const { engine } = GameInstance.get();
-
-      const target = new URL(this.link.url);
-      const landENS = new URL(window.location.href).pathname.slice(1);
-      if (isValid(landENS)) {
-        let address = "";
-        if (!engine.isMobile && window.ethereum) {
-          // @ts-ignore
-          const provider = new providers.Web3Provider(window.ethereum);
-          address = await provider.getSigner().getAddress();
-        }
-        event({ action: "click", category: "view", label: "jump_object" });
-        postAccess(landENS, target.toString(), address);
-      }
-
-      if (target.host === new URL(FRONTEND_URL).host && isValid(target.pathname.slice(1))) {
-        window.location.href = target.toString();
-      } else {
-        window.open(target, "_blank") || (window.location.href = target.toString());
-      }
+      jump(this.link.url, engine.isMobile);
     } catch {}
   }
 }

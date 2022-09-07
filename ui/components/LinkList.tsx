@@ -7,6 +7,7 @@ import { PhiObject } from "~/types";
 import { event } from "~/utils/ga/ga";
 import IconButton from "./common/IconButton";
 import Icon from "./Icon";
+import { jump } from "~/utils/url";
 
 const defaultLinkOGP = (
   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -102,9 +103,8 @@ const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?:
               _active={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
               _focus={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
               onClick={() => {
-                event({ action: "click", category: "view", label: "jump_object" });
-                // todo: check external
-                window.location.href = object.link.url;
+                event({ action: "click", category: "jump_link", label: "list", value: object.link.url.toString() });
+                jump(object.link.url, isMobile);
               }}
               onMouseEnter={() => {
                 try {

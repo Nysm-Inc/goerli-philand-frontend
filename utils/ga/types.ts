@@ -15,5 +15,5 @@ export type Event = {
   action: Action;
   category?: string;
   label?: string;
-  value?: number;
+  value?: number | string;
 };
