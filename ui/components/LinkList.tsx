@@ -4,6 +4,7 @@ import axios from "axios";
 import { Box, Center, Menu, MenuButton, MenuItem, MenuList, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { PhiObject } from "~/types";
+import { event } from "~/utils/ga/ga";
 import IconButton from "./common/IconButton";
 import Icon from "./Icon";
 
@@ -102,6 +103,7 @@ const LinkList: FC<{ phiObjects: PhiObject[]; defaultIsOpen?: boolean }> = ({ ph
               _active={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
               _focus={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
               onClick={() => {
+                event({ action: "click", category: "view", label: "jump_object" });
                 // todo: check external
                 window.location.href = object.link.url;
               }}
