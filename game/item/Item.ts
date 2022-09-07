@@ -51,15 +51,12 @@ export default class Item {
     this.container.on("mouseover", () => this.showLinkPreview(), this);
     this.container.on("mouseout", () => this.hideLinkPreview(), this);
     engine.viewport.on("touchstart", () => {
-      if (!engine.isMobile) return;
-      room.roomItemManager.hideLinkPreviews();
+      if (engine.isMobile) room.roomItemManager.hideLinkPreviews();
     });
     this.container.on(
       "touchend",
       () => {
-        if (!engine.isMobile) return;
-        room.roomItemManager.hideLinkPreviews();
-        this.showLinkPreview();
+        if (engine.isMobile) this.showLinkPreview();
       },
       this
     );
