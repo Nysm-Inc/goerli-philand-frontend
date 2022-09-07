@@ -192,19 +192,10 @@ export default class LinkPreview {
       }
 
       if (target.host === new URL(FRONTEND_URL).host && isValid(target.pathname.slice(1))) {
-        prompt("fire1");
         window.location.href = target.toString();
       } else {
-        prompt("fire2");
-
-        if (engine.isMobile) {
-          window.location.href = target.toString();
-        } else {
-          window.open(target, "_blank");
-        }
+        window.open(target, "_blank") || (window.location.href = target.toString());
       }
-    } catch (err) {
-      prompt("fire3" + err);
-    }
+    } catch {}
   }
 }
