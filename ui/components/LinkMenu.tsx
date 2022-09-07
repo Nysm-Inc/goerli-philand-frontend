@@ -2,12 +2,13 @@ import { FC, useContext, useEffect, useState } from "react";
 import { HStack, Modal, ModalContent, VStack } from "@chakra-ui/react";
 import { PhiLink } from "~/types";
 import { AppContext } from "~/contexts";
+import { FRONTEND_URL } from "~/constants";
 import { event } from "~/utils/ga/ga";
+import { isValidURL } from "~/utils/url";
 import { ActionMenuState } from "./ActionMenu";
 import Input from "./common/Input";
 import Button from "./common/Button";
 import Icon from "./Icon";
-import { isValidURL } from "~/utils/url";
 
 export type LinkMenuState = ActionMenuState & PhiLink;
 export type LinkState = { [id: string]: LinkMenuState };
@@ -73,7 +74,7 @@ const LinkMenu: FC<{
               />
               <Input
                 w="full"
-                placeholder="https://mumbai.philand.xyz/vitalik.eth"
+                placeholder={FRONTEND_URL + "/vitalik.eth"}
                 shadow={false}
                 value={input?.url || ""}
                 onChange={(e) => setInput((prev) => ({ ...prev, url: e.target.value }))}
