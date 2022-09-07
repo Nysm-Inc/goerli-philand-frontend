@@ -176,11 +176,13 @@ export default class LinkPreview {
 
   async onMousedown() {
     try {
+      const { engine } = GameInstance.get();
+
       const target = new URL(this.link.url);
       const landENS = new URL(window.location.href).pathname.slice(1);
       if (isValid(landENS)) {
         let address = "";
-        if (window.ethereum) {
+        if (!engine.isMobile && window.ethereum) {
           // @ts-ignore
           const provider = new providers.Web3Provider(window.ethereum);
           address = await provider.getSigner().getAddress();
@@ -194,8 +196,12 @@ export default class LinkPreview {
         window.location.href = target.toString();
       } else {
         prompt("fire2");
-        window.open(target, "_blank");
-        // window.open(target, "_blank") || (window.location.href = target.toString());
+
+        if (engine.isMobile) {
+          window.location.href = target.toString();
+        } else {
+          window.open(target, "_blank");
+        }
       }
     } catch (err) {
       prompt("fire3" + err);
