@@ -50,20 +50,19 @@ export default class Item {
     this.preview.update(object.link);
     this.container.on("mouseover", () => this.showLinkPreview(), this);
     this.container.on("mouseout", () => this.hideLinkPreview(), this);
+    engine.viewport.on("touchstart", (e) => {
+      if (!engine.isMobile) return;
+      room.roomItemManager.hideLinkPreviews();
+    });
     this.container.on(
-      "touchstart",
+      "touchend",
       (e) => {
         if (!engine.isMobile) return;
-        e.stopPropagation();
         room.roomItemManager.hideLinkPreviews();
         this.showLinkPreview();
       },
       this
     );
-    engine.viewport.on("touchstart", () => {
-      if (!engine.isMobile) return;
-      room.roomItemManager.hideLinkPreviews();
-    });
     this.container.addChild(this.preview.container);
 
     this.tiles = new StatusTiles(this);
