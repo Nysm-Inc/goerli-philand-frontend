@@ -74,7 +74,7 @@ const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?:
             p="8px"
             overflowY="scroll"
             boxShadow="md"
-            maxH="512px"
+            maxH="calc(512px - 24px)"
             border={colorMode === "light" ? "1px solid" : "none"}
             borderColor="light.g_orange"
             bgColor={colorMode === "light" ? "white" : "grey.900"}
@@ -88,6 +88,7 @@ const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?:
                 p="8px"
                 gap="8px"
                 borderRadius="12px"
+                isFocusable={false}
                 bgColor={colorMode === "light" ? "white" : "grey.900"}
                 _hover={{ bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700" }}
                 _active={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
