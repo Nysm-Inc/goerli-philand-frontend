@@ -105,7 +105,7 @@ const useDeposit = (
   }, [withdrawTmpStatus, withdrawStatus]);
 
   useEffect(() => {
-    refetch();
+    if (refresh) refetch();
   }, [refresh]);
 
   return [

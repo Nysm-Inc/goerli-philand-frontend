@@ -39,7 +39,7 @@ const useClaimableList = (address?: string, refresh?: boolean, watch?: boolean):
   }, [address]);
 
   useEffect(() => {
-    fetchClaimableList();
+    if (refresh) fetchClaimableList();
   }, [refresh]);
 
   useEffect(() => {

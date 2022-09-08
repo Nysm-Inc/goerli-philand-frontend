@@ -19,7 +19,7 @@ const useBalances = (
   });
 
   useEffect(() => {
-    refetch();
+    if (refresh) refetch();
   }, [refresh]);
 
   return {

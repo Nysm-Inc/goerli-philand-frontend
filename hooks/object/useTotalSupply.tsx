@@ -20,7 +20,7 @@ const useTotalSupply = (contract: ObjectContractAddress, refresh?: boolean): { [
   });
 
   useEffect(() => {
-    refetch();
+    if (refresh) refetch();
   }, [refresh]);
 
   return data && data[0] ? metadata.reduce((memo, meta, i) => ({ ...memo, [meta.tokenId]: data[i].toNumber() }), {}) : {};
