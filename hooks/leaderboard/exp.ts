@@ -15,12 +15,12 @@ export const useEXP = (address: string, refresh?: boolean, watch?: boolean): num
 
   useEffect(() => {
     fetchEXP();
-  }, [refresh]);
-
-  useEffect(() => {
-    fetchEXP();
     updateEXP();
   }, [address]);
+
+  useEffect(() => {
+    if (refresh) fetchEXP();
+  }, [refresh]);
 
   useEffect(() => {
     if (watch) fetchEXP();

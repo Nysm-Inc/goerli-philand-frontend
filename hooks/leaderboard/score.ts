@@ -25,6 +25,8 @@ const useScore = (ens?: string, refresh?: boolean) => {
   }, []);
 
   useEffect(() => {
+    if (!refresh) return;
+
     fetchMyScore();
     fetchTopScoreList();
   }, [refresh]);

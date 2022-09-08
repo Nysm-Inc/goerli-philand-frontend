@@ -29,7 +29,11 @@ const useQuestProgress = (address?: string, refresh?: boolean, watch?: boolean):
 
   useEffect(() => {
     fetchProgressList();
-  }, [address, refresh]);
+  }, [address]);
+
+  useEffect(() => {
+    if (refresh) fetchProgressList();
+  }, [refresh]);
 
   useEffect(() => {
     if (watch) fetchProgressList();
