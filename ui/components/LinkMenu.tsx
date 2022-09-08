@@ -2,7 +2,9 @@ import { FC, useContext, useEffect, useState } from "react";
 import { HStack, Modal, ModalContent, VStack } from "@chakra-ui/react";
 import { PhiLink } from "~/types";
 import { AppContext } from "~/contexts";
+import { FRONTEND_URL } from "~/constants";
 import { event } from "~/utils/ga/ga";
+import { isValidURL } from "~/utils/url";
 import { ActionMenuState } from "./ActionMenu";
 import Input from "./common/Input";
 import Button from "./common/Button";
@@ -72,7 +74,7 @@ const LinkMenu: FC<{
               />
               <Input
                 w="full"
-                placeholder="URL"
+                placeholder={FRONTEND_URL + "/vitalik.eth"}
                 shadow={false}
                 value={input?.url || ""}
                 onChange={(e) => setInput((prev) => ({ ...prev, url: e.target.value }))}
@@ -87,6 +89,7 @@ const LinkMenu: FC<{
                     onClose(state.id);
                     onBack();
                   }}
+                  disabled={!isValidURL(input.url)}
                 >
                   <Icon name="check" />
                 </Button>

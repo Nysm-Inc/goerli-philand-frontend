@@ -1,16 +1,21 @@
 import axios from "axios";
 import { Container, Graphics, Sprite, Text, Texture } from "pixi.js";
-import { providers } from "ethers";
 import { PhiLink } from "~/types";
 import GameInstance from "~/game/GameInstance";
-import { postAccess } from "~/utils/access";
-import { isValid } from "~/utils/ens";
 import { ColorMode } from "~/ui/styles";
-import { FRONTEND_URL } from "~/constants";
+import { jump } from "~/utils/url";
 
 const [bgW, bgH] = [296, 64];
 const [arrowW, arrowH] = [16, 8];
 const defaultOGPSize = 48;
+const paragraph1 = {
+  fontFamily: "JetBrainsMono",
+  fontWeight: "500",
+  fontSize: "16px",
+  lineHeight: 24,
+  letterSpacing: -0.02,
+  align: "center",
+};
 
 export default class LinkPreview {
   private link: PhiLink;
@@ -21,15 +26,17 @@ export default class LinkPreview {
   bgDark: Graphics;
   bgLightArrow: Graphics;
   bgDarkArrow: Graphics;
-  text: Text;
+  title: Text;
+  url: Text;
+
   defaultOGP: Graphics;
-  ogp: Sprite;
+  ogp: Container;
 
   constructor() {
     this.link = { title: "", url: "" };
     this.ogpURL = "";
 
-    const { room } = GameInstance.get();
+    const { room, engine } = GameInstance.get();
     this.container = new Container();
     this.container.interactive = true;
     this.container.visible = false;
@@ -39,7 +46,7 @@ export default class LinkPreview {
     const clickableArea = new Container();
     clickableArea.interactive = true;
     clickableArea.buttonMode = true;
-    clickableArea.on("mousedown", () => this.onMousedown(), this);
+    clickableArea.on(engine.isMobile ? "touchstart" : "mousedown", () => jump(this.link.url), this);
     this.container.addChild(clickableArea);
     const hiddenArea = new Container();
     this.container.addChild(hiddenArea);
@@ -94,30 +101,30 @@ export default class LinkPreview {
     this.defaultOGP.endFill();
     clickableArea.addChild(this.defaultOGP);
 
-    this.ogp = new Sprite();
+    this.ogp = new Container();
     this.ogp.x = 8;
     this.ogp.y = 8;
-    this.ogp.width = defaultOGPSize;
-    this.ogp.height = defaultOGPSize;
     clickableArea.addChild(this.ogp);
 
-    // memo: paragraph-1
-    this.text = new Text("", {
-      fontFamily: "JetBrainsMono",
-      fontWeight: "500",
-      fontSize: "16px",
-      lineHeight: 24,
-      letterSpacing: -0.02,
-      align: "center",
-    });
-    this.text.x = defaultOGPSize + 8 + 8;
-    this.text.y = bgH / 2 - 8;
-    clickableArea.addChild(this.text);
+    // @ts-ignore
+    this.title = new Text("", paragraph1);
+    this.title.x = defaultOGPSize + 8 + 8;
+    this.title.y = 8 + (24 - 16) / 2;
+    clickableArea.addChild(this.title);
+
+    // @ts-ignore
+    this.url = new Text("", paragraph1);
+    this.url.x = defaultOGPSize + 8 + 8;
+    this.url.y = 8 + 24 + (24 - 16) / 2;
+    clickableArea.addChild(this.url);
   }
 
   draw(colorMode: ColorMode) {
-    this.text.text = this.link.title.length > 16 ? `${this.link.title.substring(0, 12)}...` : this.link.title;
-    this.text.style.fill = colorMode === "light" ? 0xffffff : 0x000000;
+    this.title.text = this.link.title.length > 16 ? `${this.link.title.substring(0, 12)}...` : this.link.title;
+    this.title.style.fill = colorMode === "light" ? 0xffffff : 0x000000;
+
+    this.url.text = this.link.url.length > 16 ? `${this.link.url.substring(0, 12)}...` : this.link.url;
+    this.url.style.fill = 0x8283ff;
   }
 
   update(link: PhiLink) {
@@ -127,23 +134,22 @@ export default class LinkPreview {
       try {
         const url = new URL(link.url);
         const res = await axios.get<{ ogp: string }>(`/api/fetchOGP?url=${url}`);
-        const img = new Image();
-        img.src = res.data.ogp;
-        img.onload = () => {
-          this.ogpURL = res.data.ogp;
+        this.ogpURL = res.data.ogp;
+        const ogpTexture = await Texture.fromURL(this.ogpURL);
 
-          const w = defaultOGPSize * (img.width / img.height);
+        const ogpSprite = Sprite.from(ogpTexture);
+        const coverSize = ogpTexture.width <= ogpTexture.height ? ogpTexture.width : ogpTexture.height;
+        const scale = defaultOGPSize / coverSize;
+        const cover = new Graphics().beginFill(0xcccccc).drawRect(0, 0, coverSize, coverSize).endFill();
+        cover.position.set(ogpTexture.width / 2 - coverSize / 2, ogpTexture.height / 2 - coverSize / 2);
+        ogpSprite.mask = cover;
+        ogpSprite.x = -scale * (ogpTexture.width / 2 - coverSize / 2);
+        ogpSprite.y = -scale * (ogpTexture.height / 2 - coverSize / 2);
+        ogpSprite.scale.set(defaultOGPSize / coverSize);
+        ogpSprite.addChild(cover);
 
-          this.defaultOGP.beginFill(0xcccccc);
-          this.defaultOGP.drawRoundedRect(8, 8, w, defaultOGPSize, 8);
-          this.defaultOGP.endFill();
-
-          this.ogp.width = w;
-          this.ogp.texture = Texture.from(this.ogpURL);
-          this.ogp.mask = this.defaultOGP;
-
-          this.text.x = w + 8 + 8;
-        };
+        this.ogp.mask = this.defaultOGP;
+        this.ogp.addChild(ogpSprite);
       } catch {
         const icon = Sprite.from("/assets/default_ogp.png");
         icon.width = 30;
@@ -158,27 +164,5 @@ export default class LinkPreview {
   updateContainerPlacement(localX: number, localY: number) {
     this.container.x = localX;
     this.container.y = localY;
-  }
-
-  async onMousedown() {
-    try {
-      const target = new URL(this.link.url);
-      const landENS = new URL(window.location.href).pathname.slice(1);
-      if (isValid(landENS)) {
-        let address = "";
-        if (window.ethereum) {
-          // @ts-ignore
-          const provider = new providers.Web3Provider(window.ethereum);
-          address = await provider.getSigner().getAddress();
-        }
-        postAccess(landENS, target.toString(), address);
-      }
-
-      if (target.host === new URL(FRONTEND_URL).host && isValid(target.pathname.slice(1))) {
-        window.location.href = target.toString();
-      } else {
-        window.open(target, "_blank");
-      }
-    } catch {}
   }
 }

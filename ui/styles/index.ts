@@ -9,7 +9,8 @@ export const zIndices = {
   default: 1,
   menubar: 2,
   "search-menulist": 2,
-  "canvas-focus": 3,
+  "link-list": 3,
+  "canvas-focus": 4,
 };
 
 const theme = extendTheme({

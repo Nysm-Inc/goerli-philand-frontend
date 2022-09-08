@@ -48,8 +48,18 @@ export default class Item {
     this.preview.container.x = texture.width / 2 - this.preview.container.width / 2;
     this.preview.container.y = -48;
     this.preview.update(object.link);
-    this.container.on("mouseover", () => this.mouseOver(), this);
-    this.container.on("mouseout", () => this.mouseOut(), this);
+    this.container.on("mouseover", () => this.showLinkPreview(), this);
+    this.container.on("mouseout", () => this.hideLinkPreview(), this);
+    engine.viewport.on("touchstart", () => {
+      if (engine.isMobile) room.roomItemManager.hideLinkPreviews();
+    });
+    this.container.on(
+      "touchend",
+      () => {
+        if (engine.isMobile) this.showLinkPreview();
+      },
+      this
+    );
     this.container.addChild(this.preview.container);
 
     this.tiles = new StatusTiles(this);
@@ -93,7 +103,7 @@ export default class Item {
     this.container.y = localY;
   }
 
-  mouseOver() {
+  showLinkPreview() {
     const { room, engine } = GameInstance.get();
     if (room.isEdit) return;
     if (!this.object.link.title && !this.object.link.url) return;
@@ -113,7 +123,7 @@ export default class Item {
     this.preview.container.visible = true;
   }
 
-  mouseOut() {
+  hideLinkPreview() {
     const { room } = GameInstance.get();
     if (room.isEdit) return;
     this.preview.container.visible = false;

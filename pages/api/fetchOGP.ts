@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { withSentry } from "@sentry/nextjs";
 import axios from "axios";
 import { JSDOM } from "jsdom";
 
@@ -47,4 +46,4 @@ const fetchOGP = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default withSentry(fetchOGP);
+export default fetchOGP;
