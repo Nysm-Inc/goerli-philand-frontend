@@ -35,6 +35,7 @@ const AppContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         setGame(GameInstance.default.get());
       })
       .catch((err) => {
+        alert("Error: WebGL unsupported in this browser. Want more information about WebGL? https://get.webgl.org");
         console.error(err);
       });
   }, []);
