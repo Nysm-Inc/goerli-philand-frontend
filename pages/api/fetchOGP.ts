@@ -41,7 +41,7 @@ const fetchOGP = async (req: NextApiRequest, res: NextApiResponse) => {
       width: ogp["image:height"],
       height: ogp["image:height"],
     });
-  } catch (err) {
+  } catch {
     res.status(200).json({ ogp: "" });
   }
 };
