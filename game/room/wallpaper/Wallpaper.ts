@@ -1,5 +1,5 @@
 import { Container, Sprite, Texture } from "pixi.js";
-import { LAND_OFFSET_X, LAND_OFFSET_Y, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
+import { LAND_OFFSET_X, LAND_OFFSET_Y, WALLPAPER_BORDER_OFFSET, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import GameInstance from "~/game/GameInstance";
 import { Wallpaper as TWallpaper } from "~/types";
 
@@ -14,7 +14,7 @@ export default class Wallpaper {
     this.tokenId = 0;
 
     this.container = new Container();
-    this.container.x = LAND_OFFSET_X;
+    this.container.x = LAND_OFFSET_X - WALLPAPER_BORDER_OFFSET;
     this.container.y = LAND_OFFSET_Y;
     this.container.zIndex = 1;
     this.sprite = new Sprite();
