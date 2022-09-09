@@ -20,7 +20,7 @@ export const getOwnedEnsDomains = async (account: string): Promise<Domain[]> => 
       }
     `;
   const res = await axios.post<{ data: { account?: { domains: Domain[] } } }>(ENS_GRAPH_ENDPOINT, { query });
-  return res.data.data.account?.domains || [];
+  return res.data.data?.account?.domains || [];
 };
 
 export const isValid = (ens: string) => ens.match(/^.+\.eth$/g);
