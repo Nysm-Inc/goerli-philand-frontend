@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC, useContext, useMemo } from "react";
-import { useProvider } from "wagmi";
+import { useProvider, UserRejectedRequestError } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Divider, HStack, Text, Tooltip as ChakraTooltip, useBoolean, useDisclosure, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
@@ -182,7 +182,12 @@ const MenuBar: FC<{
                 onClick={() => {
                   event({ action: "click", category: "menubar", label: "save" });
                   startLoading();
-                  retry(() => actionHandler.onSave(), 1)
+                  const save = async () => {
+                    return actionHandler.onSave().catch((err) => {
+                      if (err.name !== UserRejectedRequestError.name) return err;
+                    });
+                  };
+                  retry(save, 1)
                     .then(async (res) => {
                       if (!res?.hash) throw new Error("invalid hash");
                       event({ action: "conversion_save" });
