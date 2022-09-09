@@ -14,6 +14,7 @@ import Icon from "./Icon";
 import SelectWallpaper from "./SelectWallpaper";
 import Alert from "./Alert";
 import Zoom from "./Zoom";
+import { retry } from "~/utils/retry";
 
 const MenuBar: FC<{
   initialized: boolean;
@@ -181,8 +182,7 @@ const MenuBar: FC<{
                 onClick={() => {
                   event({ action: "click", category: "menubar", label: "save" });
                   startLoading();
-                  actionHandler
-                    .onSave()
+                  retry(() => actionHandler.onSave(), 1)
                     .then(async (res) => {
                       if (!res?.hash) throw new Error("invalid hash");
                       event({ action: "conversion_save" });

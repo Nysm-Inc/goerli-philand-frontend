@@ -9,7 +9,6 @@ import { sentryErr, Tx } from "~/types/tx";
 import { updateOGP } from "~/utils/ogp";
 import { getFastestGasWei, payTip } from "~/utils/gas";
 import { captureError } from "~/utils/sentry";
-import { retry } from "~/utils/retry";
 
 export type SaveArgs = {
   removeArgs: { removeIdxs: (string | number)[] };
@@ -76,9 +75,9 @@ const useSave = (
       if (fee) {
         const maxFeePerGas = payTip({ fee: fee.maxFeePerGas, tipRate: 30 });
         const maxPriorityFeePerGas = payTip({ fee: fee.maxPriorityFeePerGas, tipRate: 30 });
-        return retry(() => writeAsync({ args: calldata, overrides: { maxFeePerGas, maxPriorityFeePerGas } }), 1);
+        return writeAsync({ args: calldata, overrides: { maxFeePerGas, maxPriorityFeePerGas } });
       } else {
-        return retry(() => writeAsync({ args: calldata }), 1);
+        return writeAsync({ args: calldata });
       }
     },
     tx: {
