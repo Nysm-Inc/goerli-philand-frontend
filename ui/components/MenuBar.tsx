@@ -6,6 +6,7 @@ import { Divider, HStack, Text, Tooltip as ChakraTooltip, useBoolean, useDisclos
 import { AppContext } from "~/contexts";
 import { BalanceObject, Wallpaper } from "~/types";
 import { event } from "~/utils/ga/ga";
+import { retry } from "~/utils/retry";
 import IconButton from "./common/IconButton";
 import SelectBox from "./common/SelectBox";
 import Button from "./common/Button";
@@ -14,7 +15,6 @@ import Icon from "./Icon";
 import SelectWallpaper from "./SelectWallpaper";
 import Alert from "./Alert";
 import Zoom from "./Zoom";
-import { retry } from "~/utils/retry";
 
 const MenuBar: FC<{
   initialized: boolean;
