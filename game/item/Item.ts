@@ -33,12 +33,13 @@ export default class Item {
     texture.baseTexture.scaleMode = engine.scaleMode;
     const sprite = Sprite.from(texture);
 
+    const unitW = sprite.width / (object.sizeX + object.sizeY);
     for (let n = 0; n < object.sizeX + object.sizeY; n++) {
       const texture = sprite.texture.clone();
-      const mask = new Rectangle(n * (TILE_W / 2), 0, TILE_W / 2, sprite.height);
+      const mask = new Rectangle(n * unitW, 0, unitW, sprite.height);
       texture.frame = mask;
       const unit = new Sprite(texture);
-      unit.x = n * (TILE_W / 2);
+      unit.x = n * unitW;
 
       this.sprites.push(unit);
       this.container.addChild(unit);
