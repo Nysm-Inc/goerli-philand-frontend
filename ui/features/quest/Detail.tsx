@@ -110,42 +110,44 @@ const Detail: FC<{
       <Text w="720px" h="40px" textStyle="paragraph-2" color={colorMode === "light" ? "grey.500" : "grey.200"}>
         {objectTraisList[QUEST_OBJECT_CONTRACT_ADDRESS][selected.tokenId]?.description}
       </Text>
-      <VStack spacing="16px" align="flex-start">
-        <Text textStyle="headline-2" color="grey.500">
-          Requirements
-        </Text>
-        <VStack spacing="2px">
-          {conditionList[selected.tokenId].activities.map((activity, i) => (
-            <Row key={i} idx={i} length={conditionList[selected.tokenId].activities.length}>
-              <Center
-                w="32px"
-                h="32px"
-                borderRadius="8px"
-                bgColor={selected.claimable ? "green.250" : colorMode === "light" ? "white" : "grey.900"}
-              >
-                <Icon
-                  name="check"
-                  width="16px"
-                  height="16px"
-                  color={
-                    selected.claimable
-                      ? colorMode === "light"
-                        ? "white"
-                        : "grey.900"
-                      : colorMode === "light"
-                      ? "dark.grey300"
-                      : "grey.500"
-                  }
-                />
-              </Center>
-              <Text textStyle="paragraph-2" color={colorMode === "light" ? "grey.900" : "white"}>
-                {activity}
-              </Text>
-            </Row>
-          ))}
+      {conditionList[selected.tokenId]?.activities?.length > 0 && (
+        <VStack spacing="16px" align="flex-start">
+          <Text textStyle="headline-2" color="grey.500">
+            Requirements
+          </Text>
+          <VStack spacing="2px">
+            {conditionList[selected.tokenId].activities.map((activity, i) => (
+              <Row key={i} idx={i} length={conditionList[selected.tokenId].activities.length}>
+                <Center
+                  w="32px"
+                  h="32px"
+                  borderRadius="8px"
+                  bgColor={selected.claimable ? "green.250" : colorMode === "light" ? "white" : "grey.900"}
+                >
+                  <Icon
+                    name="check"
+                    width="16px"
+                    height="16px"
+                    color={
+                      selected.claimable
+                        ? colorMode === "light"
+                          ? "white"
+                          : "grey.900"
+                        : colorMode === "light"
+                        ? "dark.grey300"
+                        : "grey.500"
+                    }
+                  />
+                </Center>
+                <Text textStyle="paragraph-2" color={colorMode === "light" ? "grey.900" : "white"}>
+                  {activity}
+                </Text>
+              </Row>
+            ))}
+          </VStack>
         </VStack>
-      </VStack>
-      {conditionList[selected.tokenId].links.length > 0 && (
+      )}
+      {conditionList[selected.tokenId]?.links?.length > 0 && (
         <VStack spacing="16px" align="flex-start">
           <Text textStyle="headline-2" color="grey.500">
             References
