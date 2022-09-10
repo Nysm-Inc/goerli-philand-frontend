@@ -1,9 +1,11 @@
+import { useRouter } from "next/router";
 import { FC, useContext } from "react";
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import type { TopScoreList } from "~/types/leaderboard";
 
 const RankingTable: FC<{ topScoreList: TopScoreList }> = ({ topScoreList }) => {
+  const router = useRouter();
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -24,7 +26,7 @@ const RankingTable: FC<{ topScoreList: TopScoreList }> = ({ topScoreList }) => {
               key={i}
               cursor="pointer"
               _hover={{ bgColor: colorMode === "light" ? "warmgrey.90" : "dark.grey700" }}
-              onClick={() => (window.location.href = score.name + ".eth")}
+              onClick={() => router.push(score.name + ".eth", undefined, { shallow: true })}
             >
               <Td>{i + 1}</Td>
               <Td>{score.name + ".eth"}</Td>
