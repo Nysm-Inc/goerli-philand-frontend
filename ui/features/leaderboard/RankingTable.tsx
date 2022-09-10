@@ -4,7 +4,7 @@ import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/reac
 import { AppContext } from "~/contexts";
 import type { TopScoreList } from "~/types/leaderboard";
 
-const RankingTable: FC<{ topScoreList: TopScoreList }> = ({ topScoreList }) => {
+const RankingTable: FC<{ topScoreList: TopScoreList; onClose: () => void }> = ({ topScoreList, onClose }) => {
   const router = useRouter();
   const { colorMode } = useContext(AppContext);
 
@@ -26,7 +26,10 @@ const RankingTable: FC<{ topScoreList: TopScoreList }> = ({ topScoreList }) => {
               key={i}
               cursor="pointer"
               _hover={{ bgColor: colorMode === "light" ? "warmgrey.90" : "dark.grey700" }}
-              onClick={() => router.push(score.name + ".eth", undefined, { shallow: true })}
+              onClick={() => {
+                router.push(score.name + ".eth", undefined, { shallow: true });
+                onClose();
+              }}
             >
               <Td>{i + 1}</Td>
               <Td>{score.name + ".eth"}</Td>
