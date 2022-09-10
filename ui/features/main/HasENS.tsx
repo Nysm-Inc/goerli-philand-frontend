@@ -14,7 +14,7 @@ const HasENS: FC<{ address: string; currentENS: string; domains: string[]; switc
 }) => {
   const { createPhiland } = useCreatePhiland(address, currentENS);
   const { changePhilandOwner } = useChangePhilandOwner(address, currentENS);
-  const { owner, phiObjects, refetchPhiObjects } = useViewPhiland(currentENS);
+  const { owner, isFetchedOwner, phiObjects, refetchPhiObjects } = useViewPhiland(currentENS);
   const isCreatedPhiland = useMemo(() => owner === address, [owner, address]);
 
   return (
@@ -32,6 +32,7 @@ const HasENS: FC<{ address: string; currentENS: string; domains: string[]; switc
         <CreatePhiland
           address={address}
           owner={owner}
+          isFetchedOwner={isFetchedOwner}
           currentENS={currentENS}
           domains={domains}
           switchCurrentENS={switchCurrentENS}

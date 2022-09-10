@@ -17,13 +17,14 @@ import Message from "./Message";
 const CreatePhiland: FC<{
   address: string;
   owner: string;
+  isFetchedOwner: boolean;
   currentENS: string;
   domains: string[];
   switchCurrentENS: (ens: string) => void;
   createPhiland: () => Promise<TransactionResponse | undefined>;
   changePhilandOwner: () => Promise<TransactionResponse | undefined>;
   refetchPhiObjects: () => void;
-}> = ({ address, owner, currentENS, domains, switchCurrentENS, createPhiland, changePhilandOwner, refetchPhiObjects }) => {
+}> = ({ address, owner, isFetchedOwner, currentENS, domains, switchCurrentENS, createPhiland, changePhilandOwner, refetchPhiObjects }) => {
   const { colorMode } = useContext(AppContext);
   const { data } = useBalance({ addressOrName: address, watch: true });
   const insufficient = useMemo(() => !!data?.value.isZero(), [data]);
@@ -62,7 +63,7 @@ const CreatePhiland: FC<{
                   .catch(stopLoading);
               }}
               isLoading={isLoading}
-              disabled={insufficient || !currentENS}
+              disabled={!isFetchedOwner || insufficient || !currentENS}
             >
               <Text
                 color={insufficient ? "grey.500" : "white"}
