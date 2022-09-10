@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import Image from "next/image";
 import { FC, useContext } from "react";
 import { Box, Center, Flex } from "@chakra-ui/react";
@@ -7,6 +8,7 @@ import Icon from "./Icon";
 import IconButton from "./common/IconButton";
 
 const HeaderMd: FC = () => {
+  const router = useRouter();
   const { colorMode, toggleColorMode } = useContext(AppContext);
 
   return (
@@ -27,7 +29,15 @@ const HeaderMd: FC = () => {
         bgColor={colorMode === "light" ? "white" : "grey.900"}
         borderColor={colorMode === "light" ? "light.g_orange" : "none"}
       >
-        <Center position="relative" w="40px" minW="40px" h="40px" minH="40px" cursor="pointer" onClick={() => (window.location.href = "/")}>
+        <Center
+          position="relative"
+          w="40px"
+          minW="40px"
+          h="40px"
+          minH="40px"
+          cursor="pointer"
+          onClick={() => router.push("/", undefined, { shallow: true })}
+        >
           <Image src="/icons/logo.svg" layout="fill" objectFit="contain" alt="" />
         </Center>
         <Search w="calc(100vw - 12px * 2 - 8px - 12px - 40px - 8px)" shadow={false} />
