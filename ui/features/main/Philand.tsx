@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { FC, useCallback } from "react";
 import { useDisclosure, useBoolean } from "@chakra-ui/react";
 import Quest from "~/ui/features/quest";
@@ -41,6 +42,7 @@ const Philand: FC<{
   phiObjects: (PhiObject & { removeIdx: number })[];
   refetchPhiObjects: () => void;
 }> = ({ address, currentENS, domains, switchCurrentENS, phiObjects, refetchPhiObjects }) => {
+  const router = useRouter();
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
   const [linkState, onOpenLinkMenu, onCloseLinkMenu, changeLink] = useLinkMenu();
@@ -95,6 +97,7 @@ const Philand: FC<{
       onChangeLinkMenu: changeLink,
       onPlaceFromLand: tryWrite,
       onChangeScaled: changeScaled,
+      onPushRouter: (path: string) => router.push(path, undefined, { shallow: true }),
     },
   });
 

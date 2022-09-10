@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import NextImage from "next/image";
 import { FC, useContext, useEffect, useState } from "react";
 import axios from "axios";
@@ -61,6 +62,7 @@ const LinkOGP: FC<{ url: string }> = ({ url }) => {
 };
 
 const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?: boolean }> = ({ isMobile, phiObjects, defaultIsOpen }) => {
+  const router = useRouter();
   const { colorMode, game } = useContext(AppContext);
 
   return (
@@ -93,7 +95,7 @@ const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?:
                 _hover={{ bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700" }}
                 _active={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
                 _focus={{ bgColor: colorMode === "light" ? "white" : "dark.grey700" }}
-                onClick={() => jump(object.link.url)}
+                onClick={() => jump(object.link.url, (path: string) => router.push(path, undefined, { shallow: true }))}
                 onMouseEnter={() => {
                   try {
                     const uuid = game.room.roomItemManager.getUUIDFromTilemap(object.xStart, object.yStart);
