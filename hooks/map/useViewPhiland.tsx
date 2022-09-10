@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useContractRead } from "wagmi";
 import { BigNumber } from "ethers";
 import MapAbi from "~/abi/map.json";
@@ -30,6 +30,10 @@ const useViewPhiland = (
     args: ens ? [ens.slice(0, -4)] : null,
   });
   const refetchPhiObjects = useCallback(() => (refetchOwner(), refetchPhiland()), []);
+
+  useEffect(() => {
+    if (ens) refetchPhiObjects();
+  }, [ens]);
 
   return {
     // @ts-ignore
