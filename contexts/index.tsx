@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { createContext, FC, ReactNode, useCallback, useEffect, useState } from "react";
 import type Game from "~/game/Game";
 import { Tx } from "~/types/tx";
@@ -16,6 +17,7 @@ type AppContext = {
 export const AppContext = createContext<AppContext>();
 
 const AppContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
+  const router = useRouter();
   const [game, setGame] = useState<Game>();
   const [colorMode, toggleColorMode] = useColorMode();
   const [txs, setTxs] = useState<{ [hash: string]: Tx }>({});
@@ -28,6 +30,10 @@ const AppContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
       setTxs((prev) => ({ ...prev, "": tx }));
     }
   }, []);
+
+  useEffect(() => {
+    setTxs({});
+  }, [router]);
 
   useEffect(() => {
     import("~/game/GameInstance")
