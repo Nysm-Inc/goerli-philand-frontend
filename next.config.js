@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
-// const withBundleAnalyzer = require("@next/bundle-analyzer")({ enabled: process.env.ANALYZE === "true" });
-const { withSentryConfig } = require("@sentry/nextjs");
+// import withBundleAnalyzer from "@next/bundle-analyzer";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig = {
   reactStrictMode: true,
@@ -15,5 +15,4 @@ const sentryWebpackPluginOptions = {
   silent: true,
 };
 
-module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);
-// module.exports = withBundleAnalyzer(nextConfig);
+export default withSentryConfig(nextConfig, sentryWebpackPluginOptions);
