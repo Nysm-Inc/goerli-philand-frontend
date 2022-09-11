@@ -326,8 +326,8 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
       95: {
         tokenId: 95,
         name: "PHI Bus 1",
-        image_url: "https://www.arweave.net/QXIyL_2YNTjmSutZ0MmyAOPzSP2uK6dZ8scWAsdge9Q?ext=png",
-        json_url: "https://www.arweave.net/m-usiYHg0gjnQES66_7qFg-bIuzy0DeQ9vesGmqz6AI",
+        image_url: "https://www.arweave.net/m2P-AwGTLUuXbEuWUD96CQSp8jiuxDLemF5qoehWsio?ext=png",
+        json_url: "https://www.arweave.net/6iaEmxiSpBkx32sfmyse-gCow-oaS19sdWqxPiXIxOY",
         size: [1, 2, 1],
         relatedProject: "PHI",
         creator: "Fuzuki",
