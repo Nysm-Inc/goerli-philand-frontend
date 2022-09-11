@@ -14,9 +14,10 @@ const Tour: FC<{
   rectTransform?: TransformProps["transform"];
   title: string;
   description: string;
+  buttonText?: string;
   onClickBack?: () => void;
   onClickNext?: () => void;
-}> = ({ w, bottom, left, transform, rectLeft, rectTransform, title, description, onClickBack, onClickNext }) => {
+}> = ({ w, bottom, left, transform, rectLeft, rectTransform, title, description, buttonText, onClickBack, onClickNext }) => {
   const { colorMode } = useContext(AppContext);
 
   return (
@@ -41,7 +42,7 @@ const Tour: FC<{
             )}
             {onClickNext && (
               <Button w="64px" h="32px" color="yellow" borderRadius="8px" onClick={onClickNext}>
-                <Text textStyle="button-2">Next</Text>
+                <Text textStyle="button-2">{buttonText || "Next"}</Text>
               </Button>
             )}
           </HStack>
@@ -97,6 +98,7 @@ const Tour4: FC<{ ens: string; onClickBack: () => void; onClickNext: () => void 
     w="294px"
     title="Share your land on Twitter!"
     description={`Show your newly created ${ens} to your friends!`}
+    buttonText="Got it"
     onClickBack={onClickBack}
     onClickNext={onClickNext}
   />
