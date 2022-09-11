@@ -36,7 +36,7 @@ export default class LinkPreview {
     this.link = { title: "", url: "" };
     this.ogpURL = "";
 
-    const { room, engine } = GameInstance.get();
+    const { room, engine, uiManager } = GameInstance.get();
     this.container = new Container();
     this.container.interactive = true;
     this.container.visible = false;
@@ -46,7 +46,7 @@ export default class LinkPreview {
     const clickableArea = new Container();
     clickableArea.interactive = true;
     clickableArea.buttonMode = true;
-    clickableArea.on(engine.isMobile ? "touchstart" : "mousedown", () => jump(this.link.url), this);
+    clickableArea.on(engine.isMobile ? "touchstart" : "mousedown", () => jump(this.link.url, uiManager.onPushRouter), this);
     this.container.addChild(clickableArea);
     const hiddenArea = new Container();
     this.container.addChild(hiddenArea);

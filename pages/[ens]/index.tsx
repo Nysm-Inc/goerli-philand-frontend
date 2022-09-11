@@ -35,8 +35,12 @@ const Philand: FC<{
   phiObjects: (PhiObject & { removeIdx: number })[];
   wallpaper?: Wallpaper;
 }> = ({ isMobile, ens, phiObjects, wallpaper }) => {
+  const router = useRouter();
   const phiObjectsWithLink = useMemo(() => phiObjects.filter((object) => object.link.title || object.link.url), [phiObjects]);
-  const { initialized } = useGame({ state: { currentENS: ens, isEdit: false, phiObjects, wallpaper } });
+  const { initialized } = useGame({
+    state: { currentENS: ens, isEdit: false, phiObjects, wallpaper },
+    gameHandler: { onPushRouter: (path: string) => router.push(path, undefined, { shallow: true }) },
+  });
 
   return (
     <>

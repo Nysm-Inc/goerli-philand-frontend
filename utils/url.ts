@@ -12,7 +12,7 @@ export const isValidURL = (url: string) => {
   }
 };
 
-export const jump = async (url: string) => {
+export const jump = async (url: string, f: (path: string) => void) => {
   try {
     const target = new URL(url);
     const landENS = new URL(window.location.href).pathname.slice(1);
@@ -30,9 +30,9 @@ export const jump = async (url: string) => {
     }
 
     if (target.host === new URL(FRONTEND_URL).host && isValid(target.pathname.slice(1))) {
-      window.location.href = target.toString();
+      f(target.toString());
     } else {
-      window.open(target, "_blank") || (window.location.href = target.toString());
+      window.open(target, "_blank");
     }
   } catch {}
 };

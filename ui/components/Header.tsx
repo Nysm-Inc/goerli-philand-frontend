@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import Image from "next/image";
 import { FC, useContext } from "react";
 import { Box, Center, HStack } from "@chakra-ui/react";
@@ -8,11 +9,19 @@ import Icon from "./Icon";
 import Wallet from "./Wallet";
 
 const Header: FC = () => {
+  const router = useRouter();
   const { colorMode, toggleColorMode } = useContext(AppContext);
 
   return (
     <>
-      <Box zIndex="default" position="fixed" top="16px" left="24px" cursor="pointer" onClick={() => (window.location.href = "/")}>
+      <Box
+        zIndex="default"
+        position="fixed"
+        top="16px"
+        left="24px"
+        cursor="pointer"
+        onClick={() => router.push("/", undefined, { shallow: true })}
+      >
         <Image src="/icons/logo.svg" width="64px" height="64px" alt="" />
       </Box>
 

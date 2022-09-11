@@ -1,4 +1,5 @@
-import { FC, useContext, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { FC, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Box, LayoutProps, Menu, MenuButton, Text, useDisclosure, useOutsideClick } from "@chakra-ui/react";
 import { FocusLock } from "@chakra-ui/focus-lock";
 import { AppContext } from "~/contexts";
@@ -8,18 +9,20 @@ import Input from "./common/Input";
 import Icon from "./Icon";
 import MenuList, { Option } from "./common/MenuList";
 
-const onSubmit = (text: string) => {
-  if (!text) return;
-
-  window.location.href = isValid(text) ? text : text + ".eth";
-};
-
 const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = true }) => {
+  const router = useRouter();
   const { colorMode } = useContext(AppContext);
   const [searchText, setSearchText] = useState("");
   const [suggestOptions, setSuggestOptions] = useState<Option[]>([]);
   const ref = useRef(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const onSubmit = useCallback(
+    (text: string) => {
+      router.push(isValid(text) ? text : text + ".eth", undefined, { shallow: true });
+      setSearchText("");
+    },
+    [router]
+  );
 
   useOutsideClick({ ref: ref, handler: onClose });
 
