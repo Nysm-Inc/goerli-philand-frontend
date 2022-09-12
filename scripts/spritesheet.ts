@@ -12,7 +12,7 @@ import { objectMetadataList } from "~/types/object";
 
 type ContractAddress = ObjectContractAddress | WallpaperContractAddress;
 
-const dir = "./scripts/images";
+const dir = "./scripts/output/images";
 
 const dirName: { [contract in ContractAddress]: string } = {
   [QUEST_OBJECT_CONTRACT_ADDRESS]: "quest",
