@@ -25,7 +25,7 @@ export const useZoom = () => {
 const Zoom: FC<{ scaled: number; changeScaled: (scaled: number) => void }> = ({ scaled, changeScaled }) => {
   const options = useMemo(() => {
     return [
-      { label: "Zoom IN", value: (scaled * 2).toString(), onClick: () => changeScaled(zoom(scaled, "in")) },
+      { label: "Zoom In", value: (scaled * 2).toString(), onClick: () => changeScaled(zoom(scaled, "in")) },
       { label: "Zoom Out", value: (scaled / 2).toString(), onClick: () => changeScaled(zoom(scaled, "out")) },
       { label: "Zoom to 100%", value: "", onClick: () => changeScaled(1) },
     ];
