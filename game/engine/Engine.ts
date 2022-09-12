@@ -126,15 +126,7 @@ export default class Engine {
 
   async loadGlobalTextures() {
     return new Promise((resolve, reject) => {
-      for (const [contract, metadataList] of Object.entries(objectMetadataList)) {
-        for (const metadata of Object.values(metadataList)) {
-          this.app.loader.add(contract + "_" + metadata.tokenId, metadata.image_url, {
-            crossOrigin: "*",
-            loadType: LoaderResource.LOAD_TYPE.IMAGE,
-          });
-        }
-      }
-      this.app.loader.load();
+      this.app.loader.add("spritesheet0", "/assets/spritesheet_0.json").add("spritesheet1", "/assets/spritesheet_1.json").load();
       this.app.loader.onComplete.add(() => resolve("loaded"));
       this.app.loader.onError.add(() => reject("failed to load assets"));
     });
