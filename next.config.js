@@ -16,3 +16,4 @@ const sentryWebpackPluginOptions = {
 };
 
 export default withSentryConfig(nextConfig, sentryWebpackPluginOptions);
+// export default withBundleAnalyzer({ enabled: process.env.NEXT_PUBLIC_APP_ENV === "local" })(nextConfig);
