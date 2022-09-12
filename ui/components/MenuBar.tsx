@@ -113,7 +113,7 @@ const MenuBar: FC<{
               <Divider orientation="vertical" color={colorMode === "light" ? "light.g_orange" : "dark.grey700"} h="48px" />
               <IconButton
                 ariaLabel="land"
-                icon={<Image src="/icons/land.svg" width="32px" height="32px" alt="" />}
+                icon={<Image priority src="/icons/land.svg" width="32px" height="32px" alt="" />}
                 outline={isOpen.land}
                 isActive={isOpen.land}
                 boxShadow={false}
@@ -133,7 +133,7 @@ const MenuBar: FC<{
             <HStack spacing="0">
               <IconButton
                 ariaLabel="wallet"
-                icon={<Image src="/icons/wallet.svg" width="32px" height="32px" alt="" />}
+                icon={<Image priority src="/icons/wallet.svg" width="32px" height="32px" alt="" />}
                 outline={isOpen.wallet}
                 isActive={isOpen.wallet}
                 boxShadow={false}
@@ -149,7 +149,7 @@ const MenuBar: FC<{
               )}
               <IconButton
                 ariaLabel="land"
-                icon={<Image src="/icons/land.svg" width="32px" height="32px" alt="" />}
+                icon={<Image priority src="/icons/land.svg" width="32px" height="32px" alt="" />}
                 outline={isOpen.land}
                 isActive={isOpen.land}
                 boxShadow={false}
