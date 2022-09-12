@@ -22,7 +22,7 @@ export default class Game {
     if (handler) uiManager.loadUIHandler(handler);
 
     if (this.loaded) return;
-    return Promise.all([room.initialize(), engine.loadGlobalTextures()]).then(() => {
+    return Promise.all([room.initialize(), engine.loadAssetTextures()]).then(() => {
       this.loaded = true;
     });
   }

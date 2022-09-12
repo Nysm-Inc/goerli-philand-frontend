@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FC, useContext } from "react";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
-import { objectTraisList } from "~/types/object";
+import { objectTraits } from "~/types/object";
 
 const getLogo = (network: string): string => {
   switch (network) {
@@ -21,7 +21,7 @@ const getLogo = (network: string): string => {
 
 const Network: FC<{ tokenId: number }> = ({ tokenId }) => {
   const { colorMode } = useContext(AppContext);
-  const networkName = objectTraisList[QUEST_OBJECT_CONTRACT_ADDRESS][tokenId]?.attributes[0]?.value;
+  const networkName = objectTraits[QUEST_OBJECT_CONTRACT_ADDRESS][tokenId]?.attributes[0]?.value;
 
   return (
     <HStack h="24px" p="2px 8px 2px 4px" borderRadius="16px" spacing="4px" bgColor={colorMode === "light" ? "grey.100" : "dark.grey700"}>

@@ -29,20 +29,15 @@ export default class Item {
     this.sprites = [];
 
     const { engine, room } = GameInstance.get();
-    const texture = engine.app.loader.resources[object.contractAddress + "_" + object.tokenId].texture as Texture;
+    const texture = engine.assetTextures[object.contractAddress + "_" + object.tokenId + ".png"];
     texture.baseTexture.scaleMode = engine.scaleMode;
-    const sprite = Sprite.from(texture);
-
-    const unitW = sprite.width / (object.sizeX + object.sizeY);
+    const splitW = texture.frame.width / (object.sizeX + object.sizeY);
     for (let n = 0; n < object.sizeX + object.sizeY; n++) {
-      const texture = sprite.texture.clone();
-      const mask = new Rectangle(n * unitW, 0, unitW, sprite.height);
-      texture.frame = mask;
-      const unit = new Sprite(texture);
-      unit.x = n * unitW;
-
-      this.sprites.push(unit);
-      this.container.addChild(unit);
+      const frame = new Rectangle(texture.frame.x + n * splitW, texture.frame.y, splitW, texture.frame.height);
+      const split = new Sprite(new Texture(texture.baseTexture, frame));
+      split.x = n * splitW;
+      this.sprites.push(split);
+      this.container.addChild(split);
     }
 
     this.preview = new LinkPreview();

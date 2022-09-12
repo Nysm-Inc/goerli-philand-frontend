@@ -2,7 +2,7 @@ import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import { Box, Center, Flex, HStack, Text, VStack } from "@chakra-ui/react";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
-import { objectTraisList } from "~/types/object";
+import { objectTraits } from "~/types/object";
 import { AppContext } from "~/contexts";
 import { ShopItemContractAddress } from "~/types";
 import Icon from "~/ui/components/Icon";
@@ -39,7 +39,7 @@ const ShopItem: FC<{
             {item.name}
           </Text>
           <Text textStyle="paragraph-2" color={colorMode === "light" ? "grey.500" : "grey.200"}>
-            {objectTraisList[contract][item.tokenId].description}
+            {objectTraits[contract][item.tokenId].description}
           </Text>
         </VStack>
       ) : (

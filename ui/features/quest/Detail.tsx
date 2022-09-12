@@ -4,7 +4,7 @@ import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, Flex, HStack, Link, Text, VStack } from "@chakra-ui/react";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
-import { ObjectMetadata, objectTraisList } from "~/types/object";
+import { ObjectMetadata, objectTraits } from "~/types/object";
 import { conditionList } from "~/types/quest";
 import Icon from "~/ui/components/Icon";
 import Network from "~/ui/components/Network";
@@ -108,7 +108,7 @@ const Detail: FC<{
         </VStack>
       </HStack>
       <Text w="720px" h="40px" textStyle="paragraph-2" color={colorMode === "light" ? "grey.500" : "grey.200"}>
-        {objectTraisList[QUEST_OBJECT_CONTRACT_ADDRESS][selected.tokenId]?.description}
+        {objectTraits[QUEST_OBJECT_CONTRACT_ADDRESS][selected.tokenId]?.description}
       </Text>
       {conditionList[selected.tokenId]?.activities?.length > 0 && (
         <VStack spacing="16px" align="flex-start">

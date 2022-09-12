@@ -1,10 +1,9 @@
-import { Application, Container, LoaderResource, SCALE_MODES, Sprite, Texture, TilingSprite } from "pixi.js";
+import { Application, Container, Resource, SCALE_MODES, Sprite, Texture, TilingSprite } from "pixi.js";
 import { Stage as LayerStage } from "@pixi/layers";
 import { Viewport } from "pixi-viewport";
 import cloneDeep from "lodash.clonedeep";
 import { GAME_APP_WIDTH, GAME_APP_HEIGHT, LAND_OGP_W, LAND_OGP_H, LAND_OGP_PADDING_B, LAND_H } from "~/constants";
 import GameInstance from "~/game/GameInstance";
-import { objectMetadataList } from "~/types/object";
 import { ColorMode, zIndices } from "~/ui/styles";
 import "./pixelPerfectInteraction";
 
@@ -17,6 +16,7 @@ export default class Engine {
   grids: Container;
   gridSprites: { [mode in ColorMode]: TilingSprite };
   ogpLayout: { [mode in ColorMode]: Texture };
+  assetTextures: { [format: string]: Texture<Resource> };
   colorMode: ColorMode;
   scaleMode: SCALE_MODES;
   isMobile: boolean;
@@ -32,6 +32,7 @@ export default class Engine {
       light: Sprite.from("/assets/ogp_layout_light.png").texture,
       dark: Sprite.from("/assets/ogp_layout_dark.png").texture,
     };
+    this.assetTextures = {};
 
     this.app = new Application({
       width: window.innerWidth,
@@ -124,17 +125,14 @@ export default class Engine {
     this.app.stage.addChild(this.grids);
   }
 
-  async loadGlobalTextures() {
+  async loadAssetTextures() {
     return new Promise((resolve, reject) => {
-      for (const [contract, metadataList] of Object.entries(objectMetadataList)) {
-        for (const metadata of Object.values(metadataList)) {
-          this.app.loader.add(contract + "_" + metadata.tokenId, metadata.image_url, {
-            crossOrigin: "*",
-            loadType: LoaderResource.LOAD_TYPE.IMAGE,
-          });
-        }
-      }
-      this.app.loader.load();
+      this.app.loader
+        .add("spritesheet0", "/assets/spritesheet_0.json")
+        .add("spritesheet1", "/assets/spritesheet_1.json")
+        .load((_, resources) => {
+          this.assetTextures = { ...resources["spritesheet0"].textures, ...resources["spritesheet1"].textures };
+        });
       this.app.loader.onComplete.add(() => resolve("loaded"));
       this.app.loader.onError.add(() => reject("failed to load assets"));
     });
