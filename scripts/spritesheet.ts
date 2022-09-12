@@ -8,9 +8,9 @@ import {
   WALLPAPER_CONTRACT_ADDRESS,
 } from "~/constants";
 import { ObjectContractAddress, WallpaperContractAddress } from "~/types";
-import { ObjectMetadata, objectMetadataList } from "~/types/object";
+import { objectMetadataList } from "~/types/object";
 
-type ContractAddress = ObjectContractAddress & WallpaperContractAddress;
+type ContractAddress = ObjectContractAddress | WallpaperContractAddress;
 
 const dir = "./scripts/images";
 
@@ -41,7 +41,7 @@ const downloadObjectImages = async () => {
     let progress = 1;
     const total = Object.values(objectMetadataList).reduce((memo, list) => memo + Object.keys(list).length, 0);
     (Object.keys(objectMetadataList) as ContractAddress[]).forEach((contract) => {
-      (Object.values(objectMetadataList[contract]) as ObjectMetadata[]).forEach(async (meta) => {
+      Object.values(objectMetadataList[contract]).forEach(async (meta) => {
         await download(meta.image_url, `${dir}/${dirName[contract]}/${contract}_${meta.tokenId}.png`);
         console.log("progress: " + progress + "/" + total);
         progress++;
