@@ -38,4 +38,4 @@ yarn-error.log*
 .sentryclirc
 
 # custom
-scripts/output/
+scripts/output/images

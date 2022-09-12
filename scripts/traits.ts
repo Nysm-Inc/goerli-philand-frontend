@@ -29,6 +29,8 @@ const getTraits = async (
 
 const setTraits = async () => {
   try {
+    pre();
+
     let objectTraits: { [contract in ContractAddress]: { [tokenId: number]: ObjectTraits } } = {
       [QUEST_OBJECT_CONTRACT_ADDRESS]: {},
       [FREE_OBJECT_CONTRACT_ADDRESS]: {},
