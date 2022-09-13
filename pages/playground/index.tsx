@@ -1,9 +1,10 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { Box, useBoolean, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
+import { FC, useContext, useEffect } from "react";
+import { Box, Center, useBoolean, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import { FREE_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
+import { AppContext } from "~/contexts";
 import { PhiObject, BalanceObject, DepositObject, ObjectContractAddress, WallpaperContractAddress } from "~/types";
 import { objectMetadataList } from "~/types/object";
 import useGame from "~/hooks/game/useGame";
@@ -17,6 +18,8 @@ import { useZoom } from "~/ui/components/Zoom";
 import ActionMenu, { useActionMenu } from "~/ui/components/ActionMenu";
 import LinkMenu, { useLinkMenu } from "~/ui/components/LinkMenu";
 import WallpaperMenu, { useWallpaperMenu } from "~/ui/components/WallpaperMenu";
+import Icon from "~/ui/components/Icon";
+import IconButton from "~/ui/components/common/IconButton";
 
 const depositObjects: DepositObject[] = [];
 (Object.keys(objectMetadataList) as (ObjectContractAddress | WallpaperContractAddress)[]).forEach((contract) => {
@@ -46,8 +49,46 @@ const phiObjects: (PhiObject & { removeIdx: number })[] = [
   },
 ];
 
-const Index: NextPage = () => {
+const Header: FC = () => {
   const router = useRouter();
+  const { colorMode, toggleColorMode } = useContext(AppContext);
+
+  return (
+    <>
+      <Box
+        zIndex="default"
+        position="fixed"
+        top="16px"
+        left="24px"
+        cursor="pointer"
+        onClick={() => router.push("/", undefined, { shallow: true })}
+      >
+        <Image src="/icons/logo.svg" width="64px" height="64px" alt="" />
+      </Box>
+      <Box zIndex="default" position="fixed" top="24px" right="24px">
+        <IconButton
+          ariaLabel="color_mode"
+          icon={
+            <Center h="100%" w="100%">
+              {colorMode === "light" ? (
+                <Center h="32px" w="32px" bgColor="grey.900" borderRadius="6px">
+                  <Icon name="moon" color="white" />
+                </Center>
+              ) : (
+                <Center w="32px" h="32px" bgColor="white" borderRadius="6px">
+                  <Icon name="sun" />
+                </Center>
+              )}
+            </Center>
+          }
+          onClick={toggleColorMode}
+        />
+      </Box>
+    </>
+  );
+};
+
+const Index: NextPage = () => {
   const isMobile = useBreakpointValue({ base: true, lg: false }, { ssr: false });
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
@@ -97,16 +138,7 @@ const Index: NextPage = () => {
 
   return (
     <>
-      <Box
-        zIndex="default"
-        position="fixed"
-        top="16px"
-        left="24px"
-        cursor="pointer"
-        onClick={() => router.push("/", undefined, { shallow: true })}
-      >
-        <Image src="/icons/logo.svg" width="64px" height="64px" alt="" />
-      </Box>
+      <Header />
       <Help />
       <ActionMenu
         state={actionMenuState}
