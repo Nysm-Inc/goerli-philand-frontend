@@ -9,6 +9,17 @@ const nextConfig = {
     domains: ["www.arweave.net"],
     minimumCacheTTL: 86400,
   },
+  rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/",
+          has: [{ type: "host", value: "playground.oji3.dev" }],
+          destination: "/playground",
+        },
+      ],
+    };
+  },
 };
 
 const sentryWebpackPluginOptions = {
