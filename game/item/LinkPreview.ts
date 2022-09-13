@@ -8,14 +8,8 @@ import { jump } from "~/utils/url";
 const [bgW, bgH] = [296, 64];
 const [arrowW, arrowH] = [16, 8];
 const defaultOGPSize = 48;
-const paragraph1 = {
-  fontFamily: "JetBrainsMono",
-  fontWeight: "500",
-  fontSize: "16px",
-  lineHeight: 24,
-  letterSpacing: -0.02,
-  align: "center",
-};
+const paragraph1 = { fontFamily: "JetBrainsMono", fontWeight: "500", fontSize: "16px", lineHeight: 24, letterSpacing: -0.02 };
+const label2 = { fontFamily: "JetBrainsMono", fontWeight: "500", fontSize: "12px", lineHeight: 16, letterSpacing: -0.02 };
 
 export default class LinkPreview {
   private link: PhiLink;
@@ -113,9 +107,9 @@ export default class LinkPreview {
     clickableArea.addChild(this.title);
 
     // @ts-ignore
-    this.url = new Text("", paragraph1);
+    this.url = new Text("", label2);
     this.url.x = defaultOGPSize + 8 + 8;
-    this.url.y = 8 + 24 + (24 - 16) / 2;
+    this.url.y = 8 + 24 + (16 - 12) / 2;
     clickableArea.addChild(this.url);
   }
 
@@ -123,16 +117,18 @@ export default class LinkPreview {
     this.title.text = this.link.title.length > 16 ? `${this.link.title.substring(0, 12)}...` : this.link.title;
     this.title.style.fill = colorMode === "light" ? 0xffffff : 0x000000;
 
-    this.url.text = this.link.url.length > 16 ? `${this.link.url.substring(0, 12)}...` : this.link.url;
-    this.url.style.fill = 0x8283ff;
+    try {
+      const url = this.link.url.replace(new URL(this.link.url).protocol + "//", "");
+      this.url.text = url.length > 32 ? `${url.substring(0, 28)}...` : url;
+      this.url.style.fill = 0x8283ff;
+    } catch {}
   }
 
   update(link: PhiLink) {
-    this.link = link;
-
     (async () => {
       try {
         const url = new URL(link.url);
+        this.link = link;
         const res = await axios.get<{ ogp: string }>(`/api/fetchOGP?url=${url}`);
         this.ogpURL = res.data.ogp;
         const ogpTexture = await Texture.fromURL(this.ogpURL);
