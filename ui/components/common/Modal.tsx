@@ -157,7 +157,7 @@ const Modal: FC<{
       isCentered={!!left || true}
       scrollBehavior="inside"
       onCloseComplete={onCloseComplete}
-      {...(clickThrough && { variant: "clickThrough", trapFocus: false })}
+      {...(clickThrough && { variant: "clickThrough", trapFocus: false, blockScrollOnMount: false })}
     >
       {overlay && <ModalOverlay bgColor="rgba(26, 26, 26, 0.64)" />}
       <ChakraModalContent
