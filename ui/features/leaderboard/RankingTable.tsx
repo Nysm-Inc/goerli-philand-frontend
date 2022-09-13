@@ -35,9 +35,9 @@ const RankingTable: FC<{ rank: Rank; topScoreList: TopScoreList; onClose: () => 
             >
               <Td>{i + 1}</Td>
               <Td>{topScoreList[rank][i].name + ".eth"}</Td>
-              <Td>{topScoreList.activity[i].value.toFixed(2)}</Td>
-              <Td>{topScoreList.social[i].value.toFixed(2)}</Td>
-              <Td>{topScoreList.attention[i] ? topScoreList.attention[i].value.toFixed(2) : "-"}</Td>
+              <Td>{topScoreList.activity[i].value.toFixed(0)}</Td>
+              <Td>{topScoreList.social[i].value.toFixed(0)}</Td>
+              <Td>{topScoreList.attention[i] ? topScoreList.attention[i].value.toFixed(0) : "-"}</Td>
             </Tr>
           ))}
         </Tbody>
