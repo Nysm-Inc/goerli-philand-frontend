@@ -17,9 +17,7 @@ const RankingTable: FC<{ rank: Rank; topScoreList: TopScoreList; onClose: () => 
           <Tr>
             <Th>Rank</Th>
             <Th>User</Th>
-            <Th>Active</Th>
-            <Th>Social</Th>
-            <Th>Attention</Th>
+            <Th>{rank.toUpperCase()}</Th>
           </Tr>
         </Thead>
         <Tbody textStyle="paragraph-2" color={colorMode === "light" ? "grey.900" : "white"}>
@@ -35,9 +33,7 @@ const RankingTable: FC<{ rank: Rank; topScoreList: TopScoreList; onClose: () => 
             >
               <Td>{i + 1}</Td>
               <Td>{topScoreList[rank][i].name + ".eth"}</Td>
-              <Td>{topScoreList.activity[i].value.toFixed(0)}</Td>
-              <Td>{topScoreList.social[i].value.toFixed(0)}</Td>
-              <Td>{topScoreList.attention[i] ? topScoreList.attention[i].value.toFixed(0) : "-"}</Td>
+              <Td>{topScoreList[rank][i] ? topScoreList[rank][i].value.toFixed(0) : "-"}</Td>
             </Tr>
           ))}
         </Tbody>
