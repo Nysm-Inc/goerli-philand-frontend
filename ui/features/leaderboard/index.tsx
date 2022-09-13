@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, useContext, useState } from "react";
+import { FC, useContext } from "react";
 import { Box, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import type { MyScore as TypMyScore, TopScoreList } from "~/types/leaderboard";
@@ -61,10 +61,9 @@ const Leaderboard: FC<{
   onClose: () => void;
 }> = ({ isMobile, ens, myScore, topScoreList, isOpen, onClose }) => {
   const { colorMode } = useContext(AppContext);
-  const [tabIdx, setTabIdx] = useState(0);
 
   return (
-    <Tabs variant="unstyled" onChange={(idx) => setTabIdx(idx)}>
+    <Tabs variant="unstyled">
       <Modal
         w={isMobile ? "full" : "832px"}
         h={isMobile ? "full" : "712px"}
