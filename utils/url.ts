@@ -6,7 +6,8 @@ import { event } from "./ga/ga";
 
 export const isValidURL = (url: string) => {
   try {
-    return Boolean(new URL(url));
+    const u = new URL(url);
+    return u.protocol === "https:";
   } catch (e) {
     return false;
   }
