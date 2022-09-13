@@ -18,6 +18,13 @@ const nextConfig = {
           destination: "/playground",
         },
       ],
+      afterFiles: [
+        {
+          source: "/:path*",
+          has: [{ type: "host", value: "playground.oji3.dev" }],
+          destination: "/playground",
+        },
+      ],
     };
   },
 };
