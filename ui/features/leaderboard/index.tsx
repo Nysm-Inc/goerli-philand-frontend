@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, useContext } from "react";
+import { FC, useContext, useState } from "react";
 import { Box, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import type { MyScore as TypMyScore, TopScoreList } from "~/types/leaderboard";
@@ -61,9 +61,10 @@ const Leaderboard: FC<{
   onClose: () => void;
 }> = ({ isMobile, ens, myScore, topScoreList, isOpen, onClose }) => {
   const { colorMode } = useContext(AppContext);
+  const [tabIdx, setTabIdx] = useState(0);
 
   return (
-    <Tabs variant="unstyled">
+    <Tabs variant="unstyled" onChange={(idx) => setTabIdx(idx)}>
       <Modal
         w={isMobile ? "full" : "832px"}
         h={isMobile ? "full" : "712px"}
@@ -90,18 +91,22 @@ const Leaderboard: FC<{
           {ens && myScore && <MyScore ens={ens} myScore={myScore} />}
           <TabList w={isMobile ? "full" : "510px"}>
             <Tab text="Active" />
-            <Tab text="Social" disabled />
-            <Tab text="Attention" disabled />
+            <Tab text="Social" />
+            <Tab text="Attention" />
           </TabList>
         </VStack>
         <Box h="24px" />
         <ModalBody>
           <TabPanels>
             <TabPanel p="0">
-              <RankingTable topScoreList={topScoreList} onClose={onClose} />
+              <RankingTable rank="activity" topScoreList={topScoreList} onClose={onClose} />
             </TabPanel>
-            <TabPanel p="0"></TabPanel>
-            <TabPanel p="0"></TabPanel>
+            <TabPanel p="0">
+              <RankingTable rank="social" topScoreList={topScoreList} onClose={onClose} />
+            </TabPanel>
+            <TabPanel p="0">
+              <RankingTable rank="attention" topScoreList={topScoreList} onClose={onClose} />
+            </TabPanel>
           </TabPanels>
         </ModalBody>
       </Modal>

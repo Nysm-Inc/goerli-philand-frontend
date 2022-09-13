@@ -20,6 +20,8 @@ type GetMyScoreAPIResponse = {
     socialScore: number;
     attentionScore: number;
     activityRank: number;
+    socialRank: number;
+    attentionRank: number;
   };
 };
 
@@ -33,6 +35,8 @@ export const getMyScore = async (ens: string) => {
     social: data?.socialScore || 0,
     attention: data?.attentionScore || 0,
     activityRank: data?.activityRank || 0,
+    socialRank: data?.socialRank || 0,
+    attentionRank: data?.attentionRank || 0,
   };
 };
 

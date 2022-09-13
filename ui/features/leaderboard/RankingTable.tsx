@@ -4,7 +4,9 @@ import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/reac
 import { AppContext } from "~/contexts";
 import type { TopScoreList } from "~/types/leaderboard";
 
-const RankingTable: FC<{ topScoreList: TopScoreList; onClose: () => void }> = ({ topScoreList, onClose }) => {
+type Rank = "activity" | "social" | "attention";
+
+const RankingTable: FC<{ rank: Rank; topScoreList: TopScoreList; onClose: () => void }> = ({ rank, topScoreList, onClose }) => {
   const router = useRouter();
   const { colorMode } = useContext(AppContext);
 
@@ -21,21 +23,21 @@ const RankingTable: FC<{ topScoreList: TopScoreList; onClose: () => void }> = ({
           </Tr>
         </Thead>
         <Tbody textStyle="paragraph-2" color={colorMode === "light" ? "grey.900" : "white"}>
-          {topScoreList.activity.map((score, i) => (
+          {topScoreList[rank].map((_, i) => (
             <Tr
               key={i}
               cursor="pointer"
               _hover={{ bgColor: colorMode === "light" ? "warmgrey.90" : "dark.grey700" }}
               onClick={() => {
-                router.push(score.name + ".eth", undefined, { shallow: true });
+                router.push(topScoreList[rank][i].name + ".eth", undefined, { shallow: true });
                 onClose();
               }}
             >
               <Td>{i + 1}</Td>
-              <Td>{score.name + ".eth"}</Td>
-              <Td>{score.value.toFixed(2)}</Td>
-              <Td>-</Td>
-              <Td>-</Td>
+              <Td>{topScoreList[rank][i].name + ".eth"}</Td>
+              <Td>{topScoreList.activity[i].value.toFixed(2)}</Td>
+              <Td>{topScoreList.social[i].value.toFixed(2)}</Td>
+              <Td>{topScoreList.attention[i] ? topScoreList.attention[i].value.toFixed(2) : "-"}</Td>
             </Tr>
           ))}
         </Tbody>
