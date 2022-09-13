@@ -21,6 +21,7 @@ const MenuBar: FC<{
   isDiff: boolean;
   noObjectsInLand: boolean;
   isEdit: boolean;
+  playground?: boolean; // todo
   isOpen: { wallet: boolean; land: boolean };
   currentENS: string;
   domains: string[];
@@ -45,6 +46,7 @@ const MenuBar: FC<{
   noObjectsInLand,
   isEdit,
   isOpen,
+  playground,
   currentENS,
   domains,
   currentWallpaper,
@@ -105,7 +107,7 @@ const MenuBar: FC<{
         <>
           {isEdit ? (
             <>
-              <Button w="88px" color="yellow" leftIcon={<Icon name="undo" />} onClick={isDiff ? onOpenAlert : cancel}>
+              <Button w="88px" color="yellow" disabled={playground} leftIcon={<Icon name="undo" />} onClick={isDiff ? onOpenAlert : cancel}>
                 <Text textStyle="button-2" color="grey.900">
                   BACK
                 </Text>
