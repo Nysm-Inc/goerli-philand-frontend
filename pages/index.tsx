@@ -18,7 +18,9 @@ const Index: NextPage = () => {
   useClouds(isMobile);
   useEffect(() => {
     isMobile ? game.engine.hide() : game.engine.show();
-    return () => game.engine.show();
+    return () => {
+      isMobile && game.engine.show();
+    };
   }, [isMobile]);
 
   return (
