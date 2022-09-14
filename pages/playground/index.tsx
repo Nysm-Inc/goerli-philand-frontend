@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, useContext, useEffect } from "react";
 import { Box, Center, useBoolean, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
-import { FREE_OBJECT_CONTRACT_ADDRESS, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
+import { FREE_OBJECT_CONTRACT_ADDRESS, FRONTEND_URL, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
 import { PhiObject, BalanceObject, DepositObject, ObjectContractAddress, WallpaperContractAddress } from "~/types";
 import { objectMetadataList } from "~/types/object";
@@ -20,6 +20,7 @@ import LinkMenu, { useLinkMenu } from "~/ui/components/LinkMenu";
 import WallpaperMenu, { useWallpaperMenu } from "~/ui/components/WallpaperMenu";
 import Icon from "~/ui/components/Icon";
 import IconButton from "~/ui/components/common/IconButton";
+import Mobile from "~/ui/components/Mobile";
 
 const depositObjects: DepositObject[] = [];
 (Object.keys(objectMetadataList) as (ObjectContractAddress | WallpaperContractAddress)[]).forEach((contract) => {
@@ -55,14 +56,7 @@ const Header: FC = () => {
 
   return (
     <>
-      <Box
-        zIndex="default"
-        position="fixed"
-        top="16px"
-        left="24px"
-        cursor="pointer"
-        onClick={() => router.push("/", undefined, { shallow: true })}
-      >
+      <Box zIndex="default" position="fixed" top="16px" left="24px" cursor="pointer" onClick={() => router.push(FRONTEND_URL)}>
         <Image src="/icons/logo.svg" width="64px" height="64px" alt="" />
       </Box>
       <Box zIndex="default" position="fixed" top="24px" right="24px">
@@ -97,7 +91,6 @@ const Index: NextPage = () => {
   const { isOpen: isOpenLand, onOpen: onOpenLand, onClose: onCloseLand } = useDisclosure();
   const { scaled, changeScaled } = useZoom();
   const [landObjects, plus, minus, setLandObjects, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
-  useClouds(isMobile);
 
   const {
     onView,
@@ -133,9 +126,13 @@ const Index: NextPage = () => {
     },
   });
 
+  useClouds(isMobile);
   useEffect(() => onEdit(), [onEdit]);
   useEffect(() => onOpenLand(), []);
 
+  if (isMobile) {
+    return <Mobile />;
+  }
   return (
     <>
       <Header />
