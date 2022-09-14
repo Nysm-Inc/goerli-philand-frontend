@@ -3,6 +3,8 @@ export type MyScore = {
   social: number;
   attention: number;
   activityRank: number;
+  socialRank: number;
+  attentionRank: number;
 };
 
 type Score = { name: string; value: number };

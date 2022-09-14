@@ -4,7 +4,9 @@ import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/reac
 import { AppContext } from "~/contexts";
 import type { TopScoreList } from "~/types/leaderboard";
 
-const RankingTable: FC<{ topScoreList: TopScoreList; onClose: () => void }> = ({ topScoreList, onClose }) => {
+type Rank = "activity" | "social" | "attention";
+
+const RankingTable: FC<{ rank: Rank; topScoreList: TopScoreList; onClose: () => void }> = ({ rank, topScoreList, onClose }) => {
   const router = useRouter();
   const { colorMode } = useContext(AppContext);
 
@@ -13,29 +15,25 @@ const RankingTable: FC<{ topScoreList: TopScoreList; onClose: () => void }> = ({
       <Table variant="unstyled">
         <Thead textStyle="label-2" color="grey.500">
           <Tr>
-            <Th>Rank</Th>
-            <Th>User</Th>
-            <Th>Active</Th>
-            <Th>Social</Th>
-            <Th>Attention</Th>
+            <Th textTransform="none">Rank</Th>
+            <Th textTransform="none">User</Th>
+            <Th textTransform="none">{rank.replace(/^[a-z]/g, (char) => char.toUpperCase())}</Th>
           </Tr>
         </Thead>
         <Tbody textStyle="paragraph-2" color={colorMode === "light" ? "grey.900" : "white"}>
-          {topScoreList.activity.map((score, i) => (
+          {topScoreList[rank].map((_, i) => (
             <Tr
               key={i}
               cursor="pointer"
               _hover={{ bgColor: colorMode === "light" ? "warmgrey.90" : "dark.grey700" }}
               onClick={() => {
-                router.push(score.name + ".eth", undefined, { shallow: true });
+                router.push(topScoreList[rank][i].name + ".eth", undefined, { shallow: true });
                 onClose();
               }}
             >
               <Td>{i + 1}</Td>
-              <Td>{score.name + ".eth"}</Td>
-              <Td>{score.value.toFixed(2)}</Td>
-              <Td>-</Td>
-              <Td>-</Td>
+              <Td>{topScoreList[rank][i].name + ".eth"}</Td>
+              <Td>{topScoreList[rank][i] ? topScoreList[rank][i].value.toFixed(0) : "-"}</Td>
             </Tr>
           ))}
         </Tbody>

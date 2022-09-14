@@ -28,7 +28,7 @@ const ScoreCard: FC<{ title: string; score?: number; rank?: number }> = ({ title
         {title}
       </Text>
       <Text textStyle="headline-1" color={colorMode === "light" ? "grey.900" : "white"}>
-        {score !== undefined ? score.toFixed(2) : "-"}
+        {score !== undefined ? score.toFixed(0) : "-"}
       </Text>
       <ScoreBadge rank={rank} />
     </VStack>
@@ -56,8 +56,8 @@ const MyScore: FC<{ ens: string; myScore: TypMyScore }> = ({ ens, myScore }) => 
         </Text>
         <HStack spacing="16px">
           <ScoreCard title="Active Score" score={myScore.activity} rank={myScore.activityRank} />
-          <ScoreCard title="Social Score" />
-          <ScoreCard title="Attention Score" />
+          <ScoreCard title="Social Score" score={myScore.social} rank={myScore.socialRank} />
+          <ScoreCard title="Attention Score" score={myScore.attention} rank={myScore.attentionRank} />
         </HStack>
       </VStack>
     </HStack>
