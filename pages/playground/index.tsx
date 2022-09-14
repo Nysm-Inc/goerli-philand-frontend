@@ -25,8 +25,8 @@ const depositObjects: DepositObject[] = [];
 (Object.keys(objectMetadataList) as (ObjectContractAddress | WallpaperContractAddress)[]).forEach((contract) => {
   if (contract === WALLPAPER_CONTRACT_ADDRESS) return;
   Object.values(objectMetadataList[contract]).forEach((meta) => {
-    if (contract === FREE_OBJECT_CONTRACT_ADDRESS && meta.tokenId === 36) return;
-    depositObjects.push({ contractAddress: contract, tokenId: meta.tokenId, amount: 1, used: 0 });
+    const amount = contract === FREE_OBJECT_CONTRACT_ADDRESS && meta.tokenId === 36 ? 998 : 999;
+    depositObjects.push({ contractAddress: contract, tokenId: meta.tokenId, amount, used: 0 });
   });
 });
 
