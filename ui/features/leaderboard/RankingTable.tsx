@@ -15,9 +15,9 @@ const RankingTable: FC<{ rank: Rank; topScoreList: TopScoreList; onClose: () => 
       <Table variant="unstyled">
         <Thead textStyle="label-2" color="grey.500">
           <Tr>
-            <Th>Rank</Th>
-            <Th>User</Th>
-            <Th>{rank.toUpperCase()}</Th>
+            <Th textTransform="none">Rank</Th>
+            <Th textTransform="none">User</Th>
+            <Th textTransform="none">{rank.replace(/^[a-z]/g, (char) => char.toUpperCase())}</Th>
           </Tr>
         </Thead>
         <Tbody textStyle="paragraph-2" color={colorMode === "light" ? "grey.900" : "white"}>
