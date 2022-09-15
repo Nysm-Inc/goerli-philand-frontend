@@ -3,7 +3,7 @@ import { FC, useContext, useState } from "react";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Box, Center, HStack, SimpleGrid, Text, useBoolean, VStack } from "@chakra-ui/react";
 import { QUEST_OBJECT_CONTRACT_ADDRESS } from "~/constants";
-import { objectMetadataList } from "~/types/object";
+import { objectMetadataList, objectTraits } from "~/types/object";
 import { QuestClaimableList, QuestProgressList } from "~/types/quest";
 import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
@@ -122,7 +122,13 @@ const Quest: FC<{
                   )}
                   <Center w="100%" h="144px" cursor="pointer" {...(!claimable && { opacity: 0.5 })}>
                     <Box position="relative" w="96px" h="96px">
-                      <Image src={metadata.image_url} layout="fill" objectFit="contain" draggable={false} alt="" />
+                      <Image
+                        src={objectTraits[QUEST_OBJECT_CONTRACT_ADDRESS][metadata.tokenId].image}
+                        layout="fill"
+                        objectFit="contain"
+                        draggable={false}
+                        alt=""
+                      />
                     </Box>
                   </Center>
                   <VStack spacing="8px" align="flex-start">

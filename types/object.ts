@@ -1155,6 +1155,7 @@ export type ObjectTraits = {
     family: string;
     name: string;
   };
+  image: string;
 };
 
 export const objectTraits: { [contract in ObjectContractAddress | WallpaperContractAddress]: { [tokenId: number]: ObjectTraits } } = traits;
