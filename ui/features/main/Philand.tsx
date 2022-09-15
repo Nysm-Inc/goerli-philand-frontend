@@ -57,6 +57,7 @@ const Philand: FC<{
   const { isOpen: isOpenLand, onOpen: onOpenLand, onClose: onCloseLand } = useDisclosure();
   const { isOpen: isOpenLeaderboard, onOpen: onOpenLeaderboard, onClose: onCloseLeaderboard } = useDisclosure();
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
+  const { isOpen: isOpenLinkList, onOpen: onOpenLinkList, onClose: onCloseLinkList } = useDisclosure();
   const onCloseModals = useCallback(() => (onCloseQuest(), onCloseShop(), onCloseWallet(), onCloseLand(), onCloseHowItWorks()), []);
 
   const { wallpaper, refetch: refetchWallpaper } = useWallpaper(currentENS);
@@ -82,7 +83,7 @@ const Philand: FC<{
       const phiObject = item.getPhiObject();
       return phiObject.link.url ? [...memo, phiObject] : memo;
     }, [] as PhiObject[]);
-  }, [linkState]);
+  }, [isOpenLinkList]);
 
   const {
     onEdit,
@@ -118,6 +119,9 @@ const Philand: FC<{
       <LeaderboardButton onOpen={onOpenLeaderboard} />
       <Leaderboard ens={currentENS} myScore={myScore} topScoreList={topScoreList} isOpen={isOpenLeaderboard} onClose={onCloseLeaderboard} />
       <LinkList
+        isOpen={isOpenLinkList}
+        onOpen={onOpenLinkList}
+        onClose={onCloseLinkList}
         phiObjects={phiObjectsWithLink}
         buttonPosition={{ bottom: "32px", right: isEdit ? "calc(24px + 48px + 16px)" : "calc(24px + (48px + 16px) * 2)" }}
         menuListStyle={{ w: "320px", m: "0 24px 0 0" }}

@@ -62,6 +62,9 @@ const LinkOGP: FC<{ url: string }> = ({ url }) => {
 };
 
 const LinkList: FC<{
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
   phiObjects: PhiObject[];
   defaultIsOpen?: boolean;
   menuListStyle: {
@@ -72,14 +75,19 @@ const LinkList: FC<{
     bottom: PositionProps["bottom"];
     right: PositionProps["right"];
   };
-}> = ({ phiObjects, defaultIsOpen, menuListStyle, buttonPosition }) => {
+}> = ({ isOpen, onOpen, onClose, phiObjects, menuListStyle, buttonPosition }) => {
   const router = useRouter();
   const { colorMode, game } = useContext(AppContext);
 
   return (
     <Box zIndex="link-list" position="fixed" bottom={buttonPosition.bottom} right={buttonPosition.right}>
-      <Menu variant="unstyled" placement="top" autoSelect={false} closeOnSelect={false} defaultIsOpen={defaultIsOpen}>
-        <MenuButton as={IconButton} ariaLabel="list" icon={<Icon name="list" color={colorMode === "light" ? "grey.900" : "white"} />} />
+      <Menu variant="unstyled" placement="top" isOpen={isOpen} autoSelect={false} closeOnSelect={false} onClose={onClose}>
+        <MenuButton
+          as={IconButton}
+          ariaLabel="list"
+          icon={<Icon name="list" color={colorMode === "light" ? "grey.900" : "white"} />}
+          onClick={onOpen}
+        />
         {phiObjects.length > 0 && (
           <MenuList
             maxHeight="240px"

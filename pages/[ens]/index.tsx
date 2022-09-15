@@ -36,6 +36,7 @@ const Philand: FC<{
   wallpaper?: Wallpaper;
 }> = ({ isMobile, ens, phiObjects, wallpaper }) => {
   const router = useRouter();
+  const { isOpen: isOpenLinkList, onOpen: onOpenLinkList, onClose: onCloseLinkList } = useDisclosure({ defaultIsOpen: true });
   const phiObjectsWithLink = useMemo(() => phiObjects.filter((object) => object.link.title || object.link.url), [phiObjects]);
   const { initialized } = useGame({
     state: { currentENS: ens, isEdit: false, phiObjects, wallpaper },
@@ -46,8 +47,10 @@ const Philand: FC<{
     <>
       {initialized && (
         <LinkList
+          isOpen={isOpenLinkList}
+          onOpen={onOpenLinkList}
+          onClose={onCloseLinkList}
           phiObjects={phiObjectsWithLink}
-          defaultIsOpen={!isMobile}
           buttonPosition={{ bottom: isMobile ? "12px" : "32px", right: isMobile ? "12px" : "calc(24px + 48px + 16px)" }}
           menuListStyle={{ w: isMobile ? "calc(100vw - 12px * 2)" : "320px", m: isMobile ? "0 12px 0 0" : "0 24px 0 0" }}
         />
