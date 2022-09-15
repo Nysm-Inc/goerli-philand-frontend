@@ -24,6 +24,7 @@ export default class LinkPreview {
   url: Text;
 
   defaultOGP: Graphics;
+  defaultOGPIcon: Sprite;
   ogp: Container;
 
   constructor() {
@@ -103,6 +104,13 @@ export default class LinkPreview {
     this.defaultOGP.endFill();
     clickableArea.addChild(this.defaultOGP);
 
+    this.defaultOGPIcon = Sprite.from("/assets/default_ogp.png");
+    this.defaultOGPIcon.width = 30;
+    this.defaultOGPIcon.height = 30;
+    this.defaultOGPIcon.x = 8 + 9;
+    this.defaultOGPIcon.y = 8 + 9;
+    this.container.addChild(this.defaultOGPIcon);
+
     this.ogp = new Container();
     this.ogp.x = 8;
     this.ogp.y = 8;
@@ -152,15 +160,18 @@ export default class LinkPreview {
         ogpSprite.scale.set(defaultOGPSize / coverSize);
         ogpSprite.addChild(cover);
 
-        this.ogp.mask = this.defaultOGP;
+        const mask = new Graphics();
+        mask.beginFill(0xcccccc);
+        mask.drawRoundedRect(0, 0, defaultOGPSize, defaultOGPSize, 8);
+        mask.endFill();
+        this.ogp.addChild(mask);
+        this.ogp.mask = mask;
+
         this.ogp.addChild(ogpSprite);
+        this.container.removeChild(this.defaultOGPIcon);
       } catch {
-        const icon = Sprite.from("/assets/default_ogp.png");
-        icon.width = 30;
-        icon.height = 30;
-        icon.x = 8 + 9;
-        icon.y = 8 + 9;
-        this.container.addChild(icon);
+        this.container.addChild(this.defaultOGPIcon);
+        this.ogp.removeChildren();
       }
     })();
   }
