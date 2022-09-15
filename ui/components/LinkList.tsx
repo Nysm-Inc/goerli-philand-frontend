@@ -2,12 +2,12 @@ import { useRouter } from "next/router";
 import NextImage from "next/image";
 import { FC, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Center, Menu, MenuButton, MenuItem, MenuList, Text, VStack } from "@chakra-ui/react";
+import { Box, Center, Menu, MenuButton, MenuItem, MenuList, PositionProps, Text, VStack, LayoutProps, SpaceProps } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { PhiObject } from "~/types";
+import { jump } from "~/utils/url";
 import IconButton from "./common/IconButton";
 import Icon from "./Icon";
-import { jump } from "~/utils/url";
 
 const defaultLinkOGP = (
   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,12 +61,23 @@ const LinkOGP: FC<{ url: string }> = ({ url }) => {
   );
 };
 
-const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?: boolean }> = ({ isMobile, phiObjects, defaultIsOpen }) => {
+const LinkList: FC<{
+  phiObjects: PhiObject[];
+  defaultIsOpen?: boolean;
+  menuListStyle: {
+    w: LayoutProps["w"];
+    m: SpaceProps["m"];
+  };
+  buttonPosition: {
+    bottom: PositionProps["bottom"];
+    right: PositionProps["right"];
+  };
+}> = ({ phiObjects, defaultIsOpen, menuListStyle, buttonPosition }) => {
   const router = useRouter();
   const { colorMode, game } = useContext(AppContext);
 
   return (
-    <Box zIndex="link-list" position="fixed" bottom={isMobile ? "12px" : "32px"} right={isMobile ? "12px" : "calc(24px + 48px + 16px)"}>
+    <Box zIndex="link-list" position="fixed" bottom={buttonPosition.bottom} right={buttonPosition.right}>
       <Menu variant="unstyled" placement="top" autoSelect={false} closeOnSelect={false} defaultIsOpen={defaultIsOpen}>
         <MenuButton as={IconButton} ariaLabel="list" icon={<Icon name="list" color={colorMode === "light" ? "grey.900" : "white"} />} />
         {phiObjects.length > 0 && (
@@ -77,10 +88,11 @@ const LinkList: FC<{ isMobile: boolean; phiObjects: PhiObject[]; defaultIsOpen?:
             overflowY="scroll"
             boxShadow="md"
             maxH="calc(512px - 24px)"
+            w={menuListStyle.w}
+            m={menuListStyle.m}
             border={colorMode === "light" ? "1px solid" : "none"}
             borderColor="light.g_orange"
             bgColor={colorMode === "light" ? "white" : "grey.900"}
-            {...(isMobile ? { w: "calc(100vw - 12px * 2)", mr: "12px" } : { w: "320px", mr: "24px" })}
           >
             {phiObjects.map((object, i) => (
               <MenuItem

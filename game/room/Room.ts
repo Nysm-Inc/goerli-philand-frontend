@@ -88,6 +88,11 @@ export default class Room {
     this.landItemContainer.children.forEach((child) => {
       child.buttonMode = false;
     });
+
+    // const { room } = GameInstance.get();
+    // Object.values(room.roomItemManager.getItems()).forEach((item) => {
+    //   item.container.buttonMode = false
+    // });
   }
 
   edit() {

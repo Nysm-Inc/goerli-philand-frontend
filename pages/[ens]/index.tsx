@@ -44,7 +44,14 @@ const Philand: FC<{
 
   return (
     <>
-      {initialized && <LinkList isMobile={isMobile} phiObjects={phiObjectsWithLink} defaultIsOpen={!isMobile} />}
+      {initialized && (
+        <LinkList
+          phiObjects={phiObjectsWithLink}
+          defaultIsOpen={!isMobile}
+          buttonPosition={{ bottom: isMobile ? "12px" : "32px", right: isMobile ? "12px" : "calc(24px + 48px + 16px)" }}
+          menuListStyle={{ w: isMobile ? "calc(100vw - 12px * 2)" : "320px", m: isMobile ? "0 12px 0 0" : "0 24px 0 0" }}
+        />
+      )}
       <LandName ens={ens} />
     </>
   );

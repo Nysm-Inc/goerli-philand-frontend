@@ -64,6 +64,7 @@ const useHandler = ({
     game.room.roomItemManager.removeItem(item.getUUID());
     const object = item.getObject();
     uiHandler?.tryRemove(object.contractAddress, object.tokenId);
+    uiHandler?.changeLink(uuid, { title: "", url: "" });
   };
   const onPickLandObject = (object: IObject) => {
     game.room.movingItemManager.pickFromLand(object);

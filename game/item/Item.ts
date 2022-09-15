@@ -101,7 +101,7 @@ export default class Item {
 
   showLinkPreview() {
     const { room, engine } = GameInstance.get();
-    if (room.isEdit) return;
+    if (room.movingItemManager.isMoving) return;
     if (!this.object.link.title && !this.object.link.url) return;
 
     if (engine.colorMode === "light") {
@@ -121,7 +121,7 @@ export default class Item {
 
   hideLinkPreview() {
     const { room } = GameInstance.get();
-    if (room.isEdit) return;
+    if (room.movingItemManager.isMoving) return;
     this.preview.container.visible = false;
   }
 }
