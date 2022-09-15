@@ -36,7 +36,7 @@ const Philand: FC<{
   wallpaper?: Wallpaper;
 }> = ({ isMobile, ens, phiObjects, wallpaper }) => {
   const router = useRouter();
-  const { isOpen: isOpenLinkList, onOpen: onOpenLinkList, onClose: onCloseLinkList } = useDisclosure({ defaultIsOpen: true });
+  const { isOpen: isOpenLinkList, onOpen: onOpenLinkList, onClose: onCloseLinkList } = useDisclosure({ defaultIsOpen: !isMobile });
   const phiObjectsWithLink = useMemo(() => phiObjects.filter((object) => object.link.title || object.link.url), [phiObjects]);
   const { initialized } = useGame({
     state: { currentENS: ens, isEdit: false, phiObjects, wallpaper },
