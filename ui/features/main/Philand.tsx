@@ -1,6 +1,14 @@
 import { useRouter } from "next/router";
-import { FC, useCallback } from "react";
+import { FC, useCallback, useContext, useMemo } from "react";
 import { useDisclosure, useBoolean } from "@chakra-ui/react";
+import {
+  FREE_OBJECT_CONTRACT_ADDRESS,
+  QUEST_OBJECT_CONTRACT_ADDRESS,
+  PREMIUM_OBJECT_CONTRACT_ADDRESS,
+  WALLPAPER_CONTRACT_ADDRESS,
+} from "~/constants";
+import { AppContext } from "~/contexts";
+import { PhiObject } from "~/types";
 import Quest from "~/ui/features/quest";
 import Shop from "~/ui/features/shop";
 import Land from "~/ui/features/land";
@@ -15,13 +23,6 @@ import useBuyObjects from "~/hooks/shop";
 import useHandler from "~/hooks/game/useHandler";
 import useGame from "~/hooks/game/useGame";
 import useScore from "~/hooks/leaderboard/score";
-import {
-  FREE_OBJECT_CONTRACT_ADDRESS,
-  QUEST_OBJECT_CONTRACT_ADDRESS,
-  PREMIUM_OBJECT_CONTRACT_ADDRESS,
-  WALLPAPER_CONTRACT_ADDRESS,
-} from "~/constants";
-import { PhiObject } from "~/types";
 import MenuBar from "~/ui/components/MenuBar";
 import Share from "~/ui/components/Share";
 import MainMenu from "~/ui/components/MainMenu";
@@ -33,6 +34,7 @@ import WallpaperMenu, { useWallpaperMenu } from "~/ui/components/WallpaperMenu";
 import Help from "~/ui/components/Help";
 import EditStatus from "~/ui/components/EditStatus";
 import { useZoom } from "~/ui/components/Zoom";
+import LinkList from "~/ui/components/LinkList";
 
 const Philand: FC<{
   address: string;
@@ -43,6 +45,7 @@ const Philand: FC<{
   refetchPhiObjects: () => void;
 }> = ({ address, currentENS, domains, switchCurrentENS, phiObjects, refetchPhiObjects }) => {
   const router = useRouter();
+  const { game } = useContext(AppContext);
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
   const [linkState, onOpenLinkMenu, onCloseLinkMenu, changeLink] = useLinkMenu();
@@ -54,6 +57,7 @@ const Philand: FC<{
   const { isOpen: isOpenLand, onOpen: onOpenLand, onClose: onCloseLand } = useDisclosure();
   const { isOpen: isOpenLeaderboard, onOpen: onOpenLeaderboard, onClose: onCloseLeaderboard } = useDisclosure();
   const { isOpen: isOpenHowItWorks, onOpen: onOpenHowItWorks, onClose: onCloseHowItWorks } = useDisclosure();
+  const { isOpen: isOpenLinkList, onOpen: onOpenLinkList, onClose: onCloseLinkList } = useDisclosure();
   const onCloseModals = useCallback(() => (onCloseQuest(), onCloseShop(), onCloseWallet(), onCloseLand(), onCloseHowItWorks()), []);
 
   const { wallpaper, refetch: refetchWallpaper } = useWallpaper(currentENS);
@@ -74,6 +78,12 @@ const Philand: FC<{
   const refetchQuests = useCallback(() => (refetchQuest(), refetchClaimedList()), []);
   const refetchBalances = useCallback(() => (refetchQuest(), refetchFree(), refetchPre(), refetchWall(), refetchDepositObjects()), []);
   const refetchPhiland = useCallback(() => (refetchPhiObjects(), refetchWallpaper()), []);
+  const phiObjectsWithLink = useMemo(() => {
+    return Object.values(game.room.roomItemManager.getItems()).reduce((memo, item) => {
+      const phiObject = item.getPhiObject();
+      return phiObject.link.url ? [...memo, phiObject] : memo;
+    }, [] as PhiObject[]);
+  }, [isOpenLinkList]);
 
   const {
     onEdit,
@@ -108,6 +118,14 @@ const Philand: FC<{
       <QuickTour isEdit={isEdit} ens={currentENS} />
       <LeaderboardButton onOpen={onOpenLeaderboard} />
       <Leaderboard ens={currentENS} myScore={myScore} topScoreList={topScoreList} isOpen={isOpenLeaderboard} onClose={onCloseLeaderboard} />
+      <LinkList
+        isOpen={isOpenLinkList}
+        onOpen={onOpenLinkList}
+        onClose={onCloseLinkList}
+        phiObjects={phiObjectsWithLink}
+        buttonPosition={{ bottom: "32px", right: isEdit ? "calc(24px + 48px + 16px)" : "calc(24px + (48px + 16px) * 2)" }}
+        menuListStyle={{ w: "320px", m: "0 24px 0 0" }}
+      />
 
       <MenuBar
         initialized={initialized}
