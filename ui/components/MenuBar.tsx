@@ -21,7 +21,6 @@ const MenuBar: FC<{
   isDiff: boolean;
   noObjectsInLand: boolean;
   isEdit: boolean;
-  playground?: boolean; // todo
   isOpen: { wallet: boolean; land: boolean };
   currentENS: string;
   domains: string[];
@@ -40,19 +39,22 @@ const MenuBar: FC<{
     onSave: () => Promise<TransactionResponse | undefined>;
     onRefetch: () => void;
   };
+  //
+  isPlayground?: boolean; // note: only used in playground
 }> = ({
   initialized,
   isDiff,
   noObjectsInLand,
   isEdit,
   isOpen,
-  playground,
   currentENS,
   domains,
   currentWallpaper,
   balanceWallpapers,
   scaled,
   actionHandler,
+  //
+  isPlayground,
 }) => {
   const { game, colorMode } = useContext(AppContext);
   const provider = useProvider();
@@ -107,7 +109,13 @@ const MenuBar: FC<{
         <>
           {isEdit ? (
             <>
-              <Button w="88px" color="yellow" disabled={playground} leftIcon={<Icon name="undo" />} onClick={isDiff ? onOpenAlert : cancel}>
+              <Button
+                w="88px"
+                color="yellow"
+                disabled={isPlayground}
+                leftIcon={<Icon name="undo" />}
+                onClick={isDiff ? onOpenAlert : cancel}
+              >
                 <Text textStyle="button-2" color="grey.900">
                   BACK
                 </Text>
