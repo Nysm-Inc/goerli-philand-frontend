@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { FC, useContext, useEffect } from "react";
+import { FC, useContext, useEffect, useMemo } from "react";
 import { Box, Center, useBoolean, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
-import { FREE_OBJECT_CONTRACT_ADDRESS, FRONTEND_URL, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
+import { FREE_OBJECT_CONTRACT_ADDRESS, FRONTEND_URL, SURVEY_URL, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
 import { PhiObject, BalanceObject, DepositObject, ObjectContractAddress, WallpaperContractAddress } from "~/types";
 import { objectMetadataList } from "~/types/object";
@@ -21,6 +21,7 @@ import WallpaperMenu, { useWallpaperMenu } from "~/ui/components/WallpaperMenu";
 import Icon from "~/ui/components/Icon";
 import IconButton from "~/ui/components/common/IconButton";
 import Mobile from "~/ui/components/Mobile";
+import LinkList from "~/ui/components/LinkList";
 
 const depositObjects: DepositObject[] = [];
 (Object.keys(objectMetadataList) as (ObjectContractAddress | WallpaperContractAddress)[]).forEach((contract) => {
@@ -45,7 +46,7 @@ const phiObjects: (PhiObject & { removeIdx: number })[] = [
     yStart: 3,
     xEnd: 4,
     yEnd: 4,
-    link: { title: "", url: "" },
+    link: { title: "Phi Survey Form", url: SURVEY_URL },
     removeIdx: 0,
   },
 ];
@@ -83,14 +84,22 @@ const Header: FC = () => {
 };
 
 const Index: NextPage = () => {
+  const { game } = useContext(AppContext);
   const isMobile = useBreakpointValue({ base: true, lg: false }, { ssr: false });
   const [isEdit, { on: edit, off: view }] = useBoolean(false);
   const [actionMenuState, onOpenActionMenu, onCloseActionMenu] = useActionMenu();
   const [linkState, onOpenLinkMenu, onCloseLinkMenu, changeLink] = useLinkMenu();
   const [wallpaperMenuState, onOpenWallpaperMenu, onCloseWallpaperMenu] = useWallpaperMenu();
   const { isOpen: isOpenLand, onOpen: onOpenLand, onClose: onCloseLand } = useDisclosure();
+  const { isOpen: isOpenLinkList, onOpen: onOpenLinkList, onClose: onCloseLinkList } = useDisclosure();
   const { scaled, changeScaled } = useZoom();
   const [landObjects, plus, minus, setLandObjects, tryWrite, tryRemove, reset] = useLand(depositObjects, isEdit);
+  const phiObjectsWithLink = useMemo(() => {
+    return Object.values(game.room.roomItemManager.getItems()).reduce((memo, item) => {
+      const phiObject = item.getPhiObject();
+      return phiObject.link.url ? [...memo, phiObject] : memo;
+    }, [] as PhiObject[]);
+  }, [isOpenLinkList]);
 
   const {
     onView,
@@ -137,6 +146,14 @@ const Index: NextPage = () => {
     <>
       <Header />
       <Help />
+      <LinkList
+        isOpen={isOpenLinkList}
+        onOpen={onOpenLinkList}
+        onClose={onCloseLinkList}
+        phiObjects={phiObjectsWithLink}
+        buttonPosition={{ bottom: "32px", right: isEdit ? "calc(24px + 48px + 16px)" : "calc(24px + (48px + 16px) * 2)" }}
+        menuListStyle={{ w: "320px", m: "0 24px 0 0" }}
+      />
       <ActionMenu
         state={actionMenuState}
         onClose={onCloseActionMenu}
