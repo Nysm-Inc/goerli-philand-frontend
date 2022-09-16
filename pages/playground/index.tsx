@@ -198,7 +198,6 @@ const Index: NextPage = () => {
         noObjectsInLand={false}
         isEdit={true}
         isOpen={{ wallet: false, land: isOpenLand }}
-        playground
         currentENS=""
         domains={[]}
         currentWallpaper={undefined}
@@ -216,6 +215,7 @@ const Index: NextPage = () => {
           onSave,
           onRefetch: () => {},
         }}
+        isPlayground
       />
     </>
   );
