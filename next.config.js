@@ -14,14 +14,14 @@ const nextConfig = {
       beforeFiles: [
         {
           source: "/",
-          has: [{ type: "host", value: "playground.oji3.dev" }],
+          has: [{ type: "host", value: "playground.philand.xyz" }],
           destination: "/playground",
         },
       ],
       afterFiles: [
         {
           source: "/:path*",
-          has: [{ type: "host", value: "playground.oji3.dev" }],
+          has: [{ type: "host", value: "playground.philand.xyz" }],
           destination: "/playground",
         },
       ],
