@@ -9,6 +9,7 @@ import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
 import useNavi from "~/ui/components/NaviNotification";
+import Size from "~/ui/components/Size";
 import QuantityInput from "~/ui/components/common/QuantityInput";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "~/ui/components/common/Modal";
 import IconButton from "~/ui/components/common/IconButton";
@@ -111,21 +112,10 @@ const Wallet: FC<{
                       />
                     </Box>
                     <Box position="absolute" bottom="0" right="0">
-                      <HStack
-                        w="50px"
-                        h="24px"
-                        spacing="4px"
-                        p="4px"
-                        borderRadius="4px"
-                        bgColor={colorMode === "light" ? "grey.100" : "dark.grey700"}
-                      >
-                        <Icon name="expand" color={colorMode === "light" ? "dark.grey600" : "grey.200"} />
-                        <Text textStyle="label-2" color={colorMode === "light" ? "dark.grey600" : "grey.200"}>
-                          {`${objectMetadataList[item.contract][item.tokenId].size[0]}x${
-                            objectMetadataList[item.contract][item.tokenId].size[1]
-                          }`}
-                        </Text>
-                      </HStack>
+                      <Size
+                        sizeX={objectMetadataList[item.contract][item.tokenId].size[0]}
+                        sizeY={objectMetadataList[item.contract][item.tokenId].size[1]}
+                      />
                     </Box>
                   </Center>
                   <Text textStyle="label-2" color="grey.500">

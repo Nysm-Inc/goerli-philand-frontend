@@ -9,10 +9,11 @@ import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
 import Network from "~/ui/components/Network";
 import Message from "~/ui/components/Message";
+import NewBadge from "~/ui/components/NewBadge";
+import Size from "~/ui/components/Size";
 import { Modal, ModalBody, ModalHeader } from "~/ui/components/common/Modal";
 import IconButton from "~/ui/components/common/IconButton";
 import Badge from "~/ui/components/common/Badge";
-import NewBadge from "~/ui/components/NewBadge";
 import ClaimButton from "./ClaimButton";
 import Detail, { Selected } from "./Detail";
 
@@ -123,19 +124,7 @@ const Quest: FC<{
                       <Image src={metadata.image_url} layout="fill" objectFit="contain" draggable={false} alt="" />
                     </Box>
                     <Box position="absolute" bottom="0" right="0">
-                      <HStack
-                        w="50px"
-                        h="24px"
-                        spacing="4px"
-                        p="4px"
-                        borderRadius="4px"
-                        bgColor={colorMode === "light" ? "grey.100" : "dark.grey700"}
-                      >
-                        <Icon name="expand" color={colorMode === "light" ? "dark.grey600" : "grey.200"} />
-                        <Text textStyle="label-2" color={colorMode === "light" ? "dark.grey600" : "grey.200"}>
-                          {`${metadata.size[0]}x${metadata.size[1]}`}
-                        </Text>
-                      </HStack>
+                      <Size sizeX={metadata.size[0]} sizeY={metadata.size[1]} />
                     </Box>
                   </Center>
                   <VStack spacing="8px" align="flex-start">
