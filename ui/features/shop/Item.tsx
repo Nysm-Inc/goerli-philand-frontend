@@ -1,13 +1,14 @@
 import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import { Box, Center, Flex, HStack, Text, VStack } from "@chakra-ui/react";
+import { AppContext } from "~/contexts";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { objectTraits } from "~/types/object";
-import { AppContext } from "~/contexts";
 import { ShopItemContractAddress } from "~/types";
 import Icon from "~/ui/components/Icon";
+import NewBadge from "~/ui/components/NewBadge";
 import QuantityInput from "~/ui/components/common/QuantityInput";
-import { Item } from "./types";
+import { Item, newShopIds } from "./types";
 
 const ShopItem: FC<{
   contract: ShopItemContractAddress;
@@ -54,6 +55,11 @@ const ShopItem: FC<{
             bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
           }}
         >
+          {newShopIds.find((id) => id.contract === contract && id.tokenId === item.tokenId) && (
+            <Box position="absolute" top="16px" left="16px">
+              <NewBadge />
+            </Box>
+          )}
           <Box position="absolute" top="16px" right="16px" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
             <Icon name="info" color={colorMode === "light" ? "grey.900" : "white"} />
           </Box>

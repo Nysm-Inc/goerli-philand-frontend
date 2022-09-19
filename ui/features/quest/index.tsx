@@ -12,9 +12,9 @@ import Message from "~/ui/components/Message";
 import { Modal, ModalBody, ModalHeader } from "~/ui/components/common/Modal";
 import IconButton from "~/ui/components/common/IconButton";
 import Badge from "~/ui/components/common/Badge";
+import NewBadge from "~/ui/components/NewBadge";
 import ClaimButton from "./ClaimButton";
 import Detail, { Selected } from "./Detail";
-import NewBadge from "./NewBadge";
 
 const metadataList = Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]);
 
@@ -110,9 +110,7 @@ const Quest: FC<{
                   align="flex-start"
                   cursor="pointer"
                   bgColor={colorMode === "light" ? "white" : "grey.900"}
-                  _hover={{
-                    bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
-                  }}
+                  _hover={{ bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700" }}
                   onClick={() => setSelected({ ...metadata, claimable, claimed, progress })}
                 >
                   {newQuestIds.includes(metadata.tokenId) && (
