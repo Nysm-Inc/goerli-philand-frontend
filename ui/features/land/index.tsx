@@ -144,6 +144,23 @@ const Land: FC<{
                         draggable={false}
                       />
                     </Box>
+                    <Box position="absolute" bottom="0" right="0">
+                      <HStack
+                        w="50px"
+                        h="24px"
+                        spacing="4px"
+                        p="4px"
+                        borderRadius="4px"
+                        bgColor={colorMode === "light" ? "grey.100" : "dark.grey700"}
+                      >
+                        <Icon name="expand" color={colorMode === "light" ? "dark.grey600" : "grey.200"} />
+                        <Text textStyle="label-2" color={colorMode === "light" ? "dark.grey600" : "grey.200"}>
+                          {`${objectMetadataList[object.contractAddress][object.tokenId].size[0]}x${
+                            objectMetadataList[object.contractAddress][object.tokenId].size[1]
+                          }`}
+                        </Text>
+                      </HStack>
+                    </Box>
                   </Center>
                   <Text textStyle="label-2" color="grey.500">
                     OWNED {object.amount - object.used}

@@ -54,12 +54,27 @@ const ShopItem: FC<{
             bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
           }}
         >
-          <Center w="100%" h="144px" minH="144px">
+          <Box position="absolute" top="16px" right="16px" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
+            <Icon name="info" color={colorMode === "light" ? "grey.900" : "white"} />
+          </Box>
+          <Center position="relative" w="100%" h="144px" minH="144px">
             <Box position="relative" w="96px" h="96px">
               <Image src={item.image_url} layout="fill" objectFit="contain" draggable={false} alt="" />
             </Box>
-            <Box position="absolute" top="16px" right="16px" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
-              <Icon name="info" color={colorMode === "light" ? "grey.900" : "white"} />
+            <Box position="absolute" bottom="0" right="0">
+              <HStack
+                w="50px"
+                h="24px"
+                spacing="4px"
+                p="4px"
+                borderRadius="4px"
+                bgColor={colorMode === "light" ? "grey.100" : "dark.grey700"}
+              >
+                <Icon name="expand" color={colorMode === "light" ? "dark.grey600" : "grey.200"} />
+                <Text textStyle="label-2" color={colorMode === "light" ? "dark.grey600" : "grey.200"}>
+                  {`${item.size[0]}x${item.size[1]}`}
+                </Text>
+              </HStack>
             </Box>
           </Center>
 

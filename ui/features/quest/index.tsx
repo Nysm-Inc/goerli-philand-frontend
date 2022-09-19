@@ -18,7 +18,7 @@ import NewBadge from "./NewBadge";
 
 const metadataList = Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]);
 
-const newQuestIds = [24, 31, 32, 33];
+const newQuestIds = [98, 99];
 
 const Quest: FC<{
   claimableList: QuestClaimableList;
@@ -120,9 +120,24 @@ const Quest: FC<{
                       <NewBadge />
                     </Box>
                   )}
-                  <Center w="100%" h="144px" cursor="pointer" {...(!claimable && { opacity: 0.5 })}>
+                  <Center position="relative" w="100%" h="144px" cursor="pointer" {...(!claimable && { opacity: 0.5 })}>
                     <Box position="relative" w="96px" h="96px">
                       <Image src={metadata.image_url} layout="fill" objectFit="contain" draggable={false} alt="" />
+                    </Box>
+                    <Box position="absolute" bottom="0" right="0">
+                      <HStack
+                        w="50px"
+                        h="24px"
+                        spacing="4px"
+                        p="4px"
+                        borderRadius="4px"
+                        bgColor={colorMode === "light" ? "grey.100" : "dark.grey700"}
+                      >
+                        <Icon name="expand" color={colorMode === "light" ? "dark.grey600" : "grey.200"} />
+                        <Text textStyle="label-2" color={colorMode === "light" ? "dark.grey600" : "grey.200"}>
+                          {`${metadata.size[0]}x${metadata.size[1]}`}
+                        </Text>
+                      </HStack>
                     </Box>
                   </Center>
                   <VStack spacing="8px" align="flex-start">
