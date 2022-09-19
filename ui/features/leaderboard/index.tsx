@@ -96,7 +96,7 @@ const Leaderboard: FC<{
         </VStack>
         <Box h="24px" />
         <ModalBody>
-          <TabPanels>
+          <TabPanels maxH="396px">
             <TabPanel p="0">
               <RankingTable rank="activity" topScoreList={topScoreList} onClose={onClose} />
             </TabPanel>

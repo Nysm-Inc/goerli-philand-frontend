@@ -32,7 +32,9 @@ const RankingTable: FC<{ rank: Rank; topScoreList: TopScoreList; onClose: () => 
               }}
             >
               <Td>{i + 1}</Td>
-              <Td>{topScoreList[rank][i].name + ".eth"}</Td>
+              <Td maxW="240px" overflowX="hidden" textOverflow="ellipsis">
+                {topScoreList[rank][i].name + ".eth"}
+              </Td>
               <Td>{topScoreList[rank][i] ? topScoreList[rank][i].value.toFixed(0) : "-"}</Td>
             </Tr>
           ))}
