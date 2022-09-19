@@ -31,8 +31,8 @@ const RankingTable: FC<{ rank: Rank; topScoreList: TopScoreList; onClose: () => 
                 onClose();
               }}
             >
-              <Td>{i + 1}</Td>
-              <Td maxW="240px" overflowX="hidden" textOverflow="ellipsis">
+              <Td w="120px">{i + 1}</Td>
+              <Td w="480px" maxW="480px" overflowX="hidden" textOverflow="ellipsis">
                 {topScoreList[rank][i].name + ".eth"}
               </Td>
               <Td>{topScoreList[rank][i] ? topScoreList[rank][i].value.toFixed(0) : "-"}</Td>
