@@ -109,18 +109,16 @@ const MenuBar: FC<{
         <>
           {isEdit ? (
             <>
-              <Button
-                w="88px"
-                color="yellow"
-                disabled={isPlayground}
-                leftIcon={<Icon name="undo" />}
-                onClick={isDiff ? onOpenAlert : cancel}
-              >
-                <Text textStyle="button-2" color="grey.900">
-                  BACK
-                </Text>
-              </Button>
-              <Divider orientation="vertical" color={colorMode === "light" ? "light.g_orange" : "dark.grey700"} h="48px" />
+              {!isPlayground && (
+                <>
+                  <Button w="88px" color="yellow" leftIcon={<Icon name="undo" />} onClick={isDiff ? onOpenAlert : cancel}>
+                    <Text textStyle="button-2" color="grey.900">
+                      BACK
+                    </Text>
+                  </Button>
+                  <Divider orientation="vertical" color={colorMode === "light" ? "light.g_orange" : "dark.grey700"} h="48px" />
+                </>
+              )}
               <IconButton
                 ariaLabel="land"
                 icon={<Image priority src="/icons/land.svg" width="32px" height="32px" alt="" />}
@@ -183,35 +181,37 @@ const MenuBar: FC<{
           <Zoom scaled={scaled} changeScaled={actionHandler.onChangeScaled} />
           {isEdit ? (
             <>
-              <Button
-                w="88px"
-                color="green"
-                leftIcon={<Icon name="save" />}
-                isLoading={isLoading}
-                disabled={!isDiff}
-                onClick={() => {
-                  event({ action: "click", category: "menubar", label: "save" });
-                  startLoading();
-                  const save = async () => {
-                    return actionHandler.onSave().catch((err) => {
-                      if (err.name !== UserRejectedRequestError.name) return err;
-                    });
-                  };
-                  retry(save, 1)
-                    .then(async (res) => {
-                      if (!res?.hash) throw new Error("invalid hash");
-                      event({ action: "conversion_save" });
-                      await provider.waitForTransaction(res?.hash);
-                      actionHandler.onRefetch();
-                      stopLoading();
-                    })
-                    .catch(stopLoading);
-                }}
-              >
-                <Text textStyle="button-2" color="grey.900">
-                  Save
-                </Text>
-              </Button>
+              {!isPlayground && (
+                <Button
+                  w="88px"
+                  color="green"
+                  leftIcon={<Icon name="save" />}
+                  isLoading={isLoading}
+                  disabled={!isDiff}
+                  onClick={() => {
+                    event({ action: "click", category: "menubar", label: "save" });
+                    startLoading();
+                    const save = async () => {
+                      return actionHandler.onSave().catch((err) => {
+                        if (err.name !== UserRejectedRequestError.name) return err;
+                      });
+                    };
+                    retry(save, 1)
+                      .then(async (res) => {
+                        if (!res?.hash) throw new Error("invalid hash");
+                        event({ action: "conversion_save" });
+                        await provider.waitForTransaction(res?.hash);
+                        actionHandler.onRefetch();
+                        stopLoading();
+                      })
+                      .catch(stopLoading);
+                  }}
+                >
+                  <Text textStyle="button-2" color="grey.900">
+                    Save
+                  </Text>
+                </Button>
+              )}
             </>
           ) : (
             <ChakraTooltip
