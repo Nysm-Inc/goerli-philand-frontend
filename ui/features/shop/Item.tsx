@@ -1,13 +1,15 @@
 import Image from "next/image";
 import { FC, useContext, useState } from "react";
 import { Box, Center, Flex, HStack, Text, VStack } from "@chakra-ui/react";
+import { AppContext } from "~/contexts";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { objectTraits } from "~/types/object";
-import { AppContext } from "~/contexts";
 import { ShopItemContractAddress } from "~/types";
 import Icon from "~/ui/components/Icon";
+import NewBadge from "~/ui/components/NewBadge";
+import Size from "~/ui/components/Size";
 import QuantityInput from "~/ui/components/common/QuantityInput";
-import { Item } from "./types";
+import { Item, newShopIds } from "./types";
 
 const ShopItem: FC<{
   contract: ShopItemContractAddress;
@@ -54,12 +56,20 @@ const ShopItem: FC<{
             bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
           }}
         >
-          <Center w="100%" h="144px" minH="144px">
+          {newShopIds.find((id) => id.contract === contract && id.tokenId === item.tokenId) && (
+            <Box position="absolute" top="16px" left="16px">
+              <NewBadge />
+            </Box>
+          )}
+          <Box position="absolute" top="16px" right="16px" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
+            <Icon name="info" color={colorMode === "light" ? "grey.900" : "white"} />
+          </Box>
+          <Center position="relative" w="100%" h="144px" minH="144px">
             <Box position="relative" w="96px" h="96px">
               <Image src={item.image_url} layout="fill" objectFit="contain" draggable={false} alt="" />
             </Box>
-            <Box position="absolute" top="16px" right="16px" cursor="pointer" onClick={() => setSelected((prev) => !prev)}>
-              <Icon name="info" color={colorMode === "light" ? "grey.900" : "white"} />
+            <Box position="absolute" bottom="0" right="0">
+              <Size sizeX={item.size[0]} sizeY={item.size[1]} />
             </Box>
           </Center>
 

@@ -51,8 +51,6 @@ export default class LinkPreview {
       this
     );
     this.container.addChild(clickableArea);
-    const hiddenArea = new Container();
-    this.container.addChild(hiddenArea);
 
     this.bgLight = new Graphics();
     this.bgLight.visible = false;
@@ -92,12 +90,6 @@ export default class LinkPreview {
     this.bgDarkArrow.endFill();
     clickableArea.addChild(this.bgDarkArrow);
 
-    const gapArea = new Graphics();
-    gapArea.beginFill(0xffffff, 0.001);
-    gapArea.drawRoundedRect(0, bgH, bgW, bgH, 0);
-    gapArea.endFill();
-    hiddenArea.addChild(gapArea);
-
     this.defaultOGP = new Graphics();
     this.defaultOGP.beginFill(0xcccccc);
     this.defaultOGP.drawRoundedRect(8, 8, defaultOGPSize, defaultOGPSize, 8);
@@ -109,7 +101,7 @@ export default class LinkPreview {
     this.defaultOGPIcon.height = 30;
     this.defaultOGPIcon.x = 8 + 9;
     this.defaultOGPIcon.y = 8 + 9;
-    this.container.addChild(this.defaultOGPIcon);
+    clickableArea.addChild(this.defaultOGPIcon);
 
     this.ogp = new Container();
     this.ogp.x = 8;
@@ -121,21 +113,38 @@ export default class LinkPreview {
     this.title.x = defaultOGPSize + 8 + 8;
     this.title.y = 8 + (24 - 16) / 2;
     clickableArea.addChild(this.title);
+    const textOverflowTitle = new Graphics()
+      .beginFill(0x000000, 0.01)
+      .drawRect(0, 0, bgW - 8 * 2 - defaultOGPSize - 8, 24)
+      .endFill();
+    this.title.mask = textOverflowTitle;
+    this.title.addChild(textOverflowTitle);
 
     // @ts-ignore
     this.url = new Text("", label2);
     this.url.x = defaultOGPSize + 8 + 8;
     this.url.y = 8 + 24 + (16 - 12) / 2;
     clickableArea.addChild(this.url);
+    const textOverflowURL = new Graphics()
+      .beginFill(0x000000, 0.01)
+      .drawRect(0, 0, bgW - 8 * 2 - defaultOGPSize - 8, 16)
+      .endFill();
+    this.url.mask = textOverflowURL;
+    this.url.addChild(textOverflowURL);
+
+    const hoverArea = new Graphics();
+    hoverArea.beginFill(0xffffff, 0.001);
+    hoverArea.drawRoundedRect(0, bgH, bgW, bgH, 0);
+    hoverArea.endFill();
+    this.container.addChild(hoverArea);
   }
 
   draw(colorMode: ColorMode) {
-    this.title.text = this.link.title.length > 16 ? `${this.link.title.substring(0, 12)}...` : this.link.title;
+    this.title.text = this.link.title;
     this.title.style.fill = colorMode === "light" ? 0xffffff : 0x000000;
 
     try {
-      const url = this.link.url.replace(new URL(this.link.url).protocol + "//", "");
-      this.url.text = url.length > 32 ? `${url.substring(0, 28)}...` : url;
+      this.url.text = this.link.url.replace(new URL(this.link.url).protocol + "//", "");
       this.url.style.fill = 0x8283ff;
     } catch {}
   }

@@ -25,3 +25,13 @@ export const tabIdx2Contract: { [idx: number]: ShopItemContractAddress } = {
   1: PREMIUM_OBJECT_CONTRACT_ADDRESS,
   2: WALLPAPER_CONTRACT_ADDRESS,
 };
+
+export const newShopIds: { contract: string; tokenId: number }[] = [
+  { contract: PREMIUM_OBJECT_CONTRACT_ADDRESS, tokenId: 26 },
+  { contract: PREMIUM_OBJECT_CONTRACT_ADDRESS, tokenId: 27 },
+  { contract: PREMIUM_OBJECT_CONTRACT_ADDRESS, tokenId: 28 },
+  { contract: PREMIUM_OBJECT_CONTRACT_ADDRESS, tokenId: 29 },
+  { contract: PREMIUM_OBJECT_CONTRACT_ADDRESS, tokenId: 30 },
+  { contract: PREMIUM_OBJECT_CONTRACT_ADDRESS, tokenId: 35 },
+  { contract: PREMIUM_OBJECT_CONTRACT_ADDRESS, tokenId: 36 },
+];

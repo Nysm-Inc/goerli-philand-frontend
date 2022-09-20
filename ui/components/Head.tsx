@@ -1,9 +1,9 @@
 import { default as NextHead } from "next/head";
 import { FC } from "react";
-import { FRONTEND_URL, LAND_OGP_H, LAND_OGP_W } from "~/constants";
+import { FRONTEND_URL, APP_ENV, LAND_OGP_H, LAND_OGP_W } from "~/constants";
 
 const Head: FC<{ title?: string; ogp?: string }> = ({ title: _title, ogp }) => {
-  const title = _title || "Phi";
+  const title = _title || APP_ENV === "dev" ? "Phi - Dev 🛠" : "Phi";
   const description = "Phi visualizes your on-chain identity";
 
   return (

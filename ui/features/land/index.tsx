@@ -8,6 +8,7 @@ import { BalanceObject, IObject } from "~/types";
 import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
 import useNavi from "~/ui/components/NaviNotification";
+import Size from "~/ui/components/Size";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "~/ui/components/common/Modal";
 import IconButton from "~/ui/components/common/IconButton";
 import Checkbox from "~/ui/components/common/Checkbox";
@@ -142,6 +143,12 @@ const Land: FC<{
                         layout="fill"
                         objectFit="contain"
                         draggable={false}
+                      />
+                    </Box>
+                    <Box position="absolute" bottom="0" right="0">
+                      <Size
+                        sizeX={objectMetadataList[object.contractAddress][object.tokenId].size[0]}
+                        sizeY={objectMetadataList[object.contractAddress][object.tokenId].size[1]}
                       />
                     </Box>
                   </Center>

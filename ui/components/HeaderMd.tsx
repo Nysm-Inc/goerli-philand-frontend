@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FC, useContext } from "react";
 import { Box, Center, Flex } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import { FRONTEND_URL } from "~/constants";
 import Search from "./Search";
 import Icon from "./Icon";
 import IconButton from "./common/IconButton";
@@ -36,7 +37,7 @@ const HeaderMd: FC = () => {
           h="40px"
           minH="40px"
           cursor="pointer"
-          onClick={() => router.push("/", undefined, { shallow: true })}
+          onClick={() => router.push(FRONTEND_URL, undefined, { shallow: true })}
         >
           <Image src="/icons/logo.svg" layout="fill" objectFit="contain" alt="" />
         </Center>

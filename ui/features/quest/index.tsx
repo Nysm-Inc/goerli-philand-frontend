@@ -9,16 +9,17 @@ import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
 import Network from "~/ui/components/Network";
 import Message from "~/ui/components/Message";
+import NewBadge from "~/ui/components/NewBadge";
+import Size from "~/ui/components/Size";
 import { Modal, ModalBody, ModalHeader } from "~/ui/components/common/Modal";
 import IconButton from "~/ui/components/common/IconButton";
 import Badge from "~/ui/components/common/Badge";
 import ClaimButton from "./ClaimButton";
 import Detail, { Selected } from "./Detail";
-import NewBadge from "./NewBadge";
 
 const metadataList = Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]);
 
-const newQuestIds = [24, 31, 32, 33];
+const newQuestIds = [98, 99];
 
 const Quest: FC<{
   claimableList: QuestClaimableList;
@@ -110,9 +111,7 @@ const Quest: FC<{
                   align="flex-start"
                   cursor="pointer"
                   bgColor={colorMode === "light" ? "white" : "grey.900"}
-                  _hover={{
-                    bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
-                  }}
+                  _hover={{ bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700" }}
                   onClick={() => setSelected({ ...metadata, claimable, claimed, progress })}
                 >
                   {newQuestIds.includes(metadata.tokenId) && (
@@ -120,9 +119,12 @@ const Quest: FC<{
                       <NewBadge />
                     </Box>
                   )}
-                  <Center w="100%" h="144px" cursor="pointer" {...(!claimable && { opacity: 0.5 })}>
+                  <Center position="relative" w="100%" h="144px" cursor="pointer" {...(!claimable && { opacity: 0.5 })}>
                     <Box position="relative" w="96px" h="96px">
                       <Image src={metadata.image_url} layout="fill" objectFit="contain" draggable={false} alt="" />
+                    </Box>
+                    <Box position="absolute" bottom="0" right="0">
+                      <Size sizeX={metadata.size[0]} sizeY={metadata.size[1]} />
                     </Box>
                   </Center>
                   <VStack spacing="8px" align="flex-start">

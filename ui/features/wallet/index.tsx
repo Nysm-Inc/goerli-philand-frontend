@@ -9,6 +9,7 @@ import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { AppContext } from "~/contexts";
 import Icon from "~/ui/components/Icon";
 import useNavi from "~/ui/components/NaviNotification";
+import Size from "~/ui/components/Size";
 import QuantityInput from "~/ui/components/common/QuantityInput";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "~/ui/components/common/Modal";
 import IconButton from "~/ui/components/common/IconButton";
@@ -101,13 +102,19 @@ const Wallet: FC<{
                     bgColor: colorMode === "light" ? "light.lg_orange40" : "dark.grey700",
                   }}
                 >
-                  <Center w="100%" h="144px">
+                  <Center position="relative" w="100%" h="144px">
                     <Box position="relative" w="96px" h="96px">
                       <Image
                         src={objectMetadataList[item.contract][item.tokenId].image_url}
                         layout="fill"
                         objectFit="contain"
                         draggable={false}
+                      />
+                    </Box>
+                    <Box position="absolute" bottom="0" right="0">
+                      <Size
+                        sizeX={objectMetadataList[item.contract][item.tokenId].size[0]}
+                        sizeY={objectMetadataList[item.contract][item.tokenId].size[1]}
                       />
                     </Box>
                   </Center>
