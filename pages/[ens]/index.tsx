@@ -20,7 +20,9 @@ import Help from "~/ui/components/Help";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
-    const res = await axios.get<{ images: string[] }>(`${UTILS_API_GATEWAY}/images/list?name=${query.ens}`);
+    // @ts-ignore
+    const ens = decodeURI(query.ens);
+    const res = await axios.get<{ images: string[] }>(`${UTILS_API_GATEWAY}/images/list?name=${ens}`);
     const images = res.data.images;
     const ogp = images.length > 0 ? images[images.length - 1] : "";
     return { props: { ogp, title: `${query.ens} | Phi`, query } };
