@@ -19,7 +19,7 @@ import Detail, { Selected } from "./Detail";
 
 const metadataList = Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDRESS]);
 
-const newQuestIds = [98, 99];
+const newQuestIds = [2, 9, 16, 43, 44, 45, 46, 97, 100];
 
 const Quest: FC<{
   claimableList: QuestClaimableList;
