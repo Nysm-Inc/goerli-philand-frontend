@@ -19,7 +19,7 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onSubmit = useCallback(
     (text: string) => {
-      router.push(FRONTEND_URL + "/" + isValid(text) ? text : text + ".eth", undefined, { shallow: true });
+      router.push(FRONTEND_URL + "/" + (isValid(text) ? text : text + ".eth"), undefined, { shallow: true });
       setSearchText("");
     },
     [router]
