@@ -2,9 +2,11 @@ import Image from "next/image";
 import { FC, useContext } from "react";
 import { Avatar, Box, HStack, Text } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
+import useENSAvatar from "~/hooks/ens/useENSAvatar";
 
 const LandName: FC<{ ens: string }> = ({ ens }) => {
   const { colorMode } = useContext(AppContext);
+  const avatar = useENSAvatar(ens);
 
   return (
     <HStack
@@ -26,7 +28,8 @@ const LandName: FC<{ ens: string }> = ({ ens }) => {
       <Avatar
         w="32px"
         h="32px"
-        bgColor={colorMode === "light" ? "purple.150" : "red.150"}
+        src={avatar}
+        {...(!avatar && { bgColor: colorMode === "light" ? "purple.150" : "red.150" })}
         icon={
           <Box position="absolute" top="4px">
             <Image width="28px" height="28px" src="/icons/dotty.svg" alt="" />
