@@ -1262,9 +1262,13 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
     },
   };
 
+export type Attributes = {
+  objectType: string;
+  network?: string;
+};
+
 export type ObjectTraits = {
-  // todo: should be converted to a usable object
-  attributes: { trait_type: string; value: string }[];
+  attributes: Attributes;
   name: string;
   description: string;
   collection: {
