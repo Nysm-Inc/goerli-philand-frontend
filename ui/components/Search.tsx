@@ -30,9 +30,10 @@ const Search: FC<{ w?: LayoutProps["w"]; shadow?: boolean }> = ({ w, shadow = tr
   useEffect(() => {
     if (!searchText) return;
 
-    search(searchText).then((res) => {
-      setSuggestOptions(res.name.map((name) => ({ label: name.name, value: name.name })));
-    });
+    const debounce = setTimeout(() => {
+      search(searchText).then((res) => setSuggestOptions(res.name.map((name) => ({ label: name.name, value: name.name }))));
+    }, 500);
+    return () => clearTimeout(debounce);
   }, [searchText]);
 
   return (
