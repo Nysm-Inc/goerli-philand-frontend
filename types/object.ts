@@ -371,6 +371,18 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
         price: 0,
         EXP: 5000,
       },
+      103: {
+        tokenId: 103,
+        name: "Picnic",
+        image_url: "https://www.arweave.net/1ztOiZ_FPP8rSr0XZ4hFJWOiXqYpcqqQNzcc-ut1oaM?ext=png",
+        json_url: "https://www.arweave.net/cArl9e74uTUG6qlaHHqxwYG44xU64RevJSBbY7Fvcpk",
+        size: [8, 8, 0],
+        relatedProject: "PHI",
+        creator: "eBoy",
+        maxClaimed: 999999999,
+        price: 0,
+        EXP: 1000,
+      },
     },
     [FREE_OBJECT_CONTRACT_ADDRESS]: {
       1: {
