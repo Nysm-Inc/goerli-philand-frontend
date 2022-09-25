@@ -1,8 +1,7 @@
 import { FC, useMemo, useState } from "react";
 import { Menu, Modal, ModalContent } from "@chakra-ui/react";
-import { BalanceObject, Wallpaper } from "~/types";
+import { Wallpaper, WallpaperContractAddress } from "~/types";
 import { objectMetadataList } from "~/types/object";
-import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import MenuList from "./common/MenuList";
 
 export type WallpaperMenuState = { x: number; y: number; isShown: boolean };
@@ -18,19 +17,13 @@ export const useWallpaperMenu = (): [WallpaperMenuState, (x: number, y: number) 
 const WallpaperMenu: FC<{
   state: WallpaperMenuState;
   currentWallpaper?: Wallpaper;
-  balanceWallpapers: BalanceObject[];
+  balanceWallpapers: Wallpaper[];
   onClose: () => void;
-  onChangeWallpaper: (tokenId: number) => void;
+  onChangeWallpaper: (contract: WallpaperContractAddress, tokenId: number) => void;
 }> = ({ state, onClose, onChangeWallpaper, currentWallpaper, balanceWallpapers }) => {
-  const uniqueWallpapers = useMemo(() => {
-    return Array.from(
-      new Set(
-        currentWallpaper?.tokenId
-          ? [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId), currentWallpaper?.tokenId]
-          : [...balanceWallpapers.map((wallpaper) => wallpaper.tokenId)]
-      )
-    );
-  }, [currentWallpaper?.tokenId, balanceWallpapers.length]);
+  const uniqueWallpapers: Wallpaper[] = useMemo(() => {
+    return Array.from(new Set(currentWallpaper ? [...balanceWallpapers, currentWallpaper] : balanceWallpapers));
+  }, [currentWallpaper, balanceWallpapers.length]);
 
   if (uniqueWallpapers.length <= 0) {
     return <></>;
@@ -43,14 +36,14 @@ const WallpaperMenu: FC<{
             w="243px"
             maxH="176px"
             options={uniqueWallpapers.map((w) => ({
-              label: objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][w].name,
+              label: objectMetadataList[w.contract][w.tokenId].name,
               value: w.toString(),
-              image: objectMetadataList[WALLPAPER_CONTRACT_ADDRESS][w].image_url,
+              image: objectMetadataList[w.contract][w.tokenId].image_url,
+              onClick: () => {
+                onChangeWallpaper(w.contract, w.tokenId);
+                onClose();
+              },
             }))}
-            onClick={(v) => {
-              onChangeWallpaper(Number(v));
-              onClose();
-            }}
           />
         </Menu>
       </ModalContent>

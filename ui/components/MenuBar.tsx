@@ -4,7 +4,7 @@ import { useProvider, UserRejectedRequestError } from "wagmi";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { Divider, HStack, Text, Tooltip as ChakraTooltip, useBoolean, useDisclosure, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
-import { BalanceObject, Wallpaper } from "~/types";
+import { BalanceObject, Wallpaper, WallpaperContractAddress } from "~/types";
 import { event } from "~/utils/ga/ga";
 import { retry } from "~/utils/retry";
 import IconButton from "./common/IconButton";
@@ -25,14 +25,14 @@ const MenuBar: FC<{
   currentENS: string;
   domains: string[];
   currentWallpaper?: Wallpaper;
-  balanceWallpapers: BalanceObject[];
+  balanceWallpapers: Wallpaper[];
   scaled: number;
   actionHandler: {
     onOpenWallet: () => void;
     onOpenLand: () => void;
     onCloseLand: () => void;
     onSwitchCurrentENS: (ens: string) => void;
-    onChangeWallpaper: (tokenId: number) => void;
+    onChangeWallpaper: (contract: WallpaperContractAddress, tokenId: number) => void;
     onChangeScaled: (scaled: number) => void;
     onView: () => void;
     onEdit: () => void;
@@ -60,10 +60,9 @@ const MenuBar: FC<{
   const provider = useProvider();
   const [isLoading, { on: startLoading, off: stopLoading }] = useBoolean();
   const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure();
-  const wallpaperTokenIds = useMemo(() => {
-    const tokenIds = balanceWallpapers.map((wallpaper) => wallpaper.tokenId);
-    return Array.from(new Set(currentWallpaper?.tokenId ? [...tokenIds, currentWallpaper.tokenId] : tokenIds));
-  }, [currentWallpaper?.tokenId, balanceWallpapers.length]);
+  const uniqueWallpapers: Wallpaper[] = useMemo(() => {
+    return Array.from(new Set(currentWallpaper ? [...balanceWallpapers, currentWallpaper] : balanceWallpapers));
+  }, [currentWallpaper, balanceWallpapers.length]);
 
   const cancel = () => {
     actionHandler.onView();
@@ -131,9 +130,9 @@ const MenuBar: FC<{
                 }}
               />
               <SelectWallpaper
-                currentWallpaper={currentWallpaper?.tokenId}
-                tokenIds={wallpaperTokenIds}
-                disabled={wallpaperTokenIds.length <= 0}
+                currentWallpaper={currentWallpaper}
+                balanceWallpapers={uniqueWallpapers}
+                disabled={uniqueWallpapers.length <= 0}
                 onChange={actionHandler.onChangeWallpaper}
               />
             </>

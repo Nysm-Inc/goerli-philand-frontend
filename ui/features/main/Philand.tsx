@@ -35,7 +35,6 @@ import Help from "~/ui/components/Help";
 import EditStatus from "~/ui/components/EditStatus";
 import { useZoom } from "~/ui/components/Zoom";
 import LinkList from "~/ui/components/LinkList";
-import { objectTraits } from "~/types/object";
 import { isWallpaper } from "~/utils/object";
 
 const Philand: FC<{
@@ -138,7 +137,8 @@ const Philand: FC<{
         currentENS={currentENS}
         domains={domains}
         currentWallpaper={wallpaper}
-        balanceWallpapers={balanceWallpapers}
+        // @ts-ignore
+        balanceWallpapers={[...balanceWallpapers, ...balanceQuestObjects.filter((object) => isWallpaper(object.contract, object.tokenId))]}
         scaled={scaled}
         actionHandler={{
           onOpenWallet: onOpenWallet,
@@ -190,6 +190,7 @@ const Philand: FC<{
           <WallpaperMenu
             state={wallpaperMenuState}
             currentWallpaper={wallpaper}
+            // @ts-ignore
             balanceWallpapers={[
               ...balanceWallpapers,
               ...balanceQuestObjects.filter((object) => isWallpaper(object.contract, object.tokenId)),
