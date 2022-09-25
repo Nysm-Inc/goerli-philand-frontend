@@ -58,7 +58,7 @@ const MyScore: FC<{ ens: string; myScore: TypMyScore }> = ({ ens, myScore }) => 
           {ens}
         </Text>
         <HStack spacing="16px">
-          <ScoreCard title="Active Score" score={myScore.activity} rank={myScore.activityRank} />
+          <ScoreCard title="Land Power Score" score={myScore.activity} rank={myScore.activityRank} />
           <ScoreCard title="Social Score" score={myScore.social} rank={myScore.socialRank} />
           <ScoreCard title="Attention Score" score={myScore.attention} rank={myScore.attentionRank} />
         </HStack>
