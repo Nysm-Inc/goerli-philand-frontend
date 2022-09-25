@@ -3,6 +3,7 @@ import { FC, useContext } from "react";
 import { Avatar, Box, HStack, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import type { MyScore as TypMyScore } from "~/types/leaderboard";
+import useENSAvatar from "~/hooks/ens/useENSAvatar";
 
 const ScoreBadge: FC<{ rank?: number }> = ({ rank }) => {
   const { colorMode } = useContext(AppContext);
@@ -37,13 +38,15 @@ const ScoreCard: FC<{ title: string; score?: number; rank?: number }> = ({ title
 
 const MyScore: FC<{ ens: string; myScore: TypMyScore }> = ({ ens, myScore }) => {
   const { colorMode } = useContext(AppContext);
+  const avatar = useENSAvatar(ens);
 
   return (
     <HStack w="full" h="128px" spacing="24px">
       <Avatar
         w="128px"
         h="128px"
-        bgColor={colorMode === "light" ? "purple.150" : "red.150"}
+        src={avatar}
+        {...(!avatar && { bgColor: colorMode === "light" ? "purple.150" : "red.150" })}
         icon={
           <Box position="absolute" top="16px">
             <Image width="112px" height="112px" src="/icons/dotty.svg" alt="" quality={100} />

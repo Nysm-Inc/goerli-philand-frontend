@@ -6,6 +6,7 @@ import { Avatar, Box, Menu, MenuButton, Text, VStack } from "@chakra-ui/react";
 import { AppContext } from "~/contexts";
 import { useEXP } from "~/hooks/leaderboard/exp";
 import useSentry from "~/hooks/sentry";
+import useENSAvatar from "~/hooks/ens/useENSAvatar";
 import { event } from "~/utils/ga/ga";
 import Button from "./common/Button";
 import MenuList from "./common/MenuList";
@@ -14,9 +15,10 @@ import "@rainbow-me/rainbowkit/styles.css";
 
 const showAddress = (address: string) => `${address.substring(0, 6)}...${address.substring(address.length - 6)}`;
 
-const ConnectedButton: FC<{ address: string; ensAvatar?: string }> = ({ address, ensAvatar }) => {
+const ConnectedButton: FC<{ address: string }> = ({ address }) => {
   const { colorMode } = useContext(AppContext);
   const { disconnect } = useDisconnect();
+  const avatar = useENSAvatar(address);
   const exp = useEXP(address, false, true);
   useSentry(address);
 
@@ -31,8 +33,8 @@ const ConnectedButton: FC<{ address: string; ensAvatar?: string }> = ({ address,
           <Avatar
             w="32px"
             h="32px"
-            bgColor={colorMode === "light" ? "purple.150" : "red.150"}
-            src={ensAvatar}
+            src={avatar}
+            {...(!avatar && { bgColor: colorMode === "light" ? "purple.150" : "red.150" })}
             icon={
               <Box position="absolute" top="4px">
                 <Image width="28px" height="28px" src="/icons/dotty.svg" alt="" />
@@ -106,7 +108,7 @@ const Wallet: FC = () => (
               );
             }
 
-            return <ConnectedButton address={account.address} ensAvatar={account.ensAvatar} />;
+            return <ConnectedButton address={account.address} />;
           })()}
         </Box>
       );
