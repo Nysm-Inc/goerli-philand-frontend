@@ -12,7 +12,7 @@ export type UIHandlerProps = {
   tryRemove: (contract: ObjectContractAddress, tokenId: number) => void;
   changeLink: (id: string, link: PhiLink) => void;
   changeScaled: (scaled: number) => void;
-  save: ({ removeArgs, writeArgs, linkArgs }: SaveArgs) => Promise<TransactionResponse | undefined>;
+  save: ({ removeArgs, writeArgs, linkArgs, wallpaperArgs }: SaveArgs) => Promise<TransactionResponse | undefined>;
 };
 
 export type Handler = {
@@ -104,7 +104,7 @@ const useHandler = ({
         writeArgs,
         linkArgs,
         wallpaperArgs: {
-          contractAddress: WALLPAPER_CONTRACT_ADDRESS,
+          contractAddress: newWallpaper?.contract || WALLPAPER_CONTRACT_ADDRESS,
           tokenId: newWallpaper?.tokenId || 0,
         },
       },
