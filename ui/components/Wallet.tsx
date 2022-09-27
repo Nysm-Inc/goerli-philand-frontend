@@ -7,6 +7,7 @@ import { AppContext } from "~/contexts";
 import { useEXP } from "~/hooks/leaderboard/exp";
 import useSentry from "~/hooks/sentry";
 import useENSAvatar from "~/hooks/ens/useENSAvatar";
+import useLogin from "~/hooks/action/useLogin";
 import { event } from "~/utils/ga/ga";
 import Button from "./common/Button";
 import MenuList from "./common/MenuList";
@@ -21,6 +22,7 @@ const ConnectedButton: FC<{ address: string }> = ({ address }) => {
   const avatar = useENSAvatar(address);
   const exp = useEXP(address, false, true);
   useSentry(address);
+  useLogin(address);
 
   return (
     <Menu matchWidth variant="unstyled" autoSelect={false}>
