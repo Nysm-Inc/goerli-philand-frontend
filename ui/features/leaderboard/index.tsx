@@ -89,7 +89,7 @@ const Leaderboard: FC<{
         <VStack spacing="24px" align={ens && myScore ? "flex-start" : "center"}>
           {ens && myScore && <MyScore ens={ens} myScore={myScore} />}
           <TabList w={isMobile ? "full" : "510px"}>
-            <Tab text="Active" />
+            <Tab text="Land Power" />
             <Tab text="Social" />
             <Tab text="Attention" />
           </TabList>
