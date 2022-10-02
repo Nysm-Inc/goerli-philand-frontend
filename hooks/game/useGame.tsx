@@ -55,7 +55,7 @@ const useGame = ({ state, handler, gameHandler }: UseGame): { initialized: boole
   useEffect(() => {
     if (!loadedGame) return;
 
-    game.room.wallpaper.update(state.wallpaper?.tokenId || 0);
+    game.room.wallpaper.update(state.wallpaper?.contract, state.wallpaper?.tokenId);
   }, [state.wallpaper?.tokenId, loadedGame]);
 
   useInterval(() => {

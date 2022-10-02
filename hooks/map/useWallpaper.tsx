@@ -16,7 +16,7 @@ const useWallpaper = (ens?: string | null): { wallpaper: Wallpaper | undefined; 
     wallpaper:
       data && data[0] !== nullAddress
         ? {
-            contractAddress: data[0],
+            contract: data[0],
             tokenId: BigNumber.from(data[1]).toNumber(),
           }
         : undefined,

@@ -15,6 +15,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from "~/ui/components/comm
 import IconButton from "~/ui/components/common/IconButton";
 import Checkbox from "~/ui/components/common/Checkbox";
 import { event } from "~/utils/ga/ga";
+import { isWallpaper } from "~/utils/object";
 
 type WalletObject = BalanceObject & { select: number };
 
@@ -124,7 +125,7 @@ const Wallet: FC<{
                   <Text h="40px" textStyle="headline-2" textAlign="center" color={colorMode === "light" ? "grey.900" : "white"}>
                     {objectMetadataList[item.contract][item.tokenId].name}
                   </Text>
-                  {item.contract !== WALLPAPER_CONTRACT_ADDRESS && (
+                  {!isWallpaper(item.contract, item.tokenId) && (
                     <QuantityInput
                       defaultText="Deposit"
                       num={item.select}

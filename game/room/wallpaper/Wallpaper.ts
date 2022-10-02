@@ -1,17 +1,17 @@
-import { Container, Sprite, Texture } from "pixi.js";
-import { LAND_OFFSET_X, LAND_OFFSET_Y, WALLPAPER_BORDER_OFFSET, WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
+import { Container, Sprite } from "pixi.js";
+import { LAND_OFFSET_X, LAND_OFFSET_Y, WALLPAPER_BORDER_OFFSET } from "~/constants";
 import GameInstance from "~/game/GameInstance";
-import { Wallpaper as TWallpaper } from "~/types";
+import { Wallpaper as TWallpaper, WallpaperContractAddress } from "~/types";
 
 export default class Wallpaper {
-  private contract: typeof WALLPAPER_CONTRACT_ADDRESS;
-  private tokenId: number;
+  private contract?: WallpaperContractAddress;
+  private tokenId?: number;
   container: Container;
   sprite: Sprite;
 
   constructor() {
-    this.contract = WALLPAPER_CONTRACT_ADDRESS;
-    this.tokenId = 0;
+    this.contract = undefined;
+    this.tokenId = undefined;
 
     this.container = new Container();
     this.container.x = LAND_OFFSET_X - WALLPAPER_BORDER_OFFSET;
@@ -22,15 +22,16 @@ export default class Wallpaper {
   }
 
   get(): TWallpaper | undefined {
-    return this.tokenId ? { contractAddress: this.contract, tokenId: this.tokenId } : undefined;
+    return this.contract && this.tokenId ? { contract: this.contract, tokenId: this.tokenId } : undefined;
   }
 
-  update(tokenId: number) {
+  update(contract?: WallpaperContractAddress, tokenId?: number) {
+    this.contract = contract;
     this.tokenId = tokenId;
 
-    if (tokenId) {
+    if (contract && tokenId) {
       const { engine } = GameInstance.get();
-      const texture = engine.assetTextures[WALLPAPER_CONTRACT_ADDRESS + "_" + tokenId + ".png"];
+      const texture = engine.assetTextures[contract + "_" + tokenId + ".png"];
       texture.baseTexture.scaleMode = engine.scaleMode;
       this.sprite.texture = texture;
     } else {

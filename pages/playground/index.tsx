@@ -174,6 +174,7 @@ const Index: NextPage = () => {
       <WallpaperMenu
         state={wallpaperMenuState}
         currentWallpaper={undefined}
+        // @ts-ignore
         balanceWallpapers={balanceWallpapers}
         onClose={onCloseWallpaperMenu}
         onChangeWallpaper={onChangeWallpaper}
@@ -201,6 +202,7 @@ const Index: NextPage = () => {
         currentENS=""
         domains={[]}
         currentWallpaper={undefined}
+        // @ts-ignore
         balanceWallpapers={balanceWallpapers}
         scaled={scaled}
         actionHandler={{
