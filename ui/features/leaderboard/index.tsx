@@ -98,7 +98,7 @@ const Leaderboard: FC<{
         <ModalBody>
           <TabPanels maxH="396px">
             <TabPanel p="0">
-              <RankingTable rank="activity" topScoreList={topScoreList} onClose={onClose} />
+              <RankingTable rank="landPower" topScoreList={topScoreList} onClose={onClose} />
             </TabPanel>
             <TabPanel p="0">
               <RankingTable rank="social" topScoreList={topScoreList} onClose={onClose} />

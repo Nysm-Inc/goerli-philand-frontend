@@ -4,7 +4,7 @@ import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/reac
 import { AppContext } from "~/contexts";
 import type { TopScoreList } from "~/types/leaderboard";
 
-type Rank = "activity" | "social" | "attention";
+type Rank = "landPower" | "social" | "attention";
 
 const RankingTable: FC<{ rank: Rank; topScoreList: TopScoreList; onClose: () => void }> = ({ rank, topScoreList, onClose }) => {
   const router = useRouter();

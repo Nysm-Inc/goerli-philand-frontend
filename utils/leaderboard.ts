@@ -16,10 +16,10 @@ export const updateEXP = async (address: string): Promise<void> => {
 
 type GetMyScoreAPIResponse = {
   data: {
-    activityScore: number;
+    landPowerScore: number;
     socialScore: number;
     attentionScore: number;
-    activityRank: number;
+    landPowerRank: number;
     socialRank: number;
     attentionRank: number;
   };
@@ -31,10 +31,10 @@ export const getMyScore = async (ens: string) => {
   const res = await axios.get<GetMyScoreAPIResponse | null>(u.toString());
   const data = res.data?.data;
   return {
-    activity: data?.activityScore || 0,
+    landPower: data?.landPowerScore || 0,
     social: data?.socialScore || 0,
     attention: data?.attentionScore || 0,
-    activityRank: data?.activityRank || 0,
+    landPowerRank: data?.landPowerRank || 0,
     socialRank: data?.socialRank || 0,
     attentionRank: data?.attentionRank || 0,
   };
@@ -44,7 +44,7 @@ type Score = { name: string; value: number };
 
 type GetTopScoreAPIResponse = {
   data: {
-    activityScore: Score[];
+    landPowerScore: Score[];
     socialScore: Score[];
     attentionScore: Score[];
   };
@@ -56,7 +56,7 @@ export const getTopScoreList = async () => {
   const res = await axios.get<GetTopScoreAPIResponse | null>(u.toString());
   const data = res.data?.data;
   return {
-    activity: data?.activityScore || [],
+    landPower: data?.landPowerScore || [],
     social: data?.socialScore || [],
     attention: data?.attentionScore || [],
   };
