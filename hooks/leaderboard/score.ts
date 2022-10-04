@@ -2,11 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import type { MyScore, TopScoreList } from "~/types/leaderboard";
 import { getMyScore, getTopScoreList } from "~/utils/leaderboard";
 
-const defaultMyScore = { activity: 0, social: 0, attention: 0, activityRank: 0, socialRank: 0, attentionRank: 0 };
+const defaultMyScore = { landPower: 0, social: 0, attention: 0, landPowerRank: 0, socialRank: 0, attentionRank: 0 };
 
 const useScore = (ens?: string, refresh?: boolean) => {
   const [myScore, setMyScore] = useState<MyScore>(defaultMyScore);
-  const [topScoreList, setTopScoreList] = useState<TopScoreList>({ activity: [], social: [], attention: [] });
+  const [topScoreList, setTopScoreList] = useState<TopScoreList>({ landPower: [], social: [], attention: [] });
 
   const fetchMyScore = useCallback(async () => {
     if (!ens) return;

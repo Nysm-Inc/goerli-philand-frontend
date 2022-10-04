@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import type { TransactionResponse } from "@ethersproject/providers";
 import { AppContext } from "~/contexts";
-import { IObject, ObjectContractAddress, PhiLink, PhiObject, Wallpaper } from "~/types";
+import { IObject, ObjectContractAddress, PhiLink, PhiObject, Wallpaper, WallpaperContractAddress } from "~/types";
 import { SaveArgs } from "~/hooks/map";
 import { WALLPAPER_CONTRACT_ADDRESS } from "~/constants";
 import { diff } from "./helper";
@@ -23,7 +23,7 @@ export type Handler = {
   onPickLandObject: (object: IObject) => void;
   onRemoveObject: (uuid: string) => void;
   onChangeLink: (id: string, link: PhiLink) => void;
-  onChangeWallpaper: (tokenId: number) => void;
+  onChangeWallpaper: (contract: WallpaperContractAddress, tokenId: number) => void;
   onChangeScaled: (scaled: number) => void;
   onCheckDiff: () => { isDiff: boolean; diff: SaveArgs };
   onSave: () => Promise<TransactionResponse | undefined>;
@@ -48,7 +48,7 @@ const useHandler = ({
     game.room.leaveRoom();
     game.room.enterRoom();
     game.room.roomItemManager.loadItems(phiObjects);
-    game.room.wallpaper.update(wallpaper?.tokenId || 0);
+    game.room.wallpaper.update(wallpaper?.contract, wallpaper?.tokenId);
     game.room.view();
     uiHandler?.view();
   };
@@ -75,8 +75,8 @@ const useHandler = ({
     item.updateLink(link);
     uiHandler?.changeLink(uuid, link);
   };
-  const onChangeWallpaper = (tokenId: number) => {
-    game.room.wallpaper.update(tokenId);
+  const onChangeWallpaper = (contract: WallpaperContractAddress, tokenId: number) => {
+    game.room.wallpaper.update(contract, tokenId);
   };
   const onChangeScaled = (scaled: number) => {
     game.engine.zoom(scaled);
@@ -104,7 +104,7 @@ const useHandler = ({
         writeArgs,
         linkArgs,
         wallpaperArgs: {
-          contractAddress: WALLPAPER_CONTRACT_ADDRESS,
+          contractAddress: newWallpaper?.contract || WALLPAPER_CONTRACT_ADDRESS,
           tokenId: newWallpaper?.tokenId || 0,
         },
       },

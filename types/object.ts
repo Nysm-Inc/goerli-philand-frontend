@@ -338,50 +338,50 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
       // 43: {
       //   tokenId: 43,
       //   name: "ETH CPU",
-      //   image_url: "https://www.arweave.net/_-KN1MmgoPm8BTZXM5GlZxL-sddRQLJ7EQZKOCa0R54?ext=png",
-      //   json_url: "https://www.arweave.net/Uk8OjT_OmkNVng0OH3rutJXc61AP4csroflWYiShoOc",
+      //   image_url: "https://www.arweave.net/mAYYHWtKd7QK73AwtTIBr_83BV5wbkpR10_mPTps5G0?ext=png",
+      //   json_url: "https://www.arweave.net/_SlaM5hpNItF61CFkIbqj4t7ydXtCFw4bvAJhqhQnkE",
       //   size: [1, 1, 1],
       //   relatedProject: "Ethereum",
       //   creator: "eBoy",
       //   maxClaimed: 999999999,
       //   price: 0,
-      //   EXP: 100000,
+      //   EXP: 5000,
       // },
       // 44: {
       //   tokenId: 44,
       //   name: "ETH USB Building",
-      //   image_url: "https://www.arweave.net/Olf8NorC0znoTrxxi7tDhZK2BFK6SG-FNcABM3VRATs?ext=png",
-      //   json_url: "https://www.arweave.net/xLy_YY937iMOngi9uvagvw79KVY4RMxSRLduGsqcpzM",
+      //   image_url: "https://www.arweave.net/5muPYTtNyq5MLmfh-4rwx88gm7BfiwrgvaNdK2bg2rY?ext=png",
+      //   json_url: "https://www.arweave.net/qpcI54pL-6-4uElY_2XkZpkv_ShZpeVcP9p62tcBAoQ",
       //   size: [1, 1, 4],
       //   relatedProject: "Ethereum",
       //   creator: "eBoy",
       //   maxClaimed: 999999999,
       //   price: 0,
-      //   EXP: 300000,
+      //   EXP: 10000,
       // },
       // 45: {
       //   tokenId: 45,
       //   name: "ETH Whale Statue",
-      //   image_url: "https://www.arweave.net/EsNAvo8T2rd5Lmz7X5wuFcFHoBLlHcujQjEmhAFWga8?ext=png",
-      //   json_url: "https://www.arweave.net/r_Qb0dwoTkWEyZqXn5XecviAnVb-HV5fnUd8r2grafE",
+      //   image_url: "https://www.arweave.net/sKZesAIfcnTHBqYg2DJsJuNxMMNr1l4sztVsa7AGYhw?ext=png",
+      //   json_url: "https://www.arweave.net/29hcfovAL5iaTe52BK715-fx23cpTw9oeQDtp4Nm22w",
       //   size: [2, 3, 2],
       //   relatedProject: "Ethereum",
       //   creator: "eBoy",
       //   maxClaimed: 999999999,
       //   price: 0,
-      //   EXP: 500000,
+      //   EXP: 15000,
       // },
       // 46: {
       //   tokenId: 46,
       //   name: "ETH Office Building",
-      //   image_url: "https://www.arweave.net/K31dW0KMV4aToqSWH-k6-pkMZv1zsWd7jhTTBNtLgzU?ext=png",
-      //   json_url: "https://www.arweave.net/GUMZTDYKD7K1-G1KydYNjaio3uN9jcvjEt-fB_KfzU8",
+      //   image_url: "https://www.arweave.net/vLTYgKSSGEt1TNLXHOhREGGuiVm_2jExj4s74y4qulE?ext=png",
+      //   json_url: "https://www.arweave.net/Ukdli2j4xLq7ATnKR2yKMcUuT_b8KSVLJJcb_0wGbCQ",
       //   size: [1, 2, 6],
       //   relatedProject: "Ethereum",
       //   creator: "eBoy",
       //   maxClaimed: 999999999,
       //   price: 0,
-      //   EXP: 1000000,
+      //   EXP: 20000,
       // },
       47: {
         tokenId: 47,
@@ -502,6 +502,18 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
         maxClaimed: 999999999,
         price: 0,
         EXP: 10000,
+      },
+      103: {
+        tokenId: 103,
+        name: "Picnic",
+        image_url: "https://www.arweave.net/1ztOiZ_FPP8rSr0XZ4hFJWOiXqYpcqqQNzcc-ut1oaM?ext=png",
+        json_url: "https://www.arweave.net/cArl9e74uTUG6qlaHHqxwYG44xU64RevJSBbY7Fvcpk",
+        size: [8, 8, 0],
+        relatedProject: "PHI",
+        creator: "eBoy",
+        maxClaimed: 999999999,
+        price: 0,
+        EXP: 1000,
       },
     },
     [FREE_OBJECT_CONTRACT_ADDRESS]: {
@@ -1379,12 +1391,36 @@ export const objectMetadataList: { [contract in ObjectContractAddress | Wallpape
         maxClaimed: 999999999,
         price: 1,
       },
+      11: {
+        tokenId: 11,
+        name: "Picnicmime",
+        image_url: "https://www.arweave.net/Cs2rIbR6z9TkPrJVsEB9d5ZUwGRoJkWOx0_02TTohGs?ext=png",
+        json_url: "https://www.arweave.net/cPMXB21tCqbvrc7mdf7_cpoZlU7QKv6LW-mGCjRdbNE",
+        size: [8, 8],
+        creator: "eBoy",
+        maxClaimed: 999999999,
+        price: 1,
+      },
+      12: {
+        tokenId: 12,
+        name: "Procomp",
+        image_url: "https://www.arweave.net/3v7bdGu28m5IYS6xU3AUzL_4_JDt1bKnH5xBowkww1A?ext=png",
+        json_url: "https://www.arweave.net/_EuzlgBzJe4_8F-Ud5gHsd8nMxGKxETlVtkUgIOi5gI",
+        size: [8, 8],
+        creator: "eBoy",
+        maxClaimed: 999999999,
+        price: 1,
+      },
     },
   };
 
+export type Attributes = {
+  objectType: string;
+  network?: string;
+};
+
 export type ObjectTraits = {
-  // todo: should be converted to a usable object
-  attributes: { trait_type: string; value: string }[];
+  attributes: Attributes;
   name: string;
   description: string;
   collection: {

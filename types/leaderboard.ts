@@ -1,8 +1,8 @@
 export type MyScore = {
-  activity: number;
+  landPower: number;
   social: number;
   attention: number;
-  activityRank: number;
+  landPowerRank: number;
   socialRank: number;
   attentionRank: number;
 };
@@ -10,7 +10,7 @@ export type MyScore = {
 type Score = { name: string; value: number };
 
 export type TopScoreList = {
-  activity: Score[];
+  landPower: Score[];
   social: Score[];
   attention: Score[];
 };

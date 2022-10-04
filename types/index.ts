@@ -10,7 +10,7 @@ export type ObjectContractAddress =
   | typeof FREE_OBJECT_CONTRACT_ADDRESS
   | typeof PREMIUM_OBJECT_CONTRACT_ADDRESS;
 
-export type WallpaperContractAddress = typeof WALLPAPER_CONTRACT_ADDRESS;
+export type WallpaperContractAddress = typeof QUEST_OBJECT_CONTRACT_ADDRESS | typeof WALLPAPER_CONTRACT_ADDRESS;
 
 export type ShopItemContractAddress =
   | typeof FREE_OBJECT_CONTRACT_ADDRESS
@@ -33,7 +33,7 @@ export type PhiLink = {
 };
 
 export type Wallpaper = {
-  contractAddress: typeof WALLPAPER_CONTRACT_ADDRESS;
+  contract: WallpaperContractAddress;
   tokenId: number;
 };
 
