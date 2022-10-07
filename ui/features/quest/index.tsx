@@ -21,6 +21,8 @@ const metadataList = Object.values(objectMetadataList[QUEST_OBJECT_CONTRACT_ADDR
 
 const newQuestIds = [2, 9, 16, 43, 44, 45, 46, 97, 100, 101, 102];
 
+const disableQuestIds = [43, 44, 45, 46];
+
 const Quest: FC<{
   claimableList: QuestClaimableList;
   claimedList: { [tokenId: number]: boolean };
@@ -100,6 +102,9 @@ const Quest: FC<{
                 value: progressList[metadata.tokenId]?.value || 1,
               };
 
+              if (disableQuestIds.includes(metadata.tokenId)) {
+                return <></>;
+              }
               return (
                 <VStack
                   key={i}
