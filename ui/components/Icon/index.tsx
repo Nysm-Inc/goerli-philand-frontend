@@ -26,6 +26,7 @@ import Plus from "./Plus";
 import Redo from "./Redo";
 import Refresh from "./Refresh";
 import Save from "./Save";
+import Science from "./Science";
 import Search from "./Search";
 import Share from "./Share";
 import Sun from "./Sun";
@@ -61,6 +62,7 @@ const icons = {
   refresh: Refresh,
   save: Save,
   search: Search,
+  science: Science,
   share: Share,
   sun: Sun,
   timer: Timer,

@@ -8,6 +8,7 @@ import Main from "~/ui/features/main";
 import Leaderboard, { LeaderboardButton, LeaderboardButtonMd } from "~/ui/features/leaderboard";
 import Dev from "~/ui/components/Dev";
 import Mobile from "~/ui/components/Mobile";
+import TestnetBadge from "~/ui/components/TestnetBadge";
 
 const Index: NextPage = () => {
   const { game } = useContext(AppContext);
@@ -26,6 +27,7 @@ const Index: NextPage = () => {
   return (
     <>
       <Dev />
+      <TestnetBadge />
       <Leaderboard isMobile={isMobile} topScoreList={topScoreList} isOpen={isOpenLeaderboard} onClose={onCloseLeaderboard} />
       {isMobile ? (
         <>
