@@ -17,6 +17,7 @@ import LandNotFound from "~/ui/components/LandNotFound";
 import LandName from "~/ui/components/LandName";
 import LinkList from "~/ui/components/LinkList";
 import Help from "~/ui/components/Help";
+import TestnetBadge from "~/ui/components/TestnetBadge";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
@@ -76,6 +77,7 @@ const Index: NextPage = () => {
 
   return (
     <>
+      <TestnetBadge />
       <Dev />
       <Leaderboard
         isMobile={isMobile}
