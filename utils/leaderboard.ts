@@ -4,8 +4,8 @@ import { UTILS_API_GATEWAY } from "~/constants";
 export const getEXP = async (address: string) => {
   const u = new URL(UTILS_API_GATEWAY + "/leader/exp");
   u.searchParams.append("address", address);
-  const res = await axios.get<{ result: number }>(u.toString());
-  return res?.data?.result || 0;
+  const res = await axios.get<{ expGain: number }>(u.toString());
+  return res?.data?.expGain || 0;
 };
 
 export const updateEXP = async (address: string): Promise<void> => {
