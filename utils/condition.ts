@@ -1,6 +1,6 @@
 import axios from "axios";
 import { UTILS_API_GATEWAY } from "~/constants";
-import { Condition } from "~/types/quest";
+import { Condition, QuestClaimableList } from "~/types/quest";
 
 type ConditionListResponse = { Condition: string; Value: string; TokenId: string; Links: string; Activities: string };
 
@@ -36,11 +36,11 @@ type ClaimableAPIResponse = {
   TimeStamp: string;
 }[];
 
-export const getClaimableList = async (address: string): Promise<ClaimableAPIResponse> => {
+export const getClaimableList = async (address: string): Promise<QuestClaimableList> => {
   const url = new URL(UTILS_API_GATEWAY + "/condition/check");
   url.searchParams.append("address", address);
-  const res = await axios.get<{ result: ClaimableAPIResponse }>(url.toString());
-  return res.data?.result || [];
+  const res = await axios.get<{ result: number[] }>(url.toString());
+  return res.data.result.reduce((memo, tokenId) => ({ ...memo, [tokenId]: true }), {});
 };
 
 export const postClaimableList = async (address: string): Promise<void> => {
