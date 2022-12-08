@@ -11,20 +11,7 @@ const useClaimableList = (address?: string, refresh?: boolean, watch?: boolean):
     if (!address) return;
 
     const list = await getClaimableList(address);
-    setClaimableList(
-      list.reduce(
-        (memo, progress) => ({
-          ...memo,
-          [progress.TokenId]: {
-            tokenId: progress.TokenId,
-            condition: progress.Condition,
-            value: progress.Value,
-            timeStamp: progress.TimeStamp,
-          },
-        }),
-        {}
-      )
-    );
+    setClaimableList(list);
   }, [address]);
 
   const updateClaimableList = useCallback(async () => {
