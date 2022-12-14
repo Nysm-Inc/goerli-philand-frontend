@@ -16,9 +16,9 @@ import MenuList from "./common/MenuList";
 
 const options = [
   { label: "FAQs", value: "", onClick: () => window.open(FAQ_URL, "_blank") },
-  { label: "Survey", value: "", onClick: () => window.open(SURVEY_URL, "_blank") },
-  { label: "Bug Reports", value: "", onClick: () => window.open(CANNY_URL + "/bug-reports", "_blank") },
-  { label: "Feature Requests", value: "", onClick: () => window.open(CANNY_URL + "/feature-requests", "_blank"), divider: true },
+  // { label: "Survey", value: "", onClick: () => window.open(SURVEY_URL, "_blank") },
+  // { label: "Bug Reports", value: "", onClick: () => window.open(CANNY_URL + "/bug-reports", "_blank") },
+  // { label: "Feature Requests", value: "", onClick: () => window.open(CANNY_URL + "/feature-requests", "_blank"), divider: true },
   { label: "Hiring", value: "", onClick: () => window.open(HIRING_URL, "_blank") },
   { label: "Partnership", value: "", onClick: () => window.open(PARTNERSHIP_APPLICATION_URL, "_blank"), divider: true },
   { label: "Term of service", value: "", onClick: () => window.open(TERM_OF_SERVICE_URL, "_blank"), textColor: "grey.500" },
