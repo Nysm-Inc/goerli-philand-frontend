@@ -9,24 +9,6 @@ const nextConfig = {
     domains: ["www.arweave.net"],
     minimumCacheTTL: 86400,
   },
-  rewrites() {
-    return {
-      beforeFiles: [
-        {
-          source: "/",
-          has: [{ type: "host", value: "playground.philand.xyz" }],
-          destination: "/playground",
-        },
-      ],
-      afterFiles: [
-        {
-          source: "/:path*",
-          has: [{ type: "host", value: "playground.philand.xyz" }],
-          destination: "/playground",
-        },
-      ],
-    };
-  },
 };
 
 const sentryWebpackPluginOptions = {

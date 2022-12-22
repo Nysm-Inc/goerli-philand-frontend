@@ -7,9 +7,7 @@ import { UTILS_API_GATEWAY } from "~/constants";
 import { nullAddress, PhiObject, Wallpaper } from "~/types";
 import useGame from "~/hooks/game/useGame";
 import useClouds from "~/hooks/game/useClouds";
-import useScore from "~/hooks/leaderboard/score";
 import { useWallpaper, useViewPhiland } from "~/hooks/map";
-import Leaderboard, { LeaderboardButton, LeaderboardButtonMd } from "~/ui/features/leaderboard";
 import Dev from "~/ui/components/Dev";
 import Header from "~/ui/components/Header";
 import HeaderMd from "~/ui/components/HeaderMd";
@@ -67,9 +65,7 @@ const Index: NextPage = () => {
   const router = useRouter();
   const ens = decodeURI(router.asPath).substring(1);
   const isMobile = useBreakpointValue({ base: true, lg: false }, { ssr: false });
-  const { isOpen: isOpenLeaderboard, onOpen: onOpenLeaderboard, onClose: onCloseLeaderboard } = useDisclosure();
 
-  const { myScore, topScoreList } = useScore(ens, isOpenLeaderboard);
   const { owner, isFetchedOwner, phiObjects } = useViewPhiland(ens);
   const isCreatedPhiland = useMemo(() => owner !== nullAddress || phiObjects.length > 0, [owner, phiObjects.length]);
   const { wallpaper } = useWallpaper(ens);
@@ -79,26 +75,16 @@ const Index: NextPage = () => {
     <>
       <TestnetBadge />
       <Dev />
-      <Leaderboard
-        isMobile={isMobile}
-        ens={ens}
-        myScore={myScore}
-        topScoreList={topScoreList}
-        isOpen={isOpenLeaderboard}
-        onClose={onCloseLeaderboard}
-      />
       {isCreatedPhiland && <Philand isMobile={!!isMobile} ens={ens} phiObjects={phiObjects} wallpaper={wallpaper} />}
       {isMobile ? (
         <>
           <HeaderMd />
-          <LeaderboardButtonMd shadow onOpen={onOpenLeaderboard} />
           {isFetchedOwner && !isCreatedPhiland && <LandNotFound ens={ens} w="360px" />}
         </>
       ) : (
         <>
           <Header />
           <Help />
-          <LeaderboardButton shadow onOpen={onOpenLeaderboard} />
           {isFetchedOwner && !isCreatedPhiland && <LandNotFound ens={ens} />}
         </>
       )}
